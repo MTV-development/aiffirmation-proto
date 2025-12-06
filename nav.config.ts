@@ -32,6 +32,7 @@ export const navTree: NavItem[] = [
     children: [
       { label: "Profile", href: "/settings/profile" },
       { label: "Team", href: "/settings/team" },
+      { label: "Store", href: "/settings/store" },
     ],
   },
 ];
