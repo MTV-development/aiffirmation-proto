@@ -33,6 +33,7 @@ export const navTree: NavItem[] = [
       { label: "Profile", href: "/settings/profile" },
       { label: "Team", href: "/settings/team" },
       { label: "Store", href: "/settings/store" },
+      { label: "KV Editor", href: "/settings/store/edit" },
     ],
   },
 ];

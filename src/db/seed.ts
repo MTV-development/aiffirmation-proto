@@ -3,26 +3,8 @@ import { db } from './index';
 import { kvStore } from './schema';
 
 const demoData = [
-  {
-    key: 'app.settings.theme',
-    value: { mode: 'system', accentColor: '#6366f1' },
-  },
-  {
-    key: 'app.settings.notifications',
-    value: { email: true, push: false, frequency: 'daily' },
-  },
-  {
-    key: 'app.feature_flags',
-    value: { darkMode: true, betaFeatures: false, analytics: true },
-  },
-  {
-    key: 'user.preferences.dashboard',
-    value: { layout: 'grid', showStats: true, refreshInterval: 30 },
-  },
-  {
-    key: 'system.maintenance',
-    value: { enabled: false, message: null, scheduledAt: null },
-  },
+  // Version 1 - Default implementation
+  { key: 'v1.prompt1.default', value: { text: 'this is the default prompt' } },
 ];
 
 async function seed() {
