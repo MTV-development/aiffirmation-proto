@@ -17,6 +17,10 @@ export const navTree: NavItem[] = [
     href: "/dashboard",
   },
   {
+    label: "Affirmations",
+    href: "/affirmations",
+  },
+  {
     label: "Weather Demo",
     href: "/weatherdemo",
   },
