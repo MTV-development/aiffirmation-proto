@@ -1,4 +1,4 @@
-import { mastra } from '@/mastra';
+import { mastra } from '@/src/mastra';
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {

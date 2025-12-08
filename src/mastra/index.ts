@@ -4,7 +4,7 @@ import { LibSQLStore } from '@mastra/libsql';
 
 import { weatherAgent } from './agents/weather-agent';
 
-// Singleton pattern to prevent "AI Tracing instance already registered" error during hot reload
+// Singleton pattern to prevent "AI Tracing instance already registered" error during Next.js hot reload
 const globalForMastra = globalThis as unknown as {
   mastra: Mastra | undefined;
 };
