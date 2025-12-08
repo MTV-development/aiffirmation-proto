@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavItem } from "@/nav.config";
+import type { ReactNode } from "react";
 
 type TopSubmenuProps = {
   items: NavItem[];
   actions?: { label: string; onClickId: string }[];
+  rightContent?: ReactNode;
 };
 
-export function TopSubmenu({ items, actions }: TopSubmenuProps) {
+export function TopSubmenu({ items, actions, rightContent }: TopSubmenuProps) {
   const pathname = usePathname();
 
   return (
@@ -33,18 +35,22 @@ export function TopSubmenu({ items, actions }: TopSubmenuProps) {
         })}
       </nav>
 
-      {actions && actions.length > 0 && (
-        <div className="flex space-x-2">
-          {actions.map((a) => (
-            <button
-              key={a.onClickId}
-              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              {a.label}
-            </button>
-          ))}
-        </div>
-      )}
+      <div className="flex items-center space-x-4">
+        {rightContent}
+
+        {actions && actions.length > 0 && (
+          <div className="flex space-x-2">
+            {actions.map((a) => (
+              <button
+                key={a.onClickId}
+                className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                {a.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

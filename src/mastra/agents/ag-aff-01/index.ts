@@ -1,1 +1,1 @@
-export { af1Agent } from './agent';
+export { af1Agent, createAF01Agent } from './agent';

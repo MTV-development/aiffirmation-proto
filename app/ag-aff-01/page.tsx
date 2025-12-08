@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { affirmationThemes } from '@/src/ag-aff-01';
+import { affirmationThemes, useImplementation } from '@/src/ag-aff-01';
 
 export default function AffirmationsPage() {
+  const { implementation } = useImplementation();
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const [additionalContext, setAdditionalContext] = useState('');
   const [affirmations, setAffirmations] = useState<string | null>(null);
@@ -34,6 +35,7 @@ export default function AffirmationsPage() {
             (id) => affirmationThemes.find((t) => t.id === id)?.label ?? id
           ),
           additionalContext,
+          implementation,
         }),
       });
 
