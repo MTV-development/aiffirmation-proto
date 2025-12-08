@@ -3,7 +3,7 @@ import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 
 import { weatherAgent } from './agents/weather-agent';
-import { af1Agent } from './agents/af1-agent';
+import { af1Agent } from './agents/ag-aff-01';
 
 // Singleton pattern to prevent "AI Tracing instance already registered" error during Next.js hot reload
 const globalForMastra = globalThis as unknown as {

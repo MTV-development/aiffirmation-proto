@@ -18,7 +18,7 @@ export const navTree: NavItem[] = [
   },
   {
     label: "Affirmations",
-    href: "/affirmations",
+    href: "/ag-aff-01",
   },
   {
     label: "Weather Demo",

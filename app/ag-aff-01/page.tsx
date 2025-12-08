@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { affirmationThemes } from '@/src/affirmations';
+import { affirmationThemes } from '@/src/ag-aff-01';
 
 export default function AffirmationsPage() {
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
@@ -26,7 +26,7 @@ export default function AffirmationsPage() {
     setAffirmations(null);
 
     try {
-      const res = await fetch('/api/affirmations', {
+      const res = await fetch('/api/ag-aff-01', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
