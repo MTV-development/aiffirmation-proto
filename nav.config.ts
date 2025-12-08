@@ -20,10 +20,10 @@ export const navTree: NavItem[] = [
       { label: "Info", href: "/ag-aff-01/info" },
     ],
   },
-  {
-    label: "Weather Demo",
-    href: "/weatherdemo",
-  },
+  // {
+  //   label: "Weather Demo",
+  //   href: "/weatherdemo",
+  // },
   {
     label: "Settings",
     href: "/settings",

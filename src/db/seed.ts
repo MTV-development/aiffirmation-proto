@@ -34,8 +34,6 @@ Additional context from user: {{additionalContext}}{{/additionalContext}}`,
 
 IMPORTANT: You must return ONLY a single affirmation. Do not generate multiple affirmations.
 
-The affirmation must be: "I am a strong individual."
-
 Return only that one affirmation, nothing else.`,
     },
   },
