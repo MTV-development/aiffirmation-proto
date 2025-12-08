@@ -1,17 +1,20 @@
-export default function AffirmationsLayout({
+import { navTree } from "@/nav.config";
+import { TopSubmenu } from "@/components/top-submenu";
+
+export default function AF01Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const af01Node = navTree.find((x) => x.href === "/ag-aff-01");
+
   return (
-    <div className="flex flex-col h-screen">
-      <header className="border-b px-6 py-4">
-        <h1 className="text-xl font-semibold">Affirmations</h1>
-        <p className="text-sm text-gray-500">
-          Generate personalized affirmations with AI
-        </p>
-      </header>
-      <main className="flex-1 overflow-auto">{children}</main>
+    <div className="flex-1 flex flex-col">
+      <TopSubmenu
+        items={af01Node?.children ?? []}
+        actions={af01Node?.actions}
+      />
+      <main className="p-6 flex-1">{children}</main>
     </div>
   );
 }
