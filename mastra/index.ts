@@ -1,27 +1,33 @@
-
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 
 import { weatherAgent } from './agents/weather-agent';
 
+// Singleton pattern to prevent "AI Tracing instance already registered" error during hot reload
+const globalForMastra = globalThis as unknown as {
+  mastra: Mastra | undefined;
+};
 
-export const mastra = new Mastra({
-  agents: { weatherAgent },
-  storage: new LibSQLStore({
-    // stores observability, scores, ... into memory storage, if it needs to persist, change to file:../mastra.db
-    url: ":memory:",
-  }),
-  logger: new PinoLogger({
-    name: 'Mastra',
-    level: 'info',
-  }),
-  telemetry: {
-    // Telemetry is deprecated and will be removed in the Nov 4th release
-    enabled: false, 
-  },
-  observability: {
-    // Enables DefaultExporter and CloudExporter for AI tracing
-    default: { enabled: true }, 
-  },
-});
+export const mastra =
+  globalForMastra.mastra ??
+  new Mastra({
+    agents: { weatherAgent },
+    storage: new LibSQLStore({
+      url: ':memory:',
+    }),
+    logger: new PinoLogger({
+      name: 'Mastra',
+      level: 'info',
+    }),
+    telemetry: {
+      enabled: false,
+    },
+    observability: {
+      default: { enabled: true },
+    },
+  });
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForMastra.mastra = mastra;
+}
