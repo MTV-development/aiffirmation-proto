@@ -92,14 +92,44 @@ export async function getEntriesForVersionAndImplementation(
     .filter((entry): entry is KVEntry => entry !== null);
 }
 
-// Update a single entry's value
-export async function updateEntry(id: string, value: unknown): Promise<void> {
-  const { error } = await supabase
-    .from('kv_store')
-    .update({ value, updated_at: new Date().toISOString() })
-    .eq('id', id);
+// Update a single entry's value (and optionally key name)
+export async function updateEntry(
+  id: string,
+  value: unknown,
+  newKeyName?: string,
+  currentEntry?: KVEntry
+): Promise<void> {
+  // If key name changed, we need to delete and recreate (key is part of primary identifier)
+  if (newKeyName && currentEntry && newKeyName !== currentEntry.parsed.keyName) {
+    const newFullKey = buildKey(
+      currentEntry.parsed.namespace,
+      currentEntry.parsed.version,
+      newKeyName,
+      currentEntry.parsed.implementation
+    );
 
-  if (error) throw error;
+    // Delete old entry and insert new one
+    const { error: deleteError } = await supabase
+      .from('kv_store')
+      .delete()
+      .eq('id', id);
+
+    if (deleteError) throw deleteError;
+
+    const { error: insertError } = await supabase
+      .from('kv_store')
+      .insert({ key: newFullKey, value });
+
+    if (insertError) throw insertError;
+  } else {
+    // Just update the value
+    const { error } = await supabase
+      .from('kv_store')
+      .update({ value, updated_at: new Date().toISOString() })
+      .eq('id', id);
+
+    if (error) throw error;
+  }
 }
 
 // Create a new implementation by copying from source

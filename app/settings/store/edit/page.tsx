@@ -9,6 +9,7 @@ import {
   updateEntry,
   createImplementation,
   createKey,
+  deleteKey,
   type KVEntry,
 } from '@/lib/kv/service';
 import {
@@ -123,9 +124,23 @@ export default function KVEditorPage() {
     setEntries([]);
   };
 
-  const handleSaveEntry = async (id: string, value: unknown) => {
-    await updateEntry(id, value);
+  const handleSaveEntry = async (id: string, value: unknown, newKeyName?: string, entry?: KVEntry) => {
+    await updateEntry(id, value, newKeyName, entry);
     setEditingEntry(null);
+    // Reload keys in case a rename happened (new key created)
+    if (newKeyName) {
+      const keys = await getAllKeys();
+      setAllKeys(keys);
+    }
+    await loadEntries();
+  };
+
+  const handleDeleteEntry = async (id: string) => {
+    await deleteKey(id);
+    setEditingEntry(null);
+    // Reload keys and entries
+    const keys = await getAllKeys();
+    setAllKeys(keys);
     await loadEntries();
   };
 
@@ -252,6 +267,7 @@ export default function KVEditorPage() {
         <KVEntryEditor
           entry={editingEntry}
           onSave={handleSaveEntry}
+          onDelete={handleDeleteEntry}
           onCancel={() => setEditingEntry(null)}
         />
       )}
