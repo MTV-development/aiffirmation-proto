@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { getImplementations } from '@/lib/agents';
 
 type ImplementationContextType = {
   implementation: string;
@@ -19,10 +20,9 @@ export function ImplementationProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function fetchImplementations() {
       try {
-        const res = await fetch('/api/ag-aff-01/implementations');
-        const data = await res.json();
-        if (data.implementations && data.implementations.length > 0) {
-          setImplementations(data.implementations);
+        const impls = await getImplementations('af-01');
+        if (impls.length > 0) {
+          setImplementations(impls);
         }
       } catch (err) {
         console.error('Failed to fetch implementations:', err);

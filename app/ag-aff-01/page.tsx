@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { affirmationThemes, useImplementation } from '@/src/ag-aff-01';
+import { generateAffirmations } from '@/lib/agents';
 
 export default function AffirmationsPage() {
   const { implementation } = useImplementation();
@@ -27,25 +28,16 @@ export default function AffirmationsPage() {
     setAffirmations(null);
 
     try {
-      const res = await fetch('/api/ag-aff-01', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          themes: selectedThemes.map(
-            (id) => affirmationThemes.find((t) => t.id === id)?.label ?? id
-          ),
-          additionalContext,
-          implementation,
-        }),
+      const result = await generateAffirmations({
+        version: 'af-01',
+        themes: selectedThemes.map(
+          (id) => affirmationThemes.find((t) => t.id === id)?.label ?? id
+        ),
+        additionalContext,
+        implementation,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to generate affirmations');
-      }
-
-      setAffirmations(data.affirmations);
+      setAffirmations(result.affirmations);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
