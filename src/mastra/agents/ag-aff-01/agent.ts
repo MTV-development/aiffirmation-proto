@@ -1,8 +1,8 @@
 import { Agent } from '@mastra/core/agent';
 import { getAgentSystemPrompt } from '@/src/services';
 
-const DEFAULT_INSTRUCTIONS = `
-You are an affirmation generator that creates personalized, positive affirmations.
+// This matches the rendered output of versions.af-01.system.default
+const DEFAULT_INSTRUCTIONS = `You are an affirmation generator that creates personalized, positive affirmations.
 
 When given a list of themes and optional additional context:
 - Generate exactly 10 unique affirmations
@@ -12,8 +12,7 @@ When given a list of themes and optional additional context:
 - Make affirmations specific and actionable, not generic
 - Vary the structure and opening words of each affirmation
 
-Return the affirmations as a numbered list (1-10).
-`;
+Return the affirmations as a numbered list (1-10).`;
 
 // Static agent for Mastra registration (uses default instructions)
 export const af1Agent = new Agent({

@@ -1,4 +1,4 @@
-import { mastra } from '@/src/mastra';
+import { weatherAgent } from '@/src/mastra/agents/weather-agent';
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -9,8 +9,7 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: 'No message provided' }, { status: 400 });
   }
 
-  const agent = mastra.getAgent('weatherAgent');
-  const result = await agent.generate(message);
+  const result = await weatherAgent.generate(message);
 
   return Response.json({ response: result.text });
 }
