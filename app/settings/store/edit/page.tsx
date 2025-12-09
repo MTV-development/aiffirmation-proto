@@ -8,6 +8,7 @@ import {
   getEntriesForVersionAndImplementation,
   updateEntry,
   createImplementation,
+  createKey,
   type KVEntry,
 } from '@/lib/kv/service';
 import {
@@ -16,6 +17,7 @@ import {
   KVEntryCard,
   KVEntryEditor,
   CreateImplementationDialog,
+  CreateKeyDialog,
 } from '@/components/kv-editor';
 
 type LoadingState = 'loading' | 'ready' | 'error';
@@ -40,6 +42,7 @@ export default function KVEditorPage() {
   const [error, setError] = useState<string | null>(null);
   const [editingEntry, setEditingEntry] = useState<KVEntry | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [showCreateKeyDialog, setShowCreateKeyDialog] = useState(false);
 
   // Load all keys on mount
   useEffect(() => {
@@ -139,6 +142,16 @@ export default function KVEditorPage() {
     setSelectedImplementation(newName);
   };
 
+  const handleCreateKey = async (keyName: string, initialText: string) => {
+    await createKey(selectedVersion, selectedImplementation, keyName, { text: initialText });
+    setShowCreateKeyDialog(false);
+
+    // Reload keys and entries
+    const keys = await getAllKeys();
+    setAllKeys(keys);
+    await loadEntries();
+  };
+
   if (loadingState === 'loading') {
     return (
       <div className="flex items-center justify-center h-64">
@@ -202,9 +215,17 @@ export default function KVEditorPage() {
       {/* Entries list */}
       {entries.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-medium">
-            Entries ({entries.length})
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-medium">
+              Entries ({entries.length})
+            </h2>
+            <button
+              onClick={() => setShowCreateKeyDialog(true)}
+              className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              + Add Key
+            </button>
+          </div>
           <div className="grid gap-4">
             {entries.map((entry) => (
               <KVEntryCard
@@ -242,6 +263,17 @@ export default function KVEditorPage() {
           implementations={implementations}
           onConfirm={handleCreateImplementation}
           onCancel={() => setShowCreateDialog(false)}
+        />
+      )}
+
+      {/* Create key dialog */}
+      {showCreateKeyDialog && (
+        <CreateKeyDialog
+          version={selectedVersion}
+          implementation={selectedImplementation}
+          existingKeys={entries.map(e => e.parsed.keyName)}
+          onConfirm={handleCreateKey}
+          onCancel={() => setShowCreateKeyDialog(false)}
         />
       )}
     </div>

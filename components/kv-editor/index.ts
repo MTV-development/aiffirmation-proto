@@ -3,3 +3,4 @@ export { ImplementationSelector } from './implementation-selector';
 export { KVEntryCard } from './kv-entry-card';
 export { KVEntryEditor } from './kv-entry-editor';
 export { CreateImplementationDialog } from './create-implementation-dialog';
+export { CreateKeyDialog } from './create-key-dialog';

@@ -127,3 +127,29 @@ export async function createImplementation(
 
   if (error) throw error;
 }
+
+// Create a new key under a version/implementation
+export async function createKey(
+  version: string,
+  implementation: string,
+  keyName: string,
+  initialValue: { text: string; [key: string]: unknown } = { text: '' }
+): Promise<void> {
+  const fullKey = buildKey('versions', version, keyName, implementation);
+
+  const { error } = await supabase
+    .from('kv_store')
+    .insert({ key: fullKey, value: initialValue });
+
+  if (error) throw error;
+}
+
+// Delete a key
+export async function deleteKey(id: string): Promise<void> {
+  const { error } = await supabase
+    .from('kv_store')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+}

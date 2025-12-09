@@ -1,5 +1,5 @@
-import { createAF01Agent } from '@/src/mastra/agents/ag-aff-01';
-import { renderTemplate, getTemplateText } from '@/src/services';
+import { Agent } from '@mastra/core/agent';
+import { renderTemplate } from '@/src/services';
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -17,26 +17,37 @@ export async function POST(req: NextRequest) {
 
   const implToUse = implementation || 'default';
 
-  // Render prompt using template engine
-  const { output: prompt, variables } = await renderTemplate({
+  const userVariables = {
+    themes,
+    additionalContext: additionalContext?.trim() || null,
+  };
+
+  // Render both system and prompt using template engine
+  const { output: systemPrompt, variables } = await renderTemplate({
+    key: 'system',
+    version: 'af-01',
+    implementation: implToUse,
+    variables: userVariables,
+  });
+
+  const { output: prompt } = await renderTemplate({
     key: 'prompt',
     version: 'af-01',
     implementation: implToUse,
-    variables: {
-      themes,
-      additionalContext: additionalContext?.trim() || null,
-    },
+    variables: userVariables,
   });
 
   console.log('[AG-AFF-01] Implementation:', implToUse);
   console.log('[AG-AFF-01] Variables:', variables);
+  console.log('[AG-AFF-01] Rendered system prompt:', systemPrompt);
   console.log('[AG-AFF-01] Rendered prompt:', prompt);
 
-  // Get system prompt and create agent
-  const systemPrompt = await getTemplateText('system', 'af-01', implToUse);
-  const agent = await createAF01Agent(implToUse);
-
-  console.log('[AG-AFF-01] System prompt:', systemPrompt?.slice(0, 100) + '...');
+  // Create agent with rendered system prompt
+  const agent = new Agent({
+    name: 'AF-1',
+    instructions: systemPrompt,
+    model: 'openai/gpt-4o-mini',
+  });
 
   const result = await agent.generate(prompt);
 
