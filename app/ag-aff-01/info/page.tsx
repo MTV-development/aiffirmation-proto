@@ -58,31 +58,39 @@ export default function AF01InfoPage() {
         </table>
       </div>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2">Template Variables</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-2">Template Syntax (Liquid)</h3>
       <p className="text-gray-600 dark:text-gray-400 mb-4">
-        The prompt template supports mustache-style variable substitution:
+        The prompt template uses <a href="https://liquidjs.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Liquid</a> templating syntax:
       </p>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm border border-gray-200 dark:border-gray-700">
           <thead className="bg-gray-100 dark:bg-gray-800">
             <tr>
-              <th className="text-left p-3 border-b border-gray-200 dark:border-gray-700">Variable</th>
+              <th className="text-left p-3 border-b border-gray-200 dark:border-gray-700">Syntax</th>
               <th className="text-left p-3 border-b border-gray-200 dark:border-gray-700">Description</th>
             </tr>
           </thead>
           <tbody className="text-gray-600 dark:text-gray-400">
             <tr>
               <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">
-                &#123;&#123;themes&#125;&#125;
+                &#123;&#123; themes &#125;&#125;
               </td>
               <td className="p-3 border-b border-gray-200 dark:border-gray-700">
-                Comma-separated list of selected theme labels
+                Output the themes array
               </td>
             </tr>
             <tr>
               <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">
-                &#123;&#123;additionalContext&#125;&#125;
+                &#123;&#123; themes | join: &quot;, &quot; &#125;&#125;
+              </td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">
+                Join themes array with comma separator
+              </td>
+            </tr>
+            <tr>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">
+                &#123;&#123; additionalContext &#125;&#125;
               </td>
               <td className="p-3 border-b border-gray-200 dark:border-gray-700">
                 User-provided additional context text
@@ -90,21 +98,54 @@ export default function AF01InfoPage() {
             </tr>
             <tr>
               <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">
-                &#123;&#123;#additionalContext&#125;&#125;...&#123;&#123;/additionalContext&#125;&#125;
+                &#123;% if additionalContext %&#125;...&#123;% endif %&#125;
               </td>
               <td className="p-3 border-b border-gray-200 dark:border-gray-700">
                 Conditional block - content only included if additionalContext is provided
+              </td>
+            </tr>
+            <tr>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">
+                &#123;% for theme in themes %&#125;...&#123;% endfor %&#125;
+              </td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">
+                Loop through each theme
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <h3 className="text-lg font-semibold mt-6 mb-2">Example Prompt Template</h3>
-      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-xs overflow-x-auto">
-{`Generate affirmations for the following themes: {{themes}}.{{#additionalContext}}
+      <h3 className="text-lg font-semibold mt-6 mb-2">Available Variables</h3>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead className="bg-gray-100 dark:bg-gray-800">
+            <tr>
+              <th className="text-left p-3 border-b border-gray-200 dark:border-gray-700">Variable</th>
+              <th className="text-left p-3 border-b border-gray-200 dark:border-gray-700">Type</th>
+              <th className="text-left p-3 border-b border-gray-200 dark:border-gray-700">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600 dark:text-gray-400">
+            <tr>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">themes</td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">array</td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">Array of selected theme labels</td>
+            </tr>
+            <tr>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">additionalContext</td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">string | null</td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">User-provided context (null if empty)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-Additional context from user: {{additionalContext}}{{/additionalContext}}`}
+      <h3 className="text-lg font-semibold mt-6 mb-2">Example Prompt Template</h3>
+      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-xs overflow-x-auto whitespace-pre-wrap">
+{`Generate affirmations for the following themes: {{ themes | join: ", " }}.{% if additionalContext %}
+
+Additional context from user: {{ additionalContext }}{% endif %}`}
       </pre>
     </div>
   );

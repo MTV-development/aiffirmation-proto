@@ -22,9 +22,9 @@ Return the affirmations as a numbered list (1-10).`,
   {
     key: 'af-01.prompt.default',
     value: {
-      text: `Generate affirmations for the following themes: {{themes}}.{{#additionalContext}}
+      text: `Generate affirmations for the following themes: {{ themes | join: ", " }}.{% if additionalContext %}
 
-Additional context from user: {{additionalContext}}{{/additionalContext}}`,
+Additional context from user: {{ additionalContext }}{% endif %}`,
     },
   },
   {
@@ -40,7 +40,7 @@ Return only that one affirmation, nothing else.`,
   {
     key: 'af-01.prompt.tst2',
     value: {
-      text: `Return the single affirmation for themes: {{themes}}.`,
+      text: `Return the single affirmation for themes: {{ themes | join: ", " }}.`,
     },
   },
 ];

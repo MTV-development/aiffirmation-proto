@@ -1,10 +1,13 @@
 import { createAF01Agent } from '@/src/mastra/agents/ag-aff-01';
 import { getAgentPromptTemplate } from '@/src/services';
 import { NextRequest } from 'next/server';
+import { Liquid } from 'liquidjs';
 
-const DEFAULT_PROMPT_TEMPLATE = `Generate affirmations for the following themes: {{themes}}.{{#additionalContext}}
+const liquid = new Liquid();
 
-Additional context from user: {{additionalContext}}{{/additionalContext}}`;
+const DEFAULT_PROMPT_TEMPLATE = `Generate affirmations for the following themes: {{ themes | join: ", " }}.{% if additionalContext %}
+
+Additional context from user: {{ additionalContext }}{% endif %}`;
 
 export async function POST(req: NextRequest) {
   const { themes, additionalContext, implementation } = await req.json();
@@ -23,7 +26,7 @@ export async function POST(req: NextRequest) {
 
   // Get prompt template from KV store
   const promptTemplate = await getAgentPromptTemplate('af-01', implToUse) || DEFAULT_PROMPT_TEMPLATE;
-  const prompt = buildPrompt(promptTemplate, themes, additionalContext);
+  const prompt = await buildPrompt(promptTemplate, themes, additionalContext);
 
   console.log('[AG-AFF-01] Creating agent with implementation:', implToUse);
   console.log('[AG-AFF-01] Prompt template:', promptTemplate);
@@ -41,16 +44,9 @@ export async function POST(req: NextRequest) {
   return Response.json({ affirmations: result.text });
 }
 
-function buildPrompt(template: string, themes: string[], additionalContext?: string): string {
-  let prompt = template.replace('{{themes}}', themes.join(', '));
-
-  // Handle mustache-style conditional for additionalContext
-  if (additionalContext?.trim()) {
-    prompt = prompt.replace(/\{\{#additionalContext\}\}([\s\S]*?)\{\{\/additionalContext\}\}/g, '$1');
-    prompt = prompt.replace('{{additionalContext}}', additionalContext);
-  } else {
-    prompt = prompt.replace(/\{\{#additionalContext\}\}[\s\S]*?\{\{\/additionalContext\}\}/g, '');
-  }
-
-  return prompt;
+async function buildPrompt(template: string, themes: string[], additionalContext?: string): Promise<string> {
+  return liquid.parseAndRender(template, {
+    themes,
+    additionalContext: additionalContext?.trim() || null,
+  });
 }
