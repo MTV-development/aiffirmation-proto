@@ -183,3 +183,21 @@ export async function deleteKey(id: string): Promise<void> {
 
   if (error) throw error;
 }
+
+// Fetch all entries from the store
+export async function getAllEntries(): Promise<KVEntry[]> {
+  const { data, error } = await supabase
+    .from('kv_store')
+    .select('*')
+    .order('key');
+
+  if (error) throw error;
+
+  return (data ?? [])
+    .map(row => {
+      const parsed = parseKey(row.key);
+      if (!parsed) return null;
+      return { ...row, parsed };
+    })
+    .filter((entry): entry is KVEntry => entry !== null);
+}

@@ -6,6 +6,7 @@ import type { KVEntry } from '@/lib/kv/service';
 type KVEntryCardProps = {
   entry: KVEntry;
   onEdit: (entry: KVEntry) => void;
+  onEditText?: (entry: KVEntry) => void;
 };
 
 type ValueObject = {
@@ -13,7 +14,7 @@ type ValueObject = {
   [key: string]: unknown;
 };
 
-export function KVEntryCard({ entry, onEdit }: KVEntryCardProps) {
+export function KVEntryCard({ entry, onEdit, onEditText }: KVEntryCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const value = entry.value as ValueObject;
@@ -43,32 +44,42 @@ export function KVEntryCard({ entry, onEdit }: KVEntryCardProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="font-medium text-lg">{entry.parsed.keyName}</h3>
-            <span className="px-2 py-0.5 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-              {entry.parsed.keyName}
-            </span>
           </div>
           <p className="text-xs text-gray-500 font-mono mt-1">{entry.key}</p>
         </div>
-        <button
-          onClick={() => onEdit(entry)}
-          className="ml-4 p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
-          title="Edit"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        <div className="ml-4 flex items-center gap-1">
+          {/* Edit Text button - only shows when entry has text property */}
+          {hasText && onEditText && (
+            <button
+              onClick={() => onEditText(entry)}
+              className="px-3 py-1.5 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-900/20 rounded-md transition-colors font-medium"
+              title="Edit text content only"
+            >
+              Edit Text
+            </button>
+          )}
+          {/* Full JSON edit button */}
+          <button
+            onClick={() => onEdit(entry)}
+            className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
+            title="Edit full JSON"
           >
-            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-            <path d="m15 5 4 4" />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              <path d="m15 5 4 4" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Content */}

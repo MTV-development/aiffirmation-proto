@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
   getAllKeys,
+  getAllEntries,
   getUniqueVersions,
   getImplementationsForVersion,
   getEntriesForVersionAndImplementation,
@@ -17,6 +18,7 @@ import {
   ImplementationSelector,
   KVEntryCard,
   KVEntryEditor,
+  KVTextEditor,
   CreateImplementationDialog,
   CreateKeyDialog,
 } from '@/components/kv-editor';
@@ -42,6 +44,7 @@ export default function KVEditorPage() {
   const [loadingState, setLoadingState] = useState<LoadingState>('loading');
   const [error, setError] = useState<string | null>(null);
   const [editingEntry, setEditingEntry] = useState<KVEntry | null>(null);
+  const [editingTextEntry, setEditingTextEntry] = useState<KVEntry | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showCreateKeyDialog, setShowCreateKeyDialog] = useState(false);
 
@@ -135,6 +138,12 @@ export default function KVEditorPage() {
     await loadEntries();
   };
 
+  const handleSaveTextEntry = async (id: string, value: unknown) => {
+    await updateEntry(id, value);
+    setEditingTextEntry(null);
+    await loadEntries();
+  };
+
   const handleDeleteEntry = async (id: string) => {
     await deleteKey(id);
     setEditingEntry(null);
@@ -165,6 +174,28 @@ export default function KVEditorPage() {
     const keys = await getAllKeys();
     setAllKeys(keys);
     await loadEntries();
+  };
+
+  const handleExportJson = async () => {
+    // Fetch all entries from the store
+    const allEntries = await getAllEntries();
+
+    // Build export object: { "key": value, ... }
+    const exportData: Record<string, unknown> = {};
+    for (const entry of allEntries) {
+      exportData[entry.key] = entry.value;
+    }
+
+    // Create and trigger download
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `kv-export-all.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   if (loadingState === 'loading') {
@@ -202,19 +233,27 @@ export default function KVEditorPage() {
       </div>
 
       {/* Selectors */}
-      <div className="flex flex-wrap gap-4 items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-        <VersionSelector
-          versions={versions}
-          selectedVersion={selectedVersion}
-          onVersionChange={handleVersionChange}
-        />
-        <ImplementationSelector
-          implementations={implementations}
-          selectedImplementation={selectedImplementation}
-          onImplementationChange={handleImplementationChange}
-          onCreateNew={() => setShowCreateDialog(true)}
-          disabled={!selectedVersion}
-        />
+      <div className="flex flex-wrap gap-4 items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <div className="flex flex-wrap gap-4 items-center">
+          <VersionSelector
+            versions={versions}
+            selectedVersion={selectedVersion}
+            onVersionChange={handleVersionChange}
+          />
+          <ImplementationSelector
+            implementations={implementations}
+            selectedImplementation={selectedImplementation}
+            onImplementationChange={handleImplementationChange}
+            onCreateNew={() => setShowCreateDialog(true)}
+            disabled={!selectedVersion}
+          />
+        </div>
+        <button
+          onClick={handleExportJson}
+          className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          Export All JSON
+        </button>
       </div>
 
       {/* Empty state */}
@@ -247,6 +286,7 @@ export default function KVEditorPage() {
                 key={entry.id}
                 entry={entry}
                 onEdit={setEditingEntry}
+                onEditText={setEditingTextEntry}
               />
             ))}
           </div>
@@ -262,13 +302,22 @@ export default function KVEditorPage() {
         </div>
       )}
 
-      {/* Edit modal */}
+      {/* Edit modal (full JSON) */}
       {editingEntry && (
         <KVEntryEditor
           entry={editingEntry}
           onSave={handleSaveEntry}
           onDelete={handleDeleteEntry}
           onCancel={() => setEditingEntry(null)}
+        />
+      )}
+
+      {/* Edit text modal (text property only) */}
+      {editingTextEntry && (
+        <KVTextEditor
+          entry={editingTextEntry}
+          onSave={handleSaveTextEntry}
+          onCancel={() => setEditingTextEntry(null)}
         />
       )}
 

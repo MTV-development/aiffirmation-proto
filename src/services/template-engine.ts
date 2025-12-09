@@ -90,8 +90,26 @@ export async function renderTemplate(options: RenderOptions): Promise<RenderResu
     ...variables,
   };
 
-  // Render with Liquid
-  const output = await liquid.parseAndRender(templateText, mergedVariables);
+  // Multi-pass render until output stabilizes:
+  // Each pass may substitute variables that contain Liquid tags,
+  // which then need to be evaluated in subsequent passes.
+  // Max depth of 10 to prevent infinite loops.
+  const MAX_RENDER_DEPTH = 10;
+  let output = templateText;
+  let previousOutput = '';
+  let depth = 0;
+
+  while (output !== previousOutput) {
+    if (depth >= MAX_RENDER_DEPTH) {
+      throw new Error(
+        `Template render exceeded max depth of ${MAX_RENDER_DEPTH}. ` +
+        `Possible infinite loop in template: versions.${version}.${key}.${implementation}`
+      );
+    }
+    previousOutput = output;
+    output = await liquid.parseAndRender(output, mergedVariables);
+    depth++;
+  }
 
   return {
     output,
