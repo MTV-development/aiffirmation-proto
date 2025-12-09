@@ -50,17 +50,20 @@ Used for testing the implementation switching functionality.`,
   {
     key: 'versions.af-01.system.tst2',
     value: {
-      text: `You are an affirmation generator that generates exactly ONE affirmation only.
-
-IMPORTANT: You must return ONLY a single affirmation. Do not generate multiple affirmations.
-
-Return only that one affirmation, nothing else.`,
+      text: `You are an affirmation generator that generates affirmations.
+{{ numberInstruction }}`,
+    },
+  },
+  {
+    key: 'versions.af-01.numberInstruction.tst2',
+    value: {
+      text: `You will return exactly one affirmation.`,
     },
   },
   {
     key: 'versions.af-01.prompt.tst2',
     value: {
-      text: `Return the single affirmation for themes: {{ themes | join: ", " }}.`,
+      text: `Return affirmations for themes: {{ themes | join: ", " }}.`,
     },
   },
 ];
