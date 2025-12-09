@@ -34,31 +34,31 @@ export async function getKVText(key: string): Promise<string | null> {
 
 /**
  * Get a system prompt for an agent from the KV store
- * Convention: {agentId}.system.{implementation}
+ * Convention: versions.{agentId}.system.{implementation}
  */
 export async function getAgentSystemPrompt(
   agentId: string,
   implementation: string = 'default'
 ): Promise<string | null> {
-  const key = `${agentId}.system.${implementation}`;
+  const key = `versions.${agentId}.system.${implementation}`;
   return getKVText(key);
 }
 
 /**
  * Get a user prompt template for an agent from the KV store
- * Convention: {agentId}.prompt.{implementation}
+ * Convention: versions.{agentId}.prompt.{implementation}
  * Falls back to default implementation if not found
  */
 export async function getAgentPromptTemplate(
   agentId: string,
   implementation: string = 'default'
 ): Promise<string | null> {
-  const key = `${agentId}.prompt.${implementation}`;
+  const key = `versions.${agentId}.prompt.${implementation}`;
   const prompt = await getKVText(key);
 
   // Fall back to default if implementation-specific prompt not found
   if (!prompt && implementation !== 'default') {
-    return getKVText(`${agentId}.prompt.default`);
+    return getKVText(`versions.${agentId}.prompt.default`);
   }
 
   return prompt;
@@ -69,7 +69,7 @@ export async function getAgentPromptTemplate(
  * Returns array of implementation names (e.g., ['default', 'v2', 'experimental'])
  */
 export async function getAgentImplementations(agentId: string): Promise<string[]> {
-  const prefix = `${agentId}.system.`;
+  const prefix = `versions.${agentId}.system.`;
 
   const results = await db
     .select({ key: kvStore.key })

@@ -4,7 +4,7 @@ import { kvStore } from './schema';
 
 const demoData = [
   {
-    key: 'af-01.system.default',
+    key: 'versions.af-01.system.default',
     value: {
       text: `You are an affirmation generator that creates personalized, positive affirmations.
 
@@ -20,7 +20,7 @@ Return the affirmations as a numbered list (1-10).`,
     },
   },
   {
-    key: 'af-01.prompt.default',
+    key: 'versions.af-01.prompt.default',
     value: {
       text: `Generate affirmations for the following themes: {{ themes | join: ", " }}.{% if additionalContext %}
 
@@ -28,7 +28,7 @@ Additional context from user: {{ additionalContext }}{% endif %}`,
     },
   },
   {
-    key: 'af-01.system.tst2',
+    key: 'versions.af-01.system.tst2',
     value: {
       text: `You are an affirmation generator that generates exactly ONE affirmation only.
 
@@ -38,7 +38,7 @@ Return only that one affirmation, nothing else.`,
     },
   },
   {
-    key: 'af-01.prompt.tst2',
+    key: 'versions.af-01.prompt.tst2',
     value: {
       text: `Return the single affirmation for themes: {{ themes | join: ", " }}.`,
     },

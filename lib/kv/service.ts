@@ -1,29 +1,31 @@
 import { supabase, type KVStoreRow } from '@/lib/supabase/client';
 
 export type ParsedKey = {
-  version: string;
-  keyName: string;
-  implementation: string;
+  namespace: string;   // e.g., "versions"
+  version: string;     // e.g., "af-01"
+  keyName: string;     // e.g., "system" or "prompt"
+  implementation: string; // e.g., "default" or "tst2"
 };
 
 export type KVEntry = KVStoreRow & {
   parsed: ParsedKey;
 };
 
-// Parse a full key like "v1.prompt.default" into parts
+// Parse a full key like "versions.af-01.prompt.default" into parts
 export function parseKey(fullKey: string): ParsedKey | null {
   const parts = fullKey.split('.');
-  if (parts.length !== 3) return null;
+  if (parts.length !== 4) return null;
   return {
-    version: parts[0],
-    keyName: parts[1],
-    implementation: parts[2],
+    namespace: parts[0],
+    version: parts[1],
+    keyName: parts[2],
+    implementation: parts[3],
   };
 }
 
 // Build a full key from parts
-export function buildKey(version: string, keyName: string, implementation: string): string {
-  return `${version}.${keyName}.${implementation}`;
+export function buildKey(namespace: string, version: string, keyName: string, implementation: string): string {
+  return `${namespace}.${version}.${keyName}.${implementation}`;
 }
 
 // Fetch all keys from the store
@@ -37,12 +39,14 @@ export async function getAllKeys(): Promise<string[]> {
   return data?.map(row => row.key) ?? [];
 }
 
-// Extract unique versions from keys
+// Extract unique versions from keys (only from 'versions' namespace)
 export function getUniqueVersions(keys: string[]): string[] {
   const versions = new Set<string>();
   for (const key of keys) {
     const parsed = parseKey(key);
-    if (parsed) versions.add(parsed.version);
+    if (parsed && parsed.namespace === 'versions') {
+      versions.add(parsed.version);
+    }
   }
   return Array.from(versions).sort();
 }
@@ -52,7 +56,7 @@ export function getImplementationsForVersion(keys: string[], version: string): s
   const implementations = new Set<string>();
   for (const key of keys) {
     const parsed = parseKey(key);
-    if (parsed && parsed.version === version) {
+    if (parsed && parsed.namespace === 'versions' && parsed.version === version) {
       implementations.add(parsed.implementation);
     }
   }
@@ -74,7 +78,7 @@ export async function getEntriesForVersionAndImplementation(
   const { data, error } = await supabase
     .from('kv_store')
     .select('*')
-    .like('key', `${version}.%.${implementation}`)
+    .like('key', `versions.${version}.%.${implementation}`)
     .order('key');
 
   if (error) throw error;
@@ -108,12 +112,12 @@ export async function createImplementation(
   const sourceEntries = await getEntriesForVersionAndImplementation(version, sourceImplementation);
 
   if (sourceEntries.length === 0) {
-    throw new Error(`No entries found for ${version}.*.${sourceImplementation}`);
+    throw new Error(`No entries found for versions.${version}.*.${sourceImplementation}`);
   }
 
   // Create new entries with the new implementation name
   const newEntries = sourceEntries.map(entry => ({
-    key: buildKey(version, entry.parsed.keyName, newImplementationName),
+    key: buildKey('versions', version, entry.parsed.keyName, newImplementationName),
     value: entry.value,
   }));
 
