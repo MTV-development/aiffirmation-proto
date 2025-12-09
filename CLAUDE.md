@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `npm run dev` - Start development server with hot reload (http://localhost:3000)
 - `npm run build` - Create production build
-- `npm run start` - Start production server
 - `npm run lint` - Run ESLint checks
+- `npx mastra dev` - Start Mastra Studio for agent testing (http://localhost:4111)
 
 ### Database Commands (Supabase + Drizzle)
 
@@ -23,10 +23,12 @@ This is a Next.js 16 application using the App Router pattern with React 19 and 
 
 **Key directories:**
 - `app/` - Next.js App Router (pages, layouts, and routes)
-- `components/` - Shared React components (Sidebar, TopSubmenu)
+- `components/` - Shared React components (Sidebar, TopSubmenu, KV Editor)
 - `lib/supabase/` - Supabase browser client
+- `lib/kv/` - KV store service for browser-side access
 - `src/db/` - Drizzle schema, migrations client, and seed scripts
-- `docs/` - Plans and documentation
+- `src/services/` - Template engine and KV store access (server-side)
+- `src/mastra/` - Mastra AI agent definitions and tools
 
 **Stack:**
 - Next.js 16 with App Router (React Server Components by default)
@@ -34,26 +36,81 @@ This is a Next.js 16 application using the App Router pattern with React 19 and 
 - TypeScript (strict mode)
 - Tailwind CSS 4 for styling
 - Supabase (database) with Drizzle ORM (schema/migrations)
-- ESLint 9 with Next.js configuration
+- Mastra AI framework for agents
+- LiquidJS for template rendering
 
-**Patterns:**
-- File-based routing via App Router (`page.tsx` files define routes)
-- Root layout in `app/layout.tsx` handles fonts, metadata, and global Sidebar
-- CSS theming via CSS variables in `globals.css` with light/dark mode support
-- Path alias `@/*` maps to project root
+## KV Store & Template Engine
+
+The app uses a database-backed KV store for configurable prompts with Liquid templating.
+
+**Key format:** `{namespace}.{version}.{keyName}.{implementation}`
+- Example: `versions.af-01.system.default`
+
+**Template rendering:**
+```typescript
+import { renderTemplate } from '@/src/services';
+
+const { output, variables } = await renderTemplate({
+  key: 'prompt',
+  version: 'af-01',
+  implementation: 'default',
+  variables: { themes: ['Gratitude'] }
+});
+```
+
+The engine fetches all KV entries for a version/implementation, makes them available as Liquid variables, and renders. KV keys can reference each other: `{{ numberInstruction }}` in `system` can pull text from a `numberInstruction` key.
+
+**Two KV service files:**
+- `src/services/kv-store.ts` - Server-side access via Drizzle
+- `lib/kv/service.ts` - Browser-side access via Supabase client (for KV Editor UI)
+
+## Mastra AI Agents
+
+Agents are defined in `src/mastra/agents/`. The Mastra instance in `src/mastra/index.ts` uses a singleton pattern to prevent hot-reload errors.
+
+**Adding a new agent:**
+1. Create agent file in `src/mastra/agents/`
+2. Register in `src/mastra/index.ts`
+3. Create API route in `app/api/`
+
+**Agent with configurable prompts (like AF-01):**
+```typescript
+import { Agent } from '@mastra/core/agent';
+import { renderTemplate } from '@/src/services';
+
+const { output: systemPrompt } = await renderTemplate({
+  key: 'system',
+  version: 'af-01',
+  implementation: implToUse,
+  variables: userVariables,
+});
+
+const agent = new Agent({
+  name: 'AF-1',
+  instructions: systemPrompt,
+  model: 'openai/gpt-4o-mini',
+});
+```
 
 ## Navigation System
 
-Navigation uses a **single source of truth** in `nav.config.ts`. The `navTree` array defines all routes, labels, and submenus. UI components render from this config.
+Navigation uses a **single source of truth** in `nav.config.ts`. The `navTree` array defines all routes, labels, and submenus.
 
 **Adding a new section:**
 1. Add entry to `navTree` in `nav.config.ts`
 2. Create route folder under `app/` with `layout.tsx` and `page.tsx`
 3. Section layouts inject `TopSubmenu` using the nav config
 
-**Key files:**
-- `nav.config.ts` - Central navigation configuration
-- `components/sidebar.tsx` - Left sidebar (top-level nav)
-- `components/top-submenu.tsx` - Horizontal tabs for section children
+## Environment Variables
 
-See `docs/readmes/README.navigation.md` for detailed navigation patterns.
+Required in `.env.local`:
+```bash
+OPENAI_API_KEY=sk-...
+DATABASE_URL=postgresql://...
+NEXT_PUBLIC_SUPABASE_URL=https://...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
+
+## Further Documentation
+
+For detailed documentation on any topic, **always start with the central [README.md](README.md)** in the project root. It serves as the index to all documentation and is kept up-to-date as the project evolves.
