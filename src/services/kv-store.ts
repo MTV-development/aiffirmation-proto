@@ -78,3 +78,23 @@ export async function getAgentImplementations(agentId: string): Promise<string[]
 
   return results.map(r => r.key.replace(prefix, ''));
 }
+
+/**
+ * Get the model name for an agent implementation from the KV store
+ * Convention: versions.{agentId}._model_name.{implementation}
+ * Falls back to default implementation, then to null if not found
+ */
+export async function getAgentModelName(
+  agentId: string,
+  implementation: string = 'default'
+): Promise<string | null> {
+  const key = `versions.${agentId}._model_name.${implementation}`;
+  const modelName = await getKVText(key);
+
+  // Fall back to default if implementation-specific model not found
+  if (!modelName && implementation !== 'default') {
+    return getKVText(`versions.${agentId}._model_name.default`);
+  }
+
+  return modelName;
+}

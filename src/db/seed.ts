@@ -9,7 +9,12 @@ const demoData: { key: string; value: Record<string, unknown> }[] = [
     value: {
       name: 'Default',
       text: `Default implementation for AF-01 affirmation generator.
-Generates 10 personalized affirmations based on selected themes.`,
+Generates 10 personalized affirmations based on selected themes.
+
+You can customize the AI model by modifying the _model_name parameter.
+Fast/cheap: openai/gpt-4o-mini, google/gemini-2.5-flash, anthropic/claude-3-haiku
+Strong: openai/gpt-4o, anthropic/claude-sonnet-4, google/gemini-2.5-pro
+See https://openrouter.ai/models for all available models.`,
       author: 'System',
       createdAt: '2024-12-09',
     },
@@ -19,9 +24,26 @@ Generates 10 personalized affirmations based on selected themes.`,
     value: {
       name: 'Test 2',
       text: `Test implementation that generates only a single affirmation.
-Used for testing the implementation switching functionality.`,
+Used for testing the implementation switching functionality.
+
+You can customize the AI model by modifying the _model_name parameter.
+Fast/cheap: openai/gpt-4o-mini, google/gemini-2.5-flash, anthropic/claude-3-haiku
+Strong: openai/gpt-4o, anthropic/claude-sonnet-4, google/gemini-2.5-pro
+See https://openrouter.ai/models for all available models.`,
       author: 'System',
       createdAt: '2024-12-09',
+    },
+  },
+  {
+    key: 'versions.af-01._model_name.default',
+    value: {
+      text: 'openai/gpt-4o-mini',
+    },
+  },
+  {
+    key: 'versions.af-01._model_name.tst2',
+    value: {
+      text: 'openai/gpt-4o-mini',
     },
   },
   {
@@ -74,9 +96,20 @@ Return the affirmations as a numbered list (1-10).`,
     value: {
       name: 'Default',
       text: `Good Ten - An advanced affirmation generator focused on quality.
-Uses detailed criteria to create meaningful, well-crafted affirmations.`,
+Uses detailed criteria to create meaningful, well-crafted affirmations.
+
+You can customize the AI model by modifying the _model_name parameter.
+Fast/cheap: openai/gpt-4o-mini, google/gemini-2.5-flash, anthropic/claude-3-haiku
+Strong: openai/gpt-4o, anthropic/claude-sonnet-4, google/gemini-2.5-pro
+See https://openrouter.ai/models for all available models.`,
       author: 'System',
       createdAt: '2024-12-09',
+    },
+  },
+  {
+    key: 'versions.gt-01._model_name.default',
+    value: {
+      text: 'openai/gpt-4o-mini',
     },
   },
   {

@@ -5,6 +5,7 @@ type ImplementationSelectorProps = {
   selectedImplementation: string;
   onImplementationChange: (implementation: string) => void;
   onCreateNew: () => void;
+  onDelete?: () => void;
   disabled?: boolean;
 };
 
@@ -13,8 +14,11 @@ export function ImplementationSelector({
   selectedImplementation,
   onImplementationChange,
   onCreateNew,
+  onDelete,
   disabled = false,
 }: ImplementationSelectorProps) {
+  const canDelete = selectedImplementation !== 'default' && onDelete;
+
   return (
     <div className="flex items-center gap-2">
       <label htmlFor="implementation-select" className="text-sm font-medium">
@@ -44,6 +48,15 @@ export function ImplementationSelector({
       >
         + New
       </button>
+      {canDelete && (
+        <button
+          onClick={onDelete}
+          className="px-3 py-1.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
+          title={`Delete implementation "${selectedImplementation}"`}
+        >
+          Delete
+        </button>
+      )}
     </div>
   );
 }

@@ -201,3 +201,20 @@ export async function getAllEntries(): Promise<KVEntry[]> {
     })
     .filter((entry): entry is KVEntry => entry !== null);
 }
+
+// Delete an entire implementation (all keys for a version/implementation)
+export async function deleteImplementation(
+  version: string,
+  implementation: string
+): Promise<void> {
+  if (implementation === 'default') {
+    throw new Error('Cannot delete the default implementation');
+  }
+
+  const { error } = await supabase
+    .from('kv_store')
+    .delete()
+    .like('key', `versions.${version}.%.${implementation}`);
+
+  if (error) throw error;
+}

@@ -11,6 +11,7 @@ import {
   createImplementation,
   createKey,
   deleteKey,
+  deleteImplementation,
   type KVEntry,
 } from '@/lib/kv/service';
 import {
@@ -176,6 +177,23 @@ export default function KVEditorPage() {
     await loadEntries();
   };
 
+  const handleDeleteImplementation = async () => {
+    if (selectedImplementation === 'default') return;
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete the "${selectedImplementation}" implementation?\n\nThis will delete all keys for ${selectedVersion}.*.${selectedImplementation}.`
+    );
+
+    if (!confirmed) return;
+
+    await deleteImplementation(selectedVersion, selectedImplementation);
+
+    // Reload keys (will auto-select default)
+    const keys = await getAllKeys();
+    setAllKeys(keys);
+    setSelectedImplementation('default');
+  };
+
   const handleExportJson = async () => {
     // Fetch all entries from the store
     const allEntries = await getAllEntries();
@@ -245,6 +263,7 @@ export default function KVEditorPage() {
             selectedImplementation={selectedImplementation}
             onImplementationChange={handleImplementationChange}
             onCreateNew={() => setShowCreateDialog(true)}
+            onDelete={handleDeleteImplementation}
             disabled={!selectedVersion}
           />
         </div>

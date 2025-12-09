@@ -43,6 +43,28 @@ export default function GoodTenInfoPage() {
             Agent ID: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">gt-01</code>
           </p>
         </section>
+
+        <section>
+          <h3 className="text-lg font-semibold mb-2">Model Selection</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-2">
+            You can customize the AI model by editing the <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">_model_name</code> key in the KV store for this implementation.
+          </p>
+          <p className="text-gray-600 dark:text-gray-300 mb-1">
+            <span className="text-gray-500 dark:text-gray-400">Fast/cheap:</span>{' '}
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs">openai/gpt-4o-mini</code>,{' '}
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs">google/gemini-2.5-flash</code>,{' '}
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs">anthropic/claude-3-haiku</code>
+          </p>
+          <p className="text-gray-600 dark:text-gray-300 mb-2">
+            <span className="text-gray-500 dark:text-gray-400">Strong:</span>{' '}
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs">openai/gpt-4o</code>,{' '}
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs">anthropic/claude-sonnet-4</code>,{' '}
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs">google/gemini-2.5-pro</code>
+          </p>
+          <p className="text-gray-600 dark:text-gray-300">
+            See <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">openrouter.ai/models</a> for all available models.
+          </p>
+        </section>
       </div>
     </div>
   );

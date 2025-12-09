@@ -54,6 +54,17 @@ export default function AF01InfoPage() {
                 Falls back to <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">af-01.prompt.default</code> if not found.
               </td>
             </tr>
+            <tr>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700 font-mono text-xs">
+                af-01._model_name.&#123;implementation&#125;
+              </td>
+              <td className="p-3 border-b border-gray-200 dark:border-gray-700">
+                AI model to use. Customize by editing this key in the KV store.<br />
+                <span className="text-gray-500 dark:text-gray-400">Fast/cheap:</span> gpt-4o-mini, gemini-2.5-flash, claude-3-haiku<br />
+                <span className="text-gray-500 dark:text-gray-400">Strong:</span> gpt-4o, claude-sonnet-4, gemini-2.5-pro<br />
+                See <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">openrouter.ai/models</a> for all models.
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

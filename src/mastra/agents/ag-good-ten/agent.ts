@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { getAgentSystemPrompt } from '@/src/services';
+import { getAgentSystemPrompt, getModel } from '@/src/services';
 
 // This matches the rendered output of versions.gt-01.system.default
 // with {{ multiThemeInstruction }} empty (single theme) and {{ goodAffirmationInstruction }} expanded
@@ -115,14 +115,16 @@ Avoid:
 Return exactly 10 affirmations as a numbered list (1-10). `;
 
 // Static agent for Mastra registration (uses default instructions)
+// Uses OpenRouter provider for model access
 export const goodTenAgent = new Agent({
   name: 'Good-Ten',
   instructions: DEFAULT_INSTRUCTIONS,
-  model: 'openai/gpt-4o-mini',
+  model: getModel(),
 });
 
 /**
  * Create a Good Ten agent with system prompt from KV store
+ * Uses OpenRouter provider for model access
  */
 export async function createGoodTenAgent(implementation: string = 'default'): Promise<Agent> {
   const systemPrompt = await getAgentSystemPrompt('gt-01', implementation);
@@ -130,6 +132,6 @@ export async function createGoodTenAgent(implementation: string = 'default'): Pr
   return new Agent({
     name: 'Good-Ten',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
-    model: 'openai/gpt-4o-mini',
+    model: getModel(),
   });
 }

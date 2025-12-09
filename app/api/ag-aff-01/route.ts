@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { renderTemplate } from '@/src/services';
+import { renderTemplate, getModel, getAgentModelName } from '@/src/services';
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -37,7 +37,11 @@ export async function POST(req: NextRequest) {
     variables: userVariables,
   });
 
+  // Get model name from KV store (falls back to env default)
+  const modelName = await getAgentModelName('af-01', implToUse);
+
   console.log('[AG-AFF-01] Implementation:', implToUse);
+  console.log('[AG-AFF-01] Model:', modelName || 'env default');
   console.log('[AG-AFF-01] Variables:', variables);
   console.log('[AG-AFF-01] Rendered system prompt:', systemPrompt);
   console.log('[AG-AFF-01] Rendered prompt:', prompt);
@@ -46,7 +50,7 @@ export async function POST(req: NextRequest) {
   const agent = new Agent({
     name: 'AF-1',
     instructions: systemPrompt,
-    model: 'openai/gpt-4o-mini',
+    model: getModel(modelName || undefined),
   });
 
   const result = await agent.generate(prompt);

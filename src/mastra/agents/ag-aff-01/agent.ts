@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { getAgentSystemPrompt } from '@/src/services';
+import { getAgentSystemPrompt, getModel, getModelName } from '@/src/services';
 
 // This matches the rendered output of versions.af-01.system.default
 const DEFAULT_INSTRUCTIONS = `You are an affirmation generator that creates personalized, positive affirmations.
@@ -15,14 +15,16 @@ When given a list of themes and optional additional context:
 Return the affirmations as a numbered list (1-10).`;
 
 // Static agent for Mastra registration (uses default instructions)
+// Uses OpenRouter provider for model access
 export const af1Agent = new Agent({
   name: 'AF-1',
   instructions: DEFAULT_INSTRUCTIONS,
-  model: 'openai/gpt-4o-mini',
+  model: getModel(),
 });
 
 /**
  * Create an AF-01 agent with system prompt from KV store
+ * Uses OpenRouter provider for model access
  */
 export async function createAF01Agent(implementation: string = 'default'): Promise<Agent> {
   const systemPrompt = await getAgentSystemPrompt('af-01', implementation);
@@ -30,6 +32,6 @@ export async function createAF01Agent(implementation: string = 'default'): Promi
   return new Agent({
     name: 'AF-1',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
-    model: 'openai/gpt-4o-mini',
+    model: getModel(),
   });
 }

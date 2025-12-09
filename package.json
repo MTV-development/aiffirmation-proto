@@ -20,6 +20,7 @@
     "@mastra/libsql": "^0.16.3",
     "@mastra/loggers": "^0.10.19",
     "@mastra/memory": "^0.15.12",
+    "@openrouter/ai-sdk-provider": "^1.4.1",
     "@supabase/supabase-js": "^2.86.2",
     "ai": "^5.0.108",
     "dotenv": "^17.2.3",
