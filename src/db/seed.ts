@@ -4,6 +4,16 @@ import { kvStore } from './schema';
 
 const demoData = [
   {
+    key: 'versions.af-01._info.default',
+    value: {
+      text: `Default implementation for AF-01 affirmation generator.
+Generates 10 personalized affirmations based on selected themes.`,
+      name: 'Default',
+      author: 'System',
+      createdAt: '2024-12-09',
+    },
+  },
+  {
     key: 'versions.af-01.system.default',
     value: {
       text: `You are an affirmation generator that creates personalized, positive affirmations.
@@ -25,6 +35,16 @@ Return the affirmations as a numbered list (1-10).`,
       text: `Generate affirmations for the following themes: {{ themes | join: ", " }}.{% if additionalContext %}
 
 Additional context from user: {{ additionalContext }}{% endif %}`,
+    },
+  },
+  {
+    key: 'versions.af-01._info.tst2',
+    value: {
+      text: `Test implementation that generates only a single affirmation.
+Used for testing the implementation switching functionality.`,
+      name: 'Test 2',
+      author: 'System',
+      createdAt: '2024-12-09',
     },
   },
   {
