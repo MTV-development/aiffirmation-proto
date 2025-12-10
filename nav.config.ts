@@ -37,6 +37,7 @@ export const navTree: NavItem[] = [
     href: "/settings",
     children: [
       { label: "KV Editor", href: "/settings/store/edit" },
+      { label: "Models", href: "/settings/models" },
     ],
   },
 ];
