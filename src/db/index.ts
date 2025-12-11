@@ -4,9 +4,9 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-// This client is ONLY for migrations and seeding
-// It should never be used in browser code
-const connectionString = process.env.DIRECT_URL!;
+// DATABASE_URL: pooled connection for serverless (Netlify, Vercel)
+// DIRECT_URL: direct connection for migrations and local dev
+const connectionString = process.env.DATABASE_URL || process.env.DIRECT_URL!;
 
 // Using direct/session connection; keep prepared statements on
 const client = postgres(connectionString, { prepare: true });
