@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AffirmationCard } from './affirmation-card';
 import { generateFullProcessAffirmations } from '@/lib/agents/full-process';
 import { shouldShowCheckIn } from '@/src/full-process';
@@ -17,8 +17,12 @@ interface AffirmationReviewProps {
   adjustedPreferences?: AdjustedPreferences | null;
   /** Currently liked affirmations */
   likedAffirmations: string[];
+  /** All previously shown affirmations (to avoid repeats) */
+  shownAffirmations: string[];
   /** Callback when an affirmation is liked */
   onLike: (affirmation: string) => void;
+  /** Callback when an affirmation is shown/viewed */
+  onShown: (affirmation: string) => void;
   /** Callback when moving to summary */
   onFinish: () => void;
   /** Callback when check-in should be shown */
@@ -39,7 +43,9 @@ export function AffirmationReview({
   preferences,
   adjustedPreferences,
   likedAffirmations,
+  shownAffirmations,
   onLike,
+  onShown,
   onFinish,
   onCheckIn,
   onNewBatch,
@@ -52,12 +58,20 @@ export function AffirmationReview({
   const currentAffirmation = affirmations[currentIndex];
   const likedCount = likedAffirmations.length;
 
+  // Track when an affirmation is actually shown to the user
+  useEffect(() => {
+    if (currentAffirmation) {
+      onShown(currentAffirmation);
+    }
+  }, [currentAffirmation, onShown]);
+
   const generateMoreAffirmations = async () => {
     setLoading(true);
     try {
       const result = await generateFullProcessAffirmations({
         preferences,
         adjustedPreferences: adjustedPreferences ?? undefined,
+        previousAffirmations: shownAffirmations,
       });
       onNewBatch(result.affirmations);
       setCurrentIndex(0);

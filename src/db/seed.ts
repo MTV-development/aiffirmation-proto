@@ -318,6 +318,12 @@ Tone I prefer: {{ tone }}
 {% if feedback %}
 Additional context: {{ feedback }}
 {% endif %}
+{% if previousAffirmations and previousAffirmations.size > 0 %}
+IMPORTANT: I have already seen these affirmations, so please generate COMPLETELY DIFFERENT ones:
+{% for affirmation in previousAffirmations %}- {{ affirmation }}
+{% endfor %}
+Do NOT repeat or closely paraphrase any of the above. Create fresh, unique affirmations.
+{% endif %}
 Return only a JSON array of 8 affirmation strings.`,
     },
   },

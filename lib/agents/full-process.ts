@@ -11,6 +11,8 @@ interface GenerateFullProcessOptions {
   adjustedPreferences?: AdjustedPreferences;
   /** Implementation to use (default: 'default') */
   implementation?: string;
+  /** Previously shown affirmations to avoid repeating */
+  previousAffirmations?: string[];
 }
 
 /**
@@ -99,7 +101,7 @@ function parseAffirmationsResponse(text: string): string[] {
 export async function generateFullProcessAffirmations(
   options: GenerateFullProcessOptions
 ): Promise<GenerateResult> {
-  const { preferences, adjustedPreferences, implementation = 'default' } = options;
+  const { preferences, adjustedPreferences, implementation = 'default', previousAffirmations = [] } = options;
 
   // Merge preferences with adjustments
   const effectivePreferences: UserPreferences = {
@@ -115,6 +117,7 @@ export async function generateFullProcessAffirmations(
     challenges: effectivePreferences.challenges.join(', ') || 'general life challenges',
     tone: effectivePreferences.tone,
     feedback: adjustedPreferences?.feedback || '',
+    previousAffirmations,
   };
 
   try {
@@ -138,8 +141,12 @@ export async function generateFullProcessAffirmations(
 
     console.log('[fp-01] Implementation:', implementation);
     console.log('[fp-01] Model:', modelName || 'env default');
-    console.log('[fp-01] System prompt:', systemPrompt.substring(0, 200) + '...');
-    console.log('[fp-01] User prompt:', userPrompt);
+    console.log('[fp-01] Previous affirmations count:', previousAffirmations.length);
+    console.log('[fp-01] ========== SYSTEM PROMPT ==========');
+    console.log(systemPrompt);
+    console.log('[fp-01] ========== USER PROMPT ==========');
+    console.log(userPrompt);
+    console.log('[fp-01] ====================================');
 
     // Generate using OpenRouter
     const result = await generate({
@@ -150,6 +157,11 @@ export async function generateFullProcessAffirmations(
 
     // Parse the response into an array
     const affirmations = parseAffirmationsResponse(result.text);
+
+    console.log('[fp-01] ========== RESPONSE ==========');
+    console.log('[fp-01] Raw response:', result.text);
+    console.log('[fp-01] Parsed affirmations:', affirmations);
+    console.log('[fp-01] ===============================');
 
     return {
       affirmations,

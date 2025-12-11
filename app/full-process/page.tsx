@@ -15,6 +15,8 @@ export default function FullProcessPage() {
   const [adjustedPreferences, setAdjustedPreferences] = useState<AdjustedPreferences | null>(null);
   const [affirmations, setAffirmations] = useState<string[]>([]);
   const [likedAffirmations, setLikedAffirmations] = useState<string[]>([]);
+  const [shownAffirmations, setShownAffirmations] = useState<string[]>([]);
+  const [batchKey, setBatchKey] = useState(0); // Used to force AffirmationReview to reset currentIndex
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,6 +32,8 @@ export default function FullProcessPage() {
       });
 
       setAffirmations(result.affirmations);
+      // Don't add to shownAffirmations here - let AffirmationReview track what's actually viewed
+      setBatchKey((k) => k + 1);
       setPhase('review');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate affirmations');
@@ -42,6 +46,13 @@ export default function FullProcessPage() {
     setLikedAffirmations((prev) => [...prev, affirmation]);
   };
 
+  const handleShown = (affirmation: string) => {
+    setShownAffirmations((prev) => {
+      if (prev.includes(affirmation)) return prev;
+      return [...prev, affirmation];
+    });
+  };
+
   const handleFinish = () => {
     setPhase('summary');
   };
@@ -52,6 +63,8 @@ export default function FullProcessPage() {
 
   const handleNewBatch = (newAffirmations: string[]) => {
     setAffirmations(newAffirmations);
+    // Don't add to shownAffirmations here - let AffirmationReview track what's actually viewed
+    setBatchKey((k) => k + 1);
   };
 
   const handleError = (errorMessage: string) => {
@@ -64,6 +77,8 @@ export default function FullProcessPage() {
     setAdjustedPreferences(null);
     setAffirmations([]);
     setLikedAffirmations([]);
+    setShownAffirmations([]);
+    setBatchKey(0);
     setError(null);
   };
 
@@ -86,11 +101,14 @@ export default function FullProcessPage() {
     return (
       <div className="p-6">
         <AffirmationReview
+          key={batchKey}
           affirmations={affirmations}
           preferences={preferences}
           adjustedPreferences={adjustedPreferences}
           likedAffirmations={likedAffirmations}
+          shownAffirmations={shownAffirmations}
           onLike={handleLike}
+          onShown={handleShown}
           onFinish={handleFinish}
           onCheckIn={handleCheckIn}
           onNewBatch={handleNewBatch}
@@ -113,12 +131,47 @@ export default function FullProcessPage() {
 
   // Check-In Phase
   if (phase === 'checkin' && preferences) {
+    const handleContinue = async () => {
+      // Generate a fresh batch when continuing
+      setLoading(true);
+      setError(null);
+
+      try {
+        const result = await generateFullProcessAffirmations({
+          preferences,
+          adjustedPreferences: adjustedPreferences ?? undefined,
+          previousAffirmations: shownAffirmations,
+        });
+
+        setAffirmations(result.affirmations);
+        // Don't add to shownAffirmations here - let AffirmationReview track what's actually viewed
+        setBatchKey((k) => k + 1);
+        setPhase('review');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to generate affirmations');
+        setPhase('review'); // Go back to review even on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (loading) {
+      return (
+        <div className="p-6 max-w-xl mx-auto">
+          <div className="p-12 text-center">
+            <div className="inline-block w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4" />
+            <p className="text-gray-500 dark:text-gray-400">Generating more affirmations...</p>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="p-6">
         <MidJourneyCheckIn
           likedCount={likedAffirmations.length}
           likedAffirmations={likedAffirmations}
-          onContinue={() => setPhase('review')}
+          onContinue={handleContinue}
           onFinish={handleFinish}
           onAdjust={() => setPhase('adjustment')}
         />
@@ -137,9 +190,12 @@ export default function FullProcessPage() {
         const result = await generateFullProcessAffirmations({
           preferences,
           adjustedPreferences: adjustments,
+          previousAffirmations: shownAffirmations,
         });
 
         setAffirmations(result.affirmations);
+        // Don't add to shownAffirmations here - let AffirmationReview track what's actually viewed
+        setBatchKey((k) => k + 1);
         setPhase('review');
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to generate affirmations');
