@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { affirmationThemes, useImplementation } from '@/src/ag-aff-01';
-import { generateAffirmations } from '@/lib/agents';
+import { generateAffirmationsAF01 } from './actions';
 
 export default function AffirmationsPage() {
   const { implementation } = useImplementation();
@@ -28,8 +28,8 @@ export default function AffirmationsPage() {
     setAffirmations(null);
 
     try {
-      const result = await generateAffirmations({
-        version: 'af-01',
+      // Call server action (runs on server with Mastra agent)
+      const result = await generateAffirmationsAF01({
         themes: selectedThemes.map(
           (id) => affirmationThemes.find((t) => t.id === id)?.label ?? id
         ),

@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { getAgentSystemPrompt, getModel } from '@/src/services';
+import { getAgentSystemPrompt, getAgentModelName, getModel } from '@/src/services';
 
 // Default instructions matching versions.fp-01.system.default in seed.ts
 const DEFAULT_INSTRUCTIONS = `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your affirmations are crafted with care and intention.
@@ -135,10 +135,11 @@ export const fullProcessAgent = new Agent({
  */
 export async function createFullProcessAgent(implementation: string = 'default'): Promise<Agent> {
   const systemPrompt = await getAgentSystemPrompt('fp-01', implementation);
+  const modelName = await getAgentModelName('fp-01', implementation);
 
   return new Agent({
     name: 'FP-1',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
-    model: getModel(),
+    model: getModel(modelName || undefined),
   });
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { AffirmationCard } from './affirmation-card';
-import { generateFullProcessAffirmations } from '@/lib/agents/full-process';
+import { generateFullProcessAffirmations } from '@/app/full-process/actions';
 import { shouldShowCheckIn } from '@/src/full-process';
 import type { UserPreferences, AdjustedPreferences } from '@/src/full-process';
 

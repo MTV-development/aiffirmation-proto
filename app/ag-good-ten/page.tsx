@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { affirmationThemes, useImplementation } from '@/src/ag-good-ten';
-import { generateAffirmations } from '@/lib/agents';
+import { generateAffirmationsGT01 } from './actions';
 
 export default function GoodTenPage() {
   const { implementation } = useImplementation();
@@ -28,8 +28,8 @@ export default function GoodTenPage() {
     setAffirmations(null);
 
     try {
-      const result = await generateAffirmations({
-        version: 'gt-01',
+      // Call server action (runs on server with Mastra agent)
+      const result = await generateAffirmationsGT01({
         themes: selectedThemes.map(
           (id) => affirmationThemes.find((t) => t.id === id)?.label ?? id
         ),
