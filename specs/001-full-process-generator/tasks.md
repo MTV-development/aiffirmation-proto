@@ -27,10 +27,10 @@ This is a Next.js App Router web application:
 
 **Purpose**: Project initialization, types, constants, and KV store seed entries
 
-- [ ] T001 [P] Create TypeScript types for UserPreferences, AdjustedPreferences, WizardState in `src/full-process/types.ts`
-- [ ] T002 [P] Create preset constants (focus areas, timing options, challenge badges, tone cards) in `src/full-process/constants.ts`
-- [ ] T003 [P] Add FP-01 KV store seed entries (_info, _model_name, system, prompt) to `src/db/seed.ts`
-- [ ] T004 Run database seed command: `npm run db:seed`
+- [x] T001 [P] Create TypeScript types for UserPreferences, AdjustedPreferences, WizardState in `src/full-process/types.ts`
+- [x] T002 [P] Create preset constants (focus areas, timing options, challenge badges, tone cards) in `src/full-process/constants.ts`
+- [x] T003 [P] Add FP-01 KV store seed entries (_info, _model_name, system, prompt) to `src/db/seed.ts`
+- [x] T004 Run database seed command: `npm run db:seed`
 
 ---
 
@@ -40,13 +40,13 @@ This is a Next.js App Router web application:
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 [P] Create Mastra agent definition for Full Process in `src/mastra/agents/full-process/agent.ts`
-- [ ] T006 [P] Create agent index export barrel in `src/mastra/agents/full-process/index.ts`
-- [ ] T007 Register fullProcessAgent in Mastra instance in `src/mastra/index.ts`
-- [ ] T008 [P] Create client-side generation function (generateFullProcessAffirmations) in `lib/agents/full-process.ts`
-- [ ] T009 [P] Create fallback affirmation generator function in `lib/agents/full-process.ts`
-- [ ] T010 [P] Create reusable ProgressBar component in `components/full-process/progress-bar.tsx`
-- [ ] T011 Create feature module index with exports in `src/full-process/index.ts`
+- [x] T005 [P] Create Mastra agent definition for Full Process in `src/mastra/agents/full-process/agent.ts`
+- [x] T006 [P] Create agent index export barrel in `src/mastra/agents/full-process/index.ts`
+- [x] T007 Register fullProcessAgent in Mastra instance in `src/mastra/index.ts`
+- [x] T008 [P] Create client-side generation function (generateFullProcessAffirmations) in `lib/agents/full-process.ts`
+- [x] T009 [P] Create fallback affirmation generator function in `lib/agents/full-process.ts`
+- [x] T010 [P] Create reusable ProgressBar component in `components/full-process/progress-bar.tsx`
+- [x] T011 Create feature module index with exports in `src/full-process/index.ts`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -60,11 +60,11 @@ This is a Next.js App Router web application:
 
 ### Implementation for User Story 6
 
-- [ ] T012 [US6] Add "Full Process" entry to navTree with children (Demo, Info) in `nav.config.ts`
-- [ ] T013 [P] [US6] Create server layout component in `app/full-process/layout.tsx`
-- [ ] T014 [P] [US6] Create client layout wrapper with TopSubmenu in `app/full-process/full-process-layout-client.tsx`
-- [ ] T015 [US6] Create placeholder main page in `app/full-process/page.tsx`
-- [ ] T016 [P] [US6] Create info page with feature documentation in `app/full-process/info/page.tsx`
+- [x] T012 [US6] Add "Full Process" entry to navTree with children (Demo, Info) in `nav.config.ts`
+- [x] T013 [P] [US6] Create server layout component in `app/full-process/layout.tsx`
+- [x] T014 [P] [US6] Create client layout wrapper with TopSubmenu in `app/full-process/full-process-layout-client.tsx`
+- [x] T015 [US6] Create placeholder main page in `app/full-process/page.tsx`
+- [x] T016 [P] [US6] Create info page with feature documentation in `app/full-process/info/page.tsx`
 
 **Checkpoint**: Navigation works - clicking "Full Process" in sidebar loads the page
 
@@ -78,16 +78,16 @@ This is a Next.js App Router web application:
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create Step 1 (Primary Focus) component with 6 preset cards and custom text in `components/full-process/step-focus.tsx`
-- [ ] T018 [P] [US1] Create Step 2 (Timing) component with 3 multi-select buttons and custom text in `components/full-process/step-timing.tsx`
-- [ ] T019 [P] [US1] Create Step 3 (Challenges) component with 6 toggleable badges and custom text in `components/full-process/step-challenges.tsx`
-- [ ] T020 [P] [US1] Create Step 4 (Tone) component with 4 single-select cards and custom text in `components/full-process/step-tone.tsx`
-- [ ] T021 [US1] Create DiscoveryWizard container component orchestrating steps 1-4 in `components/full-process/discovery-wizard.tsx`
-- [ ] T022 [US1] Implement wizard state management with step validation in `components/full-process/discovery-wizard.tsx`
-- [ ] T023 [US1] Implement single-select behavior for Focus/Tone (preset clears custom, custom clears preset) in step components
-- [ ] T024 [US1] Implement multi-select behavior for Timing/Challenges (custom is additive) in step components
-- [ ] T025 [US1] Add loading state and error handling for affirmation generation in `components/full-process/discovery-wizard.tsx`
-- [ ] T026 [US1] Update main page to render DiscoveryWizard with phase state management in `app/full-process/page.tsx`
+- [x] T017 [P] [US1] Create Step 1 (Primary Focus) component with 6 preset cards and custom text in `components/full-process/step-focus.tsx`
+- [x] T018 [P] [US1] Create Step 2 (Timing) component with 3 multi-select buttons and custom text in `components/full-process/step-timing.tsx`
+- [x] T019 [P] [US1] Create Step 3 (Challenges) component with 6 toggleable badges and custom text in `components/full-process/step-challenges.tsx`
+- [x] T020 [P] [US1] Create Step 4 (Tone) component with 4 single-select cards and custom text in `components/full-process/step-tone.tsx`
+- [x] T021 [US1] Create DiscoveryWizard container component orchestrating steps 1-4 in `components/full-process/discovery-wizard.tsx`
+- [x] T022 [US1] Implement wizard state management with step validation in `components/full-process/discovery-wizard.tsx`
+- [x] T023 [US1] Implement single-select behavior for Focus/Tone (preset clears custom, custom clears preset) in step components
+- [x] T024 [US1] Implement multi-select behavior for Timing/Challenges (custom is additive) in step components
+- [x] T025 [US1] Add loading state and error handling for affirmation generation in `components/full-process/discovery-wizard.tsx`
+- [x] T026 [US1] Update main page to render DiscoveryWizard with phase state management in `app/full-process/page.tsx`
 
 **Checkpoint**: Discovery wizard complete - users can express preferences and trigger generation
 
@@ -103,12 +103,12 @@ This is a Next.js App Router web application:
 
 ### Implementation for User Story 2
 
-- [ ] T027 [P] [US2] Create AffirmationCard component displaying single affirmation with progress in `components/full-process/affirmation-card.tsx`
-- [ ] T028 [US2] Create AffirmationReview container with like/skip/finish-early logic in `components/full-process/affirmation-review.tsx`
-- [ ] T029 [US2] Implement moveToNext() function with batch exhaustion handling in `components/full-process/affirmation-review.tsx`
-- [ ] T030 [US2] Implement automatic batch regeneration when affirmations exhausted in `components/full-process/affirmation-review.tsx`
-- [ ] T031 [US2] Add "Finish Early" button (visible when likedCount >= 1) in `components/full-process/affirmation-review.tsx`
-- [ ] T032 [US2] Integrate AffirmationReview into main page phase transitions in `app/full-process/page.tsx`
+- [x] T027 [P] [US2] Create AffirmationCard component displaying single affirmation with progress in `components/full-process/affirmation-card.tsx`
+- [x] T028 [US2] Create AffirmationReview container with like/skip/finish-early logic in `components/full-process/affirmation-review.tsx`
+- [x] T029 [US2] Implement moveToNext() function with batch exhaustion handling in `components/full-process/affirmation-review.tsx`
+- [x] T030 [US2] Implement automatic batch regeneration when affirmations exhausted in `components/full-process/affirmation-review.tsx`
+- [x] T031 [US2] Add "Finish Early" button (visible when likedCount >= 1) in `components/full-process/affirmation-review.tsx`
+- [x] T032 [US2] Integrate AffirmationReview into main page phase transitions in `app/full-process/page.tsx`
 
 **Checkpoint**: Review loop works - users can like/skip affirmations and build collection
 
@@ -124,12 +124,12 @@ This is a Next.js App Router web application:
 
 ### Implementation for User Story 5
 
-- [ ] T033 [US5] Create CollectionSummary component with numbered affirmation list in `components/full-process/collection-summary.tsx`
-- [ ] T034 [US5] Implement "Copy All" action using navigator.clipboard.writeText() in `components/full-process/collection-summary.tsx`
-- [ ] T035 [US5] Implement "Download as Text" action using Blob and object URL in `components/full-process/collection-summary.tsx`
-- [ ] T036 [US5] Implement "Start Over" action (page reload) in `components/full-process/collection-summary.tsx`
-- [ ] T037 [US5] Handle empty collection edge case with disabled export buttons in `components/full-process/collection-summary.tsx`
-- [ ] T038 [US5] Integrate CollectionSummary into main page phase transitions in `app/full-process/page.tsx`
+- [x] T033 [US5] Create CollectionSummary component with numbered affirmation list in `components/full-process/collection-summary.tsx`
+- [x] T034 [US5] Implement "Copy All" action using navigator.clipboard.writeText() in `components/full-process/collection-summary.tsx`
+- [x] T035 [US5] Implement "Download as Text" action using Blob and object URL in `components/full-process/collection-summary.tsx`
+- [x] T036 [US5] Implement "Start Over" action (page reload) in `components/full-process/collection-summary.tsx`
+- [x] T037 [US5] Handle empty collection edge case with disabled export buttons in `components/full-process/collection-summary.tsx`
+- [x] T038 [US5] Integrate CollectionSummary into main page phase transitions in `app/full-process/page.tsx`
 
 **Checkpoint**: Full MVP complete - users can discover, review, and export affirmations
 
@@ -145,11 +145,11 @@ This is a Next.js App Router web application:
 
 ### Implementation for User Story 3
 
-- [ ] T039 [US3] Implement shouldShowCheckIn(likedCount) helper function in `src/full-process/index.ts`
-- [ ] T040 [US3] Create MidJourneyCheckIn component with collection preview and preferences summary in `components/full-process/mid-journey-checkin.tsx`
-- [ ] T041 [US3] Implement "Yes, Keep Going" action (continue or regenerate batch) in `components/full-process/mid-journey-checkin.tsx`
-- [ ] T042 [US3] Implement "I'm happy with my collection" action (go to summary) in `components/full-process/mid-journey-checkin.tsx`
-- [ ] T043 [US3] Integrate check-in trigger into AffirmationReview after like actions in `components/full-process/affirmation-review.tsx`
+- [x] T039 [US3] Implement shouldShowCheckIn(likedCount) helper function in `src/full-process/index.ts`
+- [x] T040 [US3] Create MidJourneyCheckIn component with collection preview and preferences summary in `components/full-process/mid-journey-checkin.tsx`
+- [x] T041 [US3] Implement "Yes, Keep Going" action (continue or regenerate batch) in `components/full-process/mid-journey-checkin.tsx`
+- [x] T042 [US3] Implement "I'm happy with my collection" action (go to summary) in `components/full-process/mid-journey-checkin.tsx`
+- [x] T043 [US3] Integrate check-in trigger into AffirmationReview after like actions in `components/full-process/affirmation-review.tsx`
 
 **Checkpoint**: Check-in milestones work - users see progress confirmation at 5/10/15+ likes
 
@@ -165,13 +165,13 @@ This is a Next.js App Router web application:
 
 ### Implementation for User Story 4
 
-- [ ] T044 [US4] Create AdjustmentPanel component with challenge badges and tone cards in `components/full-process/adjustment-panel.tsx`
-- [ ] T045 [US4] Implement multi-select challenges and single-select tone in adjustment panel in `components/full-process/adjustment-panel.tsx`
-- [ ] T046 [US4] Add freeform feedback text input in `components/full-process/adjustment-panel.tsx`
-- [ ] T047 [US4] Implement "Apply Adjustments" action triggering new batch generation in `components/full-process/adjustment-panel.tsx`
-- [ ] T048 [US4] Implement "Back" action returning to check-in without changes in `components/full-process/adjustment-panel.tsx`
-- [ ] T049 [US4] Add "Let's Adjust" button to MidJourneyCheckIn that opens adjustment panel in `components/full-process/mid-journey-checkin.tsx`
-- [ ] T050 [US4] Update generation function to merge adjustedPreferences with original preferences in `lib/agents/full-process.ts`
+- [x] T044 [US4] Create AdjustmentPanel component with challenge badges and tone cards in `components/full-process/adjustment-panel.tsx`
+- [x] T045 [US4] Implement multi-select challenges and single-select tone in adjustment panel in `components/full-process/adjustment-panel.tsx`
+- [x] T046 [US4] Add freeform feedback text input in `components/full-process/adjustment-panel.tsx`
+- [x] T047 [US4] Implement "Apply Adjustments" action triggering new batch generation in `components/full-process/adjustment-panel.tsx`
+- [x] T048 [US4] Implement "Back" action returning to check-in without changes in `components/full-process/adjustment-panel.tsx`
+- [x] T049 [US4] Add "Let's Adjust" button to MidJourneyCheckIn that opens adjustment panel in `components/full-process/mid-journey-checkin.tsx`
+- [x] T050 [US4] Update generation function to merge adjustedPreferences with original preferences in `lib/agents/full-process.ts`
 
 **Checkpoint**: Preference adjustment works - users can course-correct during their journey
 
@@ -181,12 +181,12 @@ This is a Next.js App Router web application:
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T051 [P] Add implementation selector dropdown to layout (following AF-01 pattern) in `app/full-process/full-process-layout-client.tsx`
-- [ ] T052 [P] Create useImplementation hook for implementation switching in `src/full-process/hooks.ts`
-- [ ] T053 [P] Create ImplementationProvider context wrapper in `src/full-process/index.ts`
+- [ ] T051 [P] Add implementation selector dropdown to layout (following AF-01 pattern) in `app/full-process/full-process-layout-client.tsx` (deferred - core feature complete)
+- [ ] T052 [P] Create useImplementation hook for implementation switching in `src/full-process/hooks.ts` (deferred - core feature complete)
+- [ ] T053 [P] Create ImplementationProvider context wrapper in `src/full-process/index.ts` (deferred - core feature complete)
 - [ ] T054 Verify all acceptance scenarios from spec.md work correctly
-- [ ] T055 Run `npm run lint` and fix any errors
-- [ ] T056 Run `npm run build` and fix any errors
+- [x] T055 Run `npm run lint` and fix any errors (no lint errors in full-process code)
+- [x] T056 Run `npm run build` and fix any errors (build succeeds)
 - [ ] T057 Validate quickstart.md scenarios work end-to-end
 
 ---
