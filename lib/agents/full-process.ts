@@ -91,10 +91,15 @@ function parseAffirmationsResponse(text: string): string[] {
 
 /**
  * Generate affirmations using the Full Process agent configuration.
+ *
+ * Architecture follows best practices:
+ * - System prompt: Static instructions (persona, guidelines, output format)
+ * - User prompt: Dynamic content (preferences, context, exclusion list)
+ *
  * This is a pure client-side implementation that:
  * 1. Merges preferences with any adjustments
- * 2. Fetches templates from Supabase KV store
- * 3. Renders them with Liquid templating
+ * 2. Fetches system prompt (static) and user prompt template from KV store
+ * 3. Renders user prompt with Liquid templating (dynamic variables)
  * 4. Calls OpenRouter API directly
  * 5. Falls back to contextual placeholders on error
  */
