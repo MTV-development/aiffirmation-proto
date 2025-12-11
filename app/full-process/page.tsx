@@ -6,7 +6,7 @@ import { AffirmationReview } from '@/components/full-process/affirmation-review'
 import { CollectionSummary } from '@/components/full-process/collection-summary';
 import { MidJourneyCheckIn } from '@/components/full-process/mid-journey-checkin';
 import { AdjustmentPanel } from '@/components/full-process/adjustment-panel';
-import { generateFullProcessAffirmations } from '@/lib/agents/full-process';
+import { generateFullProcessAffirmations } from './actions';
 import type { UserPreferences, OnboardingPhase, AdjustedPreferences } from '@/src/full-process';
 
 export default function FullProcessPage() {

@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { getAgentSystemPrompt, getModel } from '@/src/services';
+import { getAgentSystemPrompt, getAgentModelName, getModel } from '@/src/services';
 
 // This matches the content of versions.gt-01.system.default from seed.ts
 const DEFAULT_INSTRUCTIONS = `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations for a specific user and usage. Your affirmations are crafted with care and intention.
@@ -141,10 +141,11 @@ export const goodTenAgent = new Agent({
  */
 export async function createGoodTenAgent(implementation: string = 'default'): Promise<Agent> {
   const systemPrompt = await getAgentSystemPrompt('gt-01', implementation);
+  const modelName = await getAgentModelName('gt-01', implementation);
 
   return new Agent({
     name: 'Good-Ten',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
-    model: getModel(),
+    model: getModel(modelName || undefined),
   });
 }

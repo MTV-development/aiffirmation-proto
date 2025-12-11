@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { getAgentSystemPrompt, getModel, getModelName } from '@/src/services';
+import { getAgentSystemPrompt, getAgentModelName, getModel } from '@/src/services';
 
 // This matches the rendered output of versions.af-01.system.default
 const DEFAULT_INSTRUCTIONS = `You are an affirmation generator that creates personalized, positive affirmations.
@@ -28,10 +28,11 @@ export const af1Agent = new Agent({
  */
 export async function createAF01Agent(implementation: string = 'default'): Promise<Agent> {
   const systemPrompt = await getAgentSystemPrompt('af-01', implementation);
+  const modelName = await getAgentModelName('af-01', implementation);
 
   return new Agent({
     name: 'AF-1',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
-    model: getModel(),
+    model: getModel(modelName || undefined),
   });
 }

@@ -37,6 +37,18 @@ Used for testing the implementation switching functionality.`,
     },
   },
   {
+    key: 'versions.af-01._temperature.default',
+    value: {
+      text: '0.95',
+    },
+  },
+  {
+    key: 'versions.af-01._temperature.tst2',
+    value: {
+      text: '0.95',
+    },
+  },
+  {
     key: 'versions.af-01.numberInstruction.tst2',
     value: {
       text: `You will return exactly one affirmation.`,
@@ -98,6 +110,12 @@ Uses detailed criteria to create meaningful, well-crafted affirmations.`,
     },
   },
   {
+    key: 'versions.gt-01._temperature.default',
+    value: {
+      text: '0.95',
+    },
+  },
+  {
     key: 'versions.gt-01.prompt.default',
     value: {
       text: `Create 10 high-quality affirmations for the following theme{% if themeCount > 1 %}s{% endif %}: {{ themes | join: ", " }}.{% if additionalContext %}
@@ -106,7 +124,7 @@ The user has provided this additional context about their situation: {{ addition
     },
   },
   {
-    key: 'versions.gt-01.system.default',
+    key: 'versions.gt-01.system.default', 
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations for a specific user and usage. Your affirmations are crafted with care and intention.
 
@@ -250,6 +268,12 @@ Takes user through discovery (focus, timing, challenges, tone) and generates bat
     key: 'versions.fp-01._model_name.default',
     value: {
       text: 'openai/gpt-4o-mini',
+    },
+  },
+  {
+    key: 'versions.fp-01._temperature.default',
+    value: {
+      text: '0.95',
     },
   },
   {
@@ -399,6 +423,7 @@ I have already seen these affirmations. Please generate COMPLETELY DIFFERENT one
 {% endif %}`,
     },
   },
+
 ];
 
 async function seed() {
