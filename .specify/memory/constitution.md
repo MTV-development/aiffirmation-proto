@@ -1,50 +1,90 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT
+==================
+Version change: N/A → 1.0.0 (initial ratification)
+Modified principles: N/A (new constitution)
+Added sections:
+  - I. KV-Driven Agent Configuration
+  - II. Modern Web Stack
+  - III. Database-Backed State
+  - Development Workflow
+  - Quality Gates
+Removed sections: N/A
+Templates requiring updates:
+  - .specify/templates/plan-template.md ✅ (no changes needed - Constitution Check references this file)
+  - .specify/templates/spec-template.md ✅ (no changes needed - technology agnostic)
+  - .specify/templates/tasks-template.md ✅ (no changes needed - generic structure)
+Follow-up TODOs: None
+-->
+
+# Aiffirmation Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. KV-Driven Agent Configuration
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+All AI agent behavior MUST be configurable through the database-backed KV store with Liquid templating.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- Agent prompts and instructions MUST be stored in the KV store, not hardcoded
+- KV keys MUST follow the format: `{namespace}.{version}.{keyName}.{implementation}`
+- Templates MUST use LiquidJS syntax for variable interpolation
+- New agent versions MUST be created as new KV entries, preserving prior versions
+- System prompts MUST be retrievable via `renderTemplate()` service
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: Externalizing prompts enables rapid iteration, A/B testing of agent behaviors,
+and rollback without code deployments.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Modern Web Stack
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+The application MUST use Next.js App Router patterns with React Server Components as the default.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Pages MUST use the App Router pattern (`app/` directory structure)
+- Components SHOULD be Server Components unless client interactivity is required
+- Client Components MUST be explicitly marked with `'use client'` directive
+- Styling MUST use Tailwind CSS utility classes
+- TypeScript strict mode MUST be enabled; `any` types are prohibited except for external library gaps
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Rationale**: Server Components reduce client bundle size and improve performance.
+Strict TypeScript catches errors at compile time.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### III. Database-Backed State
+
+All persistent state MUST flow through Supabase with Drizzle ORM for type-safe access.
+
+- Schema changes MUST be managed through Drizzle migrations (`npm run db:generate`, `npm run db:migrate`)
+- Direct SQL queries are prohibited; use Drizzle query builder or ORM methods
+- Server-side database access MUST use `src/services/` (Drizzle)
+- Client-side database access MUST use `lib/supabase/` (Supabase client)
+- Seed data MUST be maintained in `src/db/seed.ts` for reproducible development environments
+
+**Rationale**: Drizzle provides compile-time type safety for queries and migrations.
+Separating server/client access patterns prevents credential leakage.
+
+## Development Workflow
+
+All development MUST follow the established patterns in the codebase:
+
+- **Navigation**: Add new sections via `nav.config.ts` (single source of truth)
+- **Agents**: Register in `src/mastra/index.ts`, expose via API routes in `app/api/`
+- **Environment**: Required variables MUST be documented in CLAUDE.md and validated at startup
+- **Documentation**: CLAUDE.md serves as the primary development reference; README.md indexes all docs
+
+## Quality Gates
+
+Code changes MUST pass these gates before merge:
+
+- `npm run lint` - ESLint checks MUST pass with zero errors
+- `npm run build` - Production build MUST complete without errors
+- TypeScript compilation MUST succeed with no type errors
+- All KV template references MUST resolve (no undefined variable errors)
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices for this repository.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- **Amendments**: Require documentation of change rationale and version increment
+- **Compliance**: All PRs MUST verify adherence to these principles
+- **Complexity**: Any deviation from these principles MUST be justified in writing
+- **Guidance**: Use CLAUDE.md for runtime development guidance
+
+**Version**: 1.0.0 | **Ratified**: 2025-12-11 | **Last Amended**: 2025-12-11
