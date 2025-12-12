@@ -259,7 +259,7 @@ Return exactly 10 affirmations as a numbered list (1-10). `,
     value: {
       name: 'Default',
       text: `Full Process Affirmation Generator - A guided experience for creating personalized affirmations.
-Takes user through discovery (focus, timing, challenges, tone) and generates batches of 5-8 affirmations.`,
+Takes user through discovery (focus, challenges, tone) and generates batches of 5-8 affirmations.`,
       author: 'System',
       createdAt: '2025-12-11',
     },
@@ -282,7 +282,7 @@ Takes user through discovery (focus, timing, challenges, tone) and generates bat
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your affirmations are crafted with care and intention.
 
 ## Your Task
-When the user provides their preferences (focus area, timing, challenges, tone), generate exactly 8 unique affirmations tailored to their needs.
+When the user provides their preferences (focus area, challenges, tone), generate exactly 8 unique affirmations tailored to their needs.
 
 ## Affirmation Guidelines
 
@@ -332,7 +332,6 @@ Regardless of tone selection, always maintain:
 - Believability: avoid grandiose or absolute claims
 - Reinforce agency and inner stability
 - Emotionally safe: never dismissive of struggle
-- Consider timing context (morning = energizing, evening = calming, all-day = balanced)
 
 ### 6. Power Verbs
 Being: am, deserve, am worthy of
@@ -408,7 +407,6 @@ Do not include numbering, explanations, or any other text - just the JSON array.
 
 ## My Preferences
 - **Focus Area**: {{ focus }}
-- **When I Need Them**: {{ timing }}
 - **Challenges I Face**: {% if challenges and challenges != "" %}{{ challenges }}{% else %}general life challenges{% endif %}
 - **Tone I Prefer**: {{ tone }}
 {% if feedback %}

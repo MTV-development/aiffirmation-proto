@@ -15,7 +15,6 @@ export { initialWizardState } from './types';
 // Constants
 export {
   FOCUS_AREAS,
-  TIMING_OPTIONS,
   CHALLENGE_BADGES,
   TONE_CARDS,
   STEP_TITLES,

@@ -108,7 +108,6 @@ export async function generateFullProcessAffirmations(
   // Build template variables
   const templateVariables = {
     focus: effectivePreferences.focus,
-    timing: effectivePreferences.timing.join(', '),
     challenges: effectivePreferences.challenges.join(', ') || 'general life challenges',
     tone: effectivePreferences.tone,
     feedback: adjustedPreferences?.feedback || '',

@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import { ProgressBar } from './progress-bar';
 import { StepFocus } from './step-focus';
-import { StepTiming } from './step-timing';
 import { StepChallenges } from './step-challenges';
 import { StepTone } from './step-tone';
 import {
   STEP_TITLES,
   STEP_DESCRIPTIONS,
   FOCUS_AREAS,
-  TIMING_OPTIONS,
   CHALLENGE_BADGES,
   TONE_CARDS,
 } from '@/src/full-process';
@@ -25,20 +23,18 @@ interface DiscoveryWizardProps {
 
 interface StepState {
   focus: { preset: string | null; custom: string };
-  timing: { presets: string[]; custom: string };
   challenges: { presets: string[]; custom: string };
   tone: { preset: string | null; custom: string };
 }
 
 const initialStepState: StepState = {
   focus: { preset: null, custom: '' },
-  timing: { presets: [], custom: '' },
   challenges: { presets: [], custom: '' },
   tone: { preset: null, custom: '' },
 };
 
 /**
- * 4-step discovery wizard for collecting user preferences
+ * 3-step discovery wizard for collecting user preferences
  */
 export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWizardProps) {
   const [currentStep, setCurrentStep] = useState<DiscoveryStepNumber>(1);
@@ -51,12 +47,9 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
         // Focus: must have preset OR custom text
         return !!(stepState.focus.preset || stepState.focus.custom.trim());
       case 2:
-        // Timing: must have at least one preset OR custom text
-        return !!(stepState.timing.presets.length > 0 || stepState.timing.custom.trim());
-      case 3:
         // Challenges: always valid (optional step)
         return true;
-      case 4:
+      case 3:
         // Tone: must have preset OR custom text
         return !!(stepState.tone.preset || stepState.tone.custom.trim());
       default:
@@ -76,12 +69,6 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
       ? getPresetLabel(FOCUS_AREAS, stepState.focus.preset)
       : stepState.focus.custom.trim();
 
-    // Timing: combine preset labels and custom text
-    const timing: string[] = [
-      ...stepState.timing.presets.map((id) => getPresetLabel(TIMING_OPTIONS, id)),
-      ...(stepState.timing.custom.trim() ? [stepState.timing.custom.trim()] : []),
-    ];
-
     // Challenges: combine preset labels and custom text
     const challenges: string[] = [
       ...stepState.challenges.presets.map((id) => getPresetLabel(CHALLENGE_BADGES, id)),
@@ -93,11 +80,11 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
       ? getPresetLabel(TONE_CARDS, stepState.tone.preset)
       : stepState.tone.custom.trim();
 
-    return { focus, timing, challenges, tone };
+    return { focus, challenges, tone };
   };
 
   const handleNext = () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep((prev) => (prev + 1) as DiscoveryStepNumber);
     }
   };
@@ -131,19 +118,6 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
         );
       case 2:
         return (
-          <StepTiming
-            selectedPresets={stepState.timing.presets}
-            customText={stepState.timing.custom}
-            onPresetsChange={(presets) =>
-              setStepState((prev) => ({ ...prev, timing: { ...prev.timing, presets } }))
-            }
-            onCustomChange={(custom) =>
-              setStepState((prev) => ({ ...prev, timing: { ...prev.timing, custom } }))
-            }
-          />
-        );
-      case 3:
-        return (
           <StepChallenges
             selectedPresets={stepState.challenges.presets}
             customText={stepState.challenges.custom}
@@ -155,7 +129,7 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
             }
           />
         );
-      case 4:
+      case 3:
         return (
           <StepTone
             selectedPreset={stepState.tone.preset}
@@ -176,7 +150,7 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
   return (
     <div className="max-w-2xl mx-auto">
       {/* Progress bar */}
-      <ProgressBar current={currentStep} total={4} label="Step" className="mb-8" />
+      <ProgressBar current={currentStep} total={3} label="Step" className="mb-8" />
 
       {/* Step header */}
       <div className="mb-6">
@@ -198,7 +172,7 @@ export function DiscoveryWizard({ onComplete, isLoading = false }: DiscoveryWiza
           Back
         </button>
 
-        {currentStep < 4 ? (
+        {currentStep < 3 ? (
           <button
             type="button"
             onClick={handleNext}
