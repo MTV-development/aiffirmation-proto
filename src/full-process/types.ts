@@ -2,13 +2,10 @@
  * Types for the Full Process Affirmation Generator
  */
 
-/** User's selections from the 4-step discovery wizard */
+/** User's selections from the 3-step discovery wizard */
 export interface UserPreferences {
   /** User's primary focus area (preset label or custom text) */
   focus: string;
-
-  /** When user wants affirmations (array of preset labels and/or custom text) */
-  timing: string[];
 
   /** Challenges user wants to address (array of preset labels and/or custom text) */
   challenges: string[];
@@ -32,15 +29,15 @@ export interface AdjustedPreferences {
 /** Current phase of the Full Process experience */
 export type OnboardingPhase = 'discovery' | 'review' | 'checkin' | 'adjustment' | 'summary';
 
-/** Current step within the discovery wizard (1-4) */
-export type DiscoveryStepNumber = 1 | 2 | 3 | 4;
+/** Current step within the discovery wizard (1-3) */
+export type DiscoveryStepNumber = 1 | 2 | 3;
 
 /** Complete state for the Full Process feature */
 export interface WizardState {
   /** Current phase of the experience */
   phase: OnboardingPhase;
 
-  /** Current step within discovery (1-4) */
+  /** Current step within discovery (1-3) */
   discoveryStep: DiscoveryStepNumber;
 
   /** User's finalized preferences */

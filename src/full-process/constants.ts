@@ -34,26 +34,7 @@ export const FOCUS_AREAS: PresetOption[] = [
   },
 ];
 
-/** Timing options for Step 2 (multi-select) */
-export const TIMING_OPTIONS: PresetOption[] = [
-  {
-    id: 'morning',
-    label: 'Morning',
-    description: 'Start your day with intention',
-  },
-  {
-    id: 'evening',
-    label: 'Evening',
-    description: 'Wind down and reflect',
-  },
-  {
-    id: 'all-day',
-    label: 'All-Day',
-    description: 'Continuous reinforcement',
-  },
-];
-
-/** Challenge badges for Step 3 (multi-select) */
+/** Challenge badges for Step 2 (multi-select) */
 export const CHALLENGE_BADGES: PresetOption[] = [
   {
     id: 'anxiety',
@@ -87,7 +68,7 @@ export const CHALLENGE_BADGES: PresetOption[] = [
   },
 ];
 
-/** Tone cards for Step 4 (single-select) */
+/** Tone cards for Step 3 (single-select) */
 export const TONE_CARDS: PresetOption[] = [
   {
     id: 'gentle',
@@ -114,15 +95,13 @@ export const TONE_CARDS: PresetOption[] = [
 /** Step titles for the discovery wizard */
 export const STEP_TITLES = {
   1: 'Primary Focus',
-  2: 'Timing',
-  3: 'Challenges',
-  4: 'Tone',
+  2: 'Challenges',
+  3: 'Tone',
 } as const;
 
 /** Step descriptions for the discovery wizard */
 export const STEP_DESCRIPTIONS = {
   1: 'What area of your life do you want your affirmations to focus on?',
-  2: 'When do you plan to use these affirmations?',
-  3: 'What challenges are you facing that you want to address?',
-  4: 'What tone do you prefer for your affirmations?',
+  2: 'What challenges are you facing that you want to address?',
+  3: 'What tone do you prefer for your affirmations?',
 } as const;
