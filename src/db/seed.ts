@@ -267,7 +267,7 @@ Takes user through discovery (focus, challenges, tone) and generates batches of 
   {
     key: 'versions.fp-01._model_name.default',
     value: {
-      text: 'openai/gpt-4o-mini',
+      text: 'openai/gpt-4o',
     },
   },
   {
