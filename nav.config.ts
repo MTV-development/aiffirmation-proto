@@ -36,6 +36,14 @@ export const navTree: NavItem[] = [
       { label: "Info", href: "/full-process/info" },
     ],
   },
+  {
+    label: "Full Process 2",
+    href: "/full-process-2",
+    children: [
+      { label: "Demo", href: "/full-process-2" },
+      { label: "Info", href: "/full-process-2/info" },
+    ],
+  },
   // {
   //   label: "Weather Demo",
   //   href: "/weatherdemo",

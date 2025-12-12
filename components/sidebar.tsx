@@ -11,7 +11,10 @@ export function Sidebar() {
     <aside className="w-64 p-4 border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
       <nav className="space-y-2">
         {navTree.map((item) => {
-          const active = pathname.startsWith(item.href ?? "");
+          const href = item.href ?? "";
+          // Check exact match OR that path continues with "/"
+          // This prevents /full-process from matching /full-process-2
+          const active = pathname === href || pathname.startsWith(href + "/");
           return (
             <Link
               key={item.label}

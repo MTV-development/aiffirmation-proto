@@ -27,8 +27,8 @@
 
 **Purpose**: Create FP-02 agent directory structure
 
-- [ ] T001 Create agent directory at `src/mastra/agents/full-process-2/`
-- [ ] T002 [P] Create agent index file at `src/mastra/agents/full-process-2/index.ts` with placeholder exports
+- [x] T001 Create agent directory at `src/mastra/agents/full-process-2/`
+- [x] T002 [P] Create agent index file at `src/mastra/agents/full-process-2/index.ts` with placeholder exports
 
 **Checkpoint**: Directory structure ready for agent implementation
 
@@ -52,21 +52,21 @@
 
 ### Implementation for User Story 1
 
-- [ ] T003 [US1] Create FP-02 agent implementation in `src/mastra/agents/full-process-2/agent.ts` with:
+- [x] T003 [US1] Create FP-02 agent implementation in `src/mastra/agents/full-process-2/agent.ts` with:
   - DEFAULT_INSTRUCTIONS constant containing full system prompt with feedback analysis section
   - Static `fullProcess2Agent` export for Mastra registration
   - `createFullProcess2Agent(implementation)` factory function using KV store
-- [ ] T004 [US1] Update agent exports in `src/mastra/agents/full-process-2/index.ts` to export agent and factory
-- [ ] T005 [US1] Register FP-02 agent in `src/mastra/index.ts`:
+- [x] T004 [US1] Update agent exports in `src/mastra/agents/full-process-2/index.ts` to export agent and factory
+- [x] T005 [US1] Register FP-02 agent in `src/mastra/index.ts`:
   - Import `fullProcess2Agent` from `./agents/full-process-2`
   - Add to agents object in Mastra constructor
-- [ ] T006 [US1] Create `generateFullProcess2Affirmations` server action in `app/full-process/actions.ts` with:
+- [x] T006 [US1] Create `generateFullProcess2Affirmations` server action in `app/full-process/actions.ts` with:
   - `GenerateFullProcess2Options` interface (preferences, adjustedPreferences, implementation, approvedAffirmations, skippedAffirmations)
   - Feedback list limiting (max 20 each)
   - Template rendering with `fp-02` version
   - Agent instantiation and generation
   - Response parsing and fallback handling
-- [ ] T007 [US1] Verify FP-02 agent appears in Mastra Studio and responds to prompts
+- [x] T007 [US1] Verify FP-02 agent appears in Mastra Studio and responds to prompts
 
 **Checkpoint**: FP-02 agent is functional and can be tested via Mastra Studio with feedback data
 
@@ -80,10 +80,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T008 [US2] Verify agent.ts uses `getAgentSystemPrompt('fp-02', implementation)` for system prompt retrieval
-- [ ] T009 [US2] Verify agent.ts uses `getAgentModelName('fp-02', implementation)` for model configuration
-- [ ] T010 [US2] Verify server action uses `renderTemplate()` with `version: 'fp-02'` for user prompt
-- [ ] T011 [US2] Test KV configuration by viewing entries in Drizzle Studio (`npm run db:studio`)
+- [x] T008 [US2] Verify agent.ts uses `getAgentSystemPrompt('fp-02', implementation)` for system prompt retrieval
+- [x] T009 [US2] Verify agent.ts uses `getAgentModelName('fp-02', implementation)` for model configuration
+- [x] T010 [US2] Verify server action uses `renderTemplate()` with `version: 'fp-02'` for user prompt
+- [x] T011 [US2] Test KV configuration by viewing entries in Drizzle Studio (`npm run db:studio`)
 
 **Checkpoint**: FP-02 is fully configurable via KV store entries
 
@@ -97,23 +97,23 @@
 
 ### Implementation for User Story 3
 
-- [ ] T012 [US3] Add FP-02 `_info` entry to `src/db/seed.ts`:
+- [x] T012 [US3] Add FP-02 `_info` entry to `src/db/seed.ts`:
   - Key: `versions.fp-02._info.default`
   - Value: name, description, author, createdAt
-- [ ] T013 [P] [US3] Add FP-02 `_model_name` entry to `src/db/seed.ts`:
+- [x] T013 [P] [US3] Add FP-02 `_model_name` entry to `src/db/seed.ts`:
   - Key: `versions.fp-02._model_name.default`
   - Value: `openai/gpt-4o`
-- [ ] T014 [P] [US3] Add FP-02 `_temperature` entry to `src/db/seed.ts`:
+- [x] T014 [P] [US3] Add FP-02 `_temperature` entry to `src/db/seed.ts`:
   - Key: `versions.fp-02._temperature.default`
   - Value: `0.95`
-- [ ] T015 [US3] Add FP-02 `system` prompt entry to `src/db/seed.ts`:
+- [x] T015 [US3] Add FP-02 `system` prompt entry to `src/db/seed.ts`:
   - Key: `versions.fp-02.system.default`
   - Value: Full system prompt with feedback analysis instructions (per contracts/kv-entries.md)
-- [ ] T016 [US3] Add FP-02 `prompt` template entry to `src/db/seed.ts`:
+- [x] T016 [US3] Add FP-02 `prompt` template entry to `src/db/seed.ts`:
   - Key: `versions.fp-02.prompt.default`
   - Value: Liquid template with approvedAffirmations, skippedAffirmations variables (per contracts/kv-entries.md)
-- [ ] T017 [US3] Run `npm run db:seed` and verify all FP-02 entries are created
-- [ ] T018 [US3] Verify seed script handles re-runs (upsert behavior) without errors
+- [x] T017 [US3] Run `npm run db:seed` and verify all FP-02 entries are created
+- [x] T018 [US3] Verify seed script handles re-runs (upsert behavior) without errors
 
 **Checkpoint**: FP-02 works out-of-the-box after `npm run db:seed`
 
@@ -123,14 +123,14 @@
 
 **Purpose**: Final validation and quality gates
 
-- [ ] T019 Run `npm run lint` and fix any errors
-- [ ] T020 Run `npm run build` and verify successful compilation
-- [ ] T021 Run full quickstart.md validation:
+- [x] T019 Run `npm run lint` and fix any errors
+- [x] T020 Run `npm run build` and verify successful compilation
+- [x] T021 Run full quickstart.md validation:
   - Start dev server (`npm run dev`)
   - Start Mastra Studio (`npx mastra dev`)
   - Test FP-02 with feedback data
   - Verify affirmations trend toward approved patterns
-- [ ] T022 Verify TypeScript compilation with no type errors
+- [x] T022 Verify TypeScript compilation with no type errors
 
 ---
 
