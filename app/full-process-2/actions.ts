@@ -1,11 +1,10 @@
 'use server';
 
-import { createFullProcessAgent } from '@/src/mastra/agents/full-process';
 import { createFullProcess2Agent } from '@/src/mastra/agents/full-process-2';
 import { renderTemplate, getAgentModelName, getKVText } from '@/src/services';
 import type { UserPreferences, AdjustedPreferences, GenerateResult } from '@/src/full-process/types';
 
-interface GenerateFullProcessOptions {
+interface GenerateFullProcess2Options {
   /** User preferences from discovery wizard */
   preferences: UserPreferences;
   /** Optional: adjusted preferences from check-in */
@@ -14,6 +13,16 @@ interface GenerateFullProcessOptions {
   implementation?: string;
   /** Previously shown affirmations to avoid repeating */
   previousAffirmations?: string[];
+  /**
+   * Affirmations the user has approved (liked) this session.
+   * Limited to 20 most recent to prevent prompt overflow.
+   */
+  approvedAffirmations?: string[];
+  /**
+   * Affirmations the user has skipped this session.
+   * Limited to 20 most recent to prevent prompt overflow.
+   */
+  skippedAffirmations?: string[];
 }
 
 /**
@@ -88,110 +97,6 @@ function generateFallbackAffirmations(preferences: UserPreferences): string[] {
   }
 
   return baseAffirmations;
-}
-
-/**
- * Server action to generate affirmations using FP-01 Mastra agent.
- * Runs server-side with full access to Mastra features.
- */
-export async function generateFullProcessAffirmations(
-  options: GenerateFullProcessOptions
-): Promise<GenerateResult> {
-  const { preferences, adjustedPreferences, implementation = 'default', previousAffirmations = [] } = options;
-
-  // Merge preferences with adjustments
-  const effectivePreferences: UserPreferences = {
-    ...preferences,
-    challenges: adjustedPreferences?.challenges ?? preferences.challenges,
-    tone: adjustedPreferences?.tone ?? preferences.tone,
-  };
-
-  // Build template variables
-  const templateVariables = {
-    focus: effectivePreferences.focus,
-    challenges: effectivePreferences.challenges.join(', ') || 'general life challenges',
-    tone: effectivePreferences.tone,
-    feedback: adjustedPreferences?.feedback || '',
-    previousAffirmations,
-  };
-
-  try {
-    // Render user prompt from KV store
-    const { output: userPrompt } = await renderTemplate({
-      key: 'prompt',
-      version: 'fp-01',
-      implementation,
-      variables: templateVariables,
-    });
-
-    // Get temperature from KV store (with fallback)
-    const temperatureKey = `versions.fp-01._temperature.${implementation}`;
-    const temperatureStr = await getKVText(temperatureKey);
-    const temperature = temperatureStr ? parseFloat(temperatureStr) : 0.8;
-
-    // Create agent with KV-configured system prompt
-    const agent = await createFullProcessAgent(implementation);
-
-    // Get model name for response
-    const modelName = await getAgentModelName('fp-01', implementation);
-
-    console.log('[fp-01] Implementation:', implementation);
-    console.log('[fp-01] Model:', modelName || 'env default');
-    console.log('[fp-01] Temperature:', temperature);
-    console.log('[fp-01] Previous affirmations count:', previousAffirmations.length);
-    console.log('[fp-01] User prompt:', userPrompt);
-
-    // Generate with Mastra agent
-    const result = await agent.generate(userPrompt, {
-      modelSettings: {
-        temperature,
-      },
-    });
-
-    // Parse the response into an array
-    const affirmations = parseAffirmationsResponse(result.text);
-
-    console.log('[fp-01] Raw response:', result.text);
-    console.log('[fp-01] Parsed affirmations:', affirmations);
-
-    return {
-      affirmations,
-      model: modelName || 'default',
-    };
-  } catch (error) {
-    console.error('[fp-01] Generation failed, using fallback:', error);
-
-    // Return fallback affirmations
-    return {
-      affirmations: generateFallbackAffirmations(effectivePreferences),
-      model: 'fallback',
-    };
-  }
-}
-
-// ============================================================================
-// FP-02: Full Process 2 - Feedback-Aware Affirmation Generation
-// ============================================================================
-
-interface GenerateFullProcess2Options {
-  /** User preferences from discovery wizard */
-  preferences: UserPreferences;
-  /** Optional: adjusted preferences from check-in */
-  adjustedPreferences?: AdjustedPreferences;
-  /** Implementation to use (default: 'default') */
-  implementation?: string;
-  /** Previously shown affirmations to avoid repeating */
-  previousAffirmations?: string[];
-  /**
-   * Affirmations the user has approved (liked) this session.
-   * Limited to 20 most recent to prevent prompt overflow.
-   */
-  approvedAffirmations?: string[];
-  /**
-   * Affirmations the user has skipped this session.
-   * Limited to 20 most recent to prevent prompt overflow.
-   */
-  skippedAffirmations?: string[];
 }
 
 /**
