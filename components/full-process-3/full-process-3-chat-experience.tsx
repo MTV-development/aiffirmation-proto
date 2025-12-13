@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChatComposer, ChatTranscript } from './chat-ui';
 import { useLocalStorageState } from './storage';
 import { CHALLENGE_PRESETS, DEFAULT_TONES, FOCUS_PRESETS, getInspirationExamples, type FocusPreset } from './inspiration';
 import type { ChatMessage, FP3State, QuickReply } from './types';
 import { initialFP3State } from './types';
 import { generateFullProcess3Affirmations } from '@/app/full-process-3/actions';
+
+const TYPING_DELAY = 600; // ms to show typing indicator before each bubble
 
 function id(prefix: string) {
   return `${prefix}_${Math.random().toString(16).slice(2)}_${Date.now()}`;
@@ -28,9 +30,10 @@ function clamp<T>(arr: T[], max: number) {
 export function FullProcess3ChatExperience() {
   const { state, setState, hydrated } = useLocalStorageState<FP3State>('fp03.chat.v2', initialFP3State);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const isBusy = state.phase === 'generating';
+  const isBusy = state.phase === 'generating' || isTyping;
 
   const focusQuickReplies = useMemo<QuickReply[]>(
     () => [
@@ -57,53 +60,78 @@ export function FullProcess3ChatExperience() {
     []
   );
 
-  // Initial boot message
+  // Initial boot message with animation
   useEffect(() => {
     if (!hydrated) return;
     if (state.messages.length > 0) return;
 
-    setState({
-      ...state,
-      phase: 'intro',
-      messages: [
-        assistantMessage(
-          `Let’s build affirmations that feel personal and easy to believe.\n\nWhat do you want them for?`,
-          focusQuickReplies
-        ),
-      ],
-    });
+    const showIntro = async () => {
+      setState((prev) => ({ ...prev, phase: 'intro' }));
+      await pushAssistantWithTyping(
+        `Let's build affirmations that feel personal and easy to believe.\n\nWhat do you want them for?`,
+        focusQuickReplies
+      );
+    };
+
+    showIntro();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hydrated]);
 
   // Autoscroll
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [state.messages.length, state.phase]);
+  }, [state.messages.length, state.phase, isTyping]);
 
-  const push = (messages: ChatMessage[]) => {
+  // Push messages immediately (no animation) - used for user messages and internal state
+  const pushImmediate = useCallback((messages: ChatMessage[]) => {
     setState((prev) => ({ ...prev, messages: [...prev.messages, ...messages], error: null }));
-  };
+  }, [setState]);
+
+  // Push assistant messages with typing indicator animation
+  // Splits text on \n\n into separate bubbles with delays
+  const pushAssistantWithTyping = useCallback(async (text: string, quickReplies?: QuickReply[]) => {
+    const paragraphs = text.split('\n\n').filter(Boolean);
+
+    for (let i = 0; i < paragraphs.length; i++) {
+      const isLast = i === paragraphs.length - 1;
+      const paragraph = paragraphs[i];
+
+      // Show typing indicator
+      setIsTyping(true);
+      await new Promise((resolve) => setTimeout(resolve, TYPING_DELAY));
+      setIsTyping(false);
+
+      // Add the message (only last paragraph gets quick replies)
+      const msg = assistantMessage(paragraph, isLast ? quickReplies : undefined);
+      setState((prev) => ({ ...prev, messages: [...prev.messages, msg], error: null }));
+    }
+  }, [setState]);
+
+  // Legacy push for backward compat - routes to appropriate handler
+  const push = useCallback((messages: ChatMessage[]) => {
+    // For user messages, push immediately
+    // For assistant messages, this is immediate (use pushAssistantWithTyping for animated)
+    setState((prev) => ({ ...prev, messages: [...prev.messages, ...messages], error: null }));
+  }, [setState]);
 
   const setPhase = (phase: FP3State['phase']) => setState((prev) => ({ ...prev, phase }));
 
   const reset = () => setState(initialFP3State);
 
-  const goToFriction = () => {
+  const goToFriction = async () => {
     setPhase('friction');
-    push([
-      assistantMessage(
-        `Anything that tends to get in the way? (Optional)\n\nPick one, or skip.`,
-        frictionQuickReplies
-      ),
-    ]);
+    await pushAssistantWithTyping(
+      `Anything that tends to get in the way? (Optional)\n\nPick one, or skip.`,
+      frictionQuickReplies
+    );
   };
 
-  const goToTone = () => {
+  const goToTone = async () => {
     setPhase('tone');
-    push([assistantMessage(`What kind of voice should these have?`, toneQuickReplies)]);
+    await pushAssistantWithTyping(`What kind of voice should these have?`, toneQuickReplies);
   };
 
-  const goToInspiration = () => {
+  const goToInspiration = async () => {
     const preset = (FOCUS_PRESETS as readonly string[]).includes(state.draft.focus ?? '')
       ? (state.draft.focus as FocusPreset)
       : 'Confidence';
@@ -111,57 +139,47 @@ export function FullProcess3ChatExperience() {
     const examples = getInspirationExamples(preset);
     const quickReplies: QuickReply[] = examples.map((x, idx) => ({
       id: `ex_${idx}`,
-      label: `Like: “${x}”`,
+      label: `Like: "${x}"`,
       value: x,
     }));
 
     quickReplies.push({ id: 'ex_done', label: 'Done', value: '__done__' });
 
     setPhase('inspiration');
-    push([
-      assistantMessage(
-        `Here are a few example lines (just for inspiration). Tap any you like — we’ll match that style.\n\n${examples
-          .map((x) => `• ${x}`)
-          .join('\n')}`,
-        quickReplies
-      ),
-    ]);
+    await pushAssistantWithTyping(
+      `Here are a few example lines (just for inspiration). Tap any you like — we'll match that style.\n\n${examples
+        .map((x) => `• ${x}`)
+        .join('\n')}`,
+      quickReplies
+    );
   };
 
-  const goToConfirm = () => {
-    setState((prev) => {
-      const summary = [
-        `Focus: ${prev.draft.focus || '(not set)'}`,
-        `Friction: ${prev.draft.challenges.length ? prev.draft.challenges.join(', ') : '(none)'}`,
-        `Tone: ${prev.draft.tone || '(not set)'}`,
-        `Style picks: ${prev.draft.likedExamples.length ? `${prev.draft.likedExamples.length} liked` : '(none)'}`,
-      ].join('\n');
+  const goToConfirm = async () => {
+    const summary = [
+      `Focus: ${state.draft.focus || '(not set)'}`,
+      `Friction: ${state.draft.challenges.length ? state.draft.challenges.join(', ') : '(none)'}`,
+      `Tone: ${state.draft.tone || '(not set)'}`,
+      `Style picks: ${state.draft.likedExamples.length ? `${state.draft.likedExamples.length} liked` : '(none)'}`,
+    ].join('\n');
 
-      return {
-        ...prev,
-        phase: 'confirm',
-        error: null,
-        messages: [
-          ...prev.messages,
-          assistantMessage(
-            `Great — here’s what I’ll use:\n\n${summary}\n\nAnything you want me to avoid? (Optional: “no spiritual language”, “no hype”, etc.)`,
-            [
-              { id: 'avoid_none', label: 'Nope', value: '__none__' },
-              { id: 'avoid_custom', label: 'I’ll type it…', value: '__custom__' },
-              { id: 'avoid_generate', label: 'Generate now', value: '__generate__' },
-              { id: 'edit_focus', label: 'Edit focus', value: '__edit_focus__' },
-              { id: 'edit_friction', label: 'Edit friction', value: '__edit_friction__' },
-              { id: 'edit_tone', label: 'Edit tone', value: '__edit_tone__' },
-            ]
-          ),
-        ],
-      };
-    });
+    setPhase('confirm');
+    await pushAssistantWithTyping(
+      `Great — here's what I'll use:\n\n${summary}\n\nAnything you want me to avoid? (Optional: "no spiritual language", "no hype", etc.)`,
+      [
+        { id: 'avoid_none', label: 'Nope', value: '__none__' },
+        { id: 'avoid_custom', label: "I'll type it…", value: '__custom__' },
+        { id: 'avoid_generate', label: 'Generate now', value: '__generate__' },
+        { id: 'edit_focus', label: 'Edit focus', value: '__edit_focus__' },
+        { id: 'edit_friction', label: 'Edit friction', value: '__edit_friction__' },
+        { id: 'edit_tone', label: 'Edit tone', value: '__edit_tone__' },
+      ]
+    );
   };
 
   const startGeneration = async (extraAvoidNotes?: string) => {
     if (!state.draft.focus || !state.draft.tone) return;
     setState((prev) => ({ ...prev, phase: 'generating', error: null }));
+    setIsTyping(true); // Show typing indicator while generating
 
     try {
       const avoidFromNotes = (extraAvoidNotes ?? '')
@@ -185,6 +203,8 @@ export function FullProcess3ChatExperience() {
         skippedAffirmations: clamp(state.skippedAffirmations, 20),
       });
 
+      setIsTyping(false);
+
       setState((prev) => ({
         ...prev,
         phase: 'review',
@@ -194,12 +214,11 @@ export function FullProcess3ChatExperience() {
         shownAffirmations: Array.from(new Set([...prev.shownAffirmations, ...result.affirmations])),
       }));
 
-      push([
-        assistantMessage(
-          `Done — here are ${result.affirmations.length}.\n\nJust two choices: “I like it” or “Not so much”.`
-        ),
-      ]);
+      await pushAssistantWithTyping(
+        `Done — here are ${result.affirmations.length}.\n\nJust two choices: "I like it" or "Not so much".`
+      );
     } catch (e) {
+      setIsTyping(false);
       setState((prev) => ({
         ...prev,
         phase: 'confirm',
@@ -215,53 +234,53 @@ export function FullProcess3ChatExperience() {
     if (state.phase === 'intro' || state.phase === 'focus') {
       if (reply.value === '__custom__') {
         setPhase('focus');
-        push([assistantMessage(`Type your focus in a few words. (Example: “speaking up at work”)`)]);
+        await pushAssistantWithTyping(`Type your focus in a few words. (Example: "speaking up at work")`);
         return;
       }
 
       setState((prev) => ({ ...prev, draft: { ...prev.draft, focus: reply.value } }));
-      push([userMessage(reply.value)]);
-      goToFriction();
+      pushImmediate([userMessage(reply.value)]);
+      await goToFriction();
       return;
     }
 
     // FRICTION
     if (state.phase === 'friction') {
       if (reply.value === '__skip__') {
-        push([userMessage('Skip')]);
+        pushImmediate([userMessage('Skip')]);
         setState((prev) => ({ ...prev, draft: { ...prev.draft, challenges: [] } }));
-        goToTone();
+        await goToTone();
         return;
       }
       if (reply.value === '__custom__') {
-        push([assistantMessage(`Tell me what gets in the way (comma-separated is fine).`)]);
+        await pushAssistantWithTyping(`Tell me what gets in the way (comma-separated is fine).`);
         return;
       }
 
       // Onboarding-friendly: take a single pick and continue immediately.
       setState((prev) => ({ ...prev, draft: { ...prev.draft, challenges: [reply.value] } }));
-      push([userMessage(`Friction: ${reply.label}`)]);
-      goToTone();
+      pushImmediate([userMessage(`Friction: ${reply.label}`)]);
+      await goToTone();
       return;
     }
 
     // TONE
     if (state.phase === 'tone') {
       if (reply.value === '__custom__') {
-        push([assistantMessage(`Type the voice you want. (Example: “soft but confident”, “grounded and practical”)`)]);
+        await pushAssistantWithTyping(`Type the voice you want. (Example: "soft but confident", "grounded and practical")`);
         return;
       }
       setState((prev) => ({ ...prev, draft: { ...prev.draft, tone: reply.value } }));
-      push([userMessage(reply.value)]);
-      goToInspiration();
+      pushImmediate([userMessage(reply.value)]);
+      await goToInspiration();
       return;
     }
 
     // INSPIRATION
     if (state.phase === 'inspiration') {
       if (reply.value === '__done__') {
-        push([userMessage('Done')]);
-        goToConfirm();
+        pushImmediate([userMessage('Done')]);
+        await goToConfirm();
         return;
       }
 
@@ -269,40 +288,40 @@ export function FullProcess3ChatExperience() {
         ...prev,
         draft: { ...prev.draft, likedExamples: clamp([...prev.draft.likedExamples, reply.value], 12) },
       }));
-      push([userMessage(`Liked: “${reply.value}”`)]);
+      pushImmediate([userMessage(`Liked: "${reply.value}"`)]);
       return;
     }
 
     // CONFIRM
     if (state.phase === 'confirm') {
       if (reply.value === '__none__') {
-        push([userMessage('No avoids')]);
+        pushImmediate([userMessage('No avoids')]);
         await startGeneration();
         return;
       }
       if (reply.value === '__custom__') {
-        push([assistantMessage(`Type what to avoid, then press Send.`)]);
+        await pushAssistantWithTyping(`Type what to avoid, then press Send.`);
         return;
       }
       if (reply.value === '__generate__') {
-        push([userMessage('Generate now')]);
+        pushImmediate([userMessage('Generate now')]);
         await startGeneration();
         return;
       }
       if (reply.value === '__edit_focus__') {
-        push([userMessage('Edit focus')]);
+        pushImmediate([userMessage('Edit focus')]);
         setPhase('focus');
-        push([assistantMessage(`Sure — what do you want these affirmations for?`, focusQuickReplies)]);
+        await pushAssistantWithTyping(`Sure — what do you want these affirmations for?`, focusQuickReplies);
         return;
       }
       if (reply.value === '__edit_friction__') {
-        push([userMessage('Edit friction')]);
-        goToFriction();
+        pushImmediate([userMessage('Edit friction')]);
+        await goToFriction();
         return;
       }
       if (reply.value === '__edit_tone__') {
-        push([userMessage('Edit tone')]);
-        goToTone();
+        pushImmediate([userMessage('Edit tone')]);
+        await goToTone();
         return;
       }
     }
@@ -310,19 +329,19 @@ export function FullProcess3ChatExperience() {
     // CHECK-IN LOOP
     if (state.phase === 'checkin') {
       if (reply.value === '__more__') {
-        push([userMessage('Yes — give me more')]);
+        pushImmediate([userMessage('Yes — give me more')]);
         await startGeneration();
         return;
       }
       if (reply.value === '__adjust__') {
-        push([userMessage('Adjust')]);
-        goToAdjust();
+        pushImmediate([userMessage('Adjust')]);
+        await goToAdjust();
         return;
       }
       if (reply.value === '__finish__') {
-        push([userMessage('Finish')]);
+        pushImmediate([userMessage('Finish')]);
         setState((prev) => ({ ...prev, phase: 'done' }));
-        push([assistantMessage(`All set. You saved ${state.savedAffirmations.length} affirmations.`)]);
+        await pushAssistantWithTyping(`All set. You saved ${state.savedAffirmations.length} affirmations.`);
         return;
       }
     }
@@ -330,25 +349,25 @@ export function FullProcess3ChatExperience() {
     // ADJUST
     if (state.phase === 'adjust') {
       if (reply.value === '__adj_back__') {
-        push([userMessage('Back')]);
+        pushImmediate([userMessage('Back')]);
         setState((prev) => ({ ...prev, phase: 'checkin' }));
         return;
       }
       if (reply.value === '__adj_tone__') {
-        push([userMessage('Tone')]);
+        pushImmediate([userMessage('Tone')]);
         setPhase('tone');
-        push([assistantMessage(`What kind of voice should these have?`, toneQuickReplies)]);
+        await pushAssistantWithTyping(`What kind of voice should these have?`, toneQuickReplies);
         return;
       }
       if (reply.value === '__adj_friction__') {
-        push([userMessage('Friction')]);
-        goToFriction();
+        pushImmediate([userMessage('Friction')]);
+        await goToFriction();
         return;
       }
       if (reply.value === '__adj_focus__') {
-        push([userMessage('Focus')]);
+        pushImmediate([userMessage('Focus')]);
         setPhase('focus');
-        push([assistantMessage(`What do you want them for?`, focusQuickReplies)]);
+        await pushAssistantWithTyping(`What do you want them for?`, focusQuickReplies);
         return;
       }
     }
@@ -363,8 +382,8 @@ export function FullProcess3ChatExperience() {
     // If we're in focus custom entry
     if (state.phase === 'focus') {
       setState((prev) => ({ ...prev, draft: { ...prev.draft, focus: text } }));
-      push([userMessage(text)]);
-      goToFriction();
+      pushImmediate([userMessage(text)]);
+      await goToFriction();
       return;
     }
 
@@ -375,27 +394,27 @@ export function FullProcess3ChatExperience() {
         .map((x) => x.trim())
         .filter(Boolean);
       setState((prev) => ({ ...prev, draft: { ...prev.draft, challenges: clamp([...prev.draft.challenges, ...items], 12) } }));
-      push([userMessage(text)]);
-      goToTone();
+      pushImmediate([userMessage(text)]);
+      await goToTone();
       return;
     }
 
     // Tone custom entry
     if (state.phase === 'tone') {
       setState((prev) => ({ ...prev, draft: { ...prev.draft, tone: text } }));
-      push([userMessage(text)]);
-      goToInspiration();
+      pushImmediate([userMessage(text)]);
+      await goToInspiration();
       return;
     }
 
     // Avoid notes in confirm
     if (state.phase === 'confirm') {
-      push([userMessage(text)]);
+      pushImmediate([userMessage(text)]);
       await startGeneration(text);
       return;
     }
 
-    // Review: allow “save all” and “done”
+    // Review: allow "save all" and "done"
     if (state.phase === 'review') {
       const lower = text.toLowerCase();
       if (lower.includes('save all')) {
@@ -403,12 +422,12 @@ export function FullProcess3ChatExperience() {
           ...prev,
           savedAffirmations: Array.from(new Set([...prev.savedAffirmations, ...prev.generatedAffirmations])),
         }));
-        push([assistantMessage('Saved all.')]);
+        await pushAssistantWithTyping('Saved all.');
         return;
       }
     }
 
-    push([assistantMessage(`I’m not sure what to do with that yet. Try the quick replies.`)]);
+    await pushAssistantWithTyping(`I'm not sure what to do with that yet. Try the quick replies.`);
   };
 
   // Review UI (chat-driven)
@@ -551,15 +570,13 @@ export function FullProcess3ChatExperience() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.phase, state.batchCount]);
 
-  const goToAdjust = () => {
+  const goToAdjust = async () => {
     setPhase('adjust');
-    push([
-      assistantMessage(`What do you want to tweak?`, [
-        { id: 'adj_tone', label: 'Tone', value: '__adj_tone__' },
-        { id: 'adj_friction', label: 'Friction', value: '__adj_friction__' },
-        { id: 'adj_focus', label: 'Focus', value: '__adj_focus__' },
-        { id: 'adj_back', label: 'Back', value: '__adj_back__' },
-      ]),
+    await pushAssistantWithTyping(`What do you want to tweak?`, [
+      { id: 'adj_tone', label: 'Tone', value: '__adj_tone__' },
+      { id: 'adj_friction', label: 'Friction', value: '__adj_friction__' },
+      { id: 'adj_focus', label: 'Focus', value: '__adj_focus__' },
+      { id: 'adj_back', label: 'Back', value: '__adj_back__' },
     ]);
   };
 
@@ -587,7 +604,7 @@ export function FullProcess3ChatExperience() {
       </div>
 
       <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-950/20 p-4">
-        <ChatTranscript messages={messagesWithSelection} onQuickReply={quickReplyHandler} />
+        <ChatTranscript messages={messagesWithSelection} onQuickReply={quickReplyHandler} isTyping={isTyping} />
         <div ref={scrollRef} />
       </div>
 

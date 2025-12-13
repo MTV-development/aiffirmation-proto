@@ -2,6 +2,20 @@
 
 import type { ChatMessage, QuickReply } from './types';
 
+function TypingIndicator() {
+  return (
+    <div className="flex justify-start">
+      <div className="rounded-2xl px-4 py-3 shadow-sm border bg-slate-700 dark:bg-slate-800 border-slate-600 dark:border-slate-700">
+        <span className="inline-flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-gray-300 animate-[bounce_1s_ease-in-out_infinite]" />
+          <span className="w-2 h-2 rounded-full bg-gray-300 animate-[bounce_1s_ease-in-out_0.15s_infinite]" />
+          <span className="w-2 h-2 rounded-full bg-gray-300 animate-[bounce_1s_ease-in-out_0.3s_infinite]" />
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function Bubble({ role, children }: { role: 'assistant' | 'user'; children: React.ReactNode }) {
   const isUser = role === 'user';
   return (
@@ -11,7 +25,7 @@ function Bubble({ role, children }: { role: 'assistant' | 'user'; children: Reac
           'max-w-[min(640px,100%)] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm border whitespace-pre-wrap break-words',
           isUser
             ? 'bg-blue-600 text-white border-blue-600'
-            : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100',
+            : 'bg-slate-700 dark:bg-slate-800 border-slate-600 dark:border-slate-700 text-gray-100',
         ].join(' ')}
       >
         {children}
@@ -23,9 +37,11 @@ function Bubble({ role, children }: { role: 'assistant' | 'user'; children: Reac
 export function ChatTranscript({
   messages,
   onQuickReply,
+  isTyping,
 }: {
   messages: ChatMessage[];
   onQuickReply: (reply: QuickReply) => void;
+  isTyping?: boolean;
 }) {
   const lastQuickReplyMsgId = (() => {
     for (let i = messages.length - 1; i >= 0; i -= 1) {
@@ -37,36 +53,44 @@ export function ChatTranscript({
 
   return (
     <div className="space-y-3">
-      {messages.map((m) => (
-        <div key={m.id} className="space-y-2">
-          <Bubble role={m.role}>{m.text}</Bubble>
-          {m.role === 'assistant' &&
-            m.id === lastQuickReplyMsgId &&
-            m.quickReplies &&
-            m.quickReplies.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {m.quickReplies.map((r) => (
-                <button
-                  key={r.id}
-                  onClick={() => onQuickReply(r)}
-                  className={[
-                    'px-3 py-2 rounded-full text-sm border transition-colors',
-                    r.selected
-                      ? 'border-blue-500 bg-blue-50 text-blue-900 dark:bg-blue-900/30 dark:text-blue-100 dark:border-blue-400'
-                      : r.value === '__more__'
-                        ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
-                        : r.value === '__finish__'
-                          ? 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800'
-                          : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800',
-                  ].join(' ')}
-                >
-                  {r.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+      {messages.map((m) => {
+        // Split assistant messages on \n\n into separate bubbles
+        const paragraphs = m.role === 'assistant' ? m.text.split('\n\n').filter(Boolean) : [m.text];
+
+        return (
+          <div key={m.id} className="space-y-2">
+            {paragraphs.map((paragraph, idx) => (
+              <Bubble key={`${m.id}-${idx}`} role={m.role}>{paragraph}</Bubble>
+            ))}
+            {m.role === 'assistant' &&
+              m.id === lastQuickReplyMsgId &&
+              m.quickReplies &&
+              m.quickReplies.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {m.quickReplies.map((r) => (
+                  <button
+                    key={r.id}
+                    onClick={() => onQuickReply(r)}
+                    className={[
+                      'px-3 py-2 rounded-full text-sm border transition-colors',
+                      r.selected
+                        ? 'border-blue-500 bg-blue-600 text-white'
+                        : r.value === '__more__'
+                          ? 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700'
+                          : r.value === '__finish__'
+                            ? 'border-gray-400 dark:border-gray-500 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500'
+                            : 'border-gray-400 dark:border-gray-500 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500',
+                    ].join(' ')}
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      {isTyping && <TypingIndicator />}
     </div>
   );
 }
