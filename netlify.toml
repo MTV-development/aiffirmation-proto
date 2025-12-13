@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Use the Next.js plugin
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Force Node.js runtime for all functions (not edge)
+[functions]
+  node_bundler = "esbuild"
