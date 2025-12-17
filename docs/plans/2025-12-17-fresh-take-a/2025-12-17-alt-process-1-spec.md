@@ -1,4 +1,4 @@
-# Full Process 4 (FP-04) - "The Contextual Mirror"
+# Alternative Process 1 (AP-01) - "The Contextual Mirror"
 
 ## Product Requirements Document
 
@@ -10,7 +10,7 @@
 
 ## Overview
 
-Full Process 4 implements **Concept A: "The Contextual Mirror"** - a minimal-friction affirmation generation experience that shifts cognitive burden from the user to the AI backend.
+Alternative Process 1 implements **Concept A: "The Contextual Mirror"** - a minimal-friction affirmation generation experience that shifts cognitive burden from the user to the AI backend.
 
 ### Core Concept
 
@@ -115,7 +115,7 @@ Users don't need to know what they're feeling yet. The AI can figure it out.
 
 ## Technical Architecture
 
-### New Agent: FP-04
+### New Agent: AP-01
 
 Create a new Mastra agent with two capabilities:
 
@@ -133,14 +133,14 @@ Create a new Mastra agent with two capabilities:
 
 ```typescript
 // Single API call that returns both tags and affirmations
-interface FP04GenerateRequest {
+interface AP01GenerateRequest {
   userInput: string;              // Raw unstructured text
   previousAffirmations?: string[];  // For shuffle - avoid repeats
   savedAffirmations?: string[];     // Liked - generate MORE like these
   skippedAffirmations?: string[];   // Not liked - avoid similar style/tone
 }
 
-interface FP04GenerateResponse {
+interface AP01GenerateResponse {
   tags: string[];              // Extracted emotional themes
   affirmations: string[];      // Generated affirmations
 }
@@ -166,10 +166,10 @@ This creates a **real-time personalization loop** where each shuffle produces in
 ### State Management
 
 ```typescript
-type FP4Phase = 'input' | 'processing' | 'results';
+type AP1Phase = 'input' | 'processing' | 'results';
 
-interface FP4State {
-  phase: FP4Phase;
+interface AP1State {
+  phase: AP1Phase;
   userInput: string;
   extractedTags: string[];
   generatedAffirmations: string[];
@@ -183,12 +183,12 @@ interface FP4State {
 ### File Structure
 
 ```
-app/full-process-4/
+app/alt-process-1/
 ├── layout.tsx
 ├── page.tsx
 └── actions.ts              # Server action for generate
 
-components/full-process-4/
+components/alt-process-1/
 ├── index.ts
 ├── types.ts
 ├── storage.ts              # localStorage persistence
@@ -196,11 +196,11 @@ components/full-process-4/
 ├── processing-screen.tsx   # Screen 2 with staggered tags
 ├── results-screen.tsx      # Screen 3 with cards
 ├── affirmation-card.tsx    # Individual card component
-└── fp4-experience.tsx      # Main orchestrator
+└── ap1-experience.tsx      # Main orchestrator
 
-src/mastra/agents/full-process-4/
+src/mastra/agents/alt-process-1/
 ├── index.ts
-└── agent.ts                # New FP-04 agent
+└── agent.ts                # New AP-01 agent
 ```
 
 ---
