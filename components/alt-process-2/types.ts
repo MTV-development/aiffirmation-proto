@@ -9,6 +9,7 @@ export interface AP2State {
   savedAffirmations: string[];
   skippedAffirmations: string[];
   shownAffirmations: string[];
+  totalSwipes: number;
   tonePreference: TonePreference;
   isLoading: boolean;
   error: string | null;
@@ -21,6 +22,7 @@ export const initialAP2State: AP2State = {
   savedAffirmations: [],
   skippedAffirmations: [],
   shownAffirmations: [],
+  totalSwipes: 0,
   tonePreference: 'neutral',
   isLoading: false,
   error: null,

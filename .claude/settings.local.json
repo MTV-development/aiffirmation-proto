@@ -5,7 +5,8 @@
       "Bash(gh repo create:*)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run db:seed:*)"
+      "Bash(npm run db:seed:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
