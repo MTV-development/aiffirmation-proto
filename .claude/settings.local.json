@@ -4,7 +4,8 @@
       "Bash(gh auth status:*)",
       "Bash(gh repo create:*)",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm run db:seed:*)"
     ],
     "deny": [],
     "ask": []

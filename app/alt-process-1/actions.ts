@@ -1,7 +1,7 @@
 'use server';
 
 import { createAltProcess1Agent } from '@/src/mastra/agents/alt-process-1';
-import { getKVText } from '@/src/services';
+import { getKVText, renderTemplate } from '@/src/services';
 
 export interface AP01GenerateRequest {
   userInput: string;
@@ -70,7 +70,17 @@ function parseResponse(text: string): AP01GenerateResponse {
   return { tags, affirmations };
 }
 
-function buildUserPrompt(options: AP01GenerateRequest): string {
+// Fallback prompt builders (used if KV not configured)
+function buildFallbackPrompt(options: AP01GenerateRequest): string {
+  const { userInput } = options;
+  return `The user shared the following thoughts:
+
+"${userInput}"
+
+Based on this, extract 3-6 emotional/contextual tags and generate 6-8 personalized affirmations.`;
+}
+
+function buildFallbackShufflePrompt(options: AP01GenerateRequest): string {
   const {
     userInput,
     previousAffirmations = [],
@@ -78,37 +88,21 @@ function buildUserPrompt(options: AP01GenerateRequest): string {
     skippedAffirmations = [],
   } = options;
 
-  const isShuffle = previousAffirmations.length > 0;
-
-  if (isShuffle) {
-    // Shuffle request: focus on generating new affirmations, keep same tags
-    return [
-      `The user shared the following thoughts:`,
-      ``,
-      `"${userInput}"`,
-      ``,
-      `Generate 6-8 NEW personalized affirmations based on this context.`,
-      `Keep the same tags you identified before.`,
-      ``,
-      `IMPORTANT - Do NOT repeat these (already shown): ${JSON.stringify(previousAffirmations)}`,
-      savedAffirmations.length
-        ? `\nUser approved these (generate MORE with similar style/tone): ${JSON.stringify(savedAffirmations)}`
-        : null,
-      skippedAffirmations.length
-        ? `\nUser skipped these (AVOID similar phrasing/structure): ${JSON.stringify(skippedAffirmations)}`
-        : null,
-    ]
-      .filter(Boolean)
-      .join('\n');
-  }
-
-  // Initial request
   return [
     `The user shared the following thoughts:`,
     ``,
     `"${userInput}"`,
     ``,
-    `Based on this, extract 3-6 emotional/contextual tags and generate 6-8 personalized affirmations.`,
+    `Generate 6-8 NEW personalized affirmations based on this context.`,
+    `Keep the same tags you identified before.`,
+    ``,
+    `IMPORTANT - Do NOT repeat these (already shown): ${JSON.stringify(previousAffirmations)}`,
+    savedAffirmations.length
+      ? `\nUser approved these (generate MORE with similar style/tone): ${JSON.stringify(savedAffirmations)}`
+      : null,
+    skippedAffirmations.length
+      ? `\nUser skipped these (AVOID similar phrasing/structure): ${JSON.stringify(skippedAffirmations)}`
+      : null,
   ]
     .filter(Boolean)
     .join('\n');
@@ -117,10 +111,36 @@ function buildUserPrompt(options: AP01GenerateRequest): string {
 export async function generateAP01(
   options: AP01GenerateRequest
 ): Promise<AP01GenerateResponse> {
-  const { implementation = 'default' } = options;
+  const { implementation = 'default', previousAffirmations = [] } = options;
+  const isShuffle = previousAffirmations.length > 0;
 
   const agent = await createAltProcess1Agent(implementation);
-  const userPrompt = buildUserPrompt(options);
+
+  // Build template variables
+  const templateVariables = {
+    userInput: options.userInput,
+    previousAffirmations: options.previousAffirmations ?? [],
+    savedAffirmations: options.savedAffirmations ?? [],
+    skippedAffirmations: options.skippedAffirmations ?? [],
+  };
+
+  // Try to render from KV, fall back to hardcoded prompt
+  let userPrompt: string;
+  try {
+    const promptKey = isShuffle ? 'prompt_shuffle' : 'prompt';
+    const rendered = await renderTemplate({
+      key: promptKey,
+      version: 'ap-01',
+      implementation,
+      variables: templateVariables,
+    });
+    userPrompt = rendered.output;
+  } catch {
+    // KV not configured yet → safe fallback
+    userPrompt = isShuffle
+      ? buildFallbackShufflePrompt(options)
+      : buildFallbackPrompt(options);
+  }
 
   // KV-configurable temperature (fallback: 0.9)
   const temperatureKey = `versions.ap-01._temperature.${implementation}`;
