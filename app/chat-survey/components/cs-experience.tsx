@@ -142,11 +142,21 @@ export function CSExperience({ initialRunId }: CSExperienceProps) {
     setCurrentQuestion(undefined);
     setSuggestedResponses(undefined);
     setIsLoading(true);
+    setError(null);
+
+    // Create a timeout promise to prevent hanging indefinitely
+    const CHAT_TIMEOUT = 45000; // 45 seconds (chat may take longer due to AI generation)
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Request timed out. Please try again.')), CHAT_TIMEOUT);
+    });
 
     try {
       console.log('[Client] Calling resumeChatSurvey with runId:', runId, 'historyLength:', workflowHistory.length);
-      // Pass the workflow history from the previous response
-      const result = await resumeChatSurvey(runId, message, workflowHistory);
+      // Pass the workflow history from the previous response, race against timeout
+      const result = await Promise.race([
+        resumeChatSurvey(runId, message, workflowHistory),
+        timeoutPromise,
+      ]);
       console.log('[Client] resumeChatSurvey result:', JSON.stringify(result, null, 2));
 
       if (result.status === 'failed') {
@@ -181,7 +191,8 @@ export function CSExperience({ initialRunId }: CSExperienceProps) {
         console.log('[Client] No suspendedData in result');
       }
     } catch (err) {
-      setError('Failed to send message');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to send message';
+      setError(errorMessage);
       console.error('[Client] Error:', err);
     } finally {
       setIsLoading(false);
@@ -224,19 +235,33 @@ export function CSExperience({ initialRunId }: CSExperienceProps) {
     if (!runId || isLoading) return;
 
     setIsLoading(true);
+    setError(null);
     const action = direction === 'right' ? 'approve' : 'skip';
 
     if (action === 'approve') {
       setSavedCount(prev => prev + 1);
     }
 
+    // Create a timeout promise to prevent hanging indefinitely
+    const SWIPE_TIMEOUT = 30000; // 30 seconds
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Request timed out. Please try again.')), SWIPE_TIMEOUT);
+    });
+
     try {
       console.log('[Client] Calling swipeAffirmation with swipeState:', swipeState);
-      // Pass swipeState from previous response
-      const result = await swipeAffirmation(runId, action, affirmation, swipeState);
+      // Pass swipeState from previous response, race against timeout
+      const result = await Promise.race([
+        swipeAffirmation(runId, action, affirmation, swipeState),
+        timeoutPromise,
+      ]);
       console.log('[Client] swipeAffirmation result:', JSON.stringify(result, null, 2));
 
       if (result.status === 'failed') {
+        // Revert savedCount if approval failed
+        if (action === 'approve') {
+          setSavedCount(prev => prev - 1);
+        }
         setError(result.error || 'Failed to process swipe');
         return;
       }
@@ -255,7 +280,12 @@ export function CSExperience({ initialRunId }: CSExperienceProps) {
         setPhase('saved');
       }
     } catch (err) {
-      setError('Failed to process swipe');
+      // Revert savedCount if approval failed
+      if (action === 'approve') {
+        setSavedCount(prev => prev - 1);
+      }
+      const errorMessage = err instanceof Error ? err.message : 'Failed to process swipe';
+      setError(errorMessage);
       console.error('[Client] Swipe error:', err);
     } finally {
       setIsLoading(false);
@@ -298,15 +328,17 @@ export function CSExperience({ initialRunId }: CSExperienceProps) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-0 left-0 right-0 z-50 bg-red-500/90 text-white px-4 py-3 flex items-center justify-between"
+            className="absolute top-0 left-0 right-0 z-50 bg-red-500/90 text-white px-4 py-3 flex items-center justify-between gap-3"
           >
-            <p className="text-sm">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="text-white/80 hover:text-white"
-            >
-              ✕
-            </button>
+            <p className="text-sm flex-1">{error}</p>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setError(null)}
+                className="px-3 py-1 text-sm bg-white/20 hover:bg-white/30 rounded transition-colors"
+              >
+                Dismiss
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

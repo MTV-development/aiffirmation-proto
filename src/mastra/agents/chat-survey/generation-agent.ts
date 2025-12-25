@@ -39,27 +39,35 @@ export interface GenerationContext {
 export function buildGenerationPrompt(context: GenerationContext): string {
   const { profile, approvedAffirmations, skippedAffirmations, isExplorationMode, refinementNote } = context;
 
+  // Combine all existing affirmations to prevent duplicates
+  const allExisting = [...(approvedAffirmations || []), ...(skippedAffirmations || [])];
+
   if (isExplorationMode || !profile) {
-    return `Generate a single affirmation for EXPLORATION mode.
+    return `Generate a single NEW and UNIQUE affirmation for EXPLORATION mode.
 
 Since no profile is available, generate a diverse affirmation that could resonate with anyone.
 Vary themes: self-worth, peace, growth, strength, trust, gratitude, boundaries, courage.
 Vary tones: gentle, assertive, growth-oriented, reflective.
 
-${skippedAffirmations?.length ? `
-Avoid patterns similar to these skipped affirmations:
-${skippedAffirmations.slice(-10).map(a => `- ${a}`).join('\n')}
+${allExisting.length ? `
+## CRITICAL: Do NOT repeat these existing affirmations (generate something completely different):
+${allExisting.map(a => `- "${a}"`).join('\n')}
 ` : ''}
 
 ${approvedAffirmations?.length ? `
-Match the style of these approved affirmations:
+## Style to Match (user approved these - match the style but NOT the content):
 ${approvedAffirmations.slice(-5).map(a => `- ${a}`).join('\n')}
+` : ''}
+
+${skippedAffirmations?.length ? `
+## Patterns to Avoid (user skipped these):
+${skippedAffirmations.slice(-10).map(a => `- ${a}`).join('\n')}
 ` : ''}
 
 Return JSON: { "affirmation": "Your affirmation here" }`;
   }
 
-  return `Generate a single personalized affirmation based on this profile:
+  return `Generate a single NEW and UNIQUE personalized affirmation based on this profile:
 
 ## User Profile
 - Themes: ${profile.themes.join(', ')}
@@ -73,13 +81,18 @@ ${refinementNote ? `
 The user provided additional guidance: "${refinementNote}"
 ` : ''}
 
+${allExisting.length ? `
+## CRITICAL: Do NOT repeat these existing affirmations (generate something completely different):
+${allExisting.map(a => `- "${a}"`).join('\n')}
+` : ''}
+
 ${approvedAffirmations?.length ? `
-## Style to Match (user approved these)
+## Style to Match (user approved these - match the style but NOT the content):
 ${approvedAffirmations.slice(-5).map(a => `- ${a}`).join('\n')}
 ` : ''}
 
 ${skippedAffirmations?.length ? `
-## Patterns to Avoid (user skipped these)
+## Patterns to Avoid (user skipped these):
 ${skippedAffirmations.slice(-10).map(a => `- ${a}`).join('\n')}
 ` : ''}
 

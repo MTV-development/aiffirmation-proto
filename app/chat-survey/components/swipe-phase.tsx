@@ -24,11 +24,16 @@ function SwipeCard({
   const rotate = useTransform(x, [-200, 200], [-15, 15]);
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0.5, 1, 1, 1, 0.5]);
   const controls = useAnimation();
+  // Track if a swipe is in progress to prevent double-swipes
+  const [isSwipeInProgress, setIsSwipeInProgress] = useState(false);
 
   const handleSwipe = useCallback(
     (direction: SwipeDirection) => {
-      if (!affirmation || isLoading) return;
+      // Block if already swiping, loading, or exitDirection is set
+      if (!affirmation || isLoading || isSwipeInProgress || exitDirection) return;
 
+      // Immediately mark as swiping to prevent double-triggers
+      setIsSwipeInProgress(true);
       setExitDirection(direction);
 
       // Animate card out
@@ -44,7 +49,7 @@ function SwipeCard({
         onSwipe(direction, affirmation);
       }, 200);
     },
-    [affirmation, isLoading, onSwipe, controls, setExitDirection]
+    [affirmation, isLoading, isSwipeInProgress, exitDirection, onSwipe, controls, setExitDirection]
   );
 
   const handleDragEnd = useCallback(

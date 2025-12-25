@@ -60,23 +60,41 @@ export const generateStreamStep = createStep({
       refinementNote,
     });
 
-    // Generate next affirmation
-    const response = await generationAgent.generate(prompt);
+    // Generate next affirmation with retry logic for duplicates
+    const allExisting = [...approvedAffirmations, ...skippedAffirmations];
+    let affirmation: string = '';
+    let attempts = 0;
+    const MAX_ATTEMPTS = 3;
 
-    // Parse response
-    let affirmation: string;
-    try {
-      const jsonMatch = response.text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = affirmationResponseSchema.parse(JSON.parse(jsonMatch[0]));
-        affirmation = parsed.affirmation;
-      } else {
-        // If no JSON, use the raw text
+    while (attempts < MAX_ATTEMPTS) {
+      attempts++;
+      const response = await generationAgent.generate(prompt);
+
+      // Parse response
+      try {
+        const jsonMatch = response.text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = affirmationResponseSchema.parse(JSON.parse(jsonMatch[0]));
+          affirmation = parsed.affirmation;
+        } else {
+          // If no JSON, use the raw text
+          affirmation = response.text.trim();
+        }
+      } catch {
+        // Fallback to raw text
         affirmation = response.text.trim();
       }
-    } catch {
-      // Fallback to raw text
-      affirmation = response.text.trim();
+
+      // Check if it's a duplicate
+      const isDuplicate = allExisting.some(
+        existing => existing.toLowerCase().trim() === affirmation.toLowerCase().trim()
+      );
+
+      if (!isDuplicate) {
+        break; // Good affirmation, exit loop
+      }
+
+      console.log(`[generate-stream] Duplicate detected on attempt ${attempts}, retrying...`);
     }
 
     // Suspend and wait for swipe action - include all state for next resume
