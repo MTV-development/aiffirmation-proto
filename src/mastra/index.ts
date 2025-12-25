@@ -14,14 +14,23 @@ import { chatSurveyWorkflow } from './workflows/chat-survey';
 // Singleton pattern to prevent "AI Tracing instance already registered" error during Next.js hot reload
 const globalForMastra = globalThis as unknown as {
   mastra: Mastra | undefined;
+  storage: PostgresStore | undefined;
   storageInitialized: boolean | undefined;
 };
 
-// Create storage instance
-// Use DIRECT_URL (not pooled) for Mastra storage - PgBouncer can interfere with DDL operations
-const storage = new PostgresStore({
-  connectionString: process.env.DIRECT_URL || process.env.DATABASE_URL!,
+// Get connection string - prefer DIRECT_URL for DDL operations, fallback to DATABASE_URL
+// Log which one we're using for debugging
+const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error('[Mastra] No database connection string found! Set DIRECT_URL or DATABASE_URL');
+}
+console.log('[Mastra] Using connection string from:', process.env.DIRECT_URL ? 'DIRECT_URL' : 'DATABASE_URL');
+
+// Create storage instance (reuse if already created)
+const storage = globalForMastra.storage ?? new PostgresStore({
+  connectionString: connectionString!,
 });
+globalForMastra.storage = storage;
 
 export const mastra =
   globalForMastra.mastra ??
@@ -36,21 +45,21 @@ export const mastra =
     telemetry: {
       enabled: false,
     },
+    // Disable observability to prevent SQLite fallback
     observability: {
-      default: { enabled: true },
+      default: { enabled: false },
     },
   });
+
+// Cache mastra instance in all environments to prevent multiple instances
+globalForMastra.mastra = mastra;
 
 // Initialize storage to ensure tables are created
 if (!globalForMastra.storageInitialized) {
   storage.init().then(() => {
-    console.log('[Mastra] Storage initialized');
+    console.log('[Mastra] Storage initialized successfully');
     globalForMastra.storageInitialized = true;
   }).catch((err) => {
     console.error('[Mastra] Failed to initialize storage:', err);
   });
-}
-
-if (process.env.NODE_ENV !== 'production') {
-  globalForMastra.mastra = mastra;
 }

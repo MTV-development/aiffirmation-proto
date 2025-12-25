@@ -10,7 +10,8 @@
       "Bash(powershell:*)",
       "Bash(npm run lint:*)",
       "Bash(npx eslint:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npm ls:*)"
     ],
     "deny": [],
     "ask": []
