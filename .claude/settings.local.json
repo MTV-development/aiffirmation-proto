@@ -7,7 +7,10 @@
       "Bash(npm run build:*)",
       "Bash(npm run db:seed:*)",
       "Bash(cat:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx eslint:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

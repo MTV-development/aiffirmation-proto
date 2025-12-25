@@ -27,11 +27,11 @@ This is a Next.js App Router project with Mastra integration:
 
 **Purpose**: Project initialization, dependencies, and directory structure
 
-- [ ] T001 Install @mastra/pg package for PostgreSQL workflow storage
-- [ ] T002 [P] Create workflow directory structure: `src/mastra/workflows/chat-survey/` and `src/mastra/workflows/chat-survey/steps/`
-- [ ] T003 [P] Create agent directory structure: `src/mastra/agents/chat-survey/`
-- [ ] T004 [P] Create app route directory structure: `app/chat-survey/` and `app/chat-survey/components/`
-- [ ] T005 Add Chat Survey route to navigation in nav.config.ts
+- [x] T001 Install @mastra/pg package for PostgreSQL workflow storage
+- [x] T002 [P] Create workflow directory structure: `src/mastra/workflows/chat-survey/` and `src/mastra/workflows/chat-survey/steps/`
+- [x] T003 [P] Create agent directory structure: `src/mastra/agents/chat-survey/`
+- [x] T004 [P] Create app route directory structure: `app/chat-survey/` and `app/chat-survey/components/`
+- [x] T005 Add Chat Survey route to navigation in nav.config.ts
 
 ---
 
@@ -43,24 +43,24 @@ This is a Next.js App Router project with Mastra integration:
 
 ### Workflow Types & Schemas
 
-- [ ] T006 Create Zod schemas for all workflow types in src/mastra/workflows/chat-survey/types.ts (conversationMessageSchema, tonePreferenceSchema, userProfileSchema, workflowStateSchema, chatSuspendPayloadSchema, swipeSuspendPayloadSchema, chatResumeDataSchema, swipeResumeDataSchema)
-- [ ] T007 Export TypeScript types derived from Zod schemas in src/mastra/workflows/chat-survey/types.ts
+- [x] T006 Create Zod schemas for all workflow types in src/mastra/workflows/chat-survey/types.ts (conversationMessageSchema, tonePreferenceSchema, userProfileSchema, workflowStateSchema, chatSuspendPayloadSchema, swipeSuspendPayloadSchema, chatResumeDataSchema, swipeResumeDataSchema)
+- [x] T007 Export TypeScript types derived from Zod schemas in src/mastra/workflows/chat-survey/types.ts
 
 ### Mastra Storage Configuration
 
-- [ ] T008 Update src/mastra/index.ts to use PostgresStore instead of LibSQLStore with connection pooling
-- [ ] T009 Add chatSurveyWorkflow to Mastra workflows registration in src/mastra/index.ts
+- [x] T008 Update src/mastra/index.ts to use PostgresStore instead of LibSQLStore with connection pooling
+- [x] T009 Add chatSurveyWorkflow to Mastra workflows registration in src/mastra/index.ts
 
 ### Agent Infrastructure
 
-- [ ] T010 [P] Create Discovery Agent skeleton in src/mastra/agents/chat-survey/discovery-agent.ts with KV-driven system prompt
-- [ ] T011 [P] Create Generation Agent skeleton in src/mastra/agents/chat-survey/generation-agent.ts with KV-driven system prompt
-- [ ] T012 Create agent index re-exports in src/mastra/agents/chat-survey/index.ts
-- [ ] T013 Register CS-01 agents in src/mastra/index.ts
+- [x] T010 [P] Create Discovery Agent skeleton in src/mastra/agents/chat-survey/discovery-agent.ts with KV-driven system prompt
+- [x] T011 [P] Create Generation Agent skeleton in src/mastra/agents/chat-survey/generation-agent.ts with KV-driven system prompt
+- [x] T012 Create agent index re-exports in src/mastra/agents/chat-survey/index.ts
+- [x] T013 Register CS-01 agents in src/mastra/index.ts
 
 ### KV Store Seed Data
 
-- [ ] T014 Add KV store entries for CS-01 agent prompts in src/db/seed.ts (system_discovery, system_generation, prompt_extract, _temperature_discovery, _temperature_generation)
+- [x] T014 Add KV store entries for CS-01 agent prompts in src/db/seed.ts (system_discovery, system_generation, prompt_extract, _temperature_discovery, _temperature_generation)
 
 **Checkpoint**: Foundation ready - Mastra configured with PostgresStore, agents registered, types defined
 
@@ -74,40 +74,40 @@ This is a Next.js App Router project with Mastra integration:
 
 ### Workflow Steps (US1)
 
-- [ ] T015 [US1] Implement discovery-chat step with suspend/resume logic in src/mastra/workflows/chat-survey/steps/discovery-chat.ts
-- [ ] T016 [US1] Implement conversation completion detection (agent-driven + 7-turn fallback) in src/mastra/workflows/chat-survey/steps/discovery-chat.ts
-- [ ] T017 [US1] Implement profile-builder step that extracts structured UserProfile from conversation in src/mastra/workflows/chat-survey/steps/profile-builder.ts
-- [ ] T018 [US1] Implement generate-stream step with suspend/resume for each affirmation in src/mastra/workflows/chat-survey/steps/generate-stream.ts
-- [ ] T019 [US1] Implement feedback incorporation (approved/skipped lists) in generation prompts in src/mastra/workflows/chat-survey/steps/generate-stream.ts
-- [ ] T020 [US1] Create main workflow definition connecting all three steps in src/mastra/workflows/chat-survey/index.ts
+- [x] T015 [US1] Implement discovery-chat step with suspend/resume logic in src/mastra/workflows/chat-survey/steps/discovery-chat.ts
+- [x] T016 [US1] Implement conversation completion detection (agent-driven + 7-turn fallback) in src/mastra/workflows/chat-survey/steps/discovery-chat.ts
+- [x] T017 [US1] Implement profile-builder step that extracts structured UserProfile from conversation in src/mastra/workflows/chat-survey/steps/profile-builder.ts
+- [x] T018 [US1] Implement generate-stream step with suspend/resume for each affirmation in src/mastra/workflows/chat-survey/steps/generate-stream.ts
+- [x] T019 [US1] Implement feedback incorporation (approved/skipped lists) in generation prompts in src/mastra/workflows/chat-survey/steps/generate-stream.ts
+- [x] T020 [US1] Create main workflow definition connecting all three steps in src/mastra/workflows/chat-survey/index.ts
 
 ### Server Actions (US1)
 
-- [ ] T021 [US1] Implement startChatSurvey server action in app/chat-survey/actions.ts
-- [ ] T022 [US1] Implement resumeChatSurvey server action in app/chat-survey/actions.ts
-- [ ] T023 [US1] Implement swipeAffirmation server action in app/chat-survey/actions.ts
-- [ ] T024 [US1] Implement WorkflowStartResult type and response formatting in app/chat-survey/actions.ts
+- [x] T021 [US1] Implement startChatSurvey server action in app/chat-survey/actions.ts
+- [x] T022 [US1] Implement resumeChatSurvey server action in app/chat-survey/actions.ts
+- [x] T023 [US1] Implement swipeAffirmation server action in app/chat-survey/actions.ts
+- [x] T024 [US1] Implement WorkflowStartResult type and response formatting in app/chat-survey/actions.ts
 
 ### UI Components (US1)
 
-- [ ] T025 [P] [US1] Create client-side types in app/chat-survey/components/types.ts (SessionReference, phase types)
-- [ ] T026 [P] [US1] Create localStorage hook for session persistence in app/chat-survey/components/use-session-storage.ts
-- [ ] T027 [US1] Create ChatPhase component with message bubbles and input in app/chat-survey/components/chat-phase.tsx
-- [ ] T028 [US1] Create SwipePhase component adapting from AP-02 patterns in app/chat-survey/components/swipe-phase.tsx
-- [ ] T029 [US1] Create CSExperience orchestrator component managing phase transitions in app/chat-survey/components/cs-experience.tsx
-- [ ] T030 [US1] Create component index re-exports in app/chat-survey/components/index.ts
-- [ ] T031 [US1] Create page component that renders CSExperience in app/chat-survey/page.tsx
-- [ ] T032 [US1] Create layout with navigation integration in app/chat-survey/layout.tsx
+- [x] T025 [P] [US1] Create client-side types in app/chat-survey/components/types.ts (SessionReference, phase types)
+- [x] T026 [P] [US1] Create localStorage hook for session persistence in app/chat-survey/components/use-session-storage.ts
+- [x] T027 [US1] Create ChatPhase component with message bubbles and input in app/chat-survey/components/chat-phase.tsx
+- [x] T028 [US1] Create SwipePhase component adapting from AP-02 patterns in app/chat-survey/components/swipe-phase.tsx
+- [x] T029 [US1] Create CSExperience orchestrator component managing phase transitions in app/chat-survey/components/cs-experience.tsx
+- [x] T030 [US1] Create component index re-exports in app/chat-survey/components/index.ts
+- [x] T031 [US1] Create page component that renders CSExperience in app/chat-survey/page.tsx
+- [x] T032 [US1] Create layout with navigation integration in app/chat-survey/layout.tsx
 
 ### Discovery Agent Prompts (US1)
 
-- [ ] T033 [US1] Refine Discovery Agent system prompt for open-ended questioning in src/mastra/agents/chat-survey/discovery-agent.ts
-- [ ] T034 [US1] Add suggested responses generation to Discovery Agent responses
+- [x] T033 [US1] Refine Discovery Agent system prompt for open-ended questioning in src/mastra/agents/chat-survey/discovery-agent.ts
+- [x] T034 [US1] Add suggested responses generation to Discovery Agent responses
 
 ### Generation Agent Prompts (US1)
 
-- [ ] T035 [US1] Implement Generation Agent prompt building with profile context in src/mastra/agents/chat-survey/generation-agent.ts
-- [ ] T036 [US1] Implement feedback incorporation (approved/skipped patterns) in Generation Agent prompts
+- [x] T035 [US1] Implement Generation Agent prompt building with profile context in src/mastra/agents/chat-survey/generation-agent.ts
+- [x] T036 [US1] Implement feedback incorporation (approved/skipped patterns) in Generation Agent prompts
 
 **Checkpoint**: User Story 1 fully functional - complete discovery-to-swipe journey works end-to-end
 
