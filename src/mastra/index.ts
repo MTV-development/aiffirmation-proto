@@ -18,13 +18,13 @@ const globalForMastra = globalThis as unknown as {
   storageInitialized: boolean | undefined;
 };
 
-// Get connection string - prefer DIRECT_URL for DDL operations, fallback to DATABASE_URL
-// Log which one we're using for debugging
-const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
+// Use DATABASE_URL (pooled via PgBouncer) for runtime operations
+// DIRECT_URL (session mode) has limited connections and causes "MaxClientsInSessionMode" errors in serverless
+// Tables should be created during initial deployment or via migration
+const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
-  console.error('[Mastra] No database connection string found! Set DIRECT_URL or DATABASE_URL');
+  console.error('[Mastra] No DATABASE_URL found!');
 }
-console.log('[Mastra] Using connection string from:', process.env.DIRECT_URL ? 'DIRECT_URL' : 'DATABASE_URL');
 
 // Create storage instance (reuse if already created)
 const storage = globalForMastra.storage ?? new PostgresStore({
@@ -54,12 +54,7 @@ export const mastra =
 // Cache mastra instance in all environments to prevent multiple instances
 globalForMastra.mastra = mastra;
 
-// Initialize storage to ensure tables are created
-if (!globalForMastra.storageInitialized) {
-  storage.init().then(() => {
-    console.log('[Mastra] Storage initialized successfully');
-    globalForMastra.storageInitialized = true;
-  }).catch((err) => {
-    console.error('[Mastra] Failed to initialize storage:', err);
-  });
-}
+// Note: storage.init() is NOT called here because:
+// 1. It performs DDL (CREATE TABLE) which doesn't work well with PgBouncer pooling
+// 2. Tables should be created during initial deployment or via migration
+// 3. Run `npx mastra dev` locally with DIRECT_URL to create tables if needed
