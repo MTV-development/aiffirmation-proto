@@ -1126,21 +1126,107 @@ Return JSON: { "affirmation": "Your affirmation here" }`,
   {
     key: 'versions.cs-01.prompt_extract.default',
     value: {
-      text: `Based on this conversation, extract a structured user profile:
+      text: `Analyze this conversation and extract a structured user profile for affirmation generation.
 
 ## Conversation
-{% for msg in conversationHistory %}
-{{ msg.role | capitalize }}: {{ msg.content }}
+{% for msg in conversationHistory %}{{ msg.role | capitalize }}: {{ msg.content }}
+
 {% endfor %}
 
-Extract and return JSON:
+## Instructions
+Extract:
+1. **themes**: 1-5 life areas or topics the user wants to focus on (e.g., "self-worth", "career confidence", "relationships", "health", "stress management")
+2. **challenges**: Specific obstacles or difficulties they mentioned (can be empty)
+3. **tone**: Which tone would resonate best with this user? Choose ONE:
+   - "gentle" - soft, nurturing, self-compassionate language
+   - "assertive" - strong, direct, empowering statements
+   - "balanced" - mix of gentle and assertive
+   - "spiritual" - contemplative, mindful, deeper meaning
+4. **insights**: Any specific personal details or context that should inform affirmations
+5. **conversationSummary**: A brief (max 500 chars) summary of what you learned about this person
+
+Return ONLY a JSON object with these fields:
 {
   "themes": ["theme1", "theme2"],
-  "challenges": ["challenge1", "challenge2"],
-  "tone": "gentle" | "assertive" | "balanced" | "spiritual",
-  "insights": ["insight1", "insight2"],
-  "conversationSummary": "Brief summary of key points (max 500 chars)"
+  "challenges": ["challenge1"],
+  "tone": "balanced",
+  "insights": ["insight1"],
+  "conversationSummary": "Brief summary..."
 }`,
+    },
+  },
+  {
+    key: 'versions.cs-01.prompt_generation_explore.default',
+    value: {
+      text: `Generate a single NEW and UNIQUE affirmation for EXPLORATION mode.
+
+Since no profile is available, generate a diverse affirmation that could resonate with anyone.
+Vary themes: self-worth, peace, growth, strength, trust, gratitude, boundaries, courage.
+Vary tones: gentle, assertive, growth-oriented, reflective.
+{% if allExisting and allExisting.size > 0 %}
+
+## CRITICAL: Do NOT repeat these existing affirmations (generate something completely different):
+{% for a in allExisting %}- "{{ a }}"
+{% endfor %}
+{% endif %}
+{% if approvedAffirmations and approvedAffirmations.size > 0 %}
+
+## Style to Match (user approved these - match the style but NOT the content):
+{% for a in approvedAffirmations | slice: -5 %}- {{ a }}
+{% endfor %}
+{% endif %}
+{% if skippedAffirmations and skippedAffirmations.size > 0 %}
+
+## Patterns to Avoid (user skipped these):
+{% for a in skippedAffirmations | slice: -10 %}- {{ a }}
+{% endfor %}
+{% endif %}
+
+Return JSON: { "affirmation": "Your affirmation here" }`,
+    },
+  },
+  {
+    key: 'versions.cs-01.prompt_generation_personalized.default',
+    value: {
+      text: `Generate a single NEW and UNIQUE personalized affirmation based on this profile:
+
+## User Profile
+- Themes: {{ profile.themes | join: ", " }}
+- Challenges: {% if profile.challenges and profile.challenges.size > 0 %}{{ profile.challenges | join: ", " }}{% else %}none specified{% endif %}
+- Preferred Tone: {{ profile.tone }}
+- Insights: {% if profile.insights and profile.insights.size > 0 %}{{ profile.insights | join: "; " }}{% else %}none{% endif %}
+- Summary: {{ profile.conversationSummary }}
+{% if refinementNote %}
+
+## User Refinement Request
+The user provided additional guidance: "{{ refinementNote }}"
+{% endif %}
+{% if allExisting and allExisting.size > 0 %}
+
+## CRITICAL: Do NOT repeat these existing affirmations (generate something completely different):
+{% for a in allExisting %}- "{{ a }}"
+{% endfor %}
+{% endif %}
+{% if approvedAffirmations and approvedAffirmations.size > 0 %}
+
+## Style to Match (user approved these - match the style but NOT the content):
+{% for a in approvedAffirmations | slice: -5 %}- {{ a }}
+{% endfor %}
+{% endif %}
+{% if skippedAffirmations and skippedAffirmations.size > 0 %}
+
+## Patterns to Avoid (user skipped these):
+{% for a in skippedAffirmations | slice: -10 %}- {{ a }}
+{% endfor %}
+{% endif %}
+
+Return JSON: { "affirmation": "Your affirmation here" }`,
+    },
+  },
+  {
+    key: 'versions.cs-01._temperature_extract.default',
+    value: {
+      text: '0.3',
     },
   },
 

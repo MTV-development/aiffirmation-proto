@@ -1,7 +1,7 @@
 import { createStep } from '@mastra/core/workflows';
 import { z } from 'zod';
 import { type UserProfile, userProfileSchema } from '../types';
-import { generationAgent, buildGenerationPrompt } from '../../../agents/chat-survey';
+import { generationAgent, buildGenerationPromptAsync } from '../../../agents/chat-survey';
 
 const affirmationResponseSchema = z.object({
   affirmation: z.string(),
@@ -51,8 +51,8 @@ export const generateStreamStep = createStep({
       };
     }
 
-    // Build prompt based on profile and feedback
-    const prompt = buildGenerationPrompt({
+    // Build prompt based on profile and feedback using KV templates
+    const prompt = await buildGenerationPromptAsync({
       profile,
       approvedAffirmations,
       skippedAffirmations,

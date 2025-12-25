@@ -1,7 +1,7 @@
 import { createStep } from '@mastra/core/workflows';
 import { z } from 'zod';
 import { generateText } from 'ai';
-import { getModel } from '@/src/services';
+import { getModel, renderTemplate } from '@/src/services';
 import {
   type ConversationMessage,
   type UserProfile,
@@ -43,41 +43,29 @@ export const profileBuilderStep = createStep({
       };
     }
 
-    // Build conversation text for extraction
-    const conversationText = conversationHistory
-      .map(msg => `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
-      .join('\n\n');
+    // Build extraction prompt from KV template
+    const { output: extractionPrompt } = await renderTemplate({
+      key: 'prompt_extract',
+      version: 'cs-01',
+      implementation: 'default',
+      variables: {
+        conversationHistory,
+      },
+    });
 
-    const extractionPrompt = `Analyze this conversation and extract a structured user profile for affirmation generation.
-
-## Conversation
-${conversationText}
-
-## Instructions
-Extract:
-1. **themes**: 1-5 life areas or topics the user wants to focus on (e.g., "self-worth", "career confidence", "relationships", "health", "stress management")
-2. **challenges**: Specific obstacles or difficulties they mentioned (can be empty)
-3. **tone**: Which tone would resonate best with this user? Choose ONE:
-   - "gentle" - soft, nurturing, self-compassionate language
-   - "assertive" - strong, direct, empowering statements
-   - "balanced" - mix of gentle and assertive
-   - "spiritual" - contemplative, mindful, deeper meaning
-4. **insights**: Any specific personal details or context that should inform affirmations
-5. **conversationSummary**: A brief (max 500 chars) summary of what you learned about this person
-
-Return ONLY a JSON object with these fields:
-{
-  "themes": ["theme1", "theme2"],
-  "challenges": ["challenge1"],
-  "tone": "balanced",
-  "insights": ["insight1"],
-  "conversationSummary": "Brief summary..."
-}`;
+    // Get temperature from KV
+    const { output: temperatureStr } = await renderTemplate({
+      key: '_temperature_extract',
+      version: 'cs-01',
+      implementation: 'default',
+      variables: {},
+    });
+    const temperature = parseFloat(temperatureStr) || 0.3;
 
     const response = await generateText({
       model: getModel(),
       prompt: extractionPrompt,
-      temperature: 0.3, // Lower temperature for more consistent extraction
+      temperature,
     });
 
     // Parse extraction response

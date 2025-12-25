@@ -36,6 +36,53 @@ export interface GenerationContext {
   refinementNote?: string;
 }
 
+/**
+ * Build generation prompt using KV templates
+ * Uses prompt_generation_explore for exploration mode
+ * Uses prompt_generation_personalized for personalized mode
+ */
+export async function buildGenerationPromptAsync(
+  context: GenerationContext,
+  implementation: string = 'default'
+): Promise<string> {
+  const { profile, approvedAffirmations, skippedAffirmations, isExplorationMode, refinementNote } = context;
+
+  // Combine all existing affirmations to prevent duplicates
+  const allExisting = [...(approvedAffirmations || []), ...(skippedAffirmations || [])];
+
+  if (isExplorationMode || !profile) {
+    const { output } = await renderTemplate({
+      key: 'prompt_generation_explore',
+      version: 'cs-01',
+      implementation,
+      variables: {
+        allExisting,
+        approvedAffirmations: approvedAffirmations || [],
+        skippedAffirmations: skippedAffirmations || [],
+      },
+    });
+    return output;
+  }
+
+  const { output } = await renderTemplate({
+    key: 'prompt_generation_personalized',
+    version: 'cs-01',
+    implementation,
+    variables: {
+      profile,
+      refinementNote,
+      allExisting,
+      approvedAffirmations: approvedAffirmations || [],
+      skippedAffirmations: skippedAffirmations || [],
+    },
+  });
+  return output;
+}
+
+/**
+ * Synchronous version for backward compatibility
+ * @deprecated Use buildGenerationPromptAsync instead
+ */
 export function buildGenerationPrompt(context: GenerationContext): string {
   const { profile, approvedAffirmations, skippedAffirmations, isExplorationMode, refinementNote } = context;
 
