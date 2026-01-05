@@ -151,6 +151,7 @@ Do not include numbering, explanations, or any other text - just the JSON array.
 
 // Static agent for Mastra registration (uses default instructions)
 export const fullProcess2Agent = new Agent({
+  id: 'fp2-agent',
   name: 'FP-2',
   instructions: DEFAULT_INSTRUCTIONS,
   model: getModel(),
@@ -165,6 +166,7 @@ export async function createFullProcess2Agent(implementation: string = 'default'
   const modelName = await getAgentModelName('fp-02', implementation);
 
   return new Agent({
+    id: `fp2-agent-${implementation}`,
     name: 'FP-2',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
     model: getModel(modelName || undefined),

@@ -113,6 +113,7 @@ Return a JSON object with two fields:
 Do not include explanations or any other text - just the JSON object.`;
 
 export const altProcess1Agent = new Agent({
+  id: 'ap1-agent',
   name: 'AP-1',
   instructions: DEFAULT_INSTRUCTIONS,
   model: getModel(),
@@ -123,6 +124,7 @@ export async function createAltProcess1Agent(implementation: string = 'default')
   const modelName = await getAgentModelName('ap-01', implementation);
 
   return new Agent({
+    id: `ap1-agent-${implementation}`,
     name: 'AP-1',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
     model: getModel(modelName || undefined),

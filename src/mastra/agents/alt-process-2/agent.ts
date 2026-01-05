@@ -131,6 +131,7 @@ Generate 10-12 unique affirmations per batch.
 Do not include explanations or any other text - just the JSON object.`;
 
 export const altProcess2Agent = new Agent({
+  id: 'ap2-agent',
   name: 'AP-2',
   instructions: DEFAULT_INSTRUCTIONS,
   model: getModel(),
@@ -141,6 +142,7 @@ export async function createAltProcess2Agent(implementation: string = 'default')
   const modelName = await getAgentModelName('ap-02', implementation);
 
   return new Agent({
+    id: `ap2-agent-${implementation}`,
     name: 'AP-2',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
     model: getModel(modelName || undefined),

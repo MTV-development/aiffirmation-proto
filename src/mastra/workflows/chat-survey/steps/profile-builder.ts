@@ -1,7 +1,7 @@
 import { createStep } from '@mastra/core/workflows';
 import { z } from 'zod';
-import { generateText } from 'ai';
-import { getModel, renderTemplate } from '@/src/services';
+import { renderTemplate } from '@/src/services';
+import { createProfileExtractorAgent } from '../../../agents/chat-survey/profile-extractor-agent';
 import {
   type ConversationMessage,
   type UserProfile,
@@ -53,25 +53,16 @@ export const profileBuilderStep = createStep({
       },
     });
 
-    // Get temperature from KV
-    const { output: temperatureStr } = await renderTemplate({
-      key: '_temperature_extract',
-      version: 'cs-01',
-      implementation: 'default',
-      variables: {},
-    });
-    const temperature = parseFloat(temperatureStr) || 0.3;
-
-    const response = await generateText({
-      model: getModel(),
-      prompt: extractionPrompt,
-      temperature,
-    });
+    // Create profile extractor agent and generate response
+    // Using Mastra agent instead of direct generateText due to AI SDK version compatibility
+    const agent = await createProfileExtractorAgent('default');
+    const response = await agent.generate(extractionPrompt);
 
     // Parse extraction response
     let profile: UserProfile;
     try {
-      const jsonMatch = response.text.match(/\{[\s\S]*\}/);
+      const responseText = response.text;
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = extractionResponseSchema.parse(JSON.parse(jsonMatch[0]));
         profile = {

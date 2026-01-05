@@ -21,6 +21,7 @@ export async function createDiscoveryAgent(implementation: string = 'default') {
   void _temperature;
 
   return new Agent({
+    id: `cs01-discovery-${implementation}`,
     name: 'CS-01 Discovery Agent',
     instructions: systemPrompt,
     model: getModel(),
@@ -29,6 +30,7 @@ export async function createDiscoveryAgent(implementation: string = 'default') {
 
 // Default agent instance for registration (uses default implementation)
 export const discoveryAgent = new Agent({
+  id: 'cs01-discovery-agent',
   name: 'CS-01 Discovery Agent',
   instructions: `You are a warm, empathetic discovery agent for an affirmation app. Your role is to have a natural conversation to understand what the user needs.
 
