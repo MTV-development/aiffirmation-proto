@@ -130,6 +130,7 @@ Return exactly 10 affirmations as a numbered list (1-10). `;
 // Static agent for Mastra registration (uses default instructions)
 // Uses OpenRouter provider for model access
 export const goodTenAgent = new Agent({
+  id: 'good-ten-agent',
   name: 'Good-Ten',
   instructions: DEFAULT_INSTRUCTIONS,
   model: getModel(),
@@ -144,6 +145,7 @@ export async function createGoodTenAgent(implementation: string = 'default'): Pr
   const modelName = await getAgentModelName('gt-01', implementation);
 
   return new Agent({
+    id: `good-ten-agent-${implementation}`,
     name: 'Good-Ten',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
     model: getModel(modelName || undefined),

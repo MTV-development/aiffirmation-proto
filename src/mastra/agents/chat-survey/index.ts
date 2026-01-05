@@ -6,3 +6,4 @@ export {
   buildGenerationPromptAsync,
   type GenerationContext
 } from './generation-agent';
+export { profileExtractorAgent, createProfileExtractorAgent } from './profile-extractor-agent';

@@ -128,7 +128,7 @@ export async function startChatSurvey(): Promise<WorkflowStartResult> {
   try {
     const workflow = getWorkflow();
     console.log('[Server] Got workflow:', workflow?.id);
-    const run = await workflow.createRunAsync();
+    const run = await workflow.createRun();
     console.log('[Server] Created run:', run.runId);
     const result = await run.start({
       inputData: { skipDiscovery: false },
@@ -178,7 +178,7 @@ export async function resumeChatSurvey(
 
     // Resume the workflow with the conversation history passed from client
     const workflow = getWorkflow();
-    const run = await workflow.createRunAsync({ runId });
+    const run = await workflow.createRun({ runId });
 
     const result = await run.resume({
       step: 'discovery-chat',
@@ -236,7 +236,7 @@ export async function swipeAffirmation(
 
     // Resume the workflow with state from previous suspend
     const workflow = getWorkflow();
-    const run = await workflow.createRunAsync({ runId });
+    const run = await workflow.createRun({ runId });
     const result = await run.resume({
       step: 'generate-stream',
       resumeData: {
@@ -277,7 +277,7 @@ export async function skipToSwipe(_runId?: string): Promise<WorkflowStartResult>
   try {
     // Start new workflow with skipDiscovery flag
     const workflow = getWorkflow();
-    const run = await workflow.createRunAsync();
+    const run = await workflow.createRun();
     const result = await run.start({
       inputData: { skipDiscovery: true },
     });
@@ -307,31 +307,63 @@ export async function skipToSwipe(_runId?: string): Promise<WorkflowStartResult>
 export async function getSessionState(runId: string): Promise<SessionStateResult> {
   try {
     const workflow = getWorkflow();
-    const run = await workflow.createRunAsync({ runId });
-    const state = await run.getState();
+    // In Mastra v1, use storage.getStore('workflows').loadWorkflowSnapshot
+    const storage = mastra.getStorage();
+    if (!storage) {
+      return { exists: false, error: 'Storage not configured' };
+    }
 
-    if (!state) {
+    const workflowsStore = await storage.getStore('workflows');
+    if (!workflowsStore) {
+      return { exists: false, error: 'Workflows store not available' };
+    }
+
+    const snapshot = await workflowsStore.loadWorkflowSnapshot({
+      runId,
+      workflowName: workflow.id,
+    });
+
+    if (!snapshot) {
       return { exists: false };
     }
 
-    // Determine phase based on suspended step or completed steps
+    // In Mastra v1, the snapshot structure has changed:
+    // - suspendedPaths: Record<string, number[]> maps step IDs to paths
+    // - context: contains step results keyed by step ID
     let phase: 'chat' | 'swipe' = 'chat';
-    const suspended = state.suspended as Array<{ step: string }> | undefined;
-    const steps = state.steps as Record<string, { status?: string }> | undefined;
+    const suspendedPaths = snapshot.suspendedPaths || {};
+    const context = snapshot.context || {};
 
-    if (suspended?.some(s => s.step === 'generate-stream') || steps?.['profile-builder']?.status === 'success') {
+    // Check if a step is suspended
+    const isSuspendedOnStep = (stepName: string) => {
+      return Object.keys(suspendedPaths).includes(stepName);
+    };
+
+    // Check step completion from context
+    const stepResult = (stepName: string) => context[stepName] as { status?: string; output?: unknown } | undefined;
+
+    if (isSuspendedOnStep('generate-stream') || stepResult('profile-builder')?.status === 'success') {
       phase = 'swipe';
     }
 
-    // Get saved count
-    const generateResult = steps?.['generate-stream'] as { output?: { approvedAffirmations?: string[] } } | undefined;
+    // Get saved count from generate-stream step output
+    const generateResult = stepResult('generate-stream') as { output?: { approvedAffirmations?: string[] } } | undefined;
     const savedCount = generateResult?.output?.approvedAffirmations?.length || 0;
+
+    // Convert to the format expected by formatWorkflowResult
+    const suspendedArray = Object.keys(suspendedPaths).map(step => ({ step }));
+    const stepsRecord: Record<string, { output?: unknown; suspendPayload?: unknown }> = {};
+    for (const [key, value] of Object.entries(context)) {
+      if (key !== 'input' && typeof value === 'object' && value !== null) {
+        stepsRecord[key] = value as { output?: unknown; suspendPayload?: unknown };
+      }
+    }
 
     const formatted = formatWorkflowResult({
       runId,
-      status: state.status as string,
-      suspended: suspended as Array<{ step: string; payload?: unknown }>,
-      steps: steps as Record<string, { output?: unknown }>,
+      status: snapshot.status as string,
+      suspended: suspendedArray,
+      steps: stepsRecord,
     });
 
     return {
@@ -356,11 +388,25 @@ export async function getSessionState(runId: string): Promise<SessionStateResult
 export async function getSavedAffirmations(runId: string): Promise<SavedAffirmationsResult> {
   try {
     const workflow = getWorkflow();
-    const run = await workflow.createRunAsync({ runId });
-    const state = await run.getState();
+    // In Mastra v1, use storage.getStore('workflows').loadWorkflowSnapshot
+    const storage = mastra.getStorage();
+    if (!storage) {
+      return { affirmations: [], error: 'Storage not configured' };
+    }
 
-    const steps = state?.steps as Record<string, { output?: { approvedAffirmations?: string[] } }> | undefined;
-    const generateResult = steps?.['generate-stream'];
+    const workflowsStore = await storage.getStore('workflows');
+    if (!workflowsStore) {
+      return { affirmations: [], error: 'Workflows store not available' };
+    }
+
+    const snapshot = await workflowsStore.loadWorkflowSnapshot({
+      runId,
+      workflowName: workflow.id,
+    });
+
+    // In Mastra v1, step results are in snapshot.context
+    const context = snapshot?.context || {};
+    const generateResult = context['generate-stream'] as { output?: { approvedAffirmations?: string[] } } | undefined;
 
     return {
       affirmations: generateResult?.output?.approvedAffirmations || [],

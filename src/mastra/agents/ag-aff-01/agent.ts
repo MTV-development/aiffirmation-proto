@@ -17,6 +17,7 @@ Return the affirmations as a numbered list (1-10).`;
 // Static agent for Mastra registration (uses default instructions)
 // Uses OpenRouter provider for model access
 export const af1Agent = new Agent({
+  id: 'af1-agent',
   name: 'AF-1',
   instructions: DEFAULT_INSTRUCTIONS,
   model: getModel(),
@@ -31,6 +32,7 @@ export async function createAF01Agent(implementation: string = 'default'): Promi
   const modelName = await getAgentModelName('af-01', implementation);
 
   return new Agent({
+    id: `af1-agent-${implementation}`,
     name: 'AF-1',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
     model: getModel(modelName || undefined),

@@ -16,7 +16,9 @@
       "Bash(claude mcp list:*)",
       "Bash(claude mcp get:*)",
       "Bash(claude mcp remove:*)",
-      "Bash(claude mcp add:*)"
+      "Bash(claude mcp add:*)",
+      "Bash(node:*)",
+      "Bash(npm view:*)"
     ],
     "deny": [],
     "ask": []

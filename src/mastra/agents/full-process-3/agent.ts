@@ -148,6 +148,7 @@ Return exactly 8 affirmations as a JSON array of strings:
 Do not include numbering, explanations, or any other text - just the JSON array.`;
 
 export const fullProcess3Agent = new Agent({
+  id: 'fp3-agent',
   name: 'FP-3',
   instructions: DEFAULT_INSTRUCTIONS,
   model: getModel(),
@@ -158,6 +159,7 @@ export async function createFullProcess3Agent(implementation: string = 'default'
   const modelName = await getAgentModelName('fp-03', implementation);
 
   return new Agent({
+    id: `fp3-agent-${implementation}`,
     name: 'FP-3',
     instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
     model: getModel(modelName || undefined),

@@ -8,7 +8,7 @@ import { goodTenAgent } from './agents/ag-good-ten';
 import { fullProcessAgent } from './agents/full-process';
 import { fullProcess2Agent } from './agents/full-process-2';
 import { fullProcess3Agent } from './agents/full-process-3';
-import { discoveryAgent, generationAgent } from './agents/chat-survey';
+import { discoveryAgent, generationAgent, profileExtractorAgent } from './agents/chat-survey';
 import { chatSurveyWorkflow } from './workflows/chat-survey';
 
 // Singleton pattern to prevent "AI Tracing instance already registered" error during Next.js hot reload
@@ -28,6 +28,7 @@ if (!connectionString) {
 
 // Create storage instance (reuse if already created)
 const storage = globalForMastra.storage ?? new PostgresStore({
+  id: 'aiffirmation-storage',
   connectionString: connectionString!,
 });
 globalForMastra.storage = storage;
@@ -35,20 +36,13 @@ globalForMastra.storage = storage;
 export const mastra =
   globalForMastra.mastra ??
   new Mastra({
-    agents: { weatherAgent, af1Agent, goodTenAgent, fullProcessAgent, fullProcess2Agent, fullProcess3Agent, discoveryAgent, generationAgent },
+    agents: { weatherAgent, af1Agent, goodTenAgent, fullProcessAgent, fullProcess2Agent, fullProcess3Agent, discoveryAgent, generationAgent, profileExtractorAgent },
     workflows: { chatSurveyWorkflow },
     storage,
     logger: new PinoLogger({
       name: 'Mastra',
       level: 'info',
     }),
-    telemetry: {
-      enabled: false,
-    },
-    // Disable observability to prevent SQLite fallback
-    observability: {
-      default: { enabled: false },
-    },
   });
 
 // Cache mastra instance in all environments to prevent multiple instances

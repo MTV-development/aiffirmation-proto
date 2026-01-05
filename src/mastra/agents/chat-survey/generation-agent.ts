@@ -22,6 +22,7 @@ export async function createGenerationAgent(implementation: string = 'default') 
   void _temperature;
 
   return new Agent({
+    id: `cs01-generation-${implementation}`,
     name: 'CS-01 Generation Agent',
     instructions: systemPrompt,
     model: getModel(),
@@ -148,6 +149,7 @@ Return JSON: { "affirmation": "Your affirmation here" }`;
 
 // Default agent instance for registration
 export const generationAgent = new Agent({
+  id: 'cs01-generation-agent',
   name: 'CS-01 Generation Agent',
   instructions: `You are an expert affirmation generator. Create deeply meaningful, psychologically effective affirmations.
 

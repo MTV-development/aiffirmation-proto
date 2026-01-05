@@ -20,8 +20,19 @@ export function getModelName(): string {
 }
 
 /**
- * Get a model instance from OpenRouter
+ * Get a model string for Mastra v1 agents
+ * Note: Mastra v1 uses model strings in format "openrouter/[provider]/[model-name]"
  */
-export function getModel(modelName?: string) {
+export function getModel(modelName?: string): string {
+  // Mastra v1 model format: openrouter/[provider]/[model-name]
+  // e.g., "google/gemini-2.5-flash" -> "openrouter/google/gemini-2.5-flash"
+  const model = modelName || getModelName();
+  return `openrouter/${model}`;
+}
+
+/**
+ * Get a raw OpenRouter model instance (for use outside Mastra)
+ */
+export function getOpenRouterModel(modelName?: string) {
   return openRouterProvider(modelName || getModelName());
 }
