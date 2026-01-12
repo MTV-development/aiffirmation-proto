@@ -13,6 +13,10 @@ export type NavItem = {
 
 export const navTree: NavItem[] = [
   {
+    label: "Overview",
+    href: "/overview",
+  },
+  {
     label: "AF-01",
     href: "/ag-aff-01",
     children: [

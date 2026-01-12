@@ -18,10 +18,12 @@ const globalForMastra = globalThis as unknown as {
   storageInitialized: boolean | undefined;
 };
 
-// Use DATABASE_URL (pooled via PgBouncer) for runtime operations
-// DIRECT_URL (session mode) has limited connections and causes "MaxClientsInSessionMode" errors in serverless
-// Tables should be created during initial deployment or via migration
-const connectionString = process.env.DATABASE_URL;
+// Use DIRECT_URL for Mastra storage because:
+// 1. Mastra calls storage.init() internally which performs DDL (CREATE TABLE)
+// 2. DDL operations fail through PgBouncer (DATABASE_URL on port 6543)
+// 3. DIRECT_URL (port 5432) supports DDL but has connection limits
+// For production, ensure tables are pre-created and consider connection pooling strategies
+const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
 if (!connectionString) {
   console.error('[Mastra] No DATABASE_URL found!');
 }
@@ -48,7 +50,6 @@ export const mastra =
 // Cache mastra instance in all environments to prevent multiple instances
 globalForMastra.mastra = mastra;
 
-// Note: storage.init() is NOT called here because:
-// 1. It performs DDL (CREATE TABLE) which doesn't work well with PgBouncer pooling
-// 2. Tables should be created during initial deployment or via migration
-// 3. Run `npx mastra dev` locally with DIRECT_URL to create tables if needed
+// Note: Mastra internally calls storage.init() when workflows start
+// We use DIRECT_URL to ensure DDL operations work correctly
+// For production with connection limits, pre-create tables via `npm run db:reset`
