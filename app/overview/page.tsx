@@ -4,6 +4,7 @@ type VersionCard = {
   id: string;
   name: string;
   href: string;
+  tagline: string;
   description: string;
   inputType: string;
   outputType: string;
@@ -15,7 +16,8 @@ const versions: VersionCard[] = [
     id: 'AF-01',
     name: 'Basic Generator',
     href: '/ag-aff-01',
-    description: 'Simple theme-based affirmation generator. Select themes and get 10 personalized affirmations.',
+    tagline: 'Simple theme-based generation',
+    description: 'The fastest path to affirmations. Select themes, optionally add context, and get 10 personalized affirmations instantly.',
     inputType: 'Theme selection',
     outputType: 'Batch of 10',
   },
@@ -23,7 +25,8 @@ const versions: VersionCard[] = [
     id: 'GT-01',
     name: 'Good Ten',
     href: '/ag-good-ten',
-    description: 'Advanced generator with detailed quality criteria. Creates psychologically effective affirmations.',
+    tagline: 'Quality-focused generation',
+    description: 'Same input as AF-01, but uses detailed psychological criteria for higher-quality, more thoughtfully crafted affirmations.',
     inputType: 'Theme selection',
     outputType: 'Batch of 10',
     highlight: 'Quality focused',
@@ -32,50 +35,57 @@ const versions: VersionCard[] = [
     id: 'FP-01',
     name: 'Full Process',
     href: '/full-process',
-    description: 'Guided 3-step discovery: focus area, challenges, and tone preference before generation.',
-    inputType: '3-step form',
+    tagline: 'Guided 3-step discovery',
+    description: 'A wizard helps you clarify what you need: focus area, challenges, and tone. Then review affirmations via swipe cards.',
+    inputType: '3-step wizard',
     outputType: 'Swipe cards',
   },
   {
     id: 'FP-02',
     name: 'Full Process 2',
     href: '/full-process-2',
-    description: 'Like FP-01 but learns from your swipes. Skipped patterns are avoided in future batches.',
-    inputType: '3-step form',
+    tagline: 'Feedback-aware generation',
+    description: 'Same wizard as FP-01, but the AI learns from both what you like and skip. Each batch gets better at matching your preferences.',
+    inputType: '3-step wizard',
     outputType: 'Adaptive swipe',
-    highlight: 'Learns from skips',
+    highlight: 'Learns from swipes',
   },
   {
     id: 'FP-03',
     name: 'Full Process 3',
     href: '/full-process-3',
-    description: 'Chat-first onboarding with check-ins. Generates batches then asks for adjustments.',
-    inputType: 'Chat + form',
+    tagline: 'Chat-first onboarding',
+    description: 'Same feedback-learning as FP-02, but with a conversational UX instead of a wizard. Quick-reply buttons make it feel natural.',
+    inputType: 'Chat + choices',
     outputType: 'Swipe cards',
+    highlight: 'Chat interface',
   },
   {
     id: 'AP-01',
     name: 'Contextual Mirror',
     href: '/alt-process-1',
-    description: 'Minimal friction. Just vent or share thoughts freely - AI extracts context and generates.',
+    tagline: 'Zero-structure input',
+    description: 'Just vent or share freely. The AI extracts context, shows you tags to prove it understood, then generates personalized affirmations.',
     inputType: 'Free text',
     outputType: 'Tags + swipe',
-    highlight: 'Zero structure',
+    highlight: 'AI structures for you',
   },
   {
     id: 'AP-02',
     name: 'Reactive Stream',
     href: '/alt-process-2',
-    description: 'TikTok-style discovery. No input needed - just swipe and the AI learns your preferences.',
+    tagline: 'Zero input required',
+    description: 'TikTok-style discovery. Affirmations appear instantly - no setup needed. Just swipe and the AI learns your preferences.',
     inputType: 'None (swipe only)',
     outputType: 'Endless stream',
-    highlight: 'Zero input',
+    highlight: 'Instant start',
   },
   {
     id: 'CS-01',
     name: 'Chat Survey',
     href: '/chat-survey',
-    description: 'Two-phase experience: conversational discovery chat, then personalized swipe generation.',
+    tagline: 'Deepest personalization',
+    description: 'Have a natural conversation about your challenges and goals. The AI builds a profile and generates deeply personalized affirmations.',
     inputType: 'Conversation',
     outputType: 'Personalized swipe',
     highlight: 'Most personal',
@@ -100,7 +110,7 @@ export default function OverviewPage() {
               href={version.href}
               className="group block bg-gray-800 rounded-lg p-6 hover:bg-gray-700 hover:ring-1 hover:ring-purple-500/50 transition-all"
             >
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex items-start justify-between mb-2">
                 <div>
                   <span className="text-sm font-mono text-purple-400">{version.id}</span>
                   <h2 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors">
@@ -113,6 +123,8 @@ export default function OverviewPage() {
                   </span>
                 )}
               </div>
+
+              <p className="text-xs text-purple-400/70 mb-3">{version.tagline}</p>
 
               <p className="text-sm text-gray-400 mb-5 leading-relaxed">
                 {version.description}
@@ -141,6 +153,7 @@ export default function OverviewPage() {
                   <th className="pb-2 pr-4">Version</th>
                   <th className="pb-2 pr-4">User Effort</th>
                   <th className="pb-2 pr-4">Personalization</th>
+                  <th className="pb-2 pr-4">Learning</th>
                   <th className="pb-2">Best For</th>
                 </tr>
               </thead>
@@ -149,36 +162,56 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 font-mono text-purple-400">AF-01</td>
                   <td className="py-2 pr-4">Low</td>
                   <td className="py-2 pr-4">Basic</td>
+                  <td className="py-2 pr-4 text-gray-500">None</td>
                   <td className="py-2">Quick generation</td>
                 </tr>
                 <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">GT-01</td>
                   <td className="py-2 pr-4">Low</td>
                   <td className="py-2 pr-4">Basic</td>
+                  <td className="py-2 pr-4 text-gray-500">None</td>
                   <td className="py-2">Quality-focused users</td>
                 </tr>
                 <tr className="border-b border-gray-800/50">
-                  <td className="py-2 pr-4 font-mono text-purple-400">FP-01/02/03</td>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FP-01</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High</td>
+                  <td className="py-2 pr-4 text-gray-500">None</td>
                   <td className="py-2">Guided discovery</td>
+                </tr>
+                <tr className="border-b border-gray-800/50">
+                  <td className="py-2 pr-4 font-mono text-purple-400">FP-02</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Improving results</td>
+                </tr>
+                <tr className="border-b border-gray-800/50">
+                  <td className="py-2 pr-4 font-mono text-purple-400">FP-03</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Conversational UX</td>
                 </tr>
                 <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">AP-01</td>
                   <td className="py-2 pr-4">Low</td>
                   <td className="py-2 pr-4">High</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Emotional processing</td>
                 </tr>
                 <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">AP-02</td>
                   <td className="py-2 pr-4">Minimal</td>
                   <td className="py-2 pr-4">Adaptive</td>
-                  <td className="py-2">Exploration/discovery</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Exploration</td>
                 </tr>
                 <tr>
                   <td className="py-2 pr-4 font-mono text-purple-400">CS-01</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">Highest</td>
+                  <td className="py-2 pr-4 text-emerald-400">Profile + swipes</td>
                   <td className="py-2">Deep personalization</td>
                 </tr>
               </tbody>

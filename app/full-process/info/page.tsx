@@ -1,71 +1,73 @@
+import { InfoPageWrapper, InfoSummaryBox, BestFor, InfoSection, TechnicalDetails } from '@/components/info-page-wrapper';
+
 export default function FullProcessInfoPage() {
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Full Process Affirmation Generator</h1>
+    <InfoPageWrapper id="FP-01" name="Full Process" tagline="Guided 3-step discovery wizard">
+      <InfoSummaryBox>
+        A guided experience that helps you discover what you need through a 3-step wizard.
+        Choose your focus area, identify challenges, and select your preferred tone before
+        receiving personalized affirmations in a swipe-card format.
+        <BestFor>Best for users who want more guidance in defining their needs.</BestFor>
+      </InfoSummaryBox>
 
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-3">Overview</h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          The Full Process Generator guides you through a personalized affirmation creation experience.
-          It uses a 4-step discovery wizard to understand your needs, then generates tailored affirmations
-          that you can review, refine, and export.
-        </p>
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-3">How It Works</h2>
+      <InfoSection title="How It Works">
         <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-gray-400">
-          <li><strong>Discovery Wizard</strong> - Tell us about your focus, timing, challenges, and preferred tone</li>
-          <li><strong>Review Loop</strong> - Review affirmations one by one, keeping the ones that resonate</li>
-          <li><strong>Check-Ins</strong> - At milestones, confirm your direction or adjust preferences</li>
+          <li><strong>Discovery Wizard</strong> - Answer 3 questions about focus, challenges, and tone</li>
+          <li><strong>Swipe Review</strong> - Review affirmations one by one, keeping the ones that resonate</li>
+          <li><strong>Check-Ins</strong> - Request more affirmations or adjust preferences at milestones</li>
           <li><strong>Export</strong> - Copy or download your curated collection</li>
         </ol>
-      </section>
+      </InfoSection>
 
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-3">Discovery Steps</h2>
-        <div className="space-y-4">
+      <InfoSection title="Discovery Steps">
+        <div className="space-y-3">
           <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <h3 className="font-medium mb-1">Step 1: Primary Focus</h3>
+            <h4 className="font-medium mb-1">Step 1: Primary Focus</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Choose an area of life to focus on: Career Growth, Relationships, Health & Wellness,
-              Confidence, Creativity, or Self-Worth. Or enter your own custom focus.
+              Choose an area of life: Career Growth, Relationships, Health &amp; Wellness,
+              Confidence, Creativity, or Self-Worth. Or enter your own.
             </p>
           </div>
           <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <h3 className="font-medium mb-1">Step 2: Timing</h3>
+            <h4 className="font-medium mb-1">Step 2: Challenges (Optional)</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              When will you use these affirmations? Morning (energizing), Evening (calming),
-              or All-Day (balanced). Select multiple options if needed.
+              Select challenges to address: Anxiety, Self-Doubt, Imposter Syndrome,
+              Procrastination, Perfectionism, or Burnout.
             </p>
           </div>
           <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <h3 className="font-medium mb-1">Step 3: Challenges</h3>
+            <h4 className="font-medium mb-1">Step 3: Tone</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Select challenges you want to address: Anxiety, Self-Doubt, Imposter Syndrome,
-              Procrastination, Perfectionism, or Burnout. This step is optional.
-            </p>
-          </div>
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <h3 className="font-medium mb-1">Step 4: Tone</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Choose the voice of your affirmations: Gentle & Compassionate, Powerful & Commanding,
-              Practical & Grounded, or Spiritual & Reflective.
+              Choose your preferred voice: Gentle &amp; Compassionate, Powerful &amp; Commanding,
+              Practical &amp; Grounded, or Spiritual &amp; Reflective.
             </p>
           </div>
         </div>
-      </section>
+      </InfoSection>
 
-      <section>
-        <h2 className="text-lg font-semibold mb-3">Tips for Best Results</h2>
+      <InfoSection title="What Makes This Version Unique">
+        <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
+          <li>Structured discovery process helps you clarify what you need</li>
+          <li>Swipe-card interface for one-at-a-time review</li>
+          <li>Mid-journey check-ins let you request more or adjust</li>
+          <li>Generates 8 affirmations per batch</li>
+        </ul>
+      </InfoSection>
+
+      <InfoSection title="Tips">
         <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
           <li>Be specific about your focus area for more personalized results</li>
           <li>Select challenges that truly resonate with your current situation</li>
           <li>Choose a tone that feels comfortable and believable to you</li>
           <li>Like affirmations that feel authentic, skip ones that don&apos;t</li>
-          <li>Use the check-in to adjust if the affirmations aren&apos;t quite right</li>
         </ul>
-      </section>
-    </div>
+      </InfoSection>
+
+      <TechnicalDetails>
+        <p>Agent ID: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">fp-01</code></p>
+        <p>KV Namespace: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">versions.fp-01.*</code></p>
+        <p>Output: 8 affirmations per batch (JSON array)</p>
+      </TechnicalDetails>
+    </InfoPageWrapper>
   );
 }
