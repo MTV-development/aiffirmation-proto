@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { generateAffirmationsFO01 } from '../actions';
 import { StepWelcome } from './step-welcome';
+import { StepIntent } from './step-intent';
 
 /**
  * FO-01 Onboarding state
@@ -141,6 +142,43 @@ export function FOExperience() {
     }
   }, [state.name, state.intention, updateState]);
 
+  // Generate affirmations with explicit intention (for step 3.2 where intention comes from topics)
+  const generateAffirmationsWithIntention = useCallback(async (intention: string) => {
+    if (!state.name || !intention) {
+      updateState({ generationError: 'Name and intention are required' });
+      return;
+    }
+
+    updateState({ isGenerating: true, generationError: null });
+
+    try {
+      const result = await generateAffirmationsFO01({
+        name: state.name,
+        intention: intention,
+      });
+
+      if (result.error) {
+        updateState({
+          isGenerating: false,
+          generationError: result.error,
+        });
+        return;
+      }
+
+      updateState({
+        isGenerating: false,
+        allAffirmations: result.affirmations,
+        generationError: null,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to generate affirmations';
+      updateState({
+        isGenerating: false,
+        generationError: errorMessage,
+      });
+    }
+  }, [state.name, updateState]);
+
   // Approve current affirmation
   const approveAffirmation = useCallback((affirmation: string) => {
     setState((prev) => ({
@@ -209,6 +247,30 @@ export function FOExperience() {
 
   // Render step content based on current step
   const renderStep = () => {
+    // Handle step 3.2 (inspiration topics) - fractional step from "I don't know"
+    if (state.currentStep === 3.2) {
+      return (
+        <StepIntent
+          currentStep={3.2}
+          name={state.name}
+          intention={state.intention}
+          selectedTopics={state.selectedTopics}
+          onIntentionChange={setIntention}
+          onTopicsChange={(topics) => updateState({ selectedTopics: topics })}
+          onContinue={async () => {
+            // Build intention from selected topics for AI generation
+            const topicsIntention = state.selectedTopics.join(', ');
+            updateState({ intention: topicsIntention });
+            goToStep(4);
+            // Need to call generateAffirmations after state update
+            // We'll rely on the updated intention in generateAffirmations
+            await generateAffirmationsWithIntention(topicsIntention);
+          }}
+          onIDontKnow={() => goToStep(3)}
+        />
+      );
+    }
+
     switch (state.currentStep) {
       case 0:
       case 1:
@@ -224,47 +286,22 @@ export function FOExperience() {
         );
 
       case 3:
-        // Topic selection step (optional)
+        // Open text intention step
         return (
-          <div className="max-w-md mx-auto p-8">
-            <h2 className="text-2xl font-bold mb-4">Select topics (optional)</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Choose any themes that resonate with you.
-            </p>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {['Confidence', 'Self-love', 'Success', 'Health', 'Relationships', 'Abundance', 'Peace', 'Growth'].map((topic) => (
-                <button
-                  key={topic}
-                  onClick={() => toggleTopic(topic)}
-                  className={`px-4 py-2 rounded-full border transition-colors ${
-                    state.selectedTopics.includes(topic)
-                      ? 'bg-purple-600 text-white border-purple-600'
-                      : 'border-gray-300 dark:border-gray-600 hover:border-purple-400'
-                  }`}
-                >
-                  {topic}
-                </button>
-              ))}
-            </div>
-            <div className="flex justify-between">
-              <button
-                onClick={prevStep}
-                className="px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={async () => {
-                  await generateAffirmations();
-                  nextStep();
-                }}
-                disabled={state.isGenerating}
-                className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {state.isGenerating ? 'Generating...' : 'Generate Affirmations'}
-              </button>
-            </div>
-          </div>
+          <StepIntent
+            currentStep={3}
+            name={state.name}
+            intention={state.intention}
+            selectedTopics={state.selectedTopics}
+            onIntentionChange={setIntention}
+            onTopicsChange={(topics) => updateState({ selectedTopics: topics })}
+            onContinue={async () => {
+              // Trigger AI generation and move to loading step
+              goToStep(4);
+              await generateAffirmations();
+            }}
+            onIDontKnow={() => goToStep(3.2)}
+          />
         );
 
       case 4:
