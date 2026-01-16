@@ -6,6 +6,7 @@ import { StepWelcome } from './step-welcome';
 import { StepIntent } from './step-intent';
 import { StepSwipeIntro } from './step-swipe-intro';
 import { SwipePhase, type SwipeDirection } from './swipe-phase';
+import { StepCheckpoint } from './step-checkpoint';
 
 /**
  * FO-01 Onboarding state
@@ -344,31 +345,28 @@ export function FOExperience() {
         const cardIndexInBatch = state.currentCardIndex + 1; // 1-indexed for display
 
         if (!currentAffirmation && !hasMoreInBatch()) {
-          // Batch complete - show summary or move to next batch (step 6.1/6.3)
+          // Batch complete - show checkpoint screen
+          const batchNumber = state.currentBatchIndex + 1; // 1-indexed for display
+
           return (
-            <div className="max-w-md mx-auto p-8 text-center">
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Batch Complete!</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                You&apos;ve saved {state.approvedAffirmations.length} affirmations so far.
-              </p>
-              <div className="flex justify-center gap-4">
-                {hasMoreBatches() && (
-                  <button
-                    onClick={nextBatch}
-                    className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
-                  >
-                    See More
-                  </button>
-                )}
-                <button
-                  onClick={nextStep}
-                  disabled={state.approvedAffirmations.length === 0}
-                  className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
+            <StepCheckpoint
+              name={state.name}
+              batchNumber={batchNumber}
+              approvedCount={state.approvedAffirmations.length}
+              onContinue={() => {
+                if (hasMoreBatches()) {
+                  // Move to next batch
+                  nextBatch();
+                } else {
+                  // No more batches, go to background selection (step 6)
+                  nextStep();
+                }
+              }}
+              onFinish={() => {
+                // Skip remaining batches, go to background selection (step 6)
+                nextStep();
+              }}
+            />
           );
         }
 
