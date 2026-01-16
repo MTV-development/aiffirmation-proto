@@ -8,6 +8,7 @@ import { StepSwipeIntro } from './step-swipe-intro';
 import { SwipePhase, type SwipeDirection } from './swipe-phase';
 import { StepCheckpoint } from './step-checkpoint';
 import { StepIllustrative } from './step-illustrative';
+import { StepCompletion } from './step-completion';
 
 /**
  * FO-01 Onboarding state
@@ -409,35 +410,10 @@ export function FOExperience() {
       case 10:
         // Completion step
         return (
-          <div className="max-w-md mx-auto p-8 text-center">
-            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold mb-4">All Set!</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              You&apos;ve saved {state.approvedAffirmations.length} personalized affirmations.
-            </p>
-            {state.approvedAffirmations.length > 0 && (
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 mb-6 text-left max-h-48 overflow-y-auto">
-                <ul className="space-y-2">
-                  {state.approvedAffirmations.map((aff, idx) => (
-                    <li key={idx} className="text-sm flex items-start gap-2">
-                      <span className="text-purple-500 mt-0.5">•</span>
-                      <span>{aff}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <button
-              onClick={reset}
-              className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-            >
-              Start Over
-            </button>
-          </div>
+          <StepCompletion
+            name={state.name}
+            approvedAffirmations={state.approvedAffirmations}
+          />
         );
 
       default:
