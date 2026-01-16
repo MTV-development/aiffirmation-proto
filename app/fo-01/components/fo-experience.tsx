@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { generateAffirmationsFO01 } from '../actions';
+import { StepWelcome } from './step-welcome';
 
 /**
  * FO-01 Onboarding state
@@ -210,83 +211,16 @@ export function FOExperience() {
   const renderStep = () => {
     switch (state.currentStep) {
       case 0:
-        // Welcome / intro step
-        return (
-          <div className="text-center p-8">
-            <h1 className="text-3xl font-bold mb-4">Welcome to Full Onboarding</h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
-              Let&apos;s create personalized affirmations just for you.
-            </p>
-            <button
-              onClick={nextStep}
-              className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-            >
-              Get Started
-            </button>
-          </div>
-        );
-
       case 1:
-        // Name input step
-        return (
-          <div className="max-w-md mx-auto p-8">
-            <h2 className="text-2xl font-bold mb-4">What&apos;s your name?</h2>
-            <input
-              type="text"
-              value={state.name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 mb-6"
-            />
-            <div className="flex justify-between">
-              <button
-                onClick={prevStep}
-                className="px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                disabled={!state.name.trim()}
-                className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        );
-
       case 2:
-        // Intention input step
+        // Welcome steps (0-2) handled by StepWelcome component
         return (
-          <div className="max-w-md mx-auto p-8">
-            <h2 className="text-2xl font-bold mb-4">What&apos;s your intention?</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              What would you like to focus on or achieve?
-            </p>
-            <textarea
-              value={state.intention}
-              onChange={(e) => setIntention(e.target.value)}
-              placeholder="e.g., Build confidence, reduce anxiety, find inner peace..."
-              rows={4}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 mb-6 resize-none"
-            />
-            <div className="flex justify-between">
-              <button
-                onClick={prevStep}
-                className="px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                disabled={!state.intention.trim()}
-                className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          </div>
+          <StepWelcome
+            currentStep={state.currentStep}
+            name={state.name}
+            onNameChange={setName}
+            onContinue={nextStep}
+          />
         );
 
       case 3:
