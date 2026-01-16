@@ -2,7 +2,7 @@
   "id": "3d0",
   "title": "Create FO-01 main page",
   "description": "Create the main page that mounts FOExperience.\n\nFile: app/fo-01/page.tsx\n\nSimple page component that:\n- Imports FOExperience from ./components/fo-experience\n- Renders FOExperience as the main content\n- Full height container\n\nReference: app/chat-survey/page.tsx for pattern",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "Page loads, FOExperience renders, full onboarding flow works",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-16T18:19:54.0647174Z",
-  "updated_at": "2026-01-16T18:19:54.0647174Z"
+  "updated_at": "2026-01-16T18:59:36.0706159Z",
+  "closed_at": "2026-01-16T18:59:36.0706159Z",
+  "closed_reason": "Created app/fo-01/page.tsx following chat-survey pattern. Simple page component that imports FOExperience from ./components/fo-experience and renders it in a full-height container (h-[calc(100vh-4rem)])."
 }
