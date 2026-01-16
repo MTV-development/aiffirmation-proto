@@ -7,6 +7,7 @@ import { StepIntent } from './step-intent';
 import { StepSwipeIntro } from './step-swipe-intro';
 import { SwipePhase, type SwipeDirection } from './swipe-phase';
 import { StepCheckpoint } from './step-checkpoint';
+import { StepIllustrative } from './step-illustrative';
 
 /**
  * FO-01 Onboarding state
@@ -358,13 +359,13 @@ export function FOExperience() {
                   // Move to next batch
                   nextBatch();
                 } else {
-                  // No more batches, go to background selection (step 6)
-                  nextStep();
+                  // No more batches, go to background selection (step 7)
+                  goToStep(7);
                 }
               }}
               onFinish={() => {
-                // Skip remaining batches, go to background selection (step 6)
-                nextStep();
+                // Skip remaining batches, go to background selection (step 7)
+                goToStep(7);
               }}
             />
           );
@@ -394,112 +395,15 @@ export function FOExperience() {
       }
 
       case 6:
-        // Background selection
-        return (
-          <div className="max-w-md mx-auto p-8">
-            <h2 className="text-2xl font-bold mb-4">Choose a background</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Select a visual style for your affirmations.
-            </p>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              {['gradient-purple', 'gradient-blue', 'gradient-green', 'dark'].map((bg) => (
-                <button
-                  key={bg}
-                  onClick={() => setSelectedBackground(bg)}
-                  className={`h-24 rounded-lg border-2 transition-colors ${
-                    state.selectedBackground === bg
-                      ? 'border-purple-600'
-                      : 'border-gray-300 dark:border-gray-600'
-                  } ${
-                    bg === 'gradient-purple' ? 'bg-gradient-to-br from-purple-500 to-pink-500' :
-                    bg === 'gradient-blue' ? 'bg-gradient-to-br from-blue-500 to-cyan-500' :
-                    bg === 'gradient-green' ? 'bg-gradient-to-br from-green-500 to-emerald-500' :
-                    'bg-gray-900'
-                  }`}
-                />
-              ))}
-            </div>
-            <div className="flex justify-between">
-              <button
-                onClick={prevStep}
-                className="px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        );
-
       case 7:
-        // Notification frequency
-        return (
-          <div className="max-w-md mx-auto p-8">
-            <h2 className="text-2xl font-bold mb-4">How often?</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              How many times per day would you like to see affirmations?
-            </p>
-            <div className="space-y-3 mb-6">
-              {[1, 3, 5, 10].map((freq) => (
-                <button
-                  key={freq}
-                  onClick={() => setNotificationFrequency(freq)}
-                  className={`w-full px-4 py-3 rounded-lg border text-left transition-colors ${
-                    state.notificationFrequency === freq
-                      ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/20'
-                      : 'border-gray-300 dark:border-gray-600 hover:border-purple-400'
-                  }`}
-                >
-                  {freq}x per day
-                </button>
-              ))}
-            </div>
-            <div className="flex justify-between">
-              <button
-                onClick={prevStep}
-                className="px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        );
-
       case 8:
       case 9:
-        // Placeholder for additional steps
+        // Illustrative steps: Background (7), Notifications (8), Paywall (9)
         return (
-          <div className="max-w-md mx-auto p-8 text-center">
-            <h2 className="text-2xl font-bold mb-4">Step {state.currentStep}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              This step will be implemented in a future task.
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={prevStep}
-                className="px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          </div>
+          <StepIllustrative
+            currentStep={state.currentStep}
+            onContinue={nextStep}
+          />
         );
 
       case 10:
