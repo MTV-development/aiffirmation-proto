@@ -5,6 +5,7 @@ import { generateAffirmationsFO01 } from '../actions';
 import { StepWelcome } from './step-welcome';
 import { StepIntent } from './step-intent';
 import { StepSwipeIntro } from './step-swipe-intro';
+import { SwipePhase, type SwipeDirection } from './swipe-phase';
 
 /**
  * FO-01 Onboarding state
@@ -336,22 +337,25 @@ export function FOExperience() {
           />
         );
 
-      case 5:
+      case 5: {
         // Swipe through affirmations
         const currentAffirmation = getCurrentAffirmation();
+        const batchSize = 10;
+        const cardIndexInBatch = state.currentCardIndex + 1; // 1-indexed for display
+
         if (!currentAffirmation && !hasMoreInBatch()) {
-          // Batch complete - show summary or move to next batch
+          // Batch complete - show summary or move to next batch (step 6.1/6.3)
           return (
             <div className="max-w-md mx-auto p-8 text-center">
-              <h2 className="text-2xl font-bold mb-4">Batch Complete!</h2>
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Batch Complete!</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                You&apos;ve approved {state.approvedAffirmations.length} affirmations so far.
+                You&apos;ve saved {state.approvedAffirmations.length} affirmations so far.
               </p>
               <div className="flex justify-center gap-4">
                 {hasMoreBatches() && (
                   <button
                     onClick={nextBatch}
-                    className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
                   >
                     See More
                   </button>
@@ -367,40 +371,29 @@ export function FOExperience() {
             </div>
           );
         }
+
+        const handleSwipe = (direction: SwipeDirection, affirmation: string) => {
+          if (direction === 'down') {
+            // Down = keep (toward user)
+            approveAffirmation(affirmation);
+          } else {
+            // Up = discard (away from user)
+            skipAffirmation(affirmation);
+          }
+        };
+
         return (
-          <div className="max-w-md mx-auto p-8">
-            <div className="text-center mb-6">
-              <p className="text-sm text-gray-500 mb-2">
-                {state.approvedAffirmations.length} saved
-              </p>
-            </div>
-            {currentAffirmation && (
-              <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-8 text-white text-center mb-8 shadow-xl">
-                <p className="text-xl font-medium">{currentAffirmation}</p>
-              </div>
-            )}
-            <div className="flex justify-center gap-8">
-              <button
-                onClick={() => currentAffirmation && skipAffirmation(currentAffirmation)}
-                className="w-16 h-16 rounded-full border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                title="Skip"
-              >
-                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <button
-                onClick={() => currentAffirmation && approveAffirmation(currentAffirmation)}
-                className="w-16 h-16 rounded-full bg-purple-600 flex items-center justify-center hover:bg-purple-700 transition-colors"
-                title="Save"
-              >
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </button>
-            </div>
+          <div className="w-full max-w-md mx-auto h-[600px]">
+            <SwipePhase
+              affirmation={currentAffirmation ?? ''}
+              index={cardIndexInBatch}
+              total={batchSize}
+              onSwipe={handleSwipe}
+              isLoading={state.isGenerating}
+            />
           </div>
         );
+      }
 
       case 6:
         // Background selection
