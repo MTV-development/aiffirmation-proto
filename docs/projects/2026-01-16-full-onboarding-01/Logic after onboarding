@@ -1,0 +1,249 @@
+# Logic after onboarding in v4.1
+
+This document describes how the new onboarding will affect the rest of the app.
+
+
+### I expect that V.4.1 (still) *includes* the following steps in the onboarding:
+The below affects the rest of the app and its logic:
+
+- **Choice of background** (affects the feed and categories)
+- **Notification setup** (affects notification opt-in and the number of notifications sent)
+- **Name** (not critical, but used in a few places to personalize the experience)
+
+
+### The new onboarding *excludes* the following, which will affect the first visit:
+
+- **Mood** (may affect the data feed on the first visit)
+- **Goal** (affects the data feed on the first visit)
+- **Improve** (affects the data feed on the first visit)
+
+
+## Other logics we keep unless other is described:
+
+- **Notifications:** The easiest approach is to keep notifications as they are today. Onboarding should not affect them.
+- **Favorites:** 25 favorites are added to notifications and the data feed. That can still work from a technical point of view
+- **Reopen the app**: today the datafeed differs from first visit to reopen. This could still work form a technical point of view. We keep the logic when user reopen the app.
+
+
+----
+
+Below, different versions are described — with **Version 1** being the most stripped-down version, up to **Version 3**, which is still simplified but includes more options.
+
+## Version 1 ("**first visit**-stripped")
+
+### Change in logic from v4.0 to v4.1
+
+- **Data feed on first visit:** Shows affirmations based on the user’s selections in onboarding. 
+- **Favorites**: if user marks an ai generated affirmation as a favorite it will be added to favorite list and will treated as a 'normal favourite affirimtion'
+  **Note:** We still show 100 affirmations, which means the AI should generate 100 affirmations (it could be fewer, but I think 30 is far too low).
+
+### What stays the same as in v4.0
+
+- **Reopening the app:** When the user reopens the app, the data feed follows the existing logic in v4.0.
+- **Everything except the feed stays the same:** We keep all other pages as they are.
+- **Favorites:** Exactly the same. If a user favorites an AI-generated affirmation, it will be saved under Favorites and used in the existing Favorites logic.
+- **Notifications:** Stay the same. They are not affected by the AI affirmations — except if an AI affirmation is in Favorites.
+
+### Strengths in running Version 1
+
+- The only change happens on the **first visit**, which means that if we see an increase in reopen rate / Day 2 retention, it’s very likely due to better affirmations and better onboarding in the first visit.
+
+### Weaknesses
+
+- If notifications are important for retention and they currently deliver “bad affirmations” that make users stop coming back, this may still be a problem.
+- If users feel the app is extremely good during onboarding, but the rest of the app feels less flexible or relevant, it may hurt retention from the first visit to the second visit.
+- If we have a problem with users not getting started properly (e.g., because we don’t have a “getting started” wizard like the one I am have), we won’t increase retention.
+
+
+---
+
+## Version 2 ("**Better Notifications**")
+
+Version 2 includes everything from Version 1, with a few additions.
+
+### Change in logic from v4.0 to v4.1
+
+- **Data feed on first visit:** Same as Version 1.
+- **Favorites:** Same as Version 1.
+- **Notifications logic is updated:** AI-generated affirmations are added to the notification list:
+  1. Find up to **25 random favorited affirmations** and add them to the notification list.
+  2. Randomly select affirmations from the **AI-generated list** and add them to the notification list.
+  3. If we need more affirmations: Randomly select affirmations with the **fewest views** from:
+     - the **AI-generated list**, and
+     - the **General list**, and
+     - the three categories: **"Practice Self-love"**, **"Practice Gratitude"**, **"Enjoy the Now"**  
+     Then add them to the notification list.
+
+### Strengths in running Version 2
+
+- On the first visit, most users seem to interact mainly with the affirmation on the datafeed (liking them, viewing them, etc.). So if we create a great first experience with great affirmations, strong notifications can support the user in coming back.
+
+### Weaknesses in running Version 2
+
+- If the first experience is still too thin, notifications may not have much impact.
+
+
+
+------
+
+
+## Version 3 ("**First-visit update + Categories**")
+
+Version 3 includes everything from Versions 1 and maybe 2 if we like, with additional changes.
+
+### Change in logic from v4.0 to v4.1 (Feed, Favorites, Notifications)
+
+- **Data feed on first visit:** Same as Version 1.
+- **Favorites:** Same as Version 1.
+- **Notifications logic:** Same as Version 2 if we like.
+
+### Change in logic from v4.0 to v4.1 (Categories)
+
+- The **Category icon** on datafeed is changed to **"+"**.
+- The **Category page** is renamed from **Categories** to **"Affirmation lists"**.
+- The **Category page** is updated with:
+  - A new top row called **"My personal affirmations"** (or **"Trine’s affirmations"** — whatever we decide).
+  - A category icon named **"My affirmations"**:
+    - Includes a **settings** icon that takes the user through onboarding again.
+    - Shows a **pen** icon that makes it possible to change the name.
+    - If the user taps the icon itself, they see the already AI-generated list which is also shown in datafeed.
+  - In the same row, a large **"+"** button that takes the user to a new onboarding flow with copy like:  
+    **"Create a new set of affirmations**
+  - The **Favorites** category is moved down and gets its own line and headline: **"Your favorite affirmations"**.
+  - Above **Trending now**, add a headline: **"Inspiration for you"**.
+  - all other headlines are deleted - now categories are just placed in a long row.
+
+#### Visual mockup of the new Category page ("Affirmation lists")
+
+```
+╭──────────────────────────────────────╮
+│            Affirmation lists         │
+├──────────────────────────────────────┤
+│                                      │
+│  My personal affirmations            │
+│  ┌─────────────┐   ┌─────────────┐   │
+│  │             │   │             │   │
+│  │             │   │             │   │
+│  │             │   │      +      │   │
+│  │    My       │   │   Create    │   │
+│  │ affirmations│   │    new      │   │
+│  │⚙️        ✏️│   │             │   │
+│  └─────────────┘   └─────────────┘   │
+│                                      │
+│  ─────────────────────────────────   │
+│                                      │
+│  Your favorite affirmations          │
+│  ┌─────────────┐                     │
+│  │             │                     │
+│  │      ♡      │                     │
+│  │             │                     │
+│  │  Favorites  │                     │
+│  └─────────────┘                     │
+│                                      │
+│  ─────────────────────────────────   │
+│                                      │
+│  Inspiration for you                 │
+│  ┌─────────────┐ ┌─────────────┐     │
+│  │             │ │             │     │
+│  │     🔥      │ │     💕      │     │
+│  │             │ │             │     │
+│  │  Trending   │ │ Self-love   │     │
+│  │    now      │ │             │     │
+│  └─────────────┘ └─────────────┘     │
+│  ┌─────────────┐ ┌─────────────┐     │
+│  │             │ │             │     │
+│  │     🙏      │ │     🌸      │     │
+│  │             │ │             │     │
+│  │  Gratitude  │ │ Enjoy the   │     │
+│  │             │ │    Now      │     │
+│  └─────────────┘ └─────────────┘     │
+│                                      │
+╰──────────────────────────────────────╯
+```
+
+#### Visual mockup of datafeed with "+" icon in datafeed replacing category icon
+
+```
+        ╭─────────────────────────╮
+        │  ━━━━━   ◉              │
+        ├─────────────────────────┤
+        │                         │
+        │   ✨ My Affirmations    │
+        │                         │
+        │  ╭─────────────────────╮│
+        │  │                     ││
+        │  │  "I believe in my   ││
+        │  │   ability to grow   ││
+        │  │    and succeed"     ││
+        │  │                     ││
+        │  ╰─────────────────────╯│
+        │                         │
+        │       ♡    ↻          │
+        │                         │
+        │ ╭───╮                   │
+        │ │ + │       │
+        │ ╰───╯                   │
+        ╰─────────────────────────╯
+```
+
+### Strengths in running Version 3
+
+- The experience feels deeper and more interactive — it’s more like you can create your own affirmation app.
+- It seems that **~20% of users** visit the Category page on the first visit, so at least 20% will see this
+- We are adding a + to the datafeed, where users interact strongly, this may already give some effect (can be tested easily even without the AI onboarding) 
+
+
+### Weaknesses in running Version 3
+
+- Users seem to add a like affirmations and swipe affirmations, but there is still a gap between what the user sees and why they see it in the datafeed and thereby also still a gab between creating new affirmation lists
+- only **~20% of users** visit the Category page on the first visit
+
+  
+
+
+
+##Useful information on todays logic (which is reused):
+
+**Notification logic:**
+
+We have three types of notifications:
+
+1. Affirmation Notifications
+2. Offer Notifications
+3. Streak Notifications (are left out - I am not sure though if something is build)
+4. 3daygift notification
+
+The above is only affecting 1. affirmation Notifications. 
+
+The logic for 1. AFFIRMATION NOTIFICATIONS is as follows in 4.0:
+
+### **Affirmation notifications are sent to**
+
+- Everyone who accepts to receive notifications
+
+### **Content and design of Affirmation Notifications**
+
+- The affirmation is a short affirmation only showing a small icon and an affirmation.
+
+- The affirmations are taken from our app after following rules:
+  - Find up to 25 random favorited affirmations and add them to the notification list.
+  - Find randomly affirmations with fewest views from these three categories "Practice Self-love", "Practice Gratitude", "Enjoy the Now" and add it to the notfication list
+
+
+### Reopen logic:
+
+As written above the feed is more personalised in the first visit. Whenever the user _reopens_ the app after the first visit, the following will (still) happen:
+
+1. **First, find up to 25 random favorited affirmations** and add them to the feed.
+
+2. **Then fill up to a total of 100 affirmations** by selecting affirmations with the **fewest views** from:
+   - The four core categories (General, Practice Self-love, Practice Gratitude, Enjoy the Now)
+   - Any remaining favorites not already included
+3. **Priority order**: Affirmations are selected by fewest views first until reaching exactly 100 total affirmations.
+
+
+The following still needs to be discussed and defined:
+- **TODO: Define what happens if AI generation fails or times out?**
+- **TODO: Is there a limit to how many personal affirmation sets a user can create?**
+- **TODO: How do multiple AI-generated lists coexist in the feed?** (I would say no in this first draft)
+- Do we really want to 100% leave out second visit? Or is it easy to just continue to keep the AI generated list every time user opens app (including favorites)
