@@ -1,12 +1,12 @@
 {
   "id": "hok",
   "title": "FO-01: Full Onboarding Implementation",
-  "notes": "2026-01-16 19:25 - Environment validated successfully. Build/lint/dev all pass. Existing E2E test uses Playwright (e2e/full-process-3.test.ts) - can use same pattern for onboarding tests. Test cookie 'e2e_test_mode' bypasses auth.\n2026-01-16 19:27 - FO-01 agent created following GT-01/AP-01 pattern. Uses static DEFAULT_INSTRUCTIONS with full quality guidelines (structure, openers, length, tone, power verbs, avoid list). Factory function supports KV-based system prompts via getAgentSystemPrompt('fo-01', implementation). Agent generates 100 affirmations as JSON array. Ready for API route integration.\n2026-01-16 19:30 - FO-01 KV entries added with google/gemini-2.5-flash model and temp 0.9. System prompt matches agent DEFAULT_INSTRUCTIONS in fo-01/agent.ts. Prompt template uses Liquid variables {{ name }} and {{ intention }}. Seed file uses upsert pattern so re-running is safe.",
+  "notes": "2026-01-16 19:25 - Environment validated successfully. Build/lint/dev all pass. Existing E2E test uses Playwright (e2e/full-process-3.test.ts) - can use same pattern for onboarding tests. Test cookie 'e2e_test_mode' bypasses auth.\n2026-01-16 19:27 - FO-01 agent created following GT-01/AP-01 pattern. Uses static DEFAULT_INSTRUCTIONS with full quality guidelines (structure, openers, length, tone, power verbs, avoid list). Factory function supports KV-based system prompts via getAgentSystemPrompt('fo-01', implementation). Agent generates 100 affirmations as JSON array. Ready for API route integration.\n2026-01-16 19:30 - FO-01 KV entries added with google/gemini-2.5-flash model and temp 0.9. System prompt matches agent DEFAULT_INSTRUCTIONS in fo-01/agent.ts. Prompt template uses Liquid variables {{ name }} and {{ intention }}. Seed file uses upsert pattern so re-running is safe.\n2026-01-16 19:32 - FO-01 server action created at app/fo-01/actions.ts. Uses same pattern as GT-01/AP-01. parseAffirmationsResponse handles: 1) clean JSON arrays, 2) JSON wrapped in markdown code blocks, 3) fallback quoted string extraction. Returns error in result object instead of throwing (safer for UI consumption).",
   "status": "open",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-16T18:17:14.4464573Z",
-  "updated_at": "2026-01-16T18:30:54.798125Z"
+  "updated_at": "2026-01-16T18:32:42.6248118Z"
 }
