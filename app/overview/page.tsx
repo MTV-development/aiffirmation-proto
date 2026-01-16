@@ -90,6 +90,16 @@ const versions: VersionCard[] = [
     outputType: 'Personalized swipe',
     highlight: 'Most personal',
   },
+  {
+    id: 'FO-01',
+    name: 'Full Onboarding',
+    href: '/fo-01',
+    tagline: 'Complete warm onboarding experience',
+    description: 'A 10-step onboarding flow that collects user intention via open text, generates 100 personalized affirmations, and uses swipe selection to build a personal collection.',
+    inputType: 'Name + intention',
+    outputType: 'Swipe selection',
+    highlight: 'Full journey',
+  },
 ];
 
 export default function OverviewPage() {
@@ -207,12 +217,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Exploration</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">CS-01</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">Highest</td>
                   <td className="py-2 pr-4 text-emerald-400">Profile + swipes</td>
                   <td className="py-2">Deep personalization</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-01</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High</td>
+                  <td className="py-2 pr-4 text-gray-500">None</td>
+                  <td className="py-2">Complete onboarding</td>
                 </tr>
               </tbody>
             </table>

@@ -1,0 +1,98 @@
+{
+  "acceptance_criteria": "Shows completion message, displays approved affirmations",
+  "blocked_by": [
+    "xm1"
+  ],
+  "closed_at": "2026-01-16T18:57:59.8690421Z",
+  "closed_reason": "Created step-completion.tsx with StepCompletion component. Shows 'You're all set, {name}' headline with cherry blossom emoji, encouraging copy about kind words, and CTA 'See my affirmations' that expands to show the approved list. Empty state shows encouraging message. Updated fo-experience.tsx to import and use the new component at case 10.",
+  "created_at": "2026-01-16T18:19:47.0889299Z",
+  "created_by": "morten@elk.dk",
+  "description": "Create component for Step 10 - final screen.\n\nFile: app/fo-01/components/step-completion.tsx\n\nStep 10 - Finish:\n- Headline: 'You're all set, {name} 🌸'\n- Text: 'Open your affirmations now — say them out loud or read them to yourself silently. You deserve kind words.'\n- Display approved affirmations list\n- CTA: 'See my affirmations' (scrolls to list or expands)\n\nProps: { name, approvedAffirmations }\n\nDisplay affirmations in a nice card/list format.\nIf no affirmations approved, show encouraging message.",
+  "id": "nqo",
+  "owner": "morten@elk.dk",
+  "parent": "hok",
+  "priority": 2,
+  "run": {
+    "session_id": "1bc64b5f-a407-439f-b972-00929d3e6270",
+    "model": "claude-opus-4-5-20251101",
+    "started_at": "2026-01-16T19:56:48.4848852+01:00",
+    "ended_at": "2026-01-16T19:58:43.8211838+01:00",
+    "output": "I'll review the epic notes and implement the completion step component. Let me first understand the existing patterns by looking at the current step components.\n\nNow I understand the existing patterns. I can see that:\n1. The completion step (10) already has a basic implementation in fo-experience.tsx\n2. I need to create a separate `step-completion.tsx` component following the spec\n3. The spec requires: Headline with name and emoji, specific text, display approved affirmations, and CTA\n\nLet me create the step-completion component:\n\nNow I need to update fo-experience.tsx to use the new StepCompletion component instead of the inline implementation. Let me update the import and the case 10 section:\n\nNow let me update the case 10 section to use the new component:\n\nNow let me run the build and lint to ensure everything compiles correctly:\n\nBoth lint and build pass. Let me close the task with `tk close`:\n\nNow let me commit the changes:\n\nNow let me add a note for the next iteration:\n\nTask completed. I created the `StepCompletion` component at `app/fo-01/components/step-completion.tsx` with:\n\n- Headline: \"You're all set, {name} 🌸\"\n- Encouraging copy about opening affirmations and deserving kind words\n- CTA button \"See my affirmations\" that expands to reveal the list\n- Affirmations displayed in styled cards with purple star markers\n- Empty state with encouraging message if no affirmations were approved\n\nUpdated `fo-experience.tsx` to import and use the new component at step 10, replacing the inline implementation.",
+    "tools": [
+      {
+        "name": "Read",
+        "duration_ms": 409
+      },
+      {
+        "name": "Read",
+        "duration_ms": 392
+      },
+      {
+        "name": "Write",
+        "duration_ms": 14246
+      },
+      {
+        "name": "Edit",
+        "duration_ms": 2588
+      },
+      {
+        "name": "Edit",
+        "duration_ms": 5931
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 642
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 836
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 804
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 3129
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 532
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 801
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 720
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 2049
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 3963
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 922
+      }
+    ],
+    "metrics": {
+      "input_tokens": 2,
+      "output_tokens": 3686,
+      "cache_read_tokens": 503971,
+      "cache_creation_tokens": 21525,
+      "cost_usd": 0.4932697500000002,
+      "duration_ms": 114926
+    },
+    "success": true,
+    "num_turns": 16
+  },
+  "status": "closed",
+  "title": "Create completion step (10)",
+  "type": "task",
+  "updated_at": "2026-01-16T18:57:59.8690421Z"
+}

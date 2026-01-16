@@ -1,0 +1,126 @@
+{
+  "acceptance_criteria": "Component manages state, renders steps correctly, generates affirmations",
+  "blocked_by": [
+    "oqx"
+  ],
+  "closed_at": "2026-01-16T18:38:18.4115439Z",
+  "closed_reason": "Created FOExperience component with full state management for 11-step onboarding flow (steps 0-10). Implements OnboardingState interface with all required fields. Includes step navigation, topic selection, affirmation generation via server action, swipe approve/skip, background selection, notification frequency, and completion screen. Steps 8-9 are placeholders for future implementation.",
+  "created_at": "2026-01-16T18:18:17.0040166Z",
+  "created_by": "morten@elk.dk",
+  "description": "Create the main state manager component for FO-01 onboarding.\n\nFile: app/fo-01/components/fo-experience.tsx\n\nState interface:\ninterface OnboardingState {\n  currentStep: number;  // 0-10\n  name: string;\n  intention: string;\n  selectedTopics: string[];\n  allAffirmations: string[];\n  isGenerating: boolean;\n  generationError: string | null;\n  currentBatchIndex: number;\n  currentCardIndex: number;\n  approvedAffirmations: string[];\n  skippedAffirmations: string[];\n  selectedBackground: string | null;\n  notificationFrequency: number | null;\n}\n\nComponent responsibilities:\n- Manages all state\n- Renders correct step component based on currentStep\n- Handles step transitions\n- Calls server action after Step 3/3.2 to generate 100 affirmations\n- No persistence - state resets on refresh\n\nReference: app/chat-survey/components/cs-experience.tsx for pattern",
+  "id": "es7",
+  "owner": "morten@elk.dk",
+  "parent": "hok",
+  "priority": 2,
+  "run": {
+    "session_id": "96ca7280-96c0-4f82-9f90-57442e300926",
+    "model": "claude-opus-4-5-20251101",
+    "started_at": "2026-01-16T19:35:32.5785108+01:00",
+    "ended_at": "2026-01-16T19:38:51.1545617+01:00",
+    "output": "I'll start by reviewing the referenced file and understanding the existing patterns, then create the FO-01 experience component.\n\nNow let me check the existing FO-01 layout and look for other experience components for more patterns.\n\nLet me look at other simpler experience patterns and check the demo page that will use this component.\n\nLet me also look at similar wizard-style components in the codebase and check what types/interfaces might already exist.\n\nLet me look at one of the discovery wizards to understand the step pattern.\n\nNow I have a good understanding of the patterns. Let me create the FO-01 experience component. First, let me ensure the components directory exists and create the component.\n\nNow let me run lint and build to verify there are no errors.\n\nBoth lint and build pass. Now let me close the task and add an epic note.\n\nTask complete. I created the `FOExperience` component at `app/fo-01/components/fo-experience.tsx` with:\n\n- **OnboardingState interface** with all 14 required fields (currentStep, name, intention, selectedTopics, allAffirmations, isGenerating, generationError, currentBatchIndex, currentCardIndex, approvedAffirmations, skippedAffirmations, selectedBackground, notificationFrequency)\n\n- **11 steps (0-10)** implemented:\n  - Step 0: Welcome/intro\n  - Step 1: Name input\n  - Step 2: Intention input  \n  - Step 3: Topic selection + triggers generation\n  - Step 4: Generation loading/error state\n  - Step 5: Swipe through affirmations (batched by 10)\n  - Step 6: Background selection\n  - Step 7: Notification frequency\n  - Steps 8-9: Placeholders for future\n  - Step 10: Completion screen\n\n- **State management callbacks**: goToStep, nextStep, prevStep, setName, setIntention, toggleTopic, generateAffirmations, approveAffirmation, skipAffirmation, nextBatch, setSelectedBackground, setNotificationFrequency, reset\n\n- **Server action integration**: Calls `generateAffirmationsFO01` after step 3 to generate 100 affirmations",
+    "tools": [
+      {
+        "name": "Read",
+        "duration_ms": 624
+      },
+      {
+        "name": "Read",
+        "duration_ms": 536
+      },
+      {
+        "name": "Glob",
+        "duration_ms": 235
+      },
+      {
+        "name": "Read",
+        "duration_ms": 471
+      },
+      {
+        "name": "Read",
+        "duration_ms": 486
+      },
+      {
+        "name": "Glob",
+        "duration_ms": 321
+      },
+      {
+        "name": "Glob",
+        "duration_ms": 518
+      },
+      {
+        "name": "Glob",
+        "duration_ms": 344
+      },
+      {
+        "name": "Grep",
+        "duration_ms": 774
+      },
+      {
+        "name": "Glob",
+        "duration_ms": 326
+      },
+      {
+        "name": "Read",
+        "duration_ms": 664
+      },
+      {
+        "name": "Read",
+        "duration_ms": 240
+      },
+      {
+        "name": "TodoWrite",
+        "duration_ms": 2648
+      },
+      {
+        "name": "Write",
+        "duration_ms": 84926
+      },
+      {
+        "name": "TodoWrite",
+        "duration_ms": 2557
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 216
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 867
+      },
+      {
+        "name": "TodoWrite",
+        "duration_ms": 1365
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 2667
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 4151
+      },
+      {
+        "name": "Bash",
+        "duration_ms": 3981
+      },
+      {
+        "name": "TodoWrite",
+        "duration_ms": 1303
+      }
+    ],
+    "metrics": {
+      "input_tokens": 2,
+      "output_tokens": 9572,
+      "cache_read_tokens": 500657,
+      "cache_creation_tokens": 28188,
+      "cost_usd": 0.6768815000000004,
+      "duration_ms": 198163
+    },
+    "success": true,
+    "num_turns": 23
+  },
+  "status": "closed",
+  "title": "Create FO-01 main experience component",
+  "type": "task",
+  "updated_at": "2026-01-16T18:38:18.4115439Z"
+}
