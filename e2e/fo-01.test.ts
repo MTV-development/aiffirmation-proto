@@ -113,7 +113,7 @@ async function runTest(): Promise<void> {
     // Launch browser
     console.log('🚀 Launching browser...');
     browser = await chromium.launch({
-      headless: true, // Set to false for debugging
+      headless: false, // Set to true for CI
     });
 
     const context: BrowserContext = await browser.newContext();
@@ -246,25 +246,32 @@ async function runTest(): Promise<void> {
     // Step 5: Swipe down on at least 2 affirmations using keyboard
     console.log('\n⬇️ Step 5: Swiping affirmations...');
 
-    // Wait for first affirmation card
-    const hasAffirmation = await waitForTextContaining(page, 'Affirmation 1 of 10', 5000);
+    // Wait for first affirmation card (variable number of affirmations)
+    const hasAffirmation = await waitForTextContaining(page, 'Affirmation 1 of', 5000);
     if (!hasAffirmation) {
       await page.screenshot({ path: 'e2e/debug-step5.png' });
       throw new Error('First affirmation card did not appear');
     }
 
-    // Swipe down on 2 affirmations using ArrowDown key
+    // Swipe down on 2 affirmations using ArrowDown key (keep them)
     for (let i = 0; i < 2; i++) {
-      console.log(`   Swiping affirmation ${i + 1}...`);
+      console.log(`   Keeping affirmation ${i + 1}...`);
       await sleep(500);
       await page.keyboard.press('ArrowDown');
       await sleep(800); // Wait for animation
     }
-    console.log('✅ Swiped 2 affirmations');
+    console.log('✅ Kept 2 affirmations');
 
-    // Skip through remaining 8 affirmations to reach checkpoint
-    console.log('   Skipping remaining affirmations...');
-    for (let i = 0; i < 8; i++) {
+    // Keep swiping until we reach the checkpoint (variable number of affirmations)
+    console.log('   Discarding remaining affirmations until checkpoint...');
+    let checkpointReached = false;
+    for (let i = 0; i < 20; i++) { // Max 20 iterations to prevent infinite loop
+      // Check if we've reached the checkpoint
+      const pageContent = await page.content();
+      if (pageContent.includes('Perfect, TestUser') || pageContent.includes("I'm good with")) {
+        checkpointReached = true;
+        break;
+      }
       await sleep(300);
       await page.keyboard.press('ArrowUp'); // Discard
       await sleep(500);
@@ -272,10 +279,12 @@ async function runTest(): Promise<void> {
 
     // Step 6: Click "I'm good with the affirmations I chose"
     console.log('\n🖱️ Step 6: Finishing affirmation selection...');
-    const hasCheckpoint = await waitForTextContaining(page, 'Perfect, TestUser', 10000);
-    if (!hasCheckpoint) {
-      await page.screenshot({ path: 'e2e/debug-step6.png' });
-      throw new Error('Checkpoint screen did not appear');
+    if (!checkpointReached) {
+      const hasCheckpoint = await waitForTextContaining(page, 'Perfect, TestUser', 10000);
+      if (!hasCheckpoint) {
+        await page.screenshot({ path: 'e2e/debug-step6.png' });
+        throw new Error('Checkpoint screen did not appear');
+      }
     }
 
     await sleep(500);

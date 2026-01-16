@@ -342,11 +342,11 @@ export function FOExperience() {
 
       case 5: {
         // Swipe through affirmations
-        const currentAffirmation = getCurrentAffirmation();
         const batchSize = 10;
-        const cardIndexInBatch = state.currentCardIndex + 1; // 1-indexed for display
+        const cardIndexInBatch = (state.currentCardIndex % batchSize) + 1; // 1-indexed within batch
 
-        if (!currentAffirmation && !hasMoreInBatch()) {
+        // Check if batch is complete (10 swipes done)
+        if (!hasMoreInBatch()) {
           // Batch complete - show checkpoint screen
           const batchNumber = state.currentBatchIndex + 1; // 1-indexed for display
 
@@ -371,6 +371,9 @@ export function FOExperience() {
             />
           );
         }
+
+        // Get current affirmation for this batch
+        const currentAffirmation = getCurrentAffirmation();
 
         const handleSwipe = (direction: SwipeDirection, affirmation: string) => {
           if (direction === 'down') {

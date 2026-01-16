@@ -92,7 +92,7 @@ async function runTest(): Promise<void> {
     // Launch browser
     console.log('🚀 Launching browser...');
     browser = await chromium.launch({
-      headless: true, // Set to false for debugging
+      headless: false, // Set to true for CI
     });
 
     const context: BrowserContext = await browser.newContext();
