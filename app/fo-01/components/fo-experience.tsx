@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { generateAffirmationsFO01 } from '../actions';
 import { StepWelcome } from './step-welcome';
 import { StepIntent } from './step-intent';
+import { StepSwipeIntro } from './step-swipe-intro';
 
 /**
  * FO-01 Onboarding state
@@ -305,15 +306,7 @@ export function FOExperience() {
         );
 
       case 4:
-        // Generation loading / error state
-        if (state.isGenerating) {
-          return (
-            <div className="flex flex-col items-center justify-center p-8">
-              <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">Creating your personalized affirmations...</p>
-            </div>
-          );
-        }
+        // Swipe intro - explain mechanics, show loading if still generating
         if (state.generationError) {
           return (
             <div className="max-w-md mx-auto p-8 text-center">
@@ -335,11 +328,13 @@ export function FOExperience() {
             </div>
           );
         }
-        // Auto-advance if affirmations are ready
-        if (state.allAffirmations.length > 0) {
-          nextStep();
-        }
-        return null;
+        return (
+          <StepSwipeIntro
+            name={state.name}
+            isLoading={state.isGenerating || state.allAffirmations.length === 0}
+            onStart={nextStep}
+          />
+        );
 
       case 5:
         // Swipe through affirmations
