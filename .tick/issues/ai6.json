@@ -1,0 +1,16 @@
+{
+  "id": "ai6",
+  "title": "Run E2E test until it passes",
+  "description": "Run the Full Process 3 E2E test and fix any issues until it passes consistently.\n\nSteps:\n1. Start dev server: npm run dev\n2. Run test: npm run test:e2e\n3. If test fails, debug and fix the issue\n4. Repeat until test passes\n\nTest file: e2e/full-process-3.test.ts\nDocs: docs/current/e2e-testing.md",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "hok",
+  "acceptance_criteria": "npm run test:e2e passes without errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T19:06:39.9292879Z",
+  "updated_at": "2026-01-16T19:11:52.3219487Z",
+  "closed_at": "2026-01-16T19:11:52.3219487Z",
+  "closed_reason": "Test was already passing. Ran 3 consecutive successful runs. The npm run test:e2e command works (exits 0 on pass) but npx tsx output not visible in terminal - use 'node --import tsx' for visible output. No code changes required."
+}
