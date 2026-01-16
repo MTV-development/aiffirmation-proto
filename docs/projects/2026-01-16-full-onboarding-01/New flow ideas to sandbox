@@ -1,0 +1,139 @@
+# Oplæg til nyt flow - fra Trine:
+
+tz-01
+Her er mit oplæg til nyt flow - jeg har tænkt det ind i onboaridng med det samme.
+
+# New flow – warm & short - containing full onboarding 
+## Step 0: 
+**Headline:** The way you speak to yourself becomes the way you live. 🌿🌸  
+
+CTA: Continue
+
+
+## Step 1: First name
+**Headline:** What should we call you? 🌸  
+**Placeholder:** Type your first name
+
+CTA: Continue
+
+---
+
+## Step 2: Welcome
+**Text:** Welcome, {name} 💛  
+Let’s create affirmations that feel right for you.
+
+CTA: Continue
+
+---
+
+## Step 3: Open text (your intention) - logic from Contextual Mirror AP-01
+**Headline:** What do you hope affirmations can help you with, Trine?  
+**Placeholder:** Write anything you want… 
+
+Secondary button: I don’t know
+
+---
+
+## Step 3.2: “I don’t know” (inspiration) - Loginc from step 1 FP-01
+**Headline:** Get inspired by others 💛  
+**Text:** Here are a few common themes people start with. Pick one or two — or write your own.
+
+(Topics and free space)
+
+CTA: Continue
+
+---
+
+## Step 4: Before swipe (explain the logic)
+**Headline:** Thank you, {name} — let’s shape this together 💛  
+**Text:** Next, we’ll show affirmations based on what you shared.  
+You’ll see them one by one.  
+Swipe **down (toward you)** to **keep** it.  
+Swipe **up (away)** if it doesn’t feel right.  
+Your swipes help us tailor the next ones to you.
+
+
+CTA: Start
+
+NOTE: Jeg har valgt swipe op/ned, fordi jeg ikke selv kan huske, hvad swipe højre/venstre betyder (hvad er hvad?). Jeg har prøvet op/ned i en anden app, og det gav god mening for mig: mod mig = det vil jeg gerne have, væk fra mig = det vil jeg ikke have. Vi kan sagtens bruge højre/venstre i stedet
+
+
+---
+
+## Step 5: Swipe (e.g., 10 affirmations)
+**Small label:** Swipe for next
+We migh need some action 'succesfully saved' + 'discared' so user can see some sort of reassurance
+Show counter affirmation 1 out of 10.
+
+---
+
+## Step 6: Add more?
+**Headline:** Perfect, {name} ✨  
+**Text:** The ones you liked are now on your personal affirmation list.  
+Want to add a few more? Each swipe helps us show even better affirmations for you.
+
+Buttons: Continue [Step 6.1]  
+Secondary button: I’m good with the affirmations I chose [Step 7]
+
+---
+
+## Step 6.1: Swipe (e.g., 10 affirmations)
+Show counter: **Affirmation 1 of 10** (same as Step 5)
+
+---
+
+## Step 6.2: Add more?
+**Headline:** Great job, {name} ✨  
+**Text:** Your list is getting stronger and more personal.  
+Would you like to add a few more affirmations?
+
+Buttons: Yes, please [Step 6.3] / No, continue [Step 7]
+
+---
+
+## Step 6.3: Add more?
+**Headline:** Perfect, {name} ✨  
+**Text:** You now have a strong list of personal affirmations.  
+Next, let’s make them feel even more you with a beautiful background.
+
+CTA: Continue [Step 7]
+
+---
+
+## Step 7: Background (personalize)
+**Headline:** Make your affirmations look beautiful ✨  
+**Text:** Choose a background for your affirmations — you can always explore more later.
+
+CTA: Continue
+
+---
+
+## Step 8: Notifications (repetition)
+**Headline:** Set up reminders with your personal affirmations 💛  
+**Text:** Affirmations work best when they gently meet you again and again.
+
+**Question:** How many times a day would you like one sent to you?
+
+[Notification setup]
+
+
+---
+
+## Step 9: Light paywall
+**Headline:** More support, whenever you want 🌿  
+**Text:** Get 3 days free of premium.  
+With Premium, you can create hundreds of lists and expand you personal list with 100s of affirmations.
+
+CTA: Try free for 3 days  
+Secondary: Not now
+
+(Optional: “Day 1 …” bullets)
+
+---
+
+## Step 10: Finish
+**Headline:** You’re all set, {name} 🌸  
+**Text:** Open your affirmations now — say them out loud or read them to yourself silently.  
+You deserve kind words.
+
+CTA: See my affirmations [goes to datafeed]

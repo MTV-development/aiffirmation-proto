@@ -1,0 +1,17 @@
+{
+  "id": "pfj",
+  "title": "Create FO-01 server action",
+  "description": "Create server action for FO-01 affirmation generation.\n\nFile: app/fo-01/actions.ts\n\nFunction: generateAffirmationsFO01(options)\n- Input: { name: string, intention: string, implementation?: string }\n- Output: { affirmations: string[], error?: string }\n\nImplementation:\n1. Render user prompt from KV template (versions.fo-01.prompt.default)\n2. Get temperature from KV\n3. Create agent via createFO01Agent(implementation)\n4. Call agent.generate() with rendered prompt\n5. Parse JSON array response (handle both clean JSON and wrapped JSON)\n6. Return affirmations array\n\nInclude fallback for parsing errors (similar to AP-01's parseResponse).\n\nReference: app/ag-good-ten/actions.ts for pattern\nReference: app/alt-process-1/actions.ts for JSON parsing",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "os9"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "Server action works, returns 100 affirmations array",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:17:57.8900338Z",
+  "updated_at": "2026-01-16T18:17:57.8900338Z"
+}

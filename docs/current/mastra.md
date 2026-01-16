@@ -17,33 +17,82 @@ All Mastra files live in `src/mastra/` (single source of truth for both Next.js 
 
 ```
 src/mastra/
-├── index.ts              # Mastra instance configuration
+├── index.ts                    # Mastra instance configuration (singleton)
 ├── agents/
-│   └── weather-agent.ts  # Weather assistant agent
-└── tools/
-    └── weather-tool.ts   # Weather API tool
+│   ├── ag-aff-01/              # Affirmation agent v1
+│   ├── ag-good-ten/            # Good Ten agent
+│   ├── full-process/           # Full process agent
+│   ├── full-process-2/         # Full process v2
+│   ├── full-process-3/         # Full process v3
+│   ├── alt-process-1/          # Alternative process v1
+│   ├── alt-process-2/          # Alternative process v2
+│   ├── chat-survey/            # Multi-agent chat survey system
+│   │   ├── discovery-agent.ts
+│   │   ├── generation-agent.ts
+│   │   └── profile-extractor-agent.ts
+│   └── weather-agent.ts        # Demo weather agent
+├── tools/
+│   └── weather-tool.ts         # Weather API tool (demo)
+└── workflows/
+    └── chat-survey/            # Chat survey workflow
+        ├── index.ts
+        ├── types.ts
+        └── steps/
+            ├── discovery-chat.ts
+            ├── generate-stream.ts
+            └── profile-builder.ts
 ```
 
 ## Current Implementation
 
-### Weather Agent
+### Core Agents
 
-A demo agent that fetches real-time weather data for any city.
+The project has multiple affirmation-focused agents:
+
+| Agent | Location | Purpose |
+|-------|----------|---------|
+| AG-AFF-01 | `agents/ag-aff-01/` | Original affirmation generator |
+| Full Process 1-3 | `agents/full-process*/` | Full affirmation generation workflows |
+| Alt Process 1-2 | `agents/alt-process-*/` | Alternative generation approaches |
+| Chat Survey | `agents/chat-survey/` | Multi-agent discovery and generation |
+
+### Agent Architecture
+
+Agents use configurable prompts from the KV store:
+
+```typescript
+import { Agent } from '@mastra/core/agent';
+import { getAgentSystemPrompt, getAgentModelName, getModel } from '@/src/services';
+
+export async function createAgent(implementation: string = 'default'): Promise<Agent> {
+  const systemPrompt = await getAgentSystemPrompt('agent-id', implementation);
+  const modelName = await getAgentModelName('agent-id', implementation);
+
+  return new Agent({
+    id: `agent-${implementation}`,
+    name: 'Agent Name',
+    instructions: systemPrompt || DEFAULT_INSTRUCTIONS,
+    model: getModel(modelName || undefined),
+  });
+}
+```
+
+### Workflows
+
+The chat-survey workflow orchestrates multiple agents:
+
+1. **Discovery Agent** - Conversational exploration of user preferences
+2. **Profile Extractor** - Extracts structured profile from conversation
+3. **Generation Agent** - Creates personalized affirmations
+
+### Demo: Weather Agent
+
+A simple demo agent for testing the Mastra setup:
 
 **Location**: `src/mastra/agents/weather-agent.ts`
 
 - **Model**: OpenAI GPT-4o-mini
 - **Tool**: `weatherTool` - fetches weather from Open-Meteo API
-- **Memory**: Enabled (stores conversation history in SQLite)
-
-### Weather Tool
-
-**Location**: `src/mastra/tools/weather-tool.ts`
-
-Fetches current weather data:
-1. Geocodes city name to coordinates via Open-Meteo Geocoding API
-2. Fetches weather data via Open-Meteo Forecast API
-3. Returns temperature, humidity, wind speed, and conditions
 
 ## Running Locally
 
@@ -258,11 +307,12 @@ npx kill-port 3000 4111
 
 ```json
 {
-  "@mastra/core": "^0.24.6",
-  "@mastra/libsql": "^0.16.3",
-  "@mastra/loggers": "^0.10.19",
-  "@mastra/memory": "^0.15.12",
-  "mastra": "^0.18.6"
+  "@mastra/core": "^1.0.0-beta.19",
+  "@mastra/libsql": "^1.0.0-beta.10",
+  "@mastra/loggers": "^1.0.0-beta.3",
+  "@mastra/memory": "^1.0.0-beta.10",
+  "@mastra/pg": "^1.0.0-beta.11",
+  "mastra": "^1.0.0-beta.12"
 }
 ```
 

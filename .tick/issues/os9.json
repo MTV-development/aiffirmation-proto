@@ -1,0 +1,17 @@
+{
+  "id": "os9",
+  "title": "Add FO-01 KV seed entries",
+  "description": "Add KV store entries for FO-01 to src/db/seed.ts\n\nRequired entries:\n- versions.fo-01._info.default - Version description\n- versions.fo-01._model_name.default - Model (google/gemini-2.5-flash or openai/gpt-4o-mini)\n- versions.fo-01._temperature.default - Temperature 0.9 (like AP-01)\n- versions.fo-01.system.default - Full system prompt with AP-01 quality guidelines\n- versions.fo-01.prompt.default - User prompt template with Liquid variables (name, intention)\n\nSystem prompt must include:\n- Structure rules (first-person, present tense, declarative)\n- Sentence opener distribution (35-40% I am, etc.)\n- Length guidelines (5-9 words target)\n- Tone guidelines\n- Power verbs list\n- Avoid list\n- JSON array output format\n\nRun npm run db:seed after adding entries.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "qp6"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "Seed entries added, db:seed runs without error",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:17:47.416179Z",
+  "updated_at": "2026-01-16T18:17:47.416179Z"
+}

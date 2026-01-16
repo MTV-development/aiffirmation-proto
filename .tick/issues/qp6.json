@@ -1,0 +1,14 @@
+{
+  "id": "qp6",
+  "title": "Validate environment and run existing tests",
+  "description": "Before any code changes, verify the project is healthy:\n1. Run npm run build - verify it passes\n2. Run npm run lint - verify no errors\n3. Run npm run dev - verify server starts\n4. Check existing E2E tests if any\n\nBLOCKING: Do not proceed if build or lint fails. EJECT with details.",
+  "status": "open",
+  "priority": 0,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "hok",
+  "acceptance_criteria": "Build passes, lint passes, dev server starts",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:17:25.0563186Z",
+  "updated_at": "2026-01-16T18:17:25.0563186Z"
+}

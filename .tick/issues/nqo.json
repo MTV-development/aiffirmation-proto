@@ -1,0 +1,17 @@
+{
+  "id": "nqo",
+  "title": "Create completion step (10)",
+  "description": "Create component for Step 10 - final screen.\n\nFile: app/fo-01/components/step-completion.tsx\n\nStep 10 - Finish:\n- Headline: 'You're all set, {name} 🌸'\n- Text: 'Open your affirmations now — say them out loud or read them to yourself silently. You deserve kind words.'\n- Display approved affirmations list\n- CTA: 'See my affirmations' (scrolls to list or expands)\n\nProps: { name, approvedAffirmations }\n\nDisplay affirmations in a nice card/list format.\nIf no affirmations approved, show encouraging message.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "xm1"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "Shows completion message, displays approved affirmations",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:19:47.0889299Z",
+  "updated_at": "2026-01-16T18:19:47.0889299Z"
+}

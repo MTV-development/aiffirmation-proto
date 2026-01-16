@@ -1,0 +1,17 @@
+{
+  "id": "oqx",
+  "title": "Add FO-01 to navigation",
+  "description": "Add FO-01 to nav.config.ts following existing pattern.\n\nAdd entry:\n{\n  label: 'FO-01',\n  path: '/fo-01',\n  children: [\n    { label: 'Demo', path: '/fo-01' },\n    { label: 'Info', path: '/fo-01/info' },\n  ],\n}\n\nCreate layout file: app/fo-01/layout.tsx\n- Import TopSubmenu\n- Use navTree to get FO-01 submenu items\n- Follow pattern from other agent layouts (e.g., app/full-process/layout.tsx)",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "qp6"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "FO-01 appears in sidebar, Demo/Info tabs work",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:18:06.5277953Z",
+  "updated_at": "2026-01-16T18:18:06.5277953Z"
+}

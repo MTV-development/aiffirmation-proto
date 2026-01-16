@@ -1,0 +1,17 @@
+{
+  "id": "es7",
+  "title": "Create FO-01 main experience component",
+  "description": "Create the main state manager component for FO-01 onboarding.\n\nFile: app/fo-01/components/fo-experience.tsx\n\nState interface:\ninterface OnboardingState {\n  currentStep: number;  // 0-10\n  name: string;\n  intention: string;\n  selectedTopics: string[];\n  allAffirmations: string[];\n  isGenerating: boolean;\n  generationError: string | null;\n  currentBatchIndex: number;\n  currentCardIndex: number;\n  approvedAffirmations: string[];\n  skippedAffirmations: string[];\n  selectedBackground: string | null;\n  notificationFrequency: number | null;\n}\n\nComponent responsibilities:\n- Manages all state\n- Renders correct step component based on currentStep\n- Handles step transitions\n- Calls server action after Step 3/3.2 to generate 100 affirmations\n- No persistence - state resets on refresh\n\nReference: app/chat-survey/components/cs-experience.tsx for pattern",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "oqx"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "Component manages state, renders steps correctly, generates affirmations",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:18:17.0040166Z",
+  "updated_at": "2026-01-16T18:18:17.0040166Z"
+}

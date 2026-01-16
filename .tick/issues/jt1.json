@@ -1,0 +1,17 @@
+{
+  "id": "jt1",
+  "title": "Create checkpoint steps (6, 6.2, after 6.3)",
+  "description": "Create checkpoint components shown after each swipe batch.\n\nFile: app/fo-01/components/step-checkpoint.tsx\n\nStep 6 - After Batch 1:\n- Headline: 'Perfect, {name} ✨'\n- Text: 'The ones you liked are now on your personal affirmation list. Want to add a few more? Each swipe helps us show even better affirmations for you.'\n- Primary: 'Continue' → batch 2\n- Secondary: 'I'm good with the affirmations I chose' → Step 7\n\nStep 6.2 - After Batch 2:\n- Headline: 'Great job, {name} ✨'\n- Text: 'Your list is getting stronger and more personal. Would you like to add a few more affirmations?'\n- Primary: 'Yes, please' → batch 3\n- Secondary: 'No, continue' → Step 7\n\nAfter Batch 3:\n- Headline: 'Perfect, {name} ✨'\n- Text: 'You now have a strong list of personal affirmations. Next, let's make them feel even more you with a beautiful background.'\n- CTA: 'Continue' → Step 7\n\nProps: { name, batchNumber, approvedCount, onContinue, onFinish }",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "1a5"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "Correct messaging per batch, buttons navigate correctly",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:19:25.2347104Z",
+  "updated_at": "2026-01-16T18:19:25.2347104Z"
+}

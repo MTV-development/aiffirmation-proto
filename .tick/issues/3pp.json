@@ -1,0 +1,17 @@
+{
+  "id": "3pp",
+  "title": "Create intent steps (3, 3.2)",
+  "description": "Create components for Steps 3 and 3.2.\n\nFile: app/fo-01/components/step-intent.tsx\n\nStep 3 - Open Text Intention:\n- Headline: 'What do you hope affirmations can help you with, {name}?'\n- Textarea with placeholder: 'Write anything you want…'\n- Continue button (if text entered)\n- Secondary button: 'I don't know' → goes to Step 3.2\n\nStep 3.2 - Inspiration Topics:\n- Headline: 'Get inspired by others 💛'\n- Text: 'Here are a few common themes people start with. Pick one or two — or write your own.'\n- Topic chips (multi-select): Confidence, Self-Worth, Relationships, Career, Health \u0026 Wellness, Stress \u0026 Anxiety, Gratitude\n- Optional custom text input\n- Continue button\n\nProps: { name, intention, selectedTopics, onIntentionChange, onTopicsChange, onContinue, onIDontKnow }\n\nAfter continue, trigger AI generation (100 affirmations).",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "es7"
+  ],
+  "parent": "hok",
+  "acceptance_criteria": "Intent capture works, topic selection works, triggers generation",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-16T18:18:39.0125505Z",
+  "updated_at": "2026-01-16T18:18:39.0125505Z"
+}
