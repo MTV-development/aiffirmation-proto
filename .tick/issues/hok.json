@@ -1,12 +1,12 @@
 {
   "id": "hok",
   "title": "FO-01: Full Onboarding Implementation",
-  "notes": "2026-01-16 19:25 - Environment validated successfully. Build/lint/dev all pass. Existing E2E test uses Playwright (e2e/full-process-3.test.ts) - can use same pattern for onboarding tests. Test cookie 'e2e_test_mode' bypasses auth.",
+  "notes": "2026-01-16 19:25 - Environment validated successfully. Build/lint/dev all pass. Existing E2E test uses Playwright (e2e/full-process-3.test.ts) - can use same pattern for onboarding tests. Test cookie 'e2e_test_mode' bypasses auth.\n2026-01-16 19:27 - FO-01 agent created following GT-01/AP-01 pattern. Uses static DEFAULT_INSTRUCTIONS with full quality guidelines (structure, openers, length, tone, power verbs, avoid list). Factory function supports KV-based system prompts via getAgentSystemPrompt('fo-01', implementation). Agent generates 100 affirmations as JSON array. Ready for API route integration.\n2026-01-16 19:30 - FO-01 KV entries added with google/gemini-2.5-flash model and temp 0.9. System prompt matches agent DEFAULT_INSTRUCTIONS in fo-01/agent.ts. Prompt template uses Liquid variables {{ name }} and {{ intention }}. Seed file uses upsert pattern so re-running is safe.",
   "status": "open",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-16T18:17:14.4464573Z",
-  "updated_at": "2026-01-16T18:25:21.1301612Z"
+  "updated_at": "2026-01-16T18:30:54.798125Z"
 }
