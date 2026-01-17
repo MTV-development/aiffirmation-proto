@@ -356,11 +356,13 @@ export function FOExperience() {
               batchNumber={batchNumber}
               approvedCount={state.approvedAffirmations.length}
               onContinue={() => {
-                if (hasMoreBatches()) {
+                // After batch 3 (Step 6.3), always go to Step 7 per spec
+                // Only offer more batches for batches 1 and 2
+                if (batchNumber < 3 && hasMoreBatches()) {
                   // Move to next batch
                   nextBatch();
                 } else {
-                  // No more batches, go to background selection (step 7)
+                  // No more batches or batch 3 complete, go to background selection (step 7)
                   goToStep(7);
                 }
               }}

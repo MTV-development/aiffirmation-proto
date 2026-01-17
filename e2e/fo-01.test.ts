@@ -1,17 +1,19 @@
 /**
  * E2E test for FO-01 Full Onboarding using Playwright
  *
- * This test verifies the full onboarding flow:
+ * This test verifies the full onboarding flow with all 3 swipe batches:
  * 1. Navigate to /fo-01 (with auth bypass via cookie)
  * 2. Step 0: Click Continue
  * 3. Step 1: Enter name, click Continue
  * 4. Step 2: Click Continue
  * 5. Step 3: Enter intention, click Continue
- * 6. Step 4: Wait for loading, click Start
- * 7. Step 5: Swipe down on affirmations (use keyboard)
- * 8. Step 6: Click "I'm good with the affirmations I chose"
- * 9. Steps 7-9: Click through Continue buttons
- * 10. Step 10: Verify completion screen
+ * 6. Step 4: Wait for AI generation, click Start
+ * 7. Step 5/Batch 1: Swipe 10 affirmations → Step 6 checkpoint → Continue
+ * 8. Step 6.1/Batch 2: Swipe 10 affirmations → Step 6.2 checkpoint → Yes, please
+ * 9. Step 6.1/Batch 3: Swipe 10 affirmations → Step 6.3 checkpoint → Continue
+ * 10. CRITICAL: After Step 6.3, Continue MUST go to Step 7 (not batch 4)
+ * 11. Steps 7-9: Click through Continue buttons
+ * 12. Step 10: Verify completion screen
  *
  * Run with: npx tsx e2e/fo-01.test.ts
  *
@@ -243,8 +245,9 @@ async function runTest(): Promise<void> {
     }
     console.log('✅ Step 4 completed - AI generation successful');
 
-    // Step 5: Swipe down on at least 2 affirmations using keyboard
-    console.log('\n⬇️ Step 5: Swiping affirmations...');
+    // Step 5: Swipe through all 3 batches to test the full flow
+    // This verifies that after batch 3 (Step 6.3), Continue goes to Step 7
+    console.log('\n⬇️ Step 5: Swiping affirmations (testing full 3-batch flow)...');
 
     // Wait for first affirmation card (variable number of affirmations)
     const hasAffirmation = await waitForTextContaining(page, 'Affirmation 1 of', 5000);
@@ -253,47 +256,87 @@ async function runTest(): Promise<void> {
       throw new Error('First affirmation card did not appear');
     }
 
-    // Swipe down on 2 affirmations using ArrowDown key (keep them)
-    for (let i = 0; i < 2; i++) {
-      console.log(`   Keeping affirmation ${i + 1}...`);
-      await sleep(500);
-      await page.keyboard.press('ArrowDown');
-      await sleep(800); // Wait for animation
-    }
-    console.log('✅ Kept 2 affirmations');
-
-    // Keep swiping until we reach the checkpoint (variable number of affirmations)
-    console.log('   Discarding remaining affirmations until checkpoint...');
-    let checkpointReached = false;
-    for (let i = 0; i < 20; i++) { // Max 20 iterations to prevent infinite loop
-      // Check if we've reached the checkpoint
-      const pageContent = await page.content();
-      if (pageContent.includes('Perfect, TestUser') || pageContent.includes("I'm good with")) {
-        checkpointReached = true;
-        break;
+    // Helper to swipe through a batch of 10 affirmations
+    async function swipeThroughBatch(batchNum: number): Promise<void> {
+      console.log(`   Swiping through batch ${batchNum}...`);
+      for (let i = 0; i < 10; i++) {
+        // Alternate: keep some, discard others
+        await sleep(300);
+        if (i < 3) {
+          await page.keyboard.press('ArrowDown'); // Keep
+        } else {
+          await page.keyboard.press('ArrowUp'); // Discard
+        }
+        await sleep(500);
       }
-      await sleep(300);
-      await page.keyboard.press('ArrowUp'); // Discard
-      await sleep(500);
+      console.log(`   ✓ Batch ${batchNum} complete`);
     }
 
-    // Step 6: Click "I'm good with the affirmations I chose"
-    console.log('\n🖱️ Step 6: Finishing affirmation selection...');
-    if (!checkpointReached) {
-      const hasCheckpoint = await waitForTextContaining(page, 'Perfect, TestUser', 10000);
-      if (!hasCheckpoint) {
-        await page.screenshot({ path: 'e2e/debug-step6.png' });
-        throw new Error('Checkpoint screen did not appear');
-      }
+    // Batch 1: Swipe through 10 affirmations
+    await swipeThroughBatch(1);
+
+    // Step 6 checkpoint: "Perfect, TestUser" with Continue and "I'm good..." buttons
+    console.log('\n🖱️ Step 6: First checkpoint - clicking Continue for more...');
+    const hasCheckpoint1 = await waitForTextContaining(page, 'Perfect, TestUser', 10000);
+    if (!hasCheckpoint1) {
+      await page.screenshot({ path: 'e2e/debug-step6.png' });
+      throw new Error('Checkpoint 1 screen did not appear');
     }
+    await sleep(500);
+    const clickedContinue1 = await clickButton(page, 'Continue');
+    if (!clickedContinue1) {
+      await page.screenshot({ path: 'e2e/debug-step6-continue.png' });
+      throw new Error('Could not click Continue on checkpoint 1');
+    }
+    console.log('✅ Checkpoint 1 completed - continuing to batch 2');
+
+    // Batch 2: Swipe through 10 more affirmations
+    await sleep(500);
+    await swipeThroughBatch(2);
+
+    // Step 6.2 checkpoint: "Great job, TestUser" with Yes, please / No, continue
+    console.log('\n🖱️ Step 6.2: Second checkpoint - clicking Yes, please for more...');
+    const hasCheckpoint2 = await waitForTextContaining(page, 'Great job, TestUser', 10000);
+    if (!hasCheckpoint2) {
+      await page.screenshot({ path: 'e2e/debug-step6-2.png' });
+      throw new Error('Checkpoint 2 screen did not appear');
+    }
+    await sleep(500);
+    const clickedYesPlease = await clickButton(page, 'Yes, please');
+    if (!clickedYesPlease) {
+      await page.screenshot({ path: 'e2e/debug-step6-2-yes.png' });
+      throw new Error('Could not click "Yes, please" on checkpoint 2');
+    }
+    console.log('✅ Checkpoint 2 completed - continuing to batch 3');
+
+    // Batch 3: Swipe through 10 more affirmations
+    await sleep(500);
+    await swipeThroughBatch(3);
+
+    // Step 6.3 checkpoint: "Perfect, TestUser" with only Continue button
+    // CRITICAL: This Continue MUST go to Step 7, not batch 4
+    console.log('\n🖱️ Step 6.3: Third checkpoint - clicking Continue (should go to Step 7)...');
+    const hasCheckpoint3 = await waitForTextContaining(page, 'Perfect, TestUser', 10000);
+    if (!hasCheckpoint3) {
+      await page.screenshot({ path: 'e2e/debug-step6-3.png' });
+      throw new Error('Checkpoint 3 screen did not appear');
+    }
+
+    // Verify there is NO "I'm good with" or "Yes, please" button - only Continue
+    const pageContent = await page.content();
+    if (pageContent.includes("I'm good with") || pageContent.includes("Yes, please")) {
+      await page.screenshot({ path: 'e2e/debug-step6-3-wrong-buttons.png' });
+      throw new Error('Step 6.3 should only have Continue button, but found other options');
+    }
+    console.log('   ✓ Verified: Only Continue button present (no skip option)');
 
     await sleep(500);
-    const clickedFinish = await clickButton(page, "I'm good with the affirmations I chose");
-    if (!clickedFinish) {
-      await page.screenshot({ path: 'e2e/debug-step6-finish.png' });
-      throw new Error("Could not click 'I'm good with the affirmations I chose' button");
+    const clickedContinue3 = await clickButton(page, 'Continue');
+    if (!clickedContinue3) {
+      await page.screenshot({ path: 'e2e/debug-step6-3-continue.png' });
+      throw new Error('Could not click Continue on checkpoint 3');
     }
-    console.log('✅ Step 6 completed');
+    console.log('✅ Checkpoint 3 completed');
 
     // Step 7: Background selection - click Continue
     console.log('\n🖱️ Step 7: Background selection...');
