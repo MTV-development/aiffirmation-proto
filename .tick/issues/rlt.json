@@ -2,7 +2,7 @@
   "id": "rlt",
   "title": "Add FO-02 to overview page",
   "description": "Update app/overview/page.tsx to add FO-02:\n\nVersion card:\n{\n  id: 'FO-02',\n  name: 'Full Onboarding (Iterative)',\n  href: '/fo-02',\n  tagline: 'Onboarding that learns from your choices',\n  description: 'Same 10-step onboarding as FO-01, but with real iterative improvement...',\n  inputType: 'Name + intention + swipe feedback',\n  outputType: 'Progressively personalized affirmations',\n  highlight: 'Learns as you swipe',\n}\n\nComparison table row:\n\u003ctr\u003e\n  \u003ctd\u003eFO-02\u003c/td\u003e\n  \u003ctd\u003eMedium\u003c/td\u003e\n  \u003ctd\u003eHigh (iterative)\u003c/td\u003e\n  \u003ctd\u003eNone\u003c/td\u003e\n  \u003ctd\u003eOnboarding with learning\u003c/td\u003e\n\u003c/tr\u003e",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "FO-02 card and table row appear on overview page",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-17T07:18:54.8292764Z",
-  "updated_at": "2026-01-17T07:19:58.7672044Z"
+  "updated_at": "2026-01-17T07:50:50.8776742Z",
+  "closed_at": "2026-01-17T07:50:50.8776742Z",
+  "closed_reason": "FO-02 already added to app/overview/page.tsx (versions array and comparison table) by yd7 iteration"
 }

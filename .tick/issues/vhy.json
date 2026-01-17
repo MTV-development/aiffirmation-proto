@@ -2,7 +2,7 @@
   "id": "vhy",
   "title": "Create generation-loading.tsx component",
   "description": "Create app/fo-02/components/generation-loading.tsx:\n- Props: name, batchNumber (1|2|3)\n- Different copy per batch:\n  - Batch 1: 'Creating your first affirmations, {name}...' / 'Based on what you shared with us'\n  - Batch 2: 'Creating more affirmations just for you, {name}...' / 'We're learning from what resonated with you'\n  - Batch 3: 'One more round of affirmations, {name}...' / 'These should feel even more personal'\n- Include animated throbber/spinner\n- No button - auto-advances when generation completes\n\nSee SPEC.md section 'Throbber Component'.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "Loading component renders correctly for all 3 batches with appropriate copy",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-17T07:18:23.2419182Z",
-  "updated_at": "2026-01-17T07:18:23.2419182Z"
+  "updated_at": "2026-01-17T07:47:30.7797785Z",
+  "closed_at": "2026-01-17T07:47:30.7797785Z",
+  "closed_reason": "Created generation-loading.tsx with personalized loading copy for batches 1/2/3 and error state with retry button"
 }
