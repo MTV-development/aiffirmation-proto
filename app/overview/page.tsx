@@ -100,6 +100,16 @@ const versions: VersionCard[] = [
     outputType: 'Swipe selection',
     highlight: 'Full journey',
   },
+  {
+    id: 'FO-02',
+    name: 'Full Onboarding (Iterative)',
+    href: '/fo-02',
+    tagline: 'Onboarding that learns from your choices',
+    description: 'Same 10-step onboarding as FO-01, but with real iterative improvement. Each batch of affirmations is generated based on what you approved and skipped in previous batches.',
+    inputType: 'Name + intention + swipe feedback',
+    outputType: 'Progressively personalized affirmations',
+    highlight: 'Learns as you swipe',
+  },
 ];
 
 export default function OverviewPage() {
@@ -224,12 +234,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">Profile + swipes</td>
                   <td className="py-2">Deep personalization</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-01</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High</td>
                   <td className="py-2 pr-4 text-gray-500">None</td>
                   <td className="py-2">Complete onboarding</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-02</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Onboarding with learning</td>
                 </tr>
               </tbody>
             </table>
