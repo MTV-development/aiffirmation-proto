@@ -1,0 +1,13 @@
+{
+  "id": "4y2",
+  "title": "FO-02 Navigation \u0026 Pages",
+  "description": "Navigation config, info page, and overview page updates",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "f2m",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:17:13.8929344Z",
+  "updated_at": "2026-01-17T07:17:13.8929344Z"
+}

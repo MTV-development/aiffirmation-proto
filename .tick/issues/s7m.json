@@ -1,0 +1,13 @@
+{
+  "id": "s7m",
+  "title": "FO-02 Agent \u0026 Backend",
+  "description": "Agent definition and server actions for batch generation with feedback loop",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "f2m",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:17:09.4621008Z",
+  "updated_at": "2026-01-17T07:17:09.4621008Z"
+}

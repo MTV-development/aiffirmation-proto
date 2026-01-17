@@ -1,0 +1,13 @@
+{
+  "id": "xi4",
+  "title": "FO-02 Setup \u0026 Seed Data",
+  "description": "Environment validation and KV store setup for FO-02",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "f2m",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:17:07.3804427Z",
+  "updated_at": "2026-01-17T07:17:07.3804427Z"
+}

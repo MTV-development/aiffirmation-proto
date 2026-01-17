@@ -1,0 +1,17 @@
+{
+  "id": "e4v",
+  "title": "Add error state with retry for generation failures",
+  "description": "Add error handling UI to FO-02:\n- If generation fails, show error state\n- Headline: 'We couldn't create your affirmations'\n- Subtext: 'Please try again'\n- [Try Again] button to retry generation\n\nNo option to skip - retry only.",
+  "status": "open",
+  "priority": 4,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "ojq"
+  ],
+  "parent": "yd7",
+  "acceptance_criteria": "Error state displays on failure, retry button works",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:18:28.1499757Z",
+  "updated_at": "2026-01-17T07:19:54.0411839Z"
+}

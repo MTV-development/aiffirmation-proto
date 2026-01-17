@@ -1,0 +1,13 @@
+{
+  "id": "yd7",
+  "title": "FO-02 UI Components",
+  "description": "Copy FO-01 components, modify for batch generation, add loading states",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "f2m",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:17:11.8566562Z",
+  "updated_at": "2026-01-17T07:17:11.8566562Z"
+}

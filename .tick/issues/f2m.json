@@ -1,0 +1,12 @@
+{
+  "id": "f2m",
+  "title": "FO-02: Full Onboarding with Iterative Improvement",
+  "description": "Implement FO-02 - same 10-step onboarding as FO-01 but with real iterative improvement. Generates affirmations in batches of 10, using approved/skipped selections to improve each batch.",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:16:55.7807291Z",
+  "updated_at": "2026-01-17T07:16:55.7807291Z"
+}
