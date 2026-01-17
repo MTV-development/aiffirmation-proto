@@ -794,12 +794,15 @@ If generation fails, show an error state with retry option:
 **IMPORTANT: Run tests in headed (non-headless) mode** so you can visually follow along:
 
 ```bash
-# Run with visible browser window
-npx playwright test e2e/fo-02.test.ts --headed
+# Start server if not running (Windows Git Bash)
+cmd //c "start /b npm run dev"
+sleep 15  # Wait for server
 
-# Or with the UI mode for debugging
-npx playwright test e2e/fo-02.test.ts --ui
+# Run test (use node --import tsx for proper output)
+node --import tsx e2e/fo-02.test.ts
 ```
+
+See `docs/current/e2e-testing.md` for full testing guide.
 
 **Test scenarios:**
 1. Complete flow through all 3 batches

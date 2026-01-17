@@ -10,28 +10,98 @@ This project uses Playwright for end-to-end testing of the AI agent interfaces.
 npm run test:e2e:install
 ```
 
-This downloads the Chromium browser needed for headless testing.
+This downloads the Chromium browser needed for testing.
 
 ### Prerequisites
 
 - Node.js 20+
-- Dev server running (`npm run dev`)
+- Dev server running (see below for how to start it)
 
 ## Running Tests
 
+### Starting the Dev Server
+
+**Option 1: Manual (two terminals)**
 ```bash
-# Start the dev server first (in one terminal)
+# Terminal 1: Start server
 npm run dev
 
-# Run tests (in another terminal)
-npm run test:e2e
+# Terminal 2: Run tests
+node --import tsx e2e/fo-01.test.ts
+```
+
+**Option 2: Autonomous (single terminal, Windows Git Bash)**
+```bash
+# Start server in background
+cmd //c "start /b npm run dev"
+
+# Wait for server to be ready
+sleep 15
+
+# Run test
+node --import tsx e2e/fo-01.test.ts
+```
+
+**Option 3: Autonomous (single terminal, Linux/Mac)**
+```bash
+# Start server in background
+npm run dev &
+
+# Wait for server to be ready
+sleep 15
+
+# Run test
+node --import tsx e2e/fo-01.test.ts
+```
+
+### Checking if Server is Running
+
+```bash
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+# 307 = running (redirect to password page is normal)
+# 000 = not running
+```
+
+### Running Tests: Headless vs Non-Headless
+
+Tests can run in two modes:
+
+**Non-headless (visible browser window)** — Good for debugging and watching tests run:
+```bash
+# Edit the test file, set headless: false (this is the default)
+browser = await chromium.launch({ headless: false });
+
+# Run the test
+node --import tsx e2e/fo-01.test.ts
+```
+
+**Headless (no visible browser)** — Good for CI and automated runs:
+```bash
+# Edit the test file, set headless: true
+browser = await chromium.launch({ headless: true });
+
+# Run the test
+node --import tsx e2e/fo-01.test.ts
+```
+
+### Important: Use `node --import tsx` for Output
+
+Always use `node --import tsx` instead of `npx tsx` when running tests. The `npx tsx` command doesn't properly output to stdout in some environments (especially Git Bash on Windows).
+
+```bash
+# Correct - shows test output
+node --import tsx e2e/fo-01.test.ts
+
+# May not show output in some environments
+npx tsx e2e/fo-01.test.ts
 ```
 
 ## Test Files
 
 | File | Description |
 |------|-------------|
-| `e2e/full-process-3.test.ts` | Tests the Full Process 3 chat-based affirmation flow |
+| `e2e/fo-01.test.ts` | FO-01 Full Onboarding flow (10 steps, 3 swipe batches) |
+| `e2e/full-process-3.test.ts` | Full Process 3 chat-based affirmation flow |
 
 ## How It Works
 
@@ -139,6 +209,7 @@ For CI environments, ensure:
 1. Chromium is installed (`npm run test:e2e:install`)
 2. Dev server is started before tests
 3. `TEST_URL` env var is set if not using localhost:3000
+4. Tests run in headless mode (`headless: true` in test files)
 
 Example CI workflow:
 
@@ -153,8 +224,10 @@ Example CI workflow:
   run: sleep 15
 
 - name: Run E2E tests
-  run: npm run test:e2e
+  run: node --import tsx e2e/fo-01.test.ts
 ```
+
+**Note:** For CI, edit the test file to use `headless: true` in `chromium.launch()`, or create a separate CI test script that overrides the setting.
 
 ## Timeouts
 
