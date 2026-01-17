@@ -1,0 +1,19 @@
+{
+  "id": "ojq",
+  "title": "Modify fo-experience.tsx for batch generation",
+  "description": "Update app/fo-02/components/fo-experience.tsx for iterative batch generation:\n\nState changes:\n- currentBatch: string[] (current 10 affirmations)\n- currentBatchIndex: number (0, 1, or 2)\n- isGenerating: boolean\n- generationError: string | null\n\nFlow changes:\n- Generate batch 1 when entering Step 5 (after Step 4 Start click)\n- Generate batch 2 when clicking Continue on Step 6\n- Generate batch 3 when clicking 'Yes, please' on Step 6.2\n- Show GenerationLoading component during each generation\n- Handle generation errors with retry option\n\nCall generateAffirmationBatchFO02 with accumulated approved/skipped lists.",
+  "status": "closed",
+  "priority": 3,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "yqy"
+  ],
+  "parent": "yd7",
+  "acceptance_criteria": "Experience handles 3-batch flow with loading states between each",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:18:25.4976875Z",
+  "updated_at": "2026-01-17T07:47:34.8418082Z",
+  "closed_at": "2026-01-17T07:47:34.8418082Z",
+  "closed_reason": "Modified fo-experience.tsx for batch generation: uses currentBatch array and currentBatchNumber, calls generateAffirmationBatchFO02 with batchNumber (1/2/3) and accumulated approvedAffirmations/skippedAffirmations"
+}

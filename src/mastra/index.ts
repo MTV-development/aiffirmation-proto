@@ -9,6 +9,7 @@ import { fullProcessAgent } from './agents/full-process';
 import { fullProcess2Agent } from './agents/full-process-2';
 import { fullProcess3Agent } from './agents/full-process-3';
 import { fo01Agent } from './agents/fo-01';
+import { fo02Agent } from './agents/fo-02';
 import { discoveryAgent, generationAgent, profileExtractorAgent } from './agents/chat-survey';
 import { chatSurveyWorkflow } from './workflows/chat-survey';
 
@@ -39,7 +40,7 @@ globalForMastra.storage = storage;
 export const mastra =
   globalForMastra.mastra ??
   new Mastra({
-    agents: { weatherAgent, af1Agent, goodTenAgent, fullProcessAgent, fullProcess2Agent, fullProcess3Agent, fo01Agent, discoveryAgent, generationAgent, profileExtractorAgent },
+    agents: { weatherAgent, af1Agent, goodTenAgent, fullProcessAgent, fullProcess2Agent, fullProcess3Agent, fo01Agent, fo02Agent, discoveryAgent, generationAgent, profileExtractorAgent },
     workflows: { chatSurveyWorkflow },
     storage,
     logger: new PinoLogger({

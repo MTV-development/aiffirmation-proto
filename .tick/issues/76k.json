@@ -1,0 +1,19 @@
+{
+  "id": "76k",
+  "title": "Add FO-02 KV store entries to seed.ts",
+  "description": "Add all FO-02 prompt templates to src/db/seed.ts:\n- versions.fo-02._info.default\n- versions.fo-02._model_name.default (openai/gpt-4o-mini)\n- versions.fo-02._temperature.default (0.9)\n- versions.fo-02.system.default (with learning instructions)\n- versions.fo-02.prompt_initial.default\n- versions.fo-02.prompt_with_feedback.default (with Liquid template for approved/skipped lists)\n\nSee SPEC.md section 'KV Store Entries' for exact content.",
+  "status": "closed",
+  "priority": 1,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "van"
+  ],
+  "parent": "xi4",
+  "acceptance_criteria": "All 6 KV entries added to seed.ts following existing patterns",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-17T07:17:38.4978671Z",
+  "updated_at": "2026-01-17T07:29:50.4798696Z",
+  "closed_at": "2026-01-17T07:29:50.4798696Z",
+  "closed_reason": "Added 6 FO-02 KV store entries to src/db/seed.ts: _info, _model_name, _temperature, system, prompt_initial, prompt_with_feedback"
+}
