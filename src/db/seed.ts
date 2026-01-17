@@ -1464,7 +1464,7 @@ Generates 100 personalized affirmations based on user intention using AP-01 qual
   {
     key: 'versions.fo-01._model_name.default',
     value: {
-      text: 'google/gemini-2.5-flash',
+      text: 'openai/gpt-4o-mini',
     },
   },
   {
