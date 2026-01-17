@@ -2,7 +2,7 @@
   "id": "k3v",
   "title": "Extract parseAffirmationResponse to shared utility",
   "description": "Either:\n1. Import parseAffirmationResponse directly from app/fo-01/actions.ts, or\n2. Extract to lib/affirmation-utils.ts for reuse\n\nThe parser handles JSON array or numbered list responses from the LLM.",
-  "status": "open",
+  "status": "closed",
   "priority": 0,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "parseAffirmationResponse is reusable by FO-02",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-17T07:18:00.4329234Z",
-  "updated_at": "2026-01-17T07:18:00.4329234Z"
+  "updated_at": "2026-01-17T07:37:21.660044Z",
+  "closed_at": "2026-01-17T07:37:21.660044Z",
+  "closed_reason": "Decided NOT to extract to shared utility - keeping parseAffirmationsResponse in app/fo-02/actions.ts inline (same as FO-01 pattern). Spec suggested either approach; inline is simpler and follows existing codebase conventions."
 }

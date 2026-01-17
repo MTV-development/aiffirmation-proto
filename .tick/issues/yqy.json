@@ -2,7 +2,7 @@
   "id": "yqy",
   "title": "Create FO-02 server actions with batch generation",
   "description": "Create app/fo-02/actions.ts with generateAffirmationBatchFO02():\n- Accept: name, intention, batchNumber, approvedAffirmations, skippedAffirmations, implementation\n- Use prompt_initial for batch 1, prompt_with_feedback for batches 2-3\n- Combine approved+skipped into allPreviousAffirmations for deduplication\n- Render template with feedback context\n- Parse response with parseAffirmationResponse (import from fo-01 or shared util)\n\nSee SPEC.md section 'Server Action Changes' for signature.",
-  "status": "open",
+  "status": "closed",
   "priority": 1,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "Server action compiles, handles all 3 batch scenarios",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-17T07:17:58.0184927Z",
-  "updated_at": "2026-01-17T07:17:58.0184927Z"
+  "updated_at": "2026-01-17T07:37:11.9446822Z",
+  "closed_at": "2026-01-17T07:37:11.9446822Z",
+  "closed_reason": "Created app/fo-02/actions.ts with generateAffirmationBatchFO02 server action supporting batch generation with approved/skipped affirmations feedback loop, uses prompt_initial for batch 1 and prompt_with_feedback for batches 2-3"
 }
