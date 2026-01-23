@@ -19,7 +19,8 @@ export interface SwipePhaseProps {
   onSwipe: (direction: SwipeDirection, affirmation: string) => void;
   isLoading?: boolean;
   name: string;
-  isFirstAction: boolean;
+  /** Whether the user has swiped at least once (to show feedback message) */
+  hasSwipedOnce: boolean;
 }
 
 const SWIPE_THRESHOLD = 100;
@@ -126,11 +127,10 @@ export function SwipePhase({
   isLoading,
   onSwipe,
   name,
-  isFirstAction,
+  hasSwipedOnce,
 }: SwipePhaseProps) {
   const [exitDirection, setExitDirection] = useState<SwipeDirection | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'info' } | null>(null);
-  const [showFeedback, setShowFeedback] = useState(false);
 
   // Reset exit direction and show toast when affirmation changes
   const handleSwipe = useCallback(
@@ -142,17 +142,11 @@ export function SwipePhase({
       }
       setTimeout(() => setToast(null), 1500);
 
-      // Show feedback message after first action
-      if (isFirstAction) {
-        setShowFeedback(true);
-        setTimeout(() => setShowFeedback(false), 3000);
-      }
-
       onSwipe(direction, aff);
       // Reset for next card
       setTimeout(() => setExitDirection(null), 300);
     },
-    [onSwipe, isFirstAction]
+    [onSwipe]
   );
 
   if (isLoading && !affirmation) {
@@ -164,14 +158,13 @@ export function SwipePhase({
     );
   }
 
-  // First card intro message
+  // Messages based on swipe state
   const introMessage =
-    index === 1
-      ? 'Save this affirmation if it feels right - or discard it if it does not. You are forming your personal list now.'
-      : null;
-
-  // Feedback message after first action
+    'Save this affirmation if it feels right - or discard it if it does not. You are forming your personal list now.';
   const feedbackMessage = `Keep going ${name} - every time you like or dislike an affirmation we prepare even better affirmations for you.`;
+
+  // Show intro on first card before any swipe, feedback message after first swipe
+  const currentMessage = hasSwipedOnce ? feedbackMessage : introMessage;
 
   return (
     <div className="flex flex-col h-full bg-gray-50 dark:bg-gray-900">
@@ -182,12 +175,10 @@ export function SwipePhase({
         </h2>
       </div>
 
-      {/* Intro message for first card */}
-      {introMessage && (
-        <div className="px-6 py-3 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">{introMessage}</p>
-        </div>
-      )}
+      {/* Contextual message - intro before first swipe, feedback after */}
+      <div className="px-6 py-3 text-center">
+        <p className="text-sm text-gray-600 dark:text-gray-400">{currentMessage}</p>
+      </div>
 
       {/* Card area */}
       <div className="flex-1 flex items-center justify-center p-4">
@@ -242,22 +233,6 @@ export function SwipePhase({
           )}
         </div>
       </div>
-
-      {/* Feedback message after first action */}
-      <AnimatePresence>
-        {showFeedback && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="px-6 py-3 text-center"
-          >
-            <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">
-              {feedbackMessage}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Controls hint */}
       <div className="p-4 border-t border-gray-200 dark:border-gray-800">
