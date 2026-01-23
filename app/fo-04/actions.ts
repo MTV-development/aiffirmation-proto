@@ -1,7 +1,7 @@
 'use server';
 
 import { createFO04DiscoveryAgent } from '@/src/mastra/agents/fo-04/agent';
-import { createFO03Agent } from '@/src/mastra/agents/fo-03';
+import { createFO04AffirmationAgent } from '@/src/mastra/agents/fo-04/affirmation-agent';
 
 /**
  * Context accumulated during the dynamic gathering screens.
@@ -384,8 +384,8 @@ export async function generateAffirmationBatchFO04(
     // Build the user prompt from GatheringContext
     const userPrompt = buildAffirmationPrompt(context, approvedAffirmations, skippedAffirmations);
 
-    // Reuse FO-03 agent for affirmation generation
-    const agent = await createFO03Agent(implementation);
+    // Use FO-04 affirmation agent with conversation-aware prompts
+    const agent = await createFO04AffirmationAgent(implementation);
 
     console.log('[fo-04-affirmations] Implementation:', implementation);
     console.log('[fo-04-affirmations] Batch number:', batchNumber);

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { DynamicInput } from './dynamic-input';
 import {
   generateDynamicScreen,
@@ -11,7 +12,7 @@ import {
 
 interface StepDynamicProps {
   gatheringContext: GatheringContext;
-  onAnswer: (answer: { text: string; selectedChips: string[] }) => void;
+  onAnswer: (question: string, answer: { text: string; selectedChips: string[] }) => void;
   onReadyForAffirmations: () => void;
   onError: (error: string) => void;
 }
@@ -77,8 +78,15 @@ export function StepDynamic({
 
     setIsSubmitting(true);
 
-    // Store the answer
-    onAnswer(inputValue);
+    // Trigger confetti on each screen completion
+    confetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.6 },
+    });
+
+    // Store the question and answer together
+    onAnswer(screenData.question, inputValue);
 
     // Determine if we should proceed to affirmations based on screen count logic
     const nextScreenNumber = gatheringContext.screenNumber + 1;

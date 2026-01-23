@@ -371,10 +371,9 @@ export function FOExperience() {
         return (
           <StepDynamic
             gatheringContext={state.gatheringContext}
-            onAnswer={(answer) => {
-              // Note: The step-dynamic component handles the transition logic internally
-              // We just need to update our state with the new exchange
-              handleDynamicAnswer(answer);
+            onAnswer={(question, answer) => {
+              // Store both the question and answer in the exchange
+              handleDynamicQuestionReceived(question, answer);
             }}
             onReadyForAffirmations={handleReadyForAffirmations}
             onError={handleDynamicError}
