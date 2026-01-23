@@ -1,11 +1,14 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { generateAffirmationBatchFO03 } from '../actions';
 import { StepWelcome } from './step-welcome';
 import { StepFamiliarity } from './step-familiarity';
 import { StepTopics } from './step-topics';
 import { TextWithChips } from './text-with-chips';
 import { HeartAnimation } from './heart-animation';
+import { SwipePhase, type SwipeDirection } from './swipe-phase';
+import { StepCheckpoint } from './step-checkpoint';
 
 // Step 5 - Situation chips
 const SITUATION_PRIMARY_CHIPS = [
@@ -146,6 +149,7 @@ export interface OnboardingState extends FO03OnboardingData {
   currentCardIndex: number;
   approvedAffirmations: string[];
   skippedAffirmations: string[];
+  hasSwipedOnce: boolean;
 
   // Illustrative choices
   selectedBackground: string | null;
@@ -168,6 +172,7 @@ const initialState: OnboardingState = {
   currentCardIndex: 0,
   approvedAffirmations: [],
   skippedAffirmations: [],
+  hasSwipedOnce: false,
   selectedBackground: null,
   notificationFrequency: null,
 };
@@ -220,6 +225,99 @@ export function FOExperience() {
       currentStep: Math.max(prev.currentStep - 1, 0),
     }));
   }, []);
+
+  // Generate a batch of affirmations via server action
+  const generateBatch = useCallback(
+    async (batchNumber: 1 | 2 | 3) => {
+      if (!state.name) {
+        updateState({ generationError: 'Name is required' });
+        return;
+      }
+
+      updateState({
+        isGenerating: true,
+        generationError: null,
+        currentBatchNumber: batchNumber,
+      });
+
+      try {
+        const result = await generateAffirmationBatchFO03({
+          name: state.name,
+          familiarity: state.familiarity ?? 'new',
+          topics: state.topics,
+          situation: state.situation,
+          feelings: state.feelings,
+          whatHelps: state.whatHelps,
+          batchNumber,
+          approvedAffirmations: state.approvedAffirmations,
+          skippedAffirmations: state.skippedAffirmations,
+        });
+
+        if (result.error) {
+          updateState({
+            isGenerating: false,
+            generationError: result.error,
+          });
+          return;
+        }
+
+        updateState({
+          isGenerating: false,
+          currentBatch: result.affirmations,
+          currentCardIndex: 0,
+          generationError: null,
+        });
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Failed to generate affirmations';
+        updateState({
+          isGenerating: false,
+          generationError: errorMessage,
+        });
+      }
+    },
+    [
+      state.name,
+      state.familiarity,
+      state.topics,
+      state.situation,
+      state.feelings,
+      state.whatHelps,
+      state.approvedAffirmations,
+      state.skippedAffirmations,
+      updateState,
+    ]
+  );
+
+  // Approve current affirmation
+  const approveAffirmation = useCallback((affirmation: string) => {
+    setState((prev) => ({
+      ...prev,
+      approvedAffirmations: [...prev.approvedAffirmations, affirmation],
+      currentCardIndex: prev.currentCardIndex + 1,
+      hasSwipedOnce: true,
+    }));
+  }, []);
+
+  // Skip current affirmation
+  const skipAffirmation = useCallback((affirmation: string) => {
+    setState((prev) => ({
+      ...prev,
+      skippedAffirmations: [...prev.skippedAffirmations, affirmation],
+      currentCardIndex: prev.currentCardIndex + 1,
+      hasSwipedOnce: true,
+    }));
+  }, []);
+
+  // Get current affirmation in the batch
+  const getCurrentAffirmation = useCallback((): string | null => {
+    return state.currentBatch[state.currentCardIndex] ?? null;
+  }, [state.currentBatch, state.currentCardIndex]);
+
+  // Check if we have more affirmations in current batch
+  const hasMoreInBatch = useCallback((): boolean => {
+    return state.currentCardIndex < state.currentBatch.length;
+  }, [state.currentBatch.length, state.currentCardIndex]);
 
   // Render step content based on current step
   const renderStep = () => {
@@ -312,7 +410,7 @@ export function FOExperience() {
         );
 
       case 7:
-        // What helps step - with open text + chips, no heart animation after
+        // What helps step - with open text + chips, triggers batch 1 generation on continue
         return (
           <TextWithChips
             headline="What normally makes you feel good?"
@@ -321,25 +419,151 @@ export function FOExperience() {
             moreChips={WHAT_HELPS_MORE_CHIPS}
             value={state.whatHelps}
             onChange={(whatHelps) => updateState({ whatHelps })}
-            onContinue={nextStep}
-            onNotSure={nextStep}
+            onContinue={async () => {
+              nextStep();
+              await generateBatch(1);
+            }}
+            onNotSure={async () => {
+              nextStep();
+              await generateBatch(1);
+            }}
           />
         );
 
       case 8:
-      case 9:
-        // Swipe phase steps - placeholder
+      case 9: {
+        // Swipe phase - batch generation, swiping, and checkpoints
+        const batchSize = 10;
+        const cardIndexInBatch = state.currentCardIndex + 1; // 1-indexed for display
+
+        // Show loading state during generation
+        if (state.isGenerating) {
+          return (
+            <div className="flex flex-col h-full items-center justify-center p-8">
+              <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
+              <p className="mt-4 text-gray-600 dark:text-gray-400">
+                {state.currentBatchNumber === 1
+                  ? `Creating your personal affirmations, ${state.name}...`
+                  : `Preparing more affirmations just for you, ${state.name}...`}
+              </p>
+            </div>
+          );
+        }
+
+        // Show error state
+        if (state.generationError) {
+          return (
+            <div className="flex flex-col h-full items-center justify-center p-8 text-center">
+              <p className="text-red-500 mb-4">{state.generationError}</p>
+              <button
+                onClick={() => generateBatch(state.currentBatchNumber as 1 | 2 | 3)}
+                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+              >
+                Try Again
+              </button>
+            </div>
+          );
+        }
+
+        // Check if batch is complete (all cards swiped)
+        if (!hasMoreInBatch() && state.currentBatch.length > 0) {
+          const batchNumber = state.currentBatchNumber;
+
+          // After batch 3, show transition screen
+          if (batchNumber >= 3) {
+            return (
+              <StepCheckpoint
+                name={state.name}
+                variant="transition"
+                onContinue={() => goToStep(10)}
+              />
+            );
+          }
+
+          // After batch 1, show batch1 checkpoint (Step 8)
+          if (batchNumber === 1) {
+            return (
+              <StepCheckpoint
+                name={state.name}
+                variant="batch1"
+                onContinue={async () => {
+                  // Reset hasSwipedOnce for next batch messaging
+                  updateState({ hasSwipedOnce: false });
+                  await generateBatch(2);
+                }}
+                onFinish={() => {
+                  // Show transition and proceed to Step 10
+                  goToStep(9);
+                  // Set state to show transition screen
+                  updateState({
+                    currentBatch: [],
+                    currentBatchNumber: 4, // Signal we're done with batches
+                  });
+                }}
+              />
+            );
+          }
+
+          // After batch 2+, show subsequent checkpoint (Step 9)
+          return (
+            <StepCheckpoint
+              name={state.name}
+              variant="subsequent"
+              onContinue={async () => {
+                // Reset hasSwipedOnce for next batch messaging
+                updateState({ hasSwipedOnce: false });
+                await generateBatch(3);
+              }}
+              onFinish={() => {
+                // Show transition screen
+                updateState({
+                  currentBatch: [],
+                  currentBatchNumber: 4,
+                });
+              }}
+            />
+          );
+        }
+
+        // Show transition screen when user chose to finish early
+        if (state.currentBatchNumber === 4) {
+          return (
+            <StepCheckpoint
+              name={state.name}
+              variant="transition"
+              onContinue={() => goToStep(10)}
+            />
+          );
+        }
+
+        // Get current affirmation for swiping
+        const currentAffirmation = getCurrentAffirmation();
+
+        // Handle swipe action
+        const handleSwipe = (direction: SwipeDirection, affirmation: string) => {
+          if (direction === 'down') {
+            // Down = keep (toward user)
+            approveAffirmation(affirmation);
+          } else {
+            // Up = discard (away from user)
+            skipAffirmation(affirmation);
+          }
+        };
+
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step {state.currentStep}: Swipe Phase (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
+          <div className="w-full max-w-md mx-auto h-[600px]">
+            <SwipePhase
+              affirmation={currentAffirmation ?? ''}
+              index={cardIndexInBatch}
+              total={batchSize}
+              onSwipe={handleSwipe}
+              isLoading={state.isGenerating}
+              name={state.name}
+              hasSwipedOnce={state.hasSwipedOnce}
+            />
           </div>
         );
+      }
 
       case 10:
         // Background selection - placeholder
