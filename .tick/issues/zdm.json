@@ -1,0 +1,17 @@
+{
+  "id": "zdm",
+  "title": "Create FO-04 fo-experience main component",
+  "description": "Create the main fo-experience component that orchestrates the full FO-04 flow.\n\nFile to create: app/fo-04/components/fo-experience.tsx\n\nState interface (extends FO-03):\n- currentStep: number\n- name, familiarity, topics (from initial screens)\n- gatheringContext: GatheringContext (NEW - for dynamic screens)\n- currentBatch, approvedAffirmations, etc. (from FO-03)\n\nFlow phases:\n1. Steps 0-2: Welcome (same as FO-03)\n2. Step 3: Familiarity selection\n3. Step 4: Topic selection\n4. Steps 5+: Dynamic screens (2-5 screens via step-dynamic)\n5. Swipe phase with batch generation (same as FO-03)\n6. Post-swipe mockups (same as FO-03)\n7. Completion screen\n\nKey difference from FO-03: Steps 5-7 are replaced by dynamic discovery phase.\n\nInclude server action import for batch generation (copy from FO-03 actions).",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "g2g"
+  ],
+  "parent": "n4c",
+  "acceptance_criteria": "Component renders initial welcome screen and navigates through all phases",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:59:46.8765603Z",
+  "updated_at": "2026-01-23T11:59:46.8765603Z"
+}

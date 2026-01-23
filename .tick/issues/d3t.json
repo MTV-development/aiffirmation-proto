@@ -1,0 +1,17 @@
+{
+  "id": "d3t",
+  "title": "Create FO-04 server actions for discovery",
+  "description": "Create server actions for calling the FO-04 discovery agent.\n\nFile to modify: app/fo-04/actions.ts\n\nCreate function: generateDynamicScreen(context: GatheringContext)\n\nInput (GatheringContext):\n- name: string\n- familiarity: 'new' | 'some' | 'very'\n- initialTopic: string\n- exchanges: Array\u003c{ question: string; answer: { text: string; selectedChips: string[] } }\u003e\n- screenNumber: number\n\nOutput (DynamicScreenResponse):\n- reflectiveStatement: string\n- question: string\n- initialChips: string[]\n- expandedChips: string[]\n- readyForAffirmations: boolean\n\nInclude error handling that returns a structured error for UI retry.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "a3b"
+  ],
+  "parent": "871",
+  "acceptance_criteria": "Server action can be imported and called; returns valid DynamicScreenResponse structure",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:58:45.891762Z",
+  "updated_at": "2026-01-23T11:58:45.891762Z"
+}

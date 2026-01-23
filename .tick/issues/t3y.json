@@ -1,0 +1,12 @@
+{
+  "id": "t3y",
+  "title": "FO-04: Dynamic Input Component",
+  "description": "Create the new chip-in-input UX component for dynamic screens\n\n## Context\n\n**Spec:** `docs/projects/2026-01-23-FO-04/2026-01-23-FO-04-spec.md`\n\nSee 'Chip Interaction UX' section for requirements:\n- Chips below input have + prefix\n- Clicking chip inserts it as tag inside input field\n- Chips inside input have - or x to remove\n- Validation: Next disabled until text or chip selected\n\n**Key files for this epic:**\n- `app/fo-03/components/text-with-chips.tsx` - Reference component (different UX)\n- `app/fo-04/components/` - Where new component will live",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:57:42.8779438Z",
+  "updated_at": "2026-01-23T11:57:42.8779438Z"
+}

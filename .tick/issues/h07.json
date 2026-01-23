@@ -1,0 +1,17 @@
+{
+  "id": "h07",
+  "title": "Add FO-04 affirmation generation actions",
+  "description": "Add affirmation batch generation to FO-04 actions.\n\nFile to modify: app/fo-04/actions.ts\n\nCopy generateAffirmationBatchFO03 pattern but modify to use exchanges from GatheringContext instead of hardcoded situation/feelings/whatHelps.\n\nThe agent prompt should include:\n- All exchange history (questions + answers)\n- User profile (name, familiarity, topics)\n- Approved/skipped affirmations for iteration\n\nMay reuse FO-03 agent for actual affirmation generation, just with different input structure.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "d3t"
+  ],
+  "parent": "n4c",
+  "acceptance_criteria": "generateAffirmationBatchFO04 function exists and can be called with GatheringContext",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T12:00:09.9870543Z",
+  "updated_at": "2026-01-23T12:00:09.9870543Z"
+}

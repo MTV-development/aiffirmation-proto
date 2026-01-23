@@ -1,0 +1,17 @@
+{
+  "id": "bmh",
+  "title": "Create FO-04 discovery agent definition",
+  "description": "Create the Mastra agent for generating dynamic screen content.\n\nFile to create: src/mastra/agents/fo-04/agent.ts\n\nAgent must return structured JSON with:\n- reflectiveStatement: string (empty on first screen)\n- question: string\n- initialChips: string[] (5-8 chips)\n- expandedChips: string[] (10-15 chips)\n- readyForAffirmations: boolean\n\nSystem prompt should incorporate:\n- Tone \u0026 Voice Guidelines from spec (warm, calm, non-clinical)\n- Question Design Principles (invitations not tests)\n- Understanding the 5 dimensions (emotional baseline, inner dialogue, needs, believability, life context)\n- First screen special case: no reflective statement, question is 'What has been going on lately that brought you here?'\n\nReference docs/projects/2026-01-23-FO-04/trines-thoughts.md for detailed guidance.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "ilk"
+  ],
+  "parent": "871",
+  "acceptance_criteria": "Agent file exists at src/mastra/agents/fo-04/agent.ts with createFO04DiscoveryAgent export",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:58:22.1417488Z",
+  "updated_at": "2026-01-23T11:58:22.1417488Z"
+}
