@@ -96,3 +96,5 @@
 {"ts":"2026-01-23T12:00:20.074214Z","tick":"ec4","action":"create","actor":"morten@elk.dk","data":{"priority":2,"title":"FO-04: E2E Testing","type":"epic"}}
 {"ts":"2026-01-23T12:00:33.6940355Z","tick":"mmm","action":"create","actor":"morten@elk.dk","epic":"ec4","data":{"priority":2,"title":"Create FO-04 E2E test file","type":"task"}}
 {"ts":"2026-01-23T12:00:45.8008918Z","tick":"9t0","action":"create","actor":"morten@elk.dk","epic":"ec4","data":{"priority":2,"title":"Run FO-04 E2E test until passing","type":"task"}}
+{"ts":"2026-01-23T12:07:55.2338005Z","tick":"ixw","action":"create","actor":"morten@elk.dk","epic":"25w","data":{"priority":2,"title":"Add FO-04 to overview page","type":"task"}}
+{"ts":"2026-01-23T12:08:06.0378797Z","tick":"i4w","action":"create","actor":"morten@elk.dk","epic":"n4c","data":{"priority":2,"title":"Create FO-04 info page","type":"task"}}
