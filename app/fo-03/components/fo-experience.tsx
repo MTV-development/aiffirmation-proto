@@ -9,6 +9,9 @@ import { TextWithChips } from './text-with-chips';
 import { HeartAnimation } from './heart-animation';
 import { SwipePhase, type SwipeDirection } from './swipe-phase';
 import { StepCheckpoint } from './step-checkpoint';
+import { StepBackground } from './step-background';
+import { StepNotifications } from './step-notifications';
+import { StepPaywall } from './step-paywall';
 
 // Step 5 - Situation chips
 const SITUATION_PRIMARY_CHIPS = [
@@ -566,46 +569,13 @@ export function FOExperience() {
       }
 
       case 10:
-        // Background selection - placeholder
-        return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 10: Background (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
-        );
+        return <StepBackground onContinue={nextStep} />;
 
       case 11:
-        // Notifications - placeholder
-        return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 11: Notifications (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
-        );
+        return <StepNotifications onContinue={nextStep} />;
 
       case 12:
-        // Light paywall - placeholder
-        return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 12: Paywall (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
-        );
+        return <StepPaywall onContinue={nextStep} />;
 
       case 13:
         // Finish - placeholder
