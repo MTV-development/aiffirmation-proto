@@ -117,7 +117,7 @@ export function StepTopics({
                 <button
                   key={topic}
                   onClick={() => toggleTopic(topic)}
-                  className={`px-4 py-2 rounded-full border transition-colors ${
+                  className={`px-3 py-1 text-sm rounded-full border transition-colors ${
                     topics.includes(topic)
                       ? 'bg-purple-600 text-white border-purple-600'
                       : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-purple-400'

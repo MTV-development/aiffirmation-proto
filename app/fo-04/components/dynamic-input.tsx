@@ -127,7 +127,7 @@ export function DynamicInput({
         {/* Input field with inline chips */}
         <div
           onClick={handleContainerClick}
-          className="w-full min-h-[56px] px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 cursor-text flex flex-wrap items-center gap-2 mb-4 focus-within:ring-2 focus-within:ring-purple-500 focus-within:border-transparent"
+          className="w-full min-h-[120px] px-4 py-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 cursor-text flex flex-wrap items-start gap-2 mb-4 focus-within:ring-2 focus-within:ring-purple-500 focus-within:border-transparent"
         >
           <AnimatePresence mode="popLayout">
             {value.selectedChips.map((chip) => (
@@ -180,7 +180,7 @@ export function DynamicInput({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 onClick={() => addChip(chip)}
-                className="px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-purple-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                className="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-purple-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
                 + {chip}
               </motion.button>
