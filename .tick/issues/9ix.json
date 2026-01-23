@@ -1,0 +1,15 @@
+{
+  "id": "9ix",
+  "title": "FO-03: Swipe Phase",
+  "description": "Implement swipe phase with FO-03-specific messaging and checkpoints\n\n## Context\n\n**Spec:** docs/projects/2026-01-23-FO-03/2026-01-23-FO-03-spec.md\n\n**Key files for this epic:**\n- app/fo-02/components/swipe-phase.tsx - reference swipe UI\n- app/fo-02/components/step-checkpoint.tsx - reference checkpoint pattern\n- app/fo-03/actions.ts - server actions for generation",
+  "notes": "2026-01-23 08:48 - Task 3m6 completed: Refined swipe-phase.tsx with persistent contextual messaging. Changed from isFirstAction (temporary feedback) to hasSwipedOnce (persistent message). The component now shows intro message before first swipe and feedback message after, both as static text rather than animated toasts. Next tasks should wire this up in fo-experience.tsx, ensuring hasSwipedOnce is tracked in state.\n2026-01-23 08:51 - Task j8r was already completed in commit 5046cdc. The step-checkpoint.tsx uses a 'variant' prop (batch1/subsequent/transition) instead of batchNumber for cleaner conditional rendering. All copy matches spec exactly. Component is ready for integration in fo-experience.tsx - the next task should wire it up in the swipe phase flow.\n2026-01-23 08:55 - Task aos completed: Integrated swipe phase and checkpoints into fo-experience.tsx. The flow is: Step 7 (whatHelps) triggers batch 1 generation -\u003e Step 8 shows loading then swipe cards -\u003e batch1 checkpoint after 10 swipes -\u003e user can continue (batch 2) or finish -\u003e subsequent checkpoint after batch 2 -\u003e user can continue (batch 3) or finish -\u003e transition screen after batch 3 or finish -\u003e Step 10. hasSwipedOnce resets between batches for fresh intro messaging. currentBatchNumber=4 is used as signal for early-finish transition screen.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:53:11.7717966Z",
+  "updated_at": "2026-01-23T07:55:27.9752688Z",
+  "closed_at": "2026-01-23T07:55:27.9752688Z",
+  "closed_reason": "all tasks completed"
+}

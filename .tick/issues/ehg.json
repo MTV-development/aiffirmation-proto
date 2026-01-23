@@ -1,0 +1,19 @@
+{
+  "id": "ehg",
+  "title": "Add FO-03 to navigation config",
+  "description": "Add FO-03 entry to the navigation configuration.\n\nFile to modify:\n- `components/navigation/nav.config.ts`\n\nAdd FO-03 entry following the same pattern as FO-01 and FO-02:\n- Main link to /fo-03\n- Children for info page if needed\n\nReference FO-02 entry for the pattern.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "ilu"
+  ],
+  "parent": "xj2",
+  "acceptance_criteria": "grep -q 'fo-03' components/navigation/nav.config.ts returns success; npm run build succeeds with new navigation",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:49:52.9734044Z",
+  "updated_at": "2026-01-23T07:07:54.4778414Z",
+  "closed_at": "2026-01-23T07:07:54.4778414Z",
+  "closed_reason": "Added FO-03 navigation entry to nav.config.ts following FO-02 pattern. Entry includes Demo (/fo-03) and Info (/fo-03/info) children, positioned after FO-02 and before Settings."
+}

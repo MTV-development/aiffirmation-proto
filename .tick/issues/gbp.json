@@ -1,0 +1,19 @@
+{
+  "id": "gbp",
+  "title": "Create heart animation component",
+  "description": "Create a reusable heart animation component for transition screens.\n\nFile to create: app/fo-03/components/heart-animation.tsx\n\nProps:\n- message: string (e.g., 'You are doing great - the more you write the better affirmations!')\n- onComplete: () =\u003e void (callback when animation finishes)\n\nAnimation:\n- Use Framer Motion for smooth entrance/exit\n- Heart icon that pulses or floats\n- Message text that fades in\n- Auto-advance after 2-3 seconds or on click\n\nUsed between Steps 5-\u003e6 and 6-\u003e7 as transition screens.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "brn"
+  ],
+  "parent": "wl7",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'HeartAnimation' app/fo-03/components/heart-animation.tsx returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:51:57.2183053Z",
+  "updated_at": "2026-01-23T07:28:13.7627137Z",
+  "closed_at": "2026-01-23T07:28:13.7627137Z",
+  "closed_reason": "Created HeartAnimation component with Framer Motion. Features: pulsing heart SVG icon, fade-in message, auto-advance after 2.5s, click to advance. Props: message string, onComplete callback."
+}

@@ -110,6 +110,16 @@ const versions: VersionCard[] = [
     outputType: 'Progressively personalized affirmations',
     highlight: 'Learns as you swipe',
   },
+  {
+    id: 'FO-03',
+    name: 'Full Onboarding (Gradual)',
+    href: '/fo-03',
+    tagline: 'Multi-question onboarding with inspiration chips',
+    description: 'Warms users up with easy questions before longer input. Uses toggleable inspiration chips alongside open text to reduce friction and collect richer context (feelings, situation, what helps).',
+    inputType: 'Multi-step + chips + text',
+    outputType: 'Iterative swipe selection',
+    highlight: 'Lower friction input',
+  },
 ];
 
 export default function OverviewPage() {
@@ -241,12 +251,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-gray-500">None</td>
                   <td className="py-2">Complete onboarding</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-02</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Onboarding with learning</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-03</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Low-friction onboarding</td>
                 </tr>
               </tbody>
             </table>
