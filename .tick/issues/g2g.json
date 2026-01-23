@@ -1,0 +1,19 @@
+{
+  "id": "g2g",
+  "title": "Copy swipe and post-swipe components from FO-03",
+  "description": "Copy the swipe phase and post-swipe components from FO-03.\n\nFiles to copy to app/fo-04/components/:\n- swipe-phase.tsx\n- step-checkpoint.tsx\n- step-background.tsx\n- step-notifications.tsx\n- step-paywall.tsx\n- step-completion.tsx\n\nUpdate imports to use fo-04 paths.\nThese are identical to FO-03 for the swipe and completion phases.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "7tg"
+  ],
+  "parent": "n4c",
+  "acceptance_criteria": "All 6 component files exist in app/fo-04/components/ with correct imports",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:59:33.0790304Z",
+  "updated_at": "2026-01-23T12:20:09.525733Z",
+  "closed_at": "2026-01-23T12:20:09.525733Z",
+  "closed_reason": "Copied swipe-phase, step-checkpoint, step-background, step-notifications, step-paywall, step-completion to fo-04"
+}

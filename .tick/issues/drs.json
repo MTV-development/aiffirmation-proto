@@ -1,0 +1,19 @@
+{
+  "id": "drs",
+  "title": "Wire up FO-04 page.tsx with fo-experience",
+  "description": "Complete the FO-04 page.tsx to render the fo-experience component.\n\nFile to modify: app/fo-04/page.tsx\n\nSimple page that renders \u003cFOExperience /\u003e component.\nFollow the pattern from app/fo-03/page.tsx.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "zdm"
+  ],
+  "parent": "n4c",
+  "acceptance_criteria": "Navigating to /fo-04 in browser shows the FO-04 welcome screen",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:59:57.915143Z",
+  "updated_at": "2026-01-23T12:27:09.9400548Z",
+  "closed_at": "2026-01-23T12:27:09.9400548Z",
+  "closed_reason": "Wired up page.tsx to render FOExperience component"
+}

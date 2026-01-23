@@ -1,0 +1,19 @@
+{
+  "id": "a3b",
+  "title": "Add FO-04 KV store entries to seed.ts",
+  "description": "Add KV store seed entries for FO-04 discovery agent.\n\nFile to modify: src/db/seed.ts\n\nAdd entries for:\n- versions.fo-04-discovery.system.default - System prompt\n- versions.fo-04-discovery.prompt.default - User prompt template\n- versions.fo-04-discovery._temperature.default - Temperature setting\n- versions.fo-04-discovery._model_name.default - Model name\n\nThe user prompt template should accept GatheringContext variables:\n- name, familiarity, initialTopic\n- exchanges (array of question/answer pairs)\n- screenNumber\n\nFollow the Liquid template pattern from FO-03.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "bmh"
+  ],
+  "parent": "871",
+  "acceptance_criteria": "npm run db:seed succeeds and includes FO-04 entries",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:58:34.2813285Z",
+  "updated_at": "2026-01-23T12:16:10.5765233Z",
+  "closed_at": "2026-01-23T12:16:10.5765233Z",
+  "closed_reason": "Added FO-04 discovery KV entries with system prompt, user template, temperature, and model"
+}
