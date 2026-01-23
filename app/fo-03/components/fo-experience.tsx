@@ -4,6 +4,109 @@ import { useState, useCallback } from 'react';
 import { StepWelcome } from './step-welcome';
 import { StepFamiliarity } from './step-familiarity';
 import { StepTopics } from './step-topics';
+import { TextWithChips } from './text-with-chips';
+import { HeartAnimation } from './heart-animation';
+
+// Step 5 - Situation chips
+const SITUATION_PRIMARY_CHIPS = [
+  'Feeling stuck',
+  'Relationship issues',
+  'Career issues',
+  'Life changes',
+  'Want growth',
+  'Self-care reset',
+  'Just curious',
+];
+const SITUATION_MORE_CHIPS = [
+  'Burnout',
+  'Big change',
+  'Loneliness',
+  'Work pressure',
+  'Sleep problems',
+  'Motivation loss',
+  'Need calm',
+  'Need clarity',
+  'Want support',
+  'Hard day',
+  'Hard week',
+  'Something happened',
+  'No clear reason',
+  'Stress',
+  'Balance',
+  'Time pressure',
+  'Energy',
+  'Motivation',
+  'Purpose',
+  'Direction',
+  'Expectations',
+  'Changes',
+  'Decisions',
+  'Responsibility',
+  'Personal growth',
+  'Rest',
+  'Sleep',
+  'Focus',
+  'Boundaries',
+  'Overthinking',
+  'Emotions',
+  'Mental health',
+];
+
+// Step 6 - Feelings chips
+const FEELINGS_PRIMARY_CHIPS = [
+  'Stressed',
+  'Motivated',
+  'Anxious',
+  'Sad',
+  'Restless',
+  'Vulnerable',
+  'Tired',
+  'Excited',
+  'Lonely',
+  'Frustrated',
+];
+const FEELINGS_MORE_CHIPS = [
+  'Hopeful',
+  'Calm',
+  'Overwhelmed',
+  'Confident',
+  'Grateful',
+  'Happy',
+  'Irritable',
+  'Peaceful',
+  'Content',
+  'Focused',
+  'Burned out',
+  'Joyful',
+  'Insecure',
+  'Relaxed',
+  'Angry',
+];
+
+// Step 7 - What helps chips
+const WHAT_HELPS_PRIMARY_CHIPS = [
+  'Rest',
+  'Music',
+  'Movement',
+  'Nature',
+  'Being alone',
+  'Being with others',
+  'Feeling understood',
+  'Being reassured',
+  'Taking a break',
+];
+const WHAT_HELPS_MORE_CHIPS = [
+  'Routine',
+  'Creativity',
+  'Deep breaths',
+  'Kind words',
+  'Quiet time',
+  'Laughter',
+  'Letting go',
+  'Slowing down',
+  'Small wins',
+  'Feeling safe',
+];
 
 /**
  * FO-03 Onboarding data collected during the flow.
@@ -30,6 +133,9 @@ export interface FO03OnboardingData {
 export interface OnboardingState extends FO03OnboardingData {
   currentStep: number; // 0-13
 
+  // Heart animation transition state (between steps 5->6 and 6->7)
+  showHeartAnimation: boolean;
+
   // Batch generation
   currentBatch: string[];
   currentBatchNumber: number;
@@ -54,6 +160,7 @@ const initialState: OnboardingState = {
   situation: { text: '', chips: [] },
   feelings: { text: '', chips: [] },
   whatHelps: { text: '', chips: [] },
+  showHeartAnimation: false,
   currentBatch: [],
   currentBatchNumber: 0,
   isGenerating: false,
@@ -153,45 +260,70 @@ export function FOExperience() {
         );
 
       case 5:
-        // What's going on step - placeholder
+        // What's going on step - situation with open text + chips
+        if (state.showHeartAnimation) {
+          return (
+            <HeartAnimation
+              message="You are doing great - the more you write the better affirmations!"
+              onComplete={() => {
+                updateState({ showHeartAnimation: false });
+                nextStep();
+              }}
+            />
+          );
+        }
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 5: Situation (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
+          <TextWithChips
+            headline={`What has been going on lately that brought you here, ${state.name}?`}
+            placeholder="Write freely or pick from below..."
+            primaryChips={SITUATION_PRIMARY_CHIPS}
+            moreChips={SITUATION_MORE_CHIPS}
+            value={state.situation}
+            onChange={(situation) => updateState({ situation })}
+            onContinue={() => updateState({ showHeartAnimation: true })}
+            onNotSure={nextStep}
+          />
         );
 
       case 6:
-        // Current feelings step - placeholder
+        // Current feelings step - feelings with open text + chips
+        if (state.showHeartAnimation) {
+          return (
+            <HeartAnimation
+              message={`You have been doing great, ${state.name}! We are creating your personalized affirmations.`}
+              onComplete={() => {
+                updateState({ showHeartAnimation: false });
+                nextStep();
+              }}
+            />
+          );
+        }
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 6: Feelings (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
+          <TextWithChips
+            headline="What are you feeling right now?"
+            placeholder="Write freely or pick from below..."
+            primaryChips={FEELINGS_PRIMARY_CHIPS}
+            moreChips={FEELINGS_MORE_CHIPS}
+            value={state.feelings}
+            onChange={(feelings) => updateState({ feelings })}
+            onContinue={() => updateState({ showHeartAnimation: true })}
+            onNotSure={nextStep}
+          />
         );
 
       case 7:
-        // What helps step - placeholder
+        // What helps step - with open text + chips, no heart animation after
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 7: What Helps (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
+          <TextWithChips
+            headline="What normally makes you feel good?"
+            placeholder="Write freely or pick from below..."
+            primaryChips={WHAT_HELPS_PRIMARY_CHIPS}
+            moreChips={WHAT_HELPS_MORE_CHIPS}
+            value={state.whatHelps}
+            onChange={(whatHelps) => updateState({ whatHelps })}
+            onContinue={nextStep}
+            onNotSure={nextStep}
+          />
         );
 
       case 8:
