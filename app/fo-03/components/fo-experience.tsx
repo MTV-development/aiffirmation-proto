@@ -12,6 +12,7 @@ import { StepCheckpoint } from './step-checkpoint';
 import { StepBackground } from './step-background';
 import { StepNotifications } from './step-notifications';
 import { StepPaywall } from './step-paywall';
+import { StepCompletion } from './step-completion';
 
 // Step 5 - Situation chips
 const SITUATION_PRIMARY_CHIPS = [
@@ -578,14 +579,11 @@ export function FOExperience() {
         return <StepPaywall onContinue={nextStep} />;
 
       case 13:
-        // Finish - placeholder
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 13: Finish (TODO)</p>
-            <p className="text-sm text-gray-400 mt-2">
-              Name: {state.name || '(not set)'}
-            </p>
-          </div>
+          <StepCompletion
+            name={state.name}
+            approvedAffirmations={state.approvedAffirmations}
+          />
         );
 
       default:
