@@ -1,0 +1,19 @@
+{
+  "id": "mmm",
+  "title": "Create FO-04 E2E test file",
+  "description": "Create the E2E test file for FO-04.\n\nFile to create: e2e/fo-04.test.ts\n\nTest coverage (from spec):\n1. Full navigation through initial screens (Steps 0-4)\n2. Dynamic detail-gathering flow:\n   - Verify reflective statement and question appear (after first screen)\n   - Test chip selection (clicking adds chip to input field)\n   - Test chip removal (clicking - removes chip)\n   - Test free-text input\n   - Verify 'Next' is disabled until input provided\n   - Test 'Show more' chip expansion\n3. Verify flow progresses through 2-5 dynamic screens\n4. Transition to affirmation generation\n5. Swipe phase (same as FO-03)\n6. Completion screen\n\nUse Playwright patterns from fo-03.test.ts.\nRun in headless: false for development, headless: true for CI.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "drs"
+  ],
+  "parent": "ec4",
+  "acceptance_criteria": "e2e/fo-04.test.ts exists with test cases for all required scenarios",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T12:00:33.6924813Z",
+  "updated_at": "2026-01-23T12:30:28.6813121Z",
+  "closed_at": "2026-01-23T12:30:28.6813121Z",
+  "closed_reason": "Created FO-04 E2E test with coverage for dynamic screens, chip interaction, and full flow"
+}

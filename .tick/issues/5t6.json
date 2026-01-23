@@ -1,0 +1,19 @@
+{
+  "id": "5t6",
+  "title": "Create dynamic-screen step component",
+  "description": "Create the step component that wraps DynamicInput for the discovery phase.\n\nFile to create: app/fo-04/components/step-dynamic.tsx\n\nThis component:\n1. Shows 'Thinking...' loading state while fetching next screen\n2. Calls generateDynamicScreen server action\n3. Renders DynamicInput with agent response\n4. Handles error state with retry button\n5. On continue: stores answer in exchanges, fetches next screen or transitions to affirmation phase\n\nProps:\n- gatheringContext: GatheringContext\n- onAnswer: (answer: { text: string; selectedChips: string[] }) =\u003e void\n- onReadyForAffirmations: () =\u003e void\n- onError: (error: string) =\u003e void\n\nScreen count logic:\n- If screenNumber \u003c 2: always show next screen\n- If screenNumber \u003e= 5: proceed to affirmations\n- Otherwise: respect agent's readyForAffirmations",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "d3t"
+  ],
+  "parent": "n4c",
+  "acceptance_criteria": "Component renders and shows 'Thinking...' then displays question and chips from agent response",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T11:59:22.7774561Z",
+  "updated_at": "2026-01-23T12:22:12.7737807Z",
+  "closed_at": "2026-01-23T12:22:12.7737807Z",
+  "closed_reason": "Created step-dynamic component with loading state, error handling, and screen count logic"
+}
