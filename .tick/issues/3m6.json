@@ -1,0 +1,19 @@
+{
+  "id": "3m6",
+  "title": "Create FO-03 swipe-phase component with updated messaging",
+  "description": "Create the swipe phase component for FO-03 with updated messaging.\n\nFile to create:\n- app/fo-03/components/swipe-phase.tsx\n\nCopy from app/fo-02/components/swipe-phase.tsx and update:\n\nFirst affirmation intro message:\n'Save this affirmation if it feels right - or discard it if it does not. You are forming your personal list now.'\n\nAfter first action feedback:\n'Keep going {name} - every time you like or dislike an affirmation we prepare even better affirmations for you.'\n\nSwipe mechanics (same as FO-02):\n- Swipe down/right to save (approve)\n- Swipe up/left to discard (skip)\n- Keyboard support: Arrow keys\n- Framer Motion drag gestures\n- Toast messages on swipe\n\nWire up to generateAffirmationBatchFO03 action.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "9rc"
+  ],
+  "parent": "9ix",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'forming your personal list' app/fo-03/components/swipe-phase.tsx returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:53:24.2523169Z",
+  "updated_at": "2026-01-23T07:47:30.3936849Z",
+  "closed_at": "2026-01-23T07:47:30.3936849Z",
+  "closed_reason": "Refined swipe-phase.tsx: changed prop from isFirstAction to hasSwipedOnce for clearer semantics, made the contextual message persistent (intro before swipe, feedback after), removed temporary feedback animation in favor of static message display"
+}

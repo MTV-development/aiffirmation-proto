@@ -1,0 +1,19 @@
+{
+  "id": "v3c",
+  "title": "Create FO-03 agent definition",
+  "description": "Create the FO-03 agent with Mastra.\n\nFiles to create:\n- src/mastra/agents/fo-03/agent.ts\n- src/mastra/agents/fo-03/index.ts\n\nAgent should:\n- Use same pattern as FO-02 agent\n- Include DEFAULT_INSTRUCTIONS for affirmation generation\n- Export createFO03Agent(implementation) function\n- Support configurable system prompt from KV store\n\nThe agent instructions should guide the LLM to use the richer context from FO-03 onboarding:\n- User name and familiarity level\n- Selected topics\n- Situation description (text + chips)\n- Current feelings (text + chips)\n- What helps them feel good (text + chips)\n\nReference src/mastra/agents/fo-02/agent.ts for the pattern.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "qr8"
+  ],
+  "parent": "nt7",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'createFO03Agent' src/mastra/agents/fo-03/index.ts returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:52:36.9196335Z",
+  "updated_at": "2026-01-23T07:35:57.8870449Z",
+  "closed_at": "2026-01-23T07:35:57.8870449Z",
+  "closed_reason": "Created FO-03 agent with expanded DEFAULT_INSTRUCTIONS covering user context (name, familiarity, topics, situation, feelings, whatHelps) and createFO03Agent factory function. Files: src/mastra/agents/fo-03/agent.ts and index.ts"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ziv",
+  "title": "Create step-welcome component for Steps 0-2",
+  "description": "Create the welcome steps component for FO-03.\n\nFile to create: app/fo-03/components/step-welcome.tsx\n\nStep 0 - Welcome:\n- Headline: The way you speak to yourself becomes the way you live!\n- Text: Today is the day you get unique, personal affirmations.\n- CTA: Continue\n\nStep 1 - First name:\n- Headline: What should we call you?\n- Text input with placeholder: Type your first name\n- CTA: Continue (disabled until name entered)\n\nStep 2 - Personalized welcome:\n- Text: Welcome, {name}! Let us get to know you so you can get your own unique and personal affirmations.\n- CTA: Start\n\nReference app/fo-02/components/step-welcome.tsx for component pattern.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "h6b"
+  ],
+  "parent": "hb7",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'StepWelcome' app/fo-03/components/step-welcome.tsx returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:51:00.0202361Z",
+  "updated_at": "2026-01-23T07:13:25.6492147Z",
+  "closed_at": "2026-01-23T07:13:25.6492147Z",
+  "closed_reason": "Created step-welcome.tsx with 3 step screens: Step 0 (welcome headline + description), Step 1 (name input with disabled button until filled), Step 2 (personalized greeting with Start CTA). Updated fo-experience.tsx to import and render StepWelcome for steps 0-2."
+}

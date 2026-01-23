@@ -1,0 +1,15 @@
+{
+  "id": "hb7",
+  "title": "FO-03: Onboarding Steps 0-4",
+  "description": "Implement welcome steps (0-3) and topic selection (step 4)\n\n## Context\n\n**Spec:** `docs/projects/2026-01-23-FO-03/2026-01-23-FO-03-spec.md`\n\n**Key files for this epic:**\n- `app/fo-02/components/step-welcome.tsx` - reference welcome pattern\n- `app/fo-02/components/step-intent.tsx` - reference selection pattern\n- `app/fo-02/components/fo-experience.tsx` - reference state management\n\n**Steps covered:**\n- Step 0: Welcome screen\n- Step 1: First name input\n- Step 2: Personalized welcome\n- Step 3: Familiarity question (3 options + confetti)\n- Step 4: Topic multi-select (chips + confetti)",
+  "notes": "2026-01-23 08:11 - h6b complete: Created fo-experience.tsx with full state interface. Key exports: FO03OnboardingData (user input), OnboardingState (full state). State includes familiarity as union type with null, topics as string[], and situation/feelings/whatHelps as {text, chips} objects. Progress bar shows 12 segments. All steps have placeholder renders with Continue buttons. prevStep handler included but not used yet. Next tasks can import OnboardingState type and use updateState/goToStep/nextStep from parent.\n2026-01-23 08:14 - ziv complete: Created step-welcome.tsx with Steps 0-2. Key differences from FO-02: removed emojis (per guidelines), Step 0 has separate headline + description (vs combined in FO-02), Step 2 CTA is 'Start' instead of 'Continue'. Component follows same props pattern: currentStep, name, onNameChange, onContinue. fo-experience.tsx updated to import and render StepWelcome. Next tasks (8kg step-familiarity, k9v step-topics) should follow same pattern: create component, then update fo-experience.tsx switch statement.\n2026-01-23 08:21 - 8kg complete: Created step-familiarity.tsx with 3 button options (New/Some/Very familiar). Uses canvas-confetti for confetti animation on selection, Framer Motion AnimatePresence for transitions. Shows 'Super, {name}\\!' message and auto-advances after 1.5s. Added canvas-confetti and @types/canvas-confetti to package.json (run npm install). Next task k9v should follow same pattern.\n2026-01-23 08:23 - k9v complete: Created step-topics.tsx with all 36 topic chips from spec. Uses same pattern as step-familiarity: AnimatePresence for transitions, confetti on Continue, 'Great choices\\!' success message, 1.5s auto-advance. Has two CTAs: 'Continue' (disabled until selection, triggers confetti flow) and 'Not sure' (calls onSkip to advance without confetti). Props: currentStep, name, topics, onTopicsChange, onContinue, onSkip. Chip toggle uses same toggleTopic pattern from FO-02 step-intent. fo-experience.tsx updated to import and render StepTopics at case 4.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:50:04.9418023Z",
+  "updated_at": "2026-01-23T07:23:58.6141506Z",
+  "closed_at": "2026-01-23T07:23:58.6141506Z",
+  "closed_reason": "all tasks completed"
+}

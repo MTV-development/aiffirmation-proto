@@ -1,0 +1,19 @@
+{
+  "id": "qr8",
+  "title": "Implement Steps 5-7 using TextWithChips and HeartAnimation",
+  "description": "Wire up Steps 5-7 in fo-experience.tsx using the new components.\n\nFiles to modify:\n- app/fo-03/components/fo-experience.tsx\n\nStep 5 - What is going on:\n- Headline: What has been going on lately that brought you here, {name}?\n- Primary chips: Feeling stuck, Relationship issues, Career issues, Life changes, Want growth, Self-care reset, Just curious\n- More chips: Burnout, Big change, Loneliness, Work pressure, Sleep problems, Motivation loss, Need calm, Need clarity, Want support, Hard day, Hard week, Something happened, No clear reason, Stress, Balance, Time pressure, Energy, Motivation, Purpose, Direction, Expectations, Changes, Decisions, Responsibility, Personal growth, Rest, Sleep, Focus, Boundaries, Overthinking, Emotions, Mental health\n- After Continue: Show heart animation with 'You are doing great - the more you write the better affirmations!'\n\nStep 6 - Current feelings:\n- Headline: What are you feeling right now?\n- Primary chips: Stressed, Motivated, Anxious, Sad, Restless, Vulnerable, Tired, Excited, Lonely, Frustrated\n- More chips: Hopeful, Calm, Tired, Overwhelmed, Confident, Grateful, Happy, Irritable, Peaceful, Content, Focused, Burned out, Joyful, Insecure, Relaxed, Angry\n- After Continue: Show heart animation with 'You have been doing great, {name}! We are creating your personalized affirmations.'\n\nStep 7 - What helps:\n- Headline: What normally makes you feel good?\n- Primary chips: Rest, Music, Movement, Nature, Being alone, Being with others, Feeling understood, Being reassured, Taking a break\n- More chips: Routine, Creativity, Deep breaths, Kind words, Quiet time, Laughter, Letting go, Slowing down, Small wins, Feeling safe\n\nNot sure on any step skips (stores empty values).",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "gbp"
+  ],
+  "parent": "wl7",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'Feeling stuck' app/fo-03/components/fo-experience.tsx returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:52:15.8052413Z",
+  "updated_at": "2026-01-23T07:31:29.6472274Z",
+  "closed_at": "2026-01-23T07:31:29.6472274Z",
+  "closed_reason": "Wired up Steps 5-7 in fo-experience.tsx using TextWithChips and HeartAnimation components. Added showHeartAnimation state to manage transition animations between steps. Step 5 (situation) and Step 6 (feelings) show heart animation on Continue before advancing. Step 7 (whatHelps) advances directly. Added chip data constants for all three steps per spec. 'Not sure' skips the step without heart animation."
+}

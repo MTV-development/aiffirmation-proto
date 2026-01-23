@@ -1,0 +1,14 @@
+{
+  "id": "wrf",
+  "title": "FO-03: E2E Testing",
+  "description": "Create and run E2E tests for the complete FO-03 flow\n\n## Context\n\n**Spec:** docs/projects/2026-01-23-FO-03/2026-01-23-FO-03-spec.md\n\n**Key files for this epic:**\n- e2e/fo-02.test.ts - reference E2E test pattern\n- docs/current/e2e-testing.md - E2E testing documentation",
+  "notes": "2026-01-23 09:11 - Task l0b completed - created e2e/fo-03.test.ts. Test follows fo-02 pattern with helper functions (clickButton, waitForText, waitForTextContaining, swipeThroughBatch). Key differences: handles confetti auto-advance (2s sleeps after steps 3-4), heart animation waits (2.5s after steps 5-6), and uses chip selection instead of textarea input for most steps. Test selects 'I am good with the affirmations I chose' at checkpoint 1 to speed up test execution (only 1 batch). Run with: node --import tsx e2e/fo-03.test.ts\n2026-01-23 09:56 - (from: Morten Elk) Closed",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:54:47.6440751Z",
+  "updated_at": "2026-01-23T09:56:38.7675876+01:00",
+  "closed_at": "2026-01-23T09:56:38.7675876+01:00"
+}

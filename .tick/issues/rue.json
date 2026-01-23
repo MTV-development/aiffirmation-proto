@@ -1,0 +1,19 @@
+{
+  "id": "rue",
+  "title": "Run FO-03 E2E test and fix issues until passing",
+  "description": "Run the FO-03 E2E test and iterate on fixes until it passes.\n\nIMPORTANT: Run tests in NON-HEADLESS mode (headless: false) so we can see the browser.\n\nCommand to run:\nnode --import tsx e2e/fo-03.test.ts\n\nTroubleshooting:\n1. If test fails, analyze the error\n2. Fix the component or test as needed\n3. Re-run until passing\n\nCommon issues:\n- Selector not found: Update selector to match actual DOM\n- Timeout on generation: Increase timeout or check server action\n- Animation timing: Add waits or adjust expectations\n- Step not advancing: Check state management\n\nThe test should complete the full 13-step flow successfully.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "l0b"
+  ],
+  "parent": "wrf",
+  "acceptance_criteria": "node --import tsx e2e/fo-03.test.ts passes with all assertions green",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:55:12.5981797Z",
+  "updated_at": "2026-01-23T08:55:05.3409978Z",
+  "closed_at": "2026-01-23T08:55:05.3409978Z",
+  "closed_reason": "Test already passing - ran twice with consistent success. Minor warning about 'Hopeful' chip is benign since it's in FEELINGS_MORE_CHIPS (requires clicking 'More+'), but 'Motivated' chip is successfully selected which enables Continue button."
+}

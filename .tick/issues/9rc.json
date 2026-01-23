@@ -1,0 +1,19 @@
+{
+  "id": "9rc",
+  "title": "Create FO-03 server actions",
+  "description": "Create server actions for FO-03 affirmation generation.\n\nFile to create:\n- app/fo-03/actions.ts\n\nFunction: generateAffirmationBatchFO03(options)\n\nOptions interface:\n- name: string\n- familiarity: string\n- topics: string[]\n- situation: { text: string; chips: string[] }\n- feelings: { text: string; chips: string[] }\n- whatHelps: { text: string; chips: string[] }\n- batchNumber: number (1, 2, or 3)\n- approvedAffirmations: string[]\n- skippedAffirmations: string[]\n\nLogic:\n1. Select prompt template (prompt_initial for batch 1, prompt_with_feedback for 2-3)\n2. Build template variables from all onboarding fields\n3. Render template using renderTemplate()\n4. Get temperature from KV store\n5. Create agent and call generate()\n6. Parse response and return string[]\n\nReference app/fo-02/actions.ts for the pattern.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "6ji"
+  ],
+  "parent": "nt7",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'generateAffirmationBatchFO03' app/fo-03/actions.ts returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:53:01.0598475Z",
+  "updated_at": "2026-01-23T07:40:42.4504315Z",
+  "closed_at": "2026-01-23T07:40:42.4504315Z",
+  "closed_reason": "Created app/fo-03/actions.ts following FO-02 pattern. Implemented FO03GenerateBatchOptions interface with all onboarding fields (name, familiarity, topics, situation, feelings, whatHelps). The generateAffirmationBatchFO03 server action flattens nested objects (e.g., situation.text -\u003e situation_text) for Liquid template compatibility. Reused parseAffirmationsResponse helper for JSON array extraction."
+}

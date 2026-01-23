@@ -1,0 +1,19 @@
+{
+  "id": "49y",
+  "title": "Create completion screen with affirmation list view (Step 13)",
+  "description": "Create the final completion screen showing the user's affirmation list.\n\nFile to create:\n- app/fo-03/components/step-completion.tsx\n\nStep 13 - Finish:\n- Headline: You are all set, {name} - this is your list!\n- Display: List of all approved affirmations from state.approvedAffirmations\n- Each affirmation displayed as a card or list item\n- CTA: See my affirmations (currently just shows the list inline)\n\nThe list view should:\n- Show all affirmations the user saved during swiping\n- Nice formatting with good spacing\n- Scrollable if many items\n- This is the final destination per spec",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "wrh"
+  ],
+  "parent": "yc4",
+  "acceptance_criteria": "npm run build succeeds; grep -l 'approvedAffirmations' app/fo-03/components/step-completion.tsx returns the file",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-23T06:54:28.0723074Z",
+  "updated_at": "2026-01-23T08:02:25.9194463Z",
+  "closed_at": "2026-01-23T08:02:25.9194463Z",
+  "closed_reason": "Created step-completion.tsx showing user's approved affirmations list with scrollable card display, count summary, and empty state handling. Integrated into fo-experience.tsx at Step 13."
+}
