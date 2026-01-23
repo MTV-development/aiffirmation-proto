@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { StepWelcome } from './step-welcome';
 
 /**
  * FO-03 Onboarding data collected during the flow.
@@ -117,17 +118,13 @@ export function FOExperience() {
       case 0:
       case 1:
       case 2:
-        // Welcome steps (0-2) - placeholder
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step {state.currentStep}: Welcome (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
+          <StepWelcome
+            currentStep={state.currentStep}
+            name={state.name}
+            onNameChange={(name) => updateState({ name })}
+            onContinue={nextStep}
+          />
         );
 
       case 3:
