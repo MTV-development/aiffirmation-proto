@@ -2,7 +2,7 @@
   "id": "npd",
   "title": "Create DynamicInput component with chip-in-input UX",
   "description": "Create a new input component for dynamic detail-gathering screens.\n\nFile to create: app/fo-04/components/dynamic-input.tsx\n\nComponent requirements:\n1. Text input field that can contain both free text AND chip tags\n2. Chip tags inside input show with - or x for removal\n3. Below input: suggestion chips with + prefix\n4. 'Show more' button to expand additional chips\n5. Value is combination of text + selected chips\n6. Disabled 'Next' button until text or chip present\n\nProps interface:\n- reflectiveStatement: string (may be empty)\n- question: string\n- initialChips: string[]\n- expandedChips: string[]\n- value: { text: string; selectedChips: string[] }\n- onChange: (value) =\u003e void\n- onContinue: () =\u003e void\n- isLoading?: boolean\n\nUse Framer Motion for animations like FO-03 components.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "Component renders with test data showing: question text, input field, chips with + prefix, show more button; clicking chip adds it to input as tag",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-23T11:57:57.2430352Z",
-  "updated_at": "2026-01-23T11:57:57.2430352Z"
+  "updated_at": "2026-01-23T12:15:07.5066827Z",
+  "closed_at": "2026-01-23T12:15:07.5066827Z",
+  "closed_reason": "Created DynamicInput component with chip-in-input UX, + prefix chips, inline tag removal, and validation"
 }

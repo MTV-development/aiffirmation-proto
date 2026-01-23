@@ -2,7 +2,7 @@
   "id": "7tg",
   "title": "Add FO-04 to navigation config",
   "description": "Add FO-04 to the navigation configuration.\n\nFiles to modify:\n- components/nav.config.ts - Add FO-04 entry to NAV_CONFIG\n- app/overview/page.tsx - Add FO-04 card to overview (optional)\n\nFollow the pattern used for FO-03.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "FO-04 appears in navigation menu when running npm run dev",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-23T11:57:31.3208004Z",
-  "updated_at": "2026-01-23T11:57:31.3208004Z"
+  "updated_at": "2026-01-23T12:14:37.6737627Z",
+  "closed_at": "2026-01-23T12:14:37.6737627Z",
+  "closed_reason": "Added FO-04 to NAV_CONFIG in nav.config.ts"
 }

@@ -2,7 +2,7 @@
   "id": "9t0",
   "title": "Run FO-04 E2E test until passing",
   "description": "Execute the FO-04 E2E test and fix any issues until it passes.\n\nCommands:\n1. Start dev server: npm run dev\n2. Run test: node --import tsx e2e/fo-04.test.ts\n\nDebug process:\n- Run with headless: false to watch the test\n- Take screenshots on failures\n- Check for timing issues with AI generation (increase timeouts if needed)\n- Verify all selectors match actual rendered elements\n\nFix issues in components, actions, or test file as needed.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "node --import tsx e2e/fo-04.test.ts passes with all test scenarios green",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-23T12:00:45.7998748Z",
-  "updated_at": "2026-01-23T12:00:45.7998748Z"
+  "updated_at": "2026-01-23T12:36:40.6586857Z",
+  "closed_at": "2026-01-23T12:36:40.6586857Z",
+  "closed_reason": "E2E test passing - fixed chip selection timing issue: re-fetch chips after each selection and increased wait time for animation"
 }

@@ -2,11 +2,13 @@
   "id": "871",
   "title": "FO-04: Discovery Agent",
   "description": "Create the Mastra agent for generating dynamic screens\n\n## Context\n\n**Spec:** `docs/projects/2026-01-23-FO-04/2026-01-23-FO-04-spec.md`\n\nSee 'Agent API Shape', 'Agent Behavior', and 'Tone \u0026 Voice Guidelines' sections.\n\n**Key files for this epic:**\n- `src/mastra/agents/fo-03/` - Reference agent implementation\n- `src/db/seed.ts` - KV store seed data\n- `docs/projects/2026-01-23-FO-04/trines-thoughts.md` - Design brief with tone guidelines",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-23T11:58:07.8449963Z",
-  "updated_at": "2026-01-23T11:58:07.8449963Z"
+  "updated_at": "2026-01-23T13:15:13.8261489Z",
+  "closed_at": "2026-01-23T13:15:13.8261489Z",
+  "closed_reason": "Discovery Agent complete: FO-04 discovery agent created with structured JSON output for dynamic screens, integrated with KV store"
 }

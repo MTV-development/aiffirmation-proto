@@ -2,7 +2,7 @@
   "id": "ixw",
   "title": "Add FO-04 to overview page",
   "description": "Add FO-04 card to the overview page.\n\nFile to modify: app/overview/page.tsx\n\nAdd a card for FO-04 following the pattern of FO-03, with description highlighting the dynamic AI-generated discovery screens.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "FO-04 card appears on /overview page with link to /fo-04",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-23T12:07:55.2322324Z",
-  "updated_at": "2026-01-23T12:07:55.2322324Z"
+  "updated_at": "2026-01-23T12:18:11.031189Z",
+  "closed_at": "2026-01-23T12:18:11.031189Z",
+  "closed_reason": "Added FO-04 card to overview page with description of dynamic AI-generated screens"
 }
