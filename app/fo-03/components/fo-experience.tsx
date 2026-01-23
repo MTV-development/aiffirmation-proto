@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { StepWelcome } from './step-welcome';
+import { StepFamiliarity } from './step-familiarity';
 
 /**
  * FO-03 Onboarding data collected during the flow.
@@ -128,17 +129,14 @@ export function FOExperience() {
         );
 
       case 3:
-        // Familiarity step - placeholder
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 3: Familiarity (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
+          <StepFamiliarity
+            currentStep={state.currentStep}
+            name={state.name}
+            familiarity={state.familiarity}
+            onFamiliarityChange={(familiarity) => updateState({ familiarity })}
+            onContinue={nextStep}
+          />
         );
 
       case 4:
