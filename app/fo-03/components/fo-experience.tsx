@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { StepWelcome } from './step-welcome';
 import { StepFamiliarity } from './step-familiarity';
+import { StepTopics } from './step-topics';
 
 /**
  * FO-03 Onboarding data collected during the flow.
@@ -140,17 +141,15 @@ export function FOExperience() {
         );
 
       case 4:
-        // Topics multi-select step - placeholder
         return (
-          <div className="text-center p-8">
-            <p className="text-gray-500">Step 4: Topics (TODO)</p>
-            <button
-              onClick={nextStep}
-              className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-            >
-              Continue
-            </button>
-          </div>
+          <StepTopics
+            currentStep={state.currentStep}
+            name={state.name}
+            topics={state.topics}
+            onTopicsChange={(topics) => updateState({ topics })}
+            onContinue={nextStep}
+            onSkip={nextStep}
+          />
         );
 
       case 5:
