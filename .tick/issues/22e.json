@@ -2,7 +2,7 @@
   "id": "22e",
   "title": "Wire up summary generation in fo-experience",
   "description": "Update fo-experience.tsx to generate and pass the summary to completion screen.\n\nFiles to modify:\n- app/fo-05/components/fo-experience.tsx\n\nChanges:\n\n1. Add completionSummary to OnboardingState (initially empty string)\n\n2. Add isGeneratingSummary state for loading indication (optional)\n\n3. Generate summary when transitioning to completion step:\n   - When user finishes post-swipe screens and moves to step 12 (completion)\n   - Call generateCompletionSummary with gatheringContext\n   - Store result in state\n\n4. Pass summary prop to StepCompletion component\n\n5. Handle the async nature:\n   - Generate summary when entering completion step\n   - Can show completion screen immediately with loading state for summary\n   - Or generate before showing (simpler approach)\n\nReference the GatheringContext that accumulates during the flow - it has all the exchanges needed.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "npm run build passes; summary is generated and displayed on completion screen when running the flow",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T08:44:44.4658395Z",
-  "updated_at": "2026-01-24T08:44:44.4658395Z"
+  "updated_at": "2026-01-24T08:59:38.8130258Z",
+  "closed_at": "2026-01-24T08:59:38.8130258Z",
+  "closed_reason": "Wired up summary generation when entering completion step"
 }

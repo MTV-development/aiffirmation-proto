@@ -2,7 +2,7 @@
   "id": "z3o",
   "title": "Create summary agent definition",
   "description": "Create the summary agent that generates a personalized 2-3 sentence summary of the user's journey.\n\n## Files to create:\n- `src/mastra/agents/fo-05/summary-agent.ts`\n\n## Implementation:\n1. Create agent similar to affirmation-agent.ts structure\n2. Use agent ID: 'fo-05-summary'\n3. System prompt should instruct the agent to:\n   - Write in second person ('You've been...')\n   - Keep it 2-3 sentences (~50-80 words)\n   - Structure: Situation → Wish for change → Purpose of affirmations\n   - Use warm, supportive tone\n   - Synthesize themes, don't repeat exact phrases\n\n## Output format:\nPlain text (no JSON) - a paragraph summary.\n\n## Example output:\n'You've been carrying a lot of pressure at work while trying to stay present for the people you love. You're looking for more calm and self-compassion in the moments that feel overwhelming. These affirmations are crafted to remind you that you're already doing enough — and that rest is not something you need to earn.'\n\n## Reference files:\n- `src/mastra/agents/fo-05/affirmation-agent.ts` for agent structure\n- `app/fo-05/actions.ts` for GatheringContext interface",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "npm run build passes; file src/mastra/agents/fo-05/summary-agent.ts exists with exported createFO05SummaryAgent function",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T08:43:10.3836742Z",
-  "updated_at": "2026-01-24T08:43:10.3836742Z"
+  "updated_at": "2026-01-24T08:51:56.1478947Z",
+  "closed_at": "2026-01-24T08:51:56.1478947Z",
+  "closed_reason": "Created summary agent with warm, supportive system prompt"
 }

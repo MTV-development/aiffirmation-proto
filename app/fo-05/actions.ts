@@ -2,6 +2,7 @@
 
 import { createFO05DiscoveryAgent } from '@/src/mastra/agents/fo-05/agent';
 import { createFO05AffirmationAgent } from '@/src/mastra/agents/fo-05/affirmation-agent';
+import { createFO05SummaryAgent } from '@/src/mastra/agents/fo-05/summary-agent';
 
 /**
  * Context accumulated during the dynamic gathering screens.
@@ -430,5 +431,88 @@ export async function generateAffirmationBatchFO05(
       affirmations: [],
       error: errorMessage,
     };
+  }
+}
+
+/**
+ * Build the user prompt for the summary agent from GatheringContext.
+ * Includes user profile and full conversation history for summarization.
+ */
+function buildSummaryPrompt(context: GatheringContext): string {
+  const lines: string[] = [];
+
+  lines.push('## User Context');
+  lines.push(`Name: ${context.name}`);
+  lines.push(`Familiarity with affirmations: ${context.familiarity}`);
+  lines.push(`Initial topic: ${context.initialTopic}`);
+  lines.push('');
+
+  lines.push('## Conversation History');
+  if (context.exchanges.length === 0) {
+    lines.push('No exchanges recorded.');
+  } else {
+    for (let i = 0; i < context.exchanges.length; i++) {
+      const exchange = context.exchanges[i];
+      lines.push(`### Exchange ${i + 1}`);
+      lines.push(`Question: ${exchange.question}`);
+
+      const answerParts: string[] = [];
+      if (exchange.answer.text) {
+        answerParts.push(`Free response: "${exchange.answer.text}"`);
+      }
+      if (exchange.answer.selectedFragments.length > 0) {
+        answerParts.push(`Selected fragments: ${exchange.answer.selectedFragments.join(', ')}`);
+      }
+      if (answerParts.length > 0) {
+        lines.push(answerParts.join('\n'));
+      } else {
+        lines.push('(No response provided)');
+      }
+      lines.push('');
+    }
+  }
+
+  lines.push('');
+  lines.push(
+    'Write a personalized 2-3 sentence summary for this user based on their journey above. Return ONLY the summary text.'
+  );
+
+  return lines.join('\n');
+}
+
+/**
+ * Server action to generate a completion summary using the FO-05 summary agent.
+ * Returns a personalized summary of the user's journey through the discovery process.
+ * Returns empty string on error for graceful degradation.
+ */
+export async function generateCompletionSummary(
+  context: GatheringContext,
+  implementation: string = 'default'
+): Promise<string> {
+  try {
+    // Build the user prompt from GatheringContext
+    const userPrompt = buildSummaryPrompt(context);
+
+    // Create the summary agent
+    const agent = await createFO05SummaryAgent(implementation);
+
+    console.log('[fo-05-summary] Implementation:', implementation);
+    console.log('[fo-05-summary] Name:', context.name);
+    console.log('[fo-05-summary] Initial topic:', context.initialTopic);
+    console.log('[fo-05-summary] Exchanges count:', context.exchanges.length);
+
+    // Generate the summary
+    const result = await agent.generate(userPrompt);
+
+    console.log('[fo-05-summary] Response length:', result.text.length);
+    console.log('[fo-05-summary] Summary:', result.text.substring(0, 200));
+
+    // Return the summary text directly (agent returns plain text)
+    return result.text.trim();
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('[fo-05-summary] Error generating summary:', errorMessage);
+    // Return empty string for graceful degradation
+    return '';
   }
 }

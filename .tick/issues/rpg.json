@@ -2,7 +2,7 @@
   "id": "rpg",
   "title": "Update step-completion with summary section",
   "description": "Update the completion screen to display the personalized summary above the affirmation list.\n\nFiles to modify:\n- app/fo-05/components/step-completion.tsx\n\nChanges to StepCompletionProps:\n- Add summary: string prop (can be empty)\n\nUI changes:\n1. Add a summary section between the heading and the affirmation list\n2. Style it as a distinct card with purple accent (matching app theme)\n3. Include a small header like 'Your Journey' with a heart/sparkle icon\n4. Only show the summary section if summary is non-empty\n\nDesign (see spec for ASCII mockup):\n- Purple-tinted background box\n- Soft rounded corners\n- Distinct from the affirmation list but complementary\n- Use text-gray-700 for the summary text",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "npm run build passes; StepCompletion accepts summary prop; summary section renders when summary is non-empty",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T08:44:29.4512829Z",
-  "updated_at": "2026-01-24T08:44:29.4512829Z"
+  "updated_at": "2026-01-24T08:57:34.2374843Z",
+  "closed_at": "2026-01-24T08:57:34.2374843Z",
+  "closed_reason": "Added summary section with purple-themed styling, conditional rendering when summary prop is non-empty"
 }

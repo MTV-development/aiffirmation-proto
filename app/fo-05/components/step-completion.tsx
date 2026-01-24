@@ -3,6 +3,7 @@
 export interface StepCompletionProps {
   name: string;
   approvedAffirmations: string[];
+  summary?: string;
 }
 
 /**
@@ -12,7 +13,7 @@ export interface StepCompletionProps {
  * Displays all affirmations directly (no button click needed).
  * Shows encouraging message if no affirmations were approved.
  */
-export function StepCompletion({ name, approvedAffirmations }: StepCompletionProps) {
+export function StepCompletion({ name, approvedAffirmations, summary }: StepCompletionProps) {
   const hasAffirmations = approvedAffirmations.length > 0;
 
   return (
@@ -24,6 +25,15 @@ export function StepCompletion({ name, approvedAffirmations }: StepCompletionPro
         Open your affirmations now — say them out loud or read them to yourself silently.
         You deserve kind words.
       </p>
+
+      {summary && (
+        <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-6 mb-6">
+          <h3 className="text-sm font-medium text-purple-700 dark:text-purple-300 mb-2 flex items-center gap-2">
+            <span>💜</span> Your Journey
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300">{summary}</p>
+        </div>
+      )}
 
       {hasAffirmations ? (
         <div className="space-y-4">

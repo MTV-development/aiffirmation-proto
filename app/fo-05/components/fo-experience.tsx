@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import {
   generateAffirmationBatchFO05,
+  generateCompletionSummary,
   GatheringContext,
 } from '../actions';
 import { StepWelcome } from './step-welcome';
@@ -69,6 +70,9 @@ export interface OnboardingState extends FO05OnboardingData {
   // Illustrative choices
   selectedBackground: string | null;
   notificationFrequency: number | null;
+
+  // Completion summary
+  completionSummary: string;
 }
 
 const initialState: OnboardingState = {
@@ -95,6 +99,7 @@ const initialState: OnboardingState = {
   hasSwipedOnce: false,
   selectedBackground: null,
   notificationFrequency: null,
+  completionSummary: '',
 };
 
 /**
@@ -489,13 +494,24 @@ export function FOExperience() {
         return <StepNotifications onContinue={nextStep} />;
 
       case 11:
-        return <StepPaywall onContinue={nextStep} />;
+        return (
+          <StepPaywall
+            onContinue={async () => {
+              // Move to completion step
+              nextStep();
+              // Generate summary asynchronously (will appear when ready)
+              const summary = await generateCompletionSummary(state.gatheringContext);
+              updateState({ completionSummary: summary });
+            }}
+          />
+        );
 
       case 12:
         return (
           <StepCompletion
             name={state.name}
             approvedAffirmations={state.approvedAffirmations}
+            summary={state.completionSummary}
           />
         );
 
