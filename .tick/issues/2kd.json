@@ -2,7 +2,7 @@
   "id": "2kd",
   "title": "Add FO-05 to navigation and overview",
   "description": "Add FO-05 to the navigation config and overview page.\n\nFiles to modify:\n- `nav.config.ts` - Add FO-05 entry after FO-04 with Demo and Info children\n- `app/overview/page.tsx` - Add FO-05 card to versions array\n\nFor nav.config.ts, add after FO-04:\n```typescript\n{\n  label: 'FO-05',\n  href: '/fo-05',\n  children: [\n    { label: 'Demo', href: '/fo-05' },\n    { label: 'Info', href: '/fo-05/info' },\n  ],\n}\n```\n\nFor overview page, add to versions array:\n```typescript\n{\n  id: 'FO-05',\n  name: 'Full Onboarding (Sentence Fragments)',\n  href: '/fo-05',\n  tagline: 'Lower friction with sentence starters',\n  description: 'Same flow as FO-04 but with sentence fragment inspiration. Prominent text input with optional AI-generated half-finished sentences that help users get started writing.',\n  inputType: 'Free text + sentence fragments',\n  outputType: 'Iterative swipe selection',\n  highlight: 'Sentence starters',\n}\n```",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "nav.config.ts contains FO-05 entry; app/overview/page.tsx contains FO-05 card; npm run build succeeds",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T06:53:02.1153322Z",
-  "updated_at": "2026-01-24T06:53:02.1153322Z"
+  "updated_at": "2026-01-24T07:11:49.7909555Z",
+  "closed_at": "2026-01-24T07:11:49.7909555Z",
+  "closed_reason": "Added FO-05 to nav.config.ts and app/overview/page.tsx (versions array and comparison table). Build verified."
 }

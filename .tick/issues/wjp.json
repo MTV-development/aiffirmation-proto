@@ -2,11 +2,14 @@
   "id": "wjp",
   "title": "FO-05: E2E Testing",
   "description": "Create and run E2E tests for FO-05\n\n## Context\n\n**Spec:** docs/projects/2026-01-25-fo-05/2026-01-25-fo-05-spec.md\n\n**Key files for this epic:**\n- e2e/fo-04.test.ts - Reference E2E test to adapt\n- docs/current/e2e-testing.md - Testing documentation\n\n**Test scenarios:**\n- Full flow from overview to affirmation\n- Inspiration chip interaction (clicking shows 5 fragments)\n- More Inspiration functionality (shows 8 more, then disappears)\n- Sentence fragment appending behavior (with space separator)\n- Continue typing button flow\n- Info tab functionality",
-  "status": "open",
+  "notes": "2026-01-24 08:32 - Key insight: FO-05 fragment input differs significantly from FO-04 chips - fragments append to textarea rather than toggling inline chips, and require 'Continue typing' click to enable Next button. Helper functions added: clickInspiration, clickFragment, clickContinueTyping, clickMoreInspiration, isMoreInspirationVisible, countFragmentChips, getInputValue\n2026-01-24 08:36 - FO-05 E2E test passed without issues. Test validates: fragment input flow (Inspiration link, chip selection, Continue typing button, More Inspiration), dynamic AI screens (4 screens), affirmation generation/swiping, and full onboarding navigation.",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T06:55:13.4805084Z",
-  "updated_at": "2026-01-24T06:55:13.4805084Z"
+  "updated_at": "2026-01-24T07:37:16.2767723Z",
+  "closed_at": "2026-01-24T07:37:16.2767723Z",
+  "closed_reason": "E2E test passing"
 }

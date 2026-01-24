@@ -2,11 +2,14 @@
   "id": "t7n",
   "title": "FO-05: Onboarding Flow",
   "description": "Create the main FO-05 experience component and wire up all steps\n\n## Context\n\n**Spec:** docs/projects/2026-01-25-fo-05/2026-01-25-fo-05-spec.md\n\n**Key files for this epic:**\n- app/fo-04/components/fo-experience.tsx - Main state manager to adapt\n- app/fo-04/components/step-*.tsx - Step components to copy\n- app/fo-04/components/swipe-phase.tsx - Swipe component to copy\n\n**Same steps as FO-04:** Welcome, name, familiarity, topics, dynamic screens, swipe, checkpoint, mockups, completion",
-  "status": "open",
+  "notes": "2026-01-24 08:21 - Key insight: FO-04 step components are self-contained and copy directly without modification. All 10 components work in FO-05 alongside the new fragment-input.tsx component.\n2026-01-24 08:23 - Key insight: FragmentInput appends selected fragments directly to the text field, so selectedFragments array in exchanges will be empty - the fragment content is preserved in the text itself. This differs from FO-04 where selectedChips were tracked separately.\n2026-01-24 08:25 - FO-05 fo-experience main difference from FO-04: exchanges use selectedFragments (empty array) instead of selectedChips, uses generateAffirmationBatchFO05 action, imports local FO-05 components. FragmentInput embeds fragments directly into text field.\n2026-01-24 08:28 - Key insight: FO-05 page was already rendering FOExperience but importing from fo-04; updated to use local component",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T06:54:21.0091397Z",
-  "updated_at": "2026-01-24T06:54:21.0091397Z"
+  "updated_at": "2026-01-24T07:37:16.1765495Z",
+  "closed_at": "2026-01-24T07:37:16.1765495Z",
+  "closed_reason": "Full onboarding flow implemented"
 }

@@ -2,7 +2,7 @@
   "id": "422",
   "title": "Run pre-flight checks for FO-05",
   "description": "Verify the codebase is in a healthy state before starting FO-05 implementation.\n\nCommands to run:\n- npm run build (verify build passes)\n- npm run lint (verify no lint errors)\n- node --import tsx e2e/fo-04.test.ts (verify existing E2E test passes)\n\nDocument any pre-existing failures.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -10,5 +10,7 @@
   "acceptance_criteria": "npm run build succeeds; npm run lint shows no errors; FO-04 E2E test passes",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-24T06:52:27.6269553Z",
-  "updated_at": "2026-01-24T06:52:27.6269553Z"
+  "updated_at": "2026-01-24T07:05:05.9458643Z",
+  "closed_at": "2026-01-24T07:05:05.9458643Z",
+  "closed_reason": "Pre-flight checks completed: build passes, lint passes, but FO-04 E2E test fails with chip selection flakiness - test clicks chips but they don't appear in input field, causing Next button to remain disabled"
 }

@@ -130,6 +130,16 @@ const versions: VersionCard[] = [
     outputType: 'Iterative swipe selection',
     highlight: 'Dynamic AI screens',
   },
+  {
+    id: 'FO-05',
+    name: 'Full Onboarding (Sentence Fragments)',
+    href: '/fo-05',
+    tagline: 'Lower friction with sentence starters',
+    description: 'Same flow as FO-04 but with sentence fragment inspiration. Prominent text input with optional AI-generated half-finished sentences that help users get started writing.',
+    inputType: 'Free text + sentence fragments',
+    outputType: 'Iterative swipe selection',
+    highlight: 'Sentence starters',
+  },
 ];
 
 export default function OverviewPage() {
@@ -275,12 +285,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Low-friction onboarding</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-04</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Dynamic AI onboarding</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-05</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Sentence fragment input</td>
                 </tr>
               </tbody>
             </table>
