@@ -134,11 +134,11 @@ const versions: VersionCard[] = [
     id: 'FO-05',
     name: 'Full Onboarding (Sentence Fragments)',
     href: '/fo-05',
-    tagline: 'Lower friction with sentence starters',
-    description: 'Same flow as FO-04 but with sentence fragment inspiration. Prominent text input with optional AI-generated half-finished sentences that help users get started writing.',
+    tagline: 'Lower friction with sentence starters + journey summaries',
+    description: 'Dynamic discovery with AI-generated sentence fragments that help users express themselves. Includes personalized journey summaries before and after affirmation generation that make users feel truly seen.',
     inputType: 'Free text + sentence fragments',
-    outputType: 'Iterative swipe selection',
-    highlight: 'Sentence starters',
+    outputType: 'Summaries + swipe selection',
+    highlight: 'Journey summaries',
   },
 ];
 
