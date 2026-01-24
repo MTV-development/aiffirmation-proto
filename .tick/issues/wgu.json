@@ -1,0 +1,17 @@
+{
+  "id": "wgu",
+  "title": "Copy step components from FO-04",
+  "description": "Copy the reusable step components from FO-04 to FO-05.\n\nFiles to copy from app/fo-04/components/ to app/fo-05/components/:\n- step-welcome.tsx\n- step-familiarity.tsx\n- step-topics.tsx\n- step-checkpoint.tsx\n- step-background.tsx\n- step-notifications.tsx\n- step-paywall.tsx\n- step-completion.tsx\n- swipe-phase.tsx\n- heart-animation.tsx\n\nNo modifications needed - these work the same in FO-05.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "q6c"
+  ],
+  "parent": "t7n",
+  "acceptance_criteria": "All 10 step components exist in app/fo-05/components/; npm run build succeeds",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:54:31.1384833Z",
+  "updated_at": "2026-01-24T06:54:31.1384833Z"
+}

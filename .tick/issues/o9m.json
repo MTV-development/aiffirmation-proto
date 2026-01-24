@@ -1,0 +1,12 @@
+{
+  "id": "o9m",
+  "title": "FO-05: Environment validation",
+  "description": "Verify environment is healthy before implementation\n\n## Context\n\n**Spec:** `docs/projects/2026-01-25-fo-05/2026-01-25-fo-05-spec.md`\n\n**Key files:** Project root (package.json, tsconfig.json, etc.)",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:52:16.8223544Z",
+  "updated_at": "2026-01-24T06:52:16.8223544Z"
+}

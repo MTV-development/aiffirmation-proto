@@ -1,0 +1,17 @@
+{
+  "id": "nc5",
+  "title": "Create FO-05 directory structure and layout files",
+  "description": "Create the FO-05 route structure mirroring FO-04.\n\nFiles to create:\n- `app/fo-05/page.tsx` - Main page (minimal, delegates to fo-experience)\n- `app/fo-05/layout.tsx` - Server layout\n- `app/fo-05/fo-05-layout-client.tsx` - Client layout with TopSubmenu\n- `app/fo-05/info/page.tsx` - Info page explaining sentence fragment approach\n\nCopy structure from `app/fo-04/` and update references to fo-05.\n\nFor info page, explain:\n- The 'sentence fragment' approach to lowering writing friction\n- How 'Inspiration' reveals AI-generated sentence starters\n- That fragments append to existing text (users can combine multiple)\n- The 'Continue typing' flow after selecting a fragment\n- Same overall process as FO-04, different input UX",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "422"
+  ],
+  "parent": "3z0",
+  "acceptance_criteria": "app/fo-05/page.tsx exists; app/fo-05/layout.tsx exists; app/fo-05/fo-05-layout-client.tsx exists; app/fo-05/info/page.tsx exists; npm run build succeeds",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:52:49.9049149Z",
+  "updated_at": "2026-01-24T06:55:45.0702879Z"
+}

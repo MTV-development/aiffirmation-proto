@@ -1,0 +1,12 @@
+{
+  "id": "zi4",
+  "title": "FO-05: Discovery Agent",
+  "description": "Create FO-05 discovery agent with sentence fragment generation\n\n## Context\n\n**Spec:** `docs/projects/2026-01-25-fo-05/2026-01-25-fo-05-spec.md`\n\n**Key files for this epic:**\n- `src/mastra/agents/fo-04/agent.ts` - Reference agent to adapt\n- `src/mastra/agents/fo-04/affirmation-agent.ts` - Affirmation agent to copy\n- `app/fo-04/actions.ts` - Server actions pattern to follow\n\n**Key differences from FO-04:**\n- Agent receives both question AND answer (not just answer) for better context\n- Agent generates varied reflective statements (avoid 'It sounds like...')\n- Agent generates 13 sentence fragments (5 initial + 8 expanded) instead of chips",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:53:14.287557Z",
+  "updated_at": "2026-01-24T06:53:14.287557Z"
+}

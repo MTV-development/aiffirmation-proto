@@ -1,0 +1,14 @@
+{
+  "id": "422",
+  "title": "Run pre-flight checks for FO-05",
+  "description": "Verify the codebase is in a healthy state before starting FO-05 implementation.\n\nCommands to run:\n- npm run build (verify build passes)\n- npm run lint (verify no lint errors)\n- node --import tsx e2e/fo-04.test.ts (verify existing E2E test passes)\n\nDocument any pre-existing failures.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "o9m",
+  "acceptance_criteria": "npm run build succeeds; npm run lint shows no errors; FO-04 E2E test passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:52:27.6269553Z",
+  "updated_at": "2026-01-24T06:52:27.6269553Z"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "jcf",
+  "title": "Create step-dynamic component for FO-05",
+  "description": "Create the dynamic step component that uses FragmentInput.\n\nFiles to create:\n- app/fo-05/components/step-dynamic.tsx\n\nThis component wraps FragmentInput and handles the dynamic screen logic. Copy from app/fo-04/components/step-dynamic.tsx and update:\n1. Import FragmentInput instead of DynamicInput\n2. Use initialFragments/expandedFragments instead of initialChips/expandedChips\n3. Value is just { text: string } (no selectedChips since fragments append to text)",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "wgu"
+  ],
+  "parent": "t7n",
+  "acceptance_criteria": "app/fo-05/components/step-dynamic.tsx exists; imports and uses FragmentInput; npm run build succeeds",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:54:41.1586893Z",
+  "updated_at": "2026-01-24T06:54:41.1586893Z"
+}

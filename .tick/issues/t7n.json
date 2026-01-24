@@ -1,0 +1,12 @@
+{
+  "id": "t7n",
+  "title": "FO-05: Onboarding Flow",
+  "description": "Create the main FO-05 experience component and wire up all steps\n\n## Context\n\n**Spec:** docs/projects/2026-01-25-fo-05/2026-01-25-fo-05-spec.md\n\n**Key files for this epic:**\n- app/fo-04/components/fo-experience.tsx - Main state manager to adapt\n- app/fo-04/components/step-*.tsx - Step components to copy\n- app/fo-04/components/swipe-phase.tsx - Swipe component to copy\n\n**Same steps as FO-04:** Welcome, name, familiarity, topics, dynamic screens, swipe, checkpoint, mockups, completion",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-24T06:54:21.0091397Z",
+  "updated_at": "2026-01-24T06:54:21.0091397Z"
+}
