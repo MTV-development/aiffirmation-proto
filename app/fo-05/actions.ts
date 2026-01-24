@@ -2,7 +2,10 @@
 
 import { createFO05DiscoveryAgent } from '@/src/mastra/agents/fo-05/agent';
 import { createFO05AffirmationAgent } from '@/src/mastra/agents/fo-05/affirmation-agent';
-import { createFO05SummaryAgent } from '@/src/mastra/agents/fo-05/summary-agent';
+import {
+  createFO05PreSummaryAgent,
+  createFO05PostSummaryAgent,
+} from '@/src/mastra/agents/fo-05/summary-agent';
 
 /**
  * Context accumulated during the dynamic gathering screens.
@@ -481,8 +484,45 @@ function buildSummaryPrompt(context: GatheringContext): string {
 }
 
 /**
- * Server action to generate a completion summary using the FO-05 summary agent.
- * Returns a personalized summary of the user's journey through the discovery process.
+ * Server action to generate a pre-affirmation summary.
+ * Shown before affirmations are generated - uses future tense about creating affirmations.
+ * Returns empty string on error for graceful degradation.
+ */
+export async function generatePreSummary(
+  context: GatheringContext,
+  implementation: string = 'default'
+): Promise<string> {
+  try {
+    // Build the user prompt from GatheringContext
+    const userPrompt = buildSummaryPrompt(context);
+
+    // Create the pre-summary agent (future tense about affirmations)
+    const agent = await createFO05PreSummaryAgent(implementation);
+
+    console.log('[fo-05-pre-summary] Implementation:', implementation);
+    console.log('[fo-05-pre-summary] Name:', context.name);
+    console.log('[fo-05-pre-summary] Initial topic:', context.initialTopic);
+    console.log('[fo-05-pre-summary] Exchanges count:', context.exchanges.length);
+
+    // Generate the summary
+    const result = await agent.generate(userPrompt);
+
+    console.log('[fo-05-pre-summary] Response length:', result.text.length);
+    console.log('[fo-05-pre-summary] Summary:', result.text.substring(0, 200));
+
+    // Return the summary text directly (agent returns plain text)
+    return result.text.trim();
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('[fo-05-pre-summary] Error generating summary:', errorMessage);
+    // Return empty string for graceful degradation
+    return '';
+  }
+}
+
+/**
+ * Server action to generate a post-affirmation completion summary.
+ * Shown after affirmations are generated - refers to affirmations that now exist.
  * Returns empty string on error for graceful degradation.
  */
 export async function generateCompletionSummary(
@@ -493,25 +533,25 @@ export async function generateCompletionSummary(
     // Build the user prompt from GatheringContext
     const userPrompt = buildSummaryPrompt(context);
 
-    // Create the summary agent
-    const agent = await createFO05SummaryAgent(implementation);
+    // Create the post-summary agent (past/present tense about affirmations)
+    const agent = await createFO05PostSummaryAgent(implementation);
 
-    console.log('[fo-05-summary] Implementation:', implementation);
-    console.log('[fo-05-summary] Name:', context.name);
-    console.log('[fo-05-summary] Initial topic:', context.initialTopic);
-    console.log('[fo-05-summary] Exchanges count:', context.exchanges.length);
+    console.log('[fo-05-post-summary] Implementation:', implementation);
+    console.log('[fo-05-post-summary] Name:', context.name);
+    console.log('[fo-05-post-summary] Initial topic:', context.initialTopic);
+    console.log('[fo-05-post-summary] Exchanges count:', context.exchanges.length);
 
     // Generate the summary
     const result = await agent.generate(userPrompt);
 
-    console.log('[fo-05-summary] Response length:', result.text.length);
-    console.log('[fo-05-summary] Summary:', result.text.substring(0, 200));
+    console.log('[fo-05-post-summary] Response length:', result.text.length);
+    console.log('[fo-05-post-summary] Summary:', result.text.substring(0, 200));
 
     // Return the summary text directly (agent returns plain text)
     return result.text.trim();
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    console.error('[fo-05-summary] Error generating summary:', errorMessage);
+    console.error('[fo-05-post-summary] Error generating summary:', errorMessage);
     // Return empty string for graceful degradation
     return '';
   }

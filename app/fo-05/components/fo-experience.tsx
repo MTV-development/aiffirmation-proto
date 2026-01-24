@@ -9,7 +9,7 @@ import {
 import { StepWelcome } from './step-welcome';
 import { StepFamiliarity } from './step-familiarity';
 import { StepTopics } from './step-topics';
-import { HeartAnimation } from './heart-animation';
+import { StepReady } from './step-ready';
 import { StepDynamic } from './step-dynamic';
 import { SwipePhase, type SwipeDirection } from './swipe-phase';
 import { StepCheckpoint } from './step-checkpoint';
@@ -322,12 +322,13 @@ export function FOExperience() {
 
       case 5:
         // Dynamic gathering screens (2-5 AI-generated screens)
-        // Heart animation shows when transitioning to swipe phase
+        // Ready screen shows when transitioning to swipe phase
         if (state.showHeartAnimation) {
           return (
-            <HeartAnimation
-              message={`You have been doing great, ${state.name}! We are creating your personalized affirmations.`}
-              onComplete={async () => {
+            <StepReady
+              name={state.name}
+              gatheringContext={state.gatheringContext}
+              onContinue={async () => {
                 updateState({ showHeartAnimation: false });
                 goToStep(7);
                 await generateBatch(1);
@@ -499,7 +500,7 @@ export function FOExperience() {
             onContinue={async () => {
               // Move to completion step
               nextStep();
-              // Generate summary asynchronously (will appear when ready)
+              // Generate post-affirmation summary for completion screen
               const summary = await generateCompletionSummary(state.gatheringContext);
               updateState({ completionSummary: summary });
             }}
