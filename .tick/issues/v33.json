@@ -1,0 +1,19 @@
+{
+  "id": "v33",
+  "title": "Create FO-06 server actions",
+  "description": "Create server actions for FO-06.\n\nFile to create:\n- `app/fo-06/actions.ts`\n\nActions to implement (based on FO-05 but modified):\n\n1. **generateFirstScreenFragments(name: string)**\n   - New action for screen 1\n   - Uses fixed opening question: 'What\\'s going on in your life right now that made you seek out affirmations?'\n   - Calls discovery agent to generate fragments for this question\n   - Returns: { initialFragments, expandedFragments }\n\n2. **generateDynamicScreen(context: GatheringContext)**\n   - Modified from FO-05\n   - Returns: { question, initialFragments, expandedFragments, readyForAffirmations }\n   - NO reflectiveStatement field\n\n3. **generateAffirmationBatchFO06(options)** - Mirror FO-05\n4. **generatePreSummary(context)** - Mirror FO-05\n5. **generateCompletionSummary(context)** - Mirror FO-05\n\n**GatheringContext type** (modified):\n```typescript\ninterface GatheringContext {\n  name: string;\n  exchanges: Array\u003c{ question: string; answer: { text: string } }\u003e;\n  screenNumber: number;\n}\n```\n\nReference: `app/fo-05/actions.ts`\n\n⚠️ Do not close until actions.ts is created with all required exports.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "qfv"
+  ],
+  "parent": "jsi",
+  "acceptance_criteria": "File exists at app/fo-06/actions.ts with generateDynamicScreen, generateFirstScreenFragments exports",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:41:14.4933767Z",
+  "updated_at": "2026-01-26T10:20:34.6977391Z",
+  "closed_at": "2026-01-26T10:20:34.6977391Z",
+  "closed_reason": "Created actions.ts with simplified context (no familiarity/initialTopic), no reflectiveStatement, and new generateFirstScreenFragments for fixed opening question"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "3p0",
+  "title": "Create step-dynamic component for FO-06",
+  "description": "Create the dynamic investigation screen component for FO-06.\n\nFile to create:\n- `app/fo-06/components/step-dynamic.tsx`\n\nBased on FO-05's step-dynamic.tsx but with key changes:\n\n1. **No reflective statement display** - only show the question\n2. **Screen 1 special handling:**\n   - Use fixed opening question: 'What\\'s going on in your life right now that made you seek out affirmations?'\n   - Call generateFirstScreenFragments() to get fragments\n3. **Screens 2+:**\n   - Call generateDynamicScreen() which returns { question, initialFragments, expandedFragments, readyForAffirmations }\n   - Display only the question (no separate reflective statement)\n4. **Same fragment UI** - use FragmentInput component\n\nReference: `app/fo-05/components/step-dynamic.tsx`\n\n⚠️ Do not close until component handles both screen 1 (fixed question) and screens 2+ (dynamic question).",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "udh"
+  ],
+  "parent": "ywq",
+  "acceptance_criteria": "File exists at app/fo-06/components/step-dynamic.tsx with fixed opening question for screen 1",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:41:53.6531676Z",
+  "updated_at": "2026-01-26T10:26:05.9508237Z",
+  "closed_at": "2026-01-26T10:26:05.9508237Z",
+  "closed_reason": "Created step-dynamic with fixed opening question for screen 1 and generateDynamicScreen for screens 2+. No reflectiveStatement passed to FragmentInput. Simplified onAnswer to { text: string }."
+}

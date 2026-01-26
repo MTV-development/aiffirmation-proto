@@ -1,0 +1,19 @@
+{
+  "id": "66q",
+  "title": "Create FO-06 E2E test file",
+  "description": "Create the E2E test for FO-06.\n\nFile to create:\n- `e2e/fo-06.test.ts`\n\nBase on `e2e/fo-05.test.ts` but with key changes:\n\n**Test assertions:**\n\n1. **No progress bar**\n   - After each step, verify no element matching progress bar exists\n   - Check: page should NOT have 'div.flex.gap-1' with 11 child divs\n\n2. **Simplified flow start**\n   - Navigate to /fo-06\n   - First screen should be name input ('What should we call you')\n   - NO 'The way you speak to yourself' welcome message\n   - NO familiarity question\n   - NO topic selection\n\n3. **Fixed opening question**\n   - After name input, verify exact text: 'What\\'s going on in your life right now that made you seek out affirmations?'\n\n4. **Fragment interaction**\n   - Click Inspiration, verify fragments appear\n   - Click fragment, verify appends to input\n   - Click More Inspiration, verify more fragments\n   - Next button enabled after selection\n\n5. **Dynamic screens**\n   - Loop through 2-5 screens\n   - Verify question appears (no separate reflective statement)\n\n6. **Post-investigation flow**\n   - Ready screen with 'Create My Affirmations'\n   - Swipe phase\n   - Checkpoint\n   - Background, notifications, paywall mockups\n   - Completion screen with affirmations\n\n**Test flow:**\n```\n1. Navigate to /fo-06\n2. Verify NO progress bar\n3. Enter name 'TestUser', click Continue\n4. Verify opening question text exactly\n5. Click Inspiration, select fragment, click Next\n6. Loop through dynamic screens (verify no reflective statement)\n7. Click 'Create My Affirmations'\n8. Swipe affirmations (keep 5, skip 5)\n9. Navigate through mockups\n10. Verify completion screen\n```\n\nReference: `e2e/fo-05.test.ts`, `docs/current/e2e-testing.md`\n\n⚠️ Do not close until test file is created with all key assertions.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "j0w"
+  ],
+  "parent": "syl",
+  "acceptance_criteria": "File exists at e2e/fo-06.test.ts with assertions for no progress bar and fixed opening question",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:43:39.914164Z",
+  "updated_at": "2026-01-26T10:41:55.8558269Z",
+  "closed_at": "2026-01-26T10:41:55.8558269Z",
+  "closed_reason": "Created FO-06 E2E test with progress bar absence checks and fixed opening question verification"
+}
