@@ -1,0 +1,15 @@
+{
+  "id": "ikj",
+  "title": "FO-06: Agents \u0026 KV Store",
+  "description": "Create FO-06 agents and seed KV store entries\n\n## Context\n\n**Spec:** `docs/projects/2026-01-26-fo-06/2026-01-26-fo-06-spec.md`\n\n**Key files for this epic:**\n- `src/mastra/agents/fo-05/` - Reference agent implementations\n- `src/db/seed.ts` - KV store seed script to extend\n- `docs/current/keyvaluestore-and-template-engine.md` - KV store patterns\n\n**Key changes from FO-05:**\n- Discovery agent: Simplified prompt (no 5 dimensions), returns question only (no reflectiveStatement)\n- Response format: { question, initialFragments, expandedFragments, readyForAffirmations }",
+  "notes": "2026-01-26 11:09 - Discovery agent simplified: 2-5 exchanges, question incorporates reflection, no reflectiveStatement field\n2026-01-26 11:12 - Affirmation and summary agents mirror FO-05 with fo-06- prefix\n2026-01-26 11:15 - KV entries added: fo-06-discovery, fo-06-affirmation, fo-06-pre-summary, fo-06-post-summary\n2026-01-26 11:16 - db:seed ran successfully, all FO-06 KV entries populated",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:39:48.5488219Z",
+  "updated_at": "2026-01-26T10:16:59.533942Z",
+  "closed_at": "2026-01-26T10:16:59.533942Z",
+  "closed_reason": "All agents created (discovery, affirmation, pre-summary, post-summary) with fo-06 prefix. KV entries added to seed.ts and database seeded successfully."
+}

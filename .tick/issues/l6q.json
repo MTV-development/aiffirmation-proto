@@ -1,0 +1,19 @@
+{
+  "id": "l6q",
+  "title": "Add FO-06 to navigation and overview",
+  "description": "Add FO-06 to the navigation config and overview page.\n\nFiles to modify:\n- `lib/nav.config.ts` - Add FO-06 entry with appropriate description\n- `app/overview/page.tsx` - Add FO-06 card/entry\n\nReference FO-05 entries for format and placement.\n\nFO-06 description: 'Streamlined onboarding - simplified investigation flow with no progress bar'\n\n⚠️ Do not close until FO-06 appears in nav and overview page.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "hwv"
+  ],
+  "parent": "60w",
+  "acceptance_criteria": "FO-06 appears in navigation sidebar and on /overview page",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:39:35.5628199Z",
+  "updated_at": "2026-01-26T10:06:10.6447483Z",
+  "closed_at": "2026-01-26T10:06:10.6447483Z",
+  "closed_reason": "Added FO-06 to nav.config.ts with Demo/Info children, added version card to overview page, and added row to comparison table"
+}

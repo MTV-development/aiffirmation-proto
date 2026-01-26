@@ -1,0 +1,16 @@
+{
+  "id": "2h4",
+  "title": "Run pre-flight checks for FO-06",
+  "description": "Verify the codebase is in a healthy state before starting FO-06 implementation.\n\nThis is the baseline check - full build verification runs ONCE here.\n\nCommands to run:\n- npm run build (verify build passes)\n- npx tsc --noEmit (TypeScript check)\n\nDocument any pre-existing issues.\n\n⚠️ Do not close this tick until the build passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "lxv",
+  "acceptance_criteria": "npm run build succeeds with no errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:38:57.0791347Z",
+  "updated_at": "2026-01-26T09:56:48.0789581Z",
+  "closed_at": "2026-01-26T09:56:48.0789581Z",
+  "closed_reason": "All pre-flight checks passed: npm run build, npx tsc --noEmit, and npm run lint all completed successfully with no errors. Codebase is in healthy state for FO-06 implementation."
+}

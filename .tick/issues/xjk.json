@@ -1,0 +1,19 @@
+{
+  "id": "xjk",
+  "title": "Create FO-06 fo-experience main component",
+  "description": "Create the main fo-experience component for FO-06.\n\nFile to create:\n- `app/fo-06/components/fo-experience.tsx`\n\n**Key differences from FO-05:**\n\n1. **NO PROGRESS BAR** - Remove the progress bar UI entirely\n2. **Simplified step flow:**\n   - Step 0: Name input only (no welcome screens)\n   - Steps 1-5: Dynamic investigation screens (2-5 screens)\n   - Step 6: Ready screen\n   - Steps 7-8: Swipe phase with checkpoint\n   - Steps 9-11: Background, notifications, paywall mockups\n   - Step 12: Completion\n\n3. **State changes:**\n   - No familiarity state\n   - No initialTopic state (no topic selection)\n   - GatheringContext only needs: name, exchanges, screenNumber\n\n4. **Flow:**\n   - Start at step 0 (name input)\n   - After name → step 1 (first investigation screen with fixed question)\n   - Continue through investigation until readyForAffirmations or max 5 screens\n   - Then ready → swipe → mockups → completion\n\nReference: `app/fo-05/components/fo-experience.tsx`\n\n⚠️ Do not close until:\n1. Progress bar is removed\n2. Name input goes directly to investigation (no welcome/familiarity/topic steps)",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "g23"
+  ],
+  "parent": "ywq",
+  "acceptance_criteria": "File exists at app/fo-06/components/fo-experience.tsx with NO progress bar rendering",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:42:20.0111097Z",
+  "updated_at": "2026-01-26T10:33:46.6707253Z",
+  "closed_at": "2026-01-26T10:33:46.6707253Z",
+  "closed_reason": "Created fo-experience with no progress bar, simplified flow from name input directly to investigation"
+}

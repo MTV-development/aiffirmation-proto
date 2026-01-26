@@ -120,6 +120,14 @@ export const navTree: NavItem[] = [
       { label: "Info", href: "/fo-05/info" },
     ],
   },
+  {
+    label: "FO-06",
+    href: "/fo-06",
+    children: [
+      { label: "Demo", href: "/fo-06" },
+      { label: "Info", href: "/fo-06/info" },
+    ],
+  },
   // {
   //   label: "Weather Demo",
   //   href: "/weatherdemo",

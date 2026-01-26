@@ -1,0 +1,19 @@
+{
+  "id": "hwv",
+  "title": "Create FO-06 directory structure and layout files",
+  "description": "Create the FO-06 directory structure based on FO-05.\n\nFiles to create:\n- `app/fo-06/page.tsx` - Route entry (basic placeholder)\n- `app/fo-06/layout.tsx` - Layout file (copy from FO-05)\n- `app/fo-06/fo-06-layout-client.tsx` - Client layout (copy from FO-05)\n- `app/fo-06/components/` - Create empty components directory\n- `app/fo-06/info/page.tsx` - Info page (copy from FO-05, update for FO-06)\n\nReference: `app/fo-05/` for structure\n\n⚠️ Do not close until all files are created and the dev server can load /fo-06 without errors.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "2h4"
+  ],
+  "parent": "60w",
+  "acceptance_criteria": "Files exist at app/fo-06/page.tsx, app/fo-06/layout.tsx; navigating to /fo-06 in browser shows placeholder content",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T09:39:22.5795965Z",
+  "updated_at": "2026-01-26T10:04:12.7381594Z",
+  "closed_at": "2026-01-26T10:04:12.7381594Z",
+  "closed_reason": "Created FO-06 directory structure: page.tsx (placeholder), layout.tsx, fo-06-layout-client.tsx, info/page.tsx, and components/.gitkeep. All files pass TypeScript and ESLint validation."
+}

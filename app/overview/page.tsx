@@ -140,6 +140,16 @@ const versions: VersionCard[] = [
     outputType: 'Summaries + swipe selection',
     highlight: 'Journey summaries',
   },
+  {
+    id: 'FO-06',
+    name: 'Full Onboarding (Focused Discovery)',
+    href: '/fo-06',
+    tagline: 'Three-part discovery without topic selection or progress bar',
+    description: 'Uses a structured discovery approach: situation → problem → desired outcome. No topic selection (AI discovers needs through conversation) and no progress bar during investigation.',
+    inputType: 'Three-part discovery',
+    outputType: 'Swipe selection',
+    highlight: 'Focused discovery',
+  },
 ];
 
 export default function OverviewPage() {
@@ -292,12 +302,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Dynamic AI onboarding</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-05</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Sentence fragment input</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-06</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-emerald-400">From swipes</td>
+                  <td className="py-2">Three-part focused discovery</td>
                 </tr>
               </tbody>
             </table>
