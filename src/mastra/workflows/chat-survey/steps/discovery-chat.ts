@@ -12,24 +12,27 @@ const discoveryResponseSchema = z.object({
   summary: z.string().optional(),
 });
 
+const conversationMessageSchema = z.object({
+  role: z.enum(['user', 'assistant']),
+  content: z.string(),
+  timestamp: z.string().optional(),
+});
+
+
 export const discoveryChatStep = createStep({
   id: 'discovery-chat',
   inputSchema: z.object({
     skipDiscovery: z.boolean().optional(),
-    conversationHistory: z.array(z.object({
-      role: z.enum(['user', 'assistant']),
-      content: z.string(),
-      timestamp: z.string().optional(),
-    })).optional(),
+    conversationHistory: z.array(conversationMessageSchema).optional(),
   }),
   outputSchema: z.object({
-    conversationHistory: z.array(z.object({
-      role: z.enum(['user', 'assistant']),
-      content: z.string(),
-      timestamp: z.string().optional(),
-    })),
+    conversationHistory: z.array(conversationMessageSchema),
     isComplete: z.boolean(),
     summary: z.string().optional(),
+  }),
+  resumeSchema: z.object({
+    conversationHistory: z.array(conversationMessageSchema).optional(),
+    userMessage: z.string().optional(),
   }),
   execute: async ({ inputData, resumeData, suspend }) => {
     // If skipDiscovery is true, immediately complete with empty history

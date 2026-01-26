@@ -1,0 +1,15 @@
+{
+  "id": "zzw",
+  "title": "mastra-1-0: E2E testing",
+  "description": "Run E2E tests to validate the upgrade works end-to-end\n\n## Context\n\n**Spec:** `docs/projects/2026-01-26-mastra-1-0-upgrade/2026-01-26-mastra-1-0-upgrade-spec.md`\n\n**Test file:** `e2e/fo-05.test.ts`\n\n**Validation criteria:**\n1. Dev server starts without errors\n2. FO-05 E2E test passes\n3. All 19 agents work correctly",
+  "notes": "2026-01-26 09:01 - Dev server: starts cleanly, no Mastra errors. Running on port 3002 (3000/3001 occupied).\n2026-01-26 09:15 - E2E: FO-05 test passed after fixing StepReady screen detection. Test handles Create My Affirmations button click before affirmation generation.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T07:23:01.1420723Z",
+  "updated_at": "2026-01-26T08:15:59.4815893Z",
+  "closed_at": "2026-01-26T08:15:59.4815893Z",
+  "closed_reason": "E2E testing complete: dev server starts cleanly, FO-05 E2E test passes. Fixed test to handle StepReady screen flow."
+}

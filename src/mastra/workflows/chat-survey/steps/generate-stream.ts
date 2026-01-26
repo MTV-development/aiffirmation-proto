@@ -22,6 +22,14 @@ export const generateStreamStep = createStep({
     currentIndex: z.number(),
     lastAction: z.enum(['approve', 'skip']).optional(),
   }),
+  resumeSchema: z.object({
+    profile: userProfileSchema.optional(),
+    approvedAffirmations: z.array(z.string()).optional(),
+    skippedAffirmations: z.array(z.string()).optional(),
+    currentIndex: z.number().optional(),
+    action: z.enum(['approve', 'skip']).optional(),
+    affirmation: z.string().optional(),
+  }),
   execute: async ({ inputData, resumeData, suspend }) => {
     // Get state from resumeData (if resuming) or inputData (initial)
     const profile = (resumeData?.profile || inputData) as UserProfile | undefined;

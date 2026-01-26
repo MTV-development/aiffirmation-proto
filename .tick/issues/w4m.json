@@ -1,0 +1,19 @@
+{
+  "id": "w4m",
+  "title": "Run dev server and verify startup",
+  "description": "Start the dev server and verify Mastra works after upgrade.\n\n**Spec:** `docs/projects/2026-01-26-mastra-1-0-upgrade/2026-01-26-mastra-1-0-upgrade-spec.md`\n\n**Steps:**\n1. Run `npm run dev`\n2. Verify server starts without Mastra-related errors\n3. Check console output for any deprecation warnings\n4. Access http://localhost:3000 and verify basic functionality\n\n**Look for:**\n- No 'AI Tracing instance already registered' errors\n- No Mastra import errors\n- No PostgresStore connection errors\n\n⚠️ Do not close until dev server starts cleanly.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "6ur"
+  ],
+  "parent": "zzw",
+  "acceptance_criteria": "npm run dev starts without Mastra-related errors in console",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T07:23:14.6894245Z",
+  "updated_at": "2026-01-26T08:01:07.6649173Z",
+  "closed_at": "2026-01-26T08:01:07.6649173Z",
+  "closed_reason": "Dev server starts cleanly on port 3002. No Mastra errors (tracing, import, or PostgresStore). Only warning is Next.js middleware deprecation (unrelated to Mastra)."
+}

@@ -668,16 +668,16 @@ async function runTest(): Promise<void> {
       // Check if we're transitioning to affirmation generation
       await sleep(1000);
 
-      // Check for heart animation (transition to affirmations)
-      const hasHeartAnimation = await waitForTextContaining(page, 'We are creating your personalized affirmations', 3000);
-      if (hasHeartAnimation) {
-        console.log('\n   Heart animation detected - transitioning to affirmation generation');
+      // Check for StepReady screen (FO-05 shows "We hear you" with "Create My Affirmations" button)
+      const hasStepReady = await waitForTextContaining(page, 'We hear you', 3000) || await waitForTextContaining(page, 'Create My Affirmations', 1000);
+      if (hasStepReady) {
+        console.log('\n   StepReady screen detected - need to click Create My Affirmations');
         isReadyForAffirmations = true;
       } else {
         // Check if we're back to "Thinking..." (next dynamic screen)
         const isThinking = await waitForTextContaining(page, 'Thinking...', 2000);
         if (!isThinking) {
-          // Also check for affirmation cards (might have skipped heart animation)
+          // Also check for affirmation cards (might have skipped StepReady)
           const hasAffirmationCard = await waitForTextContaining(page, 'Affirmation 1 of', 2000);
           if (hasAffirmationCard) {
             console.log('\n   Affirmation cards detected - already in swipe phase');
@@ -689,7 +689,21 @@ async function runTest(): Promise<void> {
 
     console.log(`\n--- Dynamic Screens Complete (${dynamicScreenCount} screens) ---`);
 
-    // Wait for affirmation generation if we saw heart animation
+    // FO-05: Click "Create My Affirmations" button on StepReady screen
+    console.log('\nLooking for Create My Affirmations button...');
+    const hasCreateBtn = await waitForTextContaining(page, 'Create My Affirmations', 5000);
+    if (hasCreateBtn) {
+      const clicked = await clickButton(page, 'Create My Affirmations');
+      if (!clicked) {
+        await page.screenshot({ path: 'e2e/debug-fo05-create-affirmations-btn.png' });
+        throw new Error('Could not click Create My Affirmations button');
+      }
+      console.log('Create My Affirmations clicked - waiting for generation...');
+    } else {
+      console.log('Warning: Create My Affirmations button not found, may already be in generation...');
+    }
+
+    // Wait for affirmation generation
     console.log('\nWaiting for batch 1 AI generation (up to 60s)...');
 
     // Wait for affirmation cards to appear
@@ -702,7 +716,6 @@ async function runTest(): Promise<void> {
       throw new Error('Batch 1 did not finish loading in time');
     }
     console.log('Batch 1 AI generation successful');
-
     // Helper to swipe through a batch of 10 affirmations
     async function swipeThroughBatch(batchNum: number): Promise<void> {
       console.log(`   Swiping through batch ${batchNum}...`);

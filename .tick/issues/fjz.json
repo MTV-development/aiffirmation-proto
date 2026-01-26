@@ -1,0 +1,19 @@
+{
+  "id": "fjz",
+  "title": "Update documentation and verify all criteria",
+  "description": "Update documentation and verify all upgrade criteria are met.\n\n**Spec:** `docs/projects/2026-01-26-mastra-1-0-upgrade/2026-01-26-mastra-1-0-upgrade-spec.md`\n\n**Documentation to update:**\n- `docs/current/mastra.md` - Update version numbers in Dependencies section\n\n**Validation criteria from spec:**\n1. ✓ `npm run dev` starts without errors\n2. ✓ `npx mastra dev` opens Mastra Studio successfully (optional - verify manually)\n3. ✓ `node --import tsx e2e/fo-05.test.ts` passes\n4. ✓ No TypeScript errors in the codebase\n\n**Update mastra.md:**\nChange the Dependencies section from:\n```json\n{\n  \"@mastra/core\": \"^1.0.0-beta.19\",\n  ...\n}\n```\n\nTo the new @latest versions installed.\n\n⚠️ Do not close until docs updated and all criteria verified.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "d7r"
+  ],
+  "parent": "xct",
+  "acceptance_criteria": "docs/current/mastra.md shows stable versions; grep -r 'beta' docs/current/mastra.md returns no matches",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T07:23:57.5038926Z",
+  "updated_at": "2026-01-26T08:17:37.032491Z",
+  "closed_at": "2026-01-26T08:17:37.032491Z",
+  "closed_reason": "Documentation updated with stable versions"
+}

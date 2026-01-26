@@ -307,12 +307,12 @@ npx kill-port 3000 4111
 
 ```json
 {
-  "@mastra/core": "^1.0.0-beta.19",
-  "@mastra/libsql": "^1.0.0-beta.10",
-  "@mastra/loggers": "^1.0.0-beta.3",
-  "@mastra/memory": "^1.0.0-beta.10",
-  "@mastra/pg": "^1.0.0-beta.11",
-  "mastra": "^1.0.0-beta.12"
+  "@mastra/core": "^1.0.4",
+  "@mastra/libsql": "^1.0.0",
+  "@mastra/loggers": "^1.0.0",
+  "@mastra/memory": "^1.0.0",
+  "@mastra/pg": "^1.0.0",
+  "mastra": "^1.0.1"
 }
 ```
 

@@ -1,0 +1,16 @@
+{
+  "id": "l87",
+  "title": "Verify Node.js version and run pre-flight checks",
+  "description": "Verify the environment is ready for Mastra 1.0 upgrade.\n\n**Spec:** `docs/projects/2026-01-26-mastra-1-0-upgrade/2026-01-26-mastra-1-0-upgrade-spec.md`\n\n**Prerequisites:**\n- Node.js 22.13.0+ is required for Mastra v1\n\n**Checks to perform:**\n1. Run `node --version` and verify it's \u003e= 22.13.0\n2. Run `npm run build` to verify build passes\n3. Run `npx tsc --noEmit` to verify TypeScript compiles\n\nIf Node.js version is too low, this is a BLOCKER - create a human task.\n\nDocument the baseline state before upgrade.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "5iv",
+  "acceptance_criteria": "node --version shows v22.x or higher; npm run build succeeds; npx tsc --noEmit succeeds",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-26T07:21:33.8621686Z",
+  "updated_at": "2026-01-26T07:28:38.669238Z",
+  "closed_at": "2026-01-26T07:28:38.669238Z",
+  "closed_reason": "Pre-flight checks passed: Node.js v22.14.0, build succeeds, TypeScript compiles"
+}
