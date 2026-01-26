@@ -107,10 +107,10 @@ export function StepTopics({
             exit={{ opacity: 0, y: -20 }}
           >
             <h2 className="text-2xl font-medium mb-2 text-gray-800 dark:text-gray-200">
-              What do you want affirmations to help you with, {name}?
+              Choose what fits you best right now
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Choose as many as you like
+              It doesn&apos;t have to be perfect.
             </p>
             <div className="flex flex-wrap gap-2 mb-8 justify-center">
               {TOPIC_OPTIONS.map((topic) => (
