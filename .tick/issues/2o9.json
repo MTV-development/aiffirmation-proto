@@ -1,0 +1,12 @@
+{
+  "id": "2o9",
+  "title": "fo-07: UI Components",
+  "description": "Create FO-07 UI components based on FO-04, with new Affirmation Review Screen\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `app/fo-04/components/` - Reference UI components\n- `app/fo-04/components/heart-animation.tsx` - Reuse this component\n- `app/fo-06/components/step-ready.tsx` - Reference for summary display\n\n**Files to create in `app/fo-07/components/`:**\n- `fo-experience.tsx` - Main state manager (modified from FO-04)\n- `step-welcome.tsx` - Welcome screens (copy from FO-04)\n- `step-topics.tsx` - Topic selection with updated copy\n- `step-dynamic.tsx` - Dynamic screens (copy from FO-04)\n- `dynamic-input.tsx` - Input component (copy from FO-04)\n- `heart-animation.tsx` - Copy from FO-04\n- `affirmation-review.tsx` - NEW: 20 cards with Like/Don't Like\n- `step-background.tsx` - Background selection (copy from FO-04)\n- `step-notifications.tsx` - Notifications (copy from FO-04)\n- `step-paywall.tsx` - Paywall (copy from FO-04)\n- `step-completion.tsx` - Completion (copy from FO-04)\n\n**Key changes from FO-04:**\n- No progress bar in fo-experience.tsx\n- New intro screen copy: H1 'Choose what fits you best right now', H2 'It doesn\\'t have to be perfect.'\n- Replace swipe-phase.tsx with affirmation-review.tsx\n- Heart animation after dynamic screens (not confetti)",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:49:17.7789556Z",
+  "updated_at": "2026-01-27T10:49:17.7789556Z"
+}

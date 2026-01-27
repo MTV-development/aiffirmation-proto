@@ -1,0 +1,17 @@
+{
+  "id": "4nn",
+  "title": "Add FO-07 to overview page",
+  "description": "Add FO-07 entry to the overview page.\n\nFiles to modify:\n- `app/overview/page.tsx`\n\nAdd a new entry to the versions array:\n{\n  id: 'FO-07',\n  name: 'Full Onboarding (Card Selection)',\n  href: '/fo-07',\n  tagline: 'Rate affirmations with thumbs up/down',\n  description: 'Same dynamic discovery as FO-04, but with a card-based review system. Rate 20 affirmations with Like/Don\\'t Like buttons instead of swiping. No progress bar, pulsing heart transitions.',\n  inputType: 'Dynamic AI-generated prompts',\n  outputType: 'Card selection (20 cards)',\n  highlight: 'Like/Don\\'t Like cards',\n}\n\nAlso add FO-07 row to the comparison table at the bottom:\n- Version: FO-07\n- User Effort: Medium\n- Personalization: High (iterative)\n- Learning: None (single review)\n- Best For: Deliberate selection\n\n⚠️ Do not close this tick until FO-07 appears on the overview page.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "29m"
+  ],
+  "parent": "esj",
+  "acceptance_criteria": "npm run dev succeeds and /overview shows FO-07 card",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:51:24.7341805Z",
+  "updated_at": "2026-01-27T10:51:24.7341805Z"
+}

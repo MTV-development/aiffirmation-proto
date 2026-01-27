@@ -1,0 +1,12 @@
+{
+  "id": "esj",
+  "title": "fo-07: Page Routes and Navigation",
+  "description": "Create FO-07 page routes, info page, and add to overview\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `app/fo-04/page.tsx` - Reference for main page\n- `app/fo-04/layout.tsx` - Reference for layout\n- `app/fo-04/info/page.tsx` - Reference for info page\n- `app/overview/page.tsx` - Add FO-07 entry\n\n**Files to create:**\n- `app/fo-07/page.tsx` - Main page\n- `app/fo-07/layout.tsx` - Layout\n- `app/fo-07/info/page.tsx` - Info page describing FO-07",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:50:32.1044636Z",
+  "updated_at": "2026-01-27T10:50:32.1044636Z"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "dxb",
+  "title": "fo-07: E2E Testing",
+  "description": "Create E2E test for FO-07 happy path\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `e2e/fo-06.test.ts` - Reference for E2E test pattern\n- `docs/current/e2e-testing.md` - E2E testing documentation\n\n**Files to create:**\n- `e2e/fo-07.test.ts` - Happy path E2E test\n\n**Test scenarios:**\n1. Navigate to /fo-07\n2. Complete intro screen\n3. Go through discovery screens\n4. Reach Affirmation Review Screen with 20 cards\n5. Rate all 20 cards using Like/Don\\'t Like\n6. Verify Continue button enables after all rated\n7. Continue through standard onboarding\n8. Reach completion screen",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:51:40.193345Z",
+  "updated_at": "2026-01-27T10:51:40.193345Z"
+}

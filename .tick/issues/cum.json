@@ -1,0 +1,17 @@
+{
+  "id": "cum",
+  "title": "Create FO-07 server actions",
+  "description": "Create server actions for FO-07 in app/fo-07/actions.ts.\n\nFiles to create:\n- `app/fo-07/actions.ts` - Server actions\n\nReference implementation:\n- `app/fo-04/actions.ts` - Copy and modify for FO-07\n- `app/fo-06/actions.ts` - Reference for summary generation\n\nActions to implement:\n\n1. `GatheringContext` interface - Same as FO-04\n2. `DynamicScreenResponse` interface - Same as FO-04\n3. `generateDynamicScreen(context)` - Same as FO-04, but uses fo-07-discovery agent\n4. `generateAffirmations20(context)` - New action that:\n   - Takes GatheringContext\n   - Calls fo-07-affirmation agent\n   - Returns array of 20 affirmations (not 10)\n   - No feedback parameters (no approved/skipped)\n5. `generateReviewSummary(context, affirmationTypes)` - New action that:\n   - Takes GatheringContext and list of affirmation types/themes\n   - Calls fo-07-summary agent\n   - Returns combined summary string\n\nKey differences from FO-04:\n- No batch numbers (single call for all 20)\n- No feedback loop (no approved/skipped tracking for generation)\n- New summary action for review screen\n\n⚠️ Do not close this tick until tsc compiles without errors.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "hbo"
+  ],
+  "parent": "0aq",
+  "acceptance_criteria": "npx tsc --noEmit completes without errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:48:57.90832Z",
+  "updated_at": "2026-01-27T10:48:57.90832Z"
+}

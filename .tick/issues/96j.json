@@ -1,0 +1,17 @@
+{
+  "id": "96j",
+  "title": "Create FO-07 page routes and layout",
+  "description": "Create the FO-07 page routes and layout files.\n\nFiles to create:\n- `app/fo-07/page.tsx` - Main page (copy from FO-04)\n- `app/fo-07/layout.tsx` - Layout (copy from FO-04)\n\nReference:\n- `app/fo-04/page.tsx`\n- `app/fo-04/layout.tsx`\n\nThe page.tsx should import FOExperience from './components/fo-experience'.\n\n⚠️ Do not close this tick until the dev server can load /fo-07 without errors.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "lre"
+  ],
+  "parent": "esj",
+  "acceptance_criteria": "npm run dev succeeds and navigating to http://localhost:3000/fo-07 loads without console errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:50:48.3492662Z",
+  "updated_at": "2026-01-27T10:50:48.3492662Z"
+}

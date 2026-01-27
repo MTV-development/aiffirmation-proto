@@ -1,0 +1,12 @@
+{
+  "id": "56r",
+  "title": "fo-07: KV Store Prompts and Seed Data",
+  "description": "Add FO-07 prompts to the KV store seed script\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `src/db/seed.ts` - Add FO-07 prompt entries\n- `src/mastra/agents/fo-04/agent.ts` - Reference for discovery agent prompts\n- `src/mastra/agents/fo-04/affirmation-agent.ts` - Reference for affirmation prompts\n\n**Prompts to add:**\n- `versions.fo-07-discovery.system.default` - Discovery agent system prompt\n- `versions.fo-07-discovery.prompt.default` - Discovery prompt\n- `versions.fo-07-affirmation.system.default` - Affirmation generation system prompt\n- `versions.fo-07-affirmation.prompt.default` - Generate 20 affirmations in single call\n- `versions.fo-07-summary.system.default` - Summary generation\n- `versions.fo-07-summary.prompt.default` - Combined summary prompt",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:47:32.4003256Z",
+  "updated_at": "2026-01-27T10:47:32.4003256Z"
+}
