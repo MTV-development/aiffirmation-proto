@@ -1,0 +1,12 @@
+{
+  "id": "tx2",
+  "title": "fo-08: AI Agents and KV Store Setup",
+  "description": "Create FO-08 AI agents and seed the KV store with prompts\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `src/mastra/agents/fo-07/` - Source for affirmation and summary agents\n- `src/mastra/agents/fo-06/agent.ts` - Reference for discovery agent structure\n- `src/db/seed.ts` - KV store seeding\n\n**Related docs:**\n- `docs/current/keyvaluestore-and-template-engine.md` - KV store patterns\n- `docs/current/mastra.md` - Agent configuration",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:36:06.2981177Z",
+  "updated_at": "2026-01-28T06:36:06.2981177Z"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "lor",
+  "title": "fo-08: Main Experience Flow",
+  "description": "Wire up the main FO-08 experience flow\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `app/fo-06/components/fo-experience.tsx` - Main flow controller to adapt\n- `app/fo-06/page.tsx` - Page entry point\n- `app/fo-06/layout.tsx` - Layout wrapper\n\n**Related docs:**\n- Spec sections: User Flow, UI/UX Details",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:36:23.731607Z",
+  "updated_at": "2026-01-28T06:36:23.731607Z"
+}

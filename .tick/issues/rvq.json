@@ -1,0 +1,12 @@
+{
+  "id": "rvq",
+  "title": "fo-08: E2E Testing and Final Validation",
+  "description": "Create E2E test and run final validation\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `e2e/fo-07.test.ts` - Source for E2E test\n- `docs/current/e2e-testing.md` - E2E testing patterns\n\n**Related docs:**\n- Spec section: Testing Strategy",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:36:40.77341Z",
+  "updated_at": "2026-01-28T06:36:40.77341Z"
+}

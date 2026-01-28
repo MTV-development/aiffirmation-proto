@@ -1,0 +1,12 @@
+{
+  "id": "13n",
+  "title": "fo-08: UI Components",
+  "description": "Copy and modify UI components for FO-08\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `app/fo-06/components/` - Source for fragment-input, step-dynamic, welcome, familiarity\n- `app/fo-07/components/` - Source for step-topics, heart-animation, affirmation-review\n- `app/fo-06/actions.ts` - Server actions to copy and modify\n\n**Related docs:**\n- Spec sections: File Structure, Implementation Notes",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:36:14.9387999Z",
+  "updated_at": "2026-01-28T06:36:14.9387999Z"
+}

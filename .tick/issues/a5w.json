@@ -1,0 +1,17 @@
+{
+  "id": "a5w",
+  "title": "Run regression tests for FO-06 and FO-07",
+  "description": "Run regression tests to ensure FO-08 did not break existing versions.\n\nTest commands:\nnode --import tsx e2e/fo-06.test.ts\nnode --import tsx e2e/fo-07.test.ts\n\nBoth tests must pass. FO-08 has its own copy of modified components, so it should not affect FO-06 or FO-07.\n\nIf any test fails, investigate and fix the regression.\n\nDo not close this tick until both regression tests pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "axx"
+  ],
+  "parent": "rvq",
+  "acceptance_criteria": "node --import tsx e2e/fo-06.test.ts passes AND node --import tsx e2e/fo-07.test.ts passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:42:19.4821936Z",
+  "updated_at": "2026-01-28T06:42:19.4821936Z"
+}

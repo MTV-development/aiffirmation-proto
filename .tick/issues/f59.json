@@ -1,0 +1,17 @@
+{
+  "id": "f59",
+  "title": "Wire up FO-08 page and layout",
+  "description": "Update the FO-08 page and layout to use the fo-experience component.\n\nFiles to update:\n- app/fo-08/page.tsx\n- app/fo-08/layout.tsx\n- app/fo-08/fo-08-layout-client.tsx\n\nImplementation:\n1. page.tsx should render FOExperience component\n2. layout.tsx should use FO08LayoutClient\n3. fo-08-layout-client.tsx should provide proper layout wrapper\n\nDo not close this tick until the main experience renders without errors.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "1m5"
+  ],
+  "parent": "lor",
+  "acceptance_criteria": "grep -q 'FOExperience' app/fo-08/page.tsx \u0026\u0026 echo PASS",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:41:17.5080337Z",
+  "updated_at": "2026-01-28T06:41:17.5080337Z"
+}
