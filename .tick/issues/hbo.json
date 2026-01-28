@@ -2,7 +2,7 @@
   "id": "hbo",
   "title": "Create FO-07 Mastra agents",
   "description": "Create the FO-07 Mastra agents based on FO-04 patterns.\n\nFiles to create:\n- `src/mastra/agents/fo-07/agent.ts` - Discovery agent\n- `src/mastra/agents/fo-07/affirmation-agent.ts` - Affirmation agent\n- `src/mastra/agents/fo-07/summary-agent.ts` - Summary agent\n- `src/mastra/agents/fo-07/index.ts` - Exports\n\nReference implementation:\n- `src/mastra/agents/fo-04/agent.ts` - Copy structure for discovery agent\n- `src/mastra/agents/fo-04/affirmation-agent.ts` - Copy structure for affirmation agent\n\nKey differences from FO-04:\n1. Discovery agent: Same structure, uses fo-07-discovery KV keys\n2. Affirmation agent: Same structure, uses fo-07-affirmation KV keys\n3. Summary agent: New agent using fo-07-summary KV keys\n\nEach agent should:\n- Have a DEFAULT_INSTRUCTIONS fallback\n- Have a createFO07*Agent factory function that loads from KV store\n- Use getAgentSystemPrompt and getAgentModelName from services\n\nVerify by checking TypeScript compilation.\n\n⚠️ Do not close this tick until tsc compiles without errors.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "npx tsc --noEmit completes without errors in src/mastra/agents/fo-07/",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-27T10:48:25.8990245Z",
-  "updated_at": "2026-01-27T10:48:25.8990245Z"
+  "updated_at": "2026-01-27T11:12:22.7168102Z",
+  "closed_at": "2026-01-27T11:12:22.7168102Z",
+  "closed_reason": "Created FO-07 Mastra agents based on FO-06 patterns: agent.ts (discovery), affirmation-agent.ts (outputs 20 affirmations), summary-agent.ts (pre/post summary), index.ts (exports). All use fo-07-* KV keys. TypeScript compiles without errors."
 }

@@ -2,7 +2,7 @@
   "id": "pm0",
   "title": "Create FO-07 E2E test",
   "description": "Create E2E test for FO-07 happy path flow.\n\nFiles to create:\n- `e2e/fo-07.test.ts`\n\nReference:\n- `e2e/fo-06.test.ts` - Use as template\n- `docs/current/e2e-testing.md` - Testing documentation\n\nTest flow:\n1. Navigate to /fo-07 (with auth bypass via cookie)\n2. Verify NO progress bar\n3. Enter name, click Continue\n4. Select topics on intro screen (verify new H1/H2 copy)\n5. Loop through dynamic screens (verify heart animation between screens)\n6. Wait for 20 affirmations to generate\n7. Verify summary appears at top\n8. Rate all 20 cards (click thumbs up or down on each)\n9. Verify Continue button becomes enabled\n10. Click Continue\n11. Navigate through mockups (background, notifications, paywall)\n12. Verify completion screen\n\nKey verification points:\n- No progress bar at any step\n- Heart animation appears (not confetti)\n- 20 affirmation cards render\n- Continue button disabled until all 20 rated\n- Liked affirmations appear on completion screen\n\nPrerequisites documented in test:\n- npm run db:seed (FO-07 prompts)\n- Dev server running\n\n⚠️ Do not close this tick until the E2E test passes.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "node --import tsx e2e/fo-07.test.ts completes with TEST PASSED message",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-27T10:51:57.5530498Z",
-  "updated_at": "2026-01-27T10:51:57.5530498Z"
+  "updated_at": "2026-01-27T11:41:36.6886692Z",
+  "closed_at": "2026-01-27T11:41:36.6886692Z",
+  "closed_reason": "Created fo-07.test.ts E2E test covering: welcome screens, name input, topic selection with new H1/H2 copy verification, chip-based dynamic screens with heart animation detection, 20 affirmation generation, AffirmationReview with thumbs up/down rating for all 20 cards, Continue button disabled state verification, and all mockup screens through completion"
 }

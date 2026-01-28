@@ -2,7 +2,7 @@
   "id": "lre",
   "title": "Create FOExperience main component for FO-07",
   "description": "Create the main FOExperience state manager component for FO-07.\n\nFiles to create:\n- `app/fo-07/components/fo-experience.tsx`\n\nReference implementation:\n- `app/fo-04/components/fo-experience.tsx` - Base structure\n\nKey differences from FO-04:\n\n1. NO PROGRESS BAR - Remove the progress indicator entirely\n\n2. Flow changes:\n   - Steps 0-2: Welcome screens (same)\n   - Step 3: Familiarity (same, but optional - can skip based on spec)\n   - Step 4: Topics with new copy (same structure)\n   - Step 5: Dynamic gathering screens with heart animation transitions\n   - Step 6: Affirmation generation (show loading, generate 20)\n   - Step 7: AffirmationReview screen (new - replaces swipe phase)\n   - Steps 8-10: Background, Notifications, Paywall mockups\n   - Step 11: Completion\n\n3. State changes:\n   - Remove batch-related state (currentBatch, currentBatchNumber, etc)\n   - Remove swipe state (currentCardIndex, approvedAffirmations, skippedAffirmations, hasSwipedOnce)\n   - Add: allAffirmations: string[] (20 generated affirmations)\n   - Add: likedAffirmations: string[] (after review)\n   - Add: reviewSummary: string\n\n4. Generation flow:\n   - After dynamic screens complete, generate all 20 affirmations in one call\n   - Generate review summary\n   - Show AffirmationReview component\n   - On complete, store liked affirmations and proceed to mockups\n\n5. Heart animation:\n   - Show after each dynamic screen (not after topic selection)\n   - Use message like 'Thank you for sharing...'\n\n⚠️ Do not close this tick until tsc compiles without errors.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -14,5 +14,7 @@
   "acceptance_criteria": "npx tsc --noEmit completes without errors",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-27T10:50:17.7183416Z",
-  "updated_at": "2026-01-27T10:53:17.4116076Z"
+  "updated_at": "2026-01-27T11:27:42.1032363Z",
+  "closed_at": "2026-01-27T11:27:42.1032363Z",
+  "closed_reason": "Created FO-07 FOExperience component based on FO-04 with key differences: removed progress bar, removed familiarity step, replaced swipe phase with AffirmationReview, generates all 20 affirmations at once, and shows heart animation after each dynamic screen"
 }

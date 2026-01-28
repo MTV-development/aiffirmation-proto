@@ -150,6 +150,16 @@ const versions: VersionCard[] = [
     outputType: 'Swipe selection',
     highlight: 'Focused discovery',
   },
+  {
+    id: 'FO-07',
+    name: 'Full Onboarding (Card Selection)',
+    href: '/fo-07',
+    tagline: 'Rate affirmations with thumbs up/down',
+    description: 'Same dynamic discovery as FO-04, but with a card-based review system. Rate 20 affirmations with Like/Don\'t Like buttons instead of swiping. No progress bar, pulsing heart transitions.',
+    inputType: 'Dynamic AI-generated prompts',
+    outputType: 'Card selection (20 cards)',
+    highlight: 'Like/Don\'t Like cards',
+  },
 ];
 
 export default function OverviewPage() {
@@ -309,12 +319,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Sentence fragment input</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-06</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Three-part focused discovery</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-07</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-gray-500">None (single review)</td>
+                  <td className="py-2">Deliberate selection</td>
                 </tr>
               </tbody>
             </table>
