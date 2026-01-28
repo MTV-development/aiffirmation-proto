@@ -1,0 +1,15 @@
+{
+  "id": "13n",
+  "title": "fo-08: UI Components",
+  "description": "Copy and modify UI components for FO-08\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `app/fo-06/components/` - Source for fragment-input, step-dynamic, welcome, familiarity\n- `app/fo-07/components/` - Source for step-topics, heart-animation, affirmation-review\n- `app/fo-06/actions.ts` - Server actions to copy and modify\n\n**Related docs:**\n- Spec sections: File Structure, Implementation Notes",
+  "notes": "2026-01-28 07:53 - Key insight: fo-08 base setup complete. Note that page.tsx imports FOExperience from ./components/fo-experience which doesn't exist yet - this component will need to be created in a subsequent task.\n2026-01-28 07:56 - fragment-input.tsx: Key difference from FO-06 is that initialFragments (8) are always visible without needing to click 'Inspiration' first. The More button reveals expandedFragments (15). Component interface unchanged, only internal state and UI logic simplified.\n2026-01-28 07:57 - Components copied without modification - step-topics.tsx, heart-animation.tsx, and affirmation-review.tsx are identical to FO-07 versions\n2026-01-28 07:57 - Key insight: All step components copied without modification. FO-07 versions used for step-welcome and step-familiarity (have Enter key support). FO-06 versions used for mockup steps (background, notifications, paywall, completion). Components are ready for integration with the page.\n2026-01-28 07:59 - actions.ts created with: (1) FO-08 agent imports, (2) optional reflectiveStatement in DynamicScreenResponse with proper validation, (3) single generateSummary function instead of pre/post pattern, (4) types.ts file also created since actions.ts imports from it\n2026-01-28 08:06 - EPIC COMPLETE: Created all FO-08 UI components: fragment-input, step-dynamic, welcome/familiarity, topics/heart-animation/affirmation-review, mockups, actions.ts.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:36:14.9387999Z",
+  "updated_at": "2026-01-28T07:06:50.9698381Z",
+  "closed_at": "2026-01-28T07:06:50.9698381Z",
+  "closed_reason": "All 6 tasks completed: full UI component suite created"
+}

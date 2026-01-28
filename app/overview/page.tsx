@@ -160,6 +160,16 @@ const versions: VersionCard[] = [
     outputType: 'Card selection (20 cards)',
     highlight: 'Like/Don\'t Like cards',
   },
+  {
+    id: 'FO-08',
+    name: 'Hybrid Fragments',
+    href: '/fo-08',
+    tagline: 'Guided expression with direction',
+    description: 'Combines FO-06 fragment mechanics with FO-07 discovery framework. Hybrid fragments suggest content direction while inviting personal completion.',
+    inputType: 'Hybrid fragments',
+    outputType: 'Thumbs up/down',
+    highlight: 'Best of FO-06 + FO-07',
+  },
 ];
 
 export default function OverviewPage() {
@@ -326,12 +336,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">From swipes</td>
                   <td className="py-2">Three-part focused discovery</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-07</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-gray-500">None (single review)</td>
                   <td className="py-2">Deliberate selection</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-08</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-gray-500">None (single review)</td>
+                  <td className="py-2">Hybrid fragment input</td>
                 </tr>
               </tbody>
             </table>

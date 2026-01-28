@@ -1,0 +1,16 @@
+{
+  "id": "rqu",
+  "title": "Register FO-08 in overview page",
+  "description": "Add FO-08 to the overview page.\n\nFile to modify:\n- app/overview/page.tsx\n\nAdd this entry to the versions array:\n\n{\n  id: 'FO-08',\n  name: 'Hybrid Fragments',\n  href: '/fo-08',\n  tagline: 'Guided expression with direction',\n  description: 'Combines FO-06 fragment mechanics with FO-07 discovery framework. Hybrid fragments suggest content direction while inviting personal completion.',\n  inputType: 'Hybrid fragments',\n  outputType: 'Thumbs up/down',\n  highlight: 'Best of FO-06 + FO-07',\n},\n\nDo not close this tick until the verification passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "h54",
+  "acceptance_criteria": "grep -q 'FO-08' app/overview/page.tsx \u0026\u0026 grep -q 'Hybrid Fragments' app/overview/page.tsx \u0026\u0026 echo PASS",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:41:36.7978359Z",
+  "updated_at": "2026-01-28T06:53:03.9918471Z",
+  "closed_at": "2026-01-28T06:53:03.9918471Z",
+  "closed_reason": "Added FO-08 entry to versions array with Hybrid Fragments name and all required fields. Added corresponding row to Quick Comparison table with Medium effort, High (iterative) personalization, None (single review) learning, and Hybrid fragment input best-for."
+}

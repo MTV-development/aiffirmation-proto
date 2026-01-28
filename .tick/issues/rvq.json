@@ -1,0 +1,15 @@
+{
+  "id": "rvq",
+  "title": "fo-08: E2E Testing and Final Validation",
+  "description": "Create E2E test and run final validation\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `e2e/fo-07.test.ts` - Source for E2E test\n- `docs/current/e2e-testing.md` - E2E testing patterns\n\n**Related docs:**\n- Spec section: Testing Strategy",
+  "notes": "2026-01-28 08:40 - All regression tests passed - FO-06 and FO-07 unaffected. Fixed test files to match actual implementation flows (welcome screens + familiarity step).\n2026-01-28 08:41 - EPIC COMPLETE: Created FO-08 E2E test, verified full flow passes, ran regression tests for FO-06 and FO-07 - all pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:36:40.77341Z",
+  "updated_at": "2026-01-28T07:41:08.211217Z",
+  "closed_at": "2026-01-28T07:41:08.211217Z",
+  "closed_reason": "All 3 tasks completed: E2E test created, FO-08 test passes, regression tests pass"
+}

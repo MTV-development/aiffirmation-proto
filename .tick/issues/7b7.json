@@ -1,0 +1,16 @@
+{
+  "id": "7b7",
+  "title": "Register FO-08 in left navigation menu",
+  "description": "Add FO-08 to the left navigation menu.\n\nFile to modify:\n- nav.config.ts\n\nAdd this entry to the navTree array (after FO-07):\n\n{\n  label: 'FO-08',\n  href: '/fo-08',\n  children: [\n    { label: 'Demo', href: '/fo-08' },\n    { label: 'Info', href: '/fo-08/info' },\n  ],\n},\n\nDo not close this tick until the verification passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "h54",
+  "acceptance_criteria": "grep -q 'FO-08' nav.config.ts \u0026\u0026 grep -q '/fo-08/info' nav.config.ts \u0026\u0026 echo PASS",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:41:26.8242483Z",
+  "updated_at": "2026-01-28T06:52:59.0400383Z",
+  "closed_at": "2026-01-28T06:52:59.0400383Z",
+  "closed_reason": "Added FO-08 entry to navTree array after FO-07, following the same structure with Demo and Info children"
+}

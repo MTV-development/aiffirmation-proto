@@ -1,0 +1,19 @@
+{
+  "id": "g9g",
+  "title": "Create FO-08 info page",
+  "description": "Create the FO-08 info page.\n\nFile to create:\n- app/fo-08/info/page.tsx\n\nUse InfoPageWrapper component (copy structure from app/fo-07/info/page.tsx).\n\nContent to include:\n- Summary box explaining hybrid fragments concept\n- 'Based on' section noting FO-06 (technical) + FO-07 (framework)\n- Core Concept section with the hybrid fragment principle\n- How It Works section with step-by-step flow\n- Key Differences table comparing to FO-06 and FO-07\n- Technical Details section (agent ID: fo-08, KV namespace: versions.fo-08.*)\n\nDo not close this tick until the verification passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "7b7"
+  ],
+  "parent": "h54",
+  "acceptance_criteria": "test -f app/fo-08/info/page.tsx \u0026\u0026 grep -q 'Hybrid' app/fo-08/info/page.tsx \u0026\u0026 echo PASS",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:41:48.1960331Z",
+  "updated_at": "2026-01-28T06:57:06.2677683Z",
+  "closed_at": "2026-01-28T06:57:06.2677683Z",
+  "closed_reason": "Created FO-08 info page with hybrid fragments concept, based-on section for FO-06/FO-07, core concept table, how-it-works flow, key differences comparison table, fragment examples, and technical details"
+}

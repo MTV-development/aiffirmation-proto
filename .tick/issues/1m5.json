@@ -1,0 +1,19 @@
+{
+  "id": "1m5",
+  "title": "Create fo-experience.tsx main flow controller 4jn duq 4x6 m4l",
+  "description": "Create the main FO-08 experience flow controller.\n\nFile to create:\n- `app/fo-08/components/fo-experience.tsx`\n\nBase on FO-07's fo-experience.tsx (it has the correct step flow), but integrate FO-06's fragment-based dynamic screens.\n\nStep flow (per spec):\n- Step 0: Welcome intro\n- Step 1: Name input\n- Step 2: Personalized welcome\n- Step 3: Familiarity\n- Step 4: Topics selection\n- Step 5+: Dynamic screens (2-5 screens with hybrid fragments)\n- Affirmation generation (loading state)\n- Affirmation review (thumbs up/down)\n- Background mockup\n- Notifications mockup\n- Paywall mockup\n- Completion\n\nKey integrations:\n1. Import and use FO-08's components\n2. Use heart animation between dynamic screens (not confetti)\n3. NO progress bar\n4. Use FO-08's actions for API calls\n5. Pass `reflectiveStatement` to step-dynamic\n\nState management should track:\n- currentStep\n- name\n- familiarity\n- topics\n- gatheringContext (exchanges)\n- affirmations\n- summary\n- likedAffirmations\n\n⚠️ Do not close this tick until the verification passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "npu"
+  ],
+  "parent": "lor",
+  "acceptance_criteria": "test -f app/fo-08/components/fo-experience.tsx \u0026\u0026 grep -q 'step-topics' app/fo-08/components/fo-experience.tsx \u0026\u0026 ! grep -q 'progress' app/fo-08/components/fo-experience.tsx \u0026\u0026 echo 'PASS' shows PASS",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:38:48.8167045Z",
+  "updated_at": "2026-01-28T07:04:24.7902815Z",
+  "closed_at": "2026-01-28T07:04:24.7902815Z",
+  "closed_reason": "Created fo-experience.tsx main flow controller with all FO-08 integrations: uses fragment-based input, handles screen 1 with FIXED_OPENING_QUESTION + generateFirstScreenFragments, screens 2+ with generateDynamicScreen + reflectiveStatement, heart animations between screens, 2 batches of 10 affirmations, NO progress bar"
+}

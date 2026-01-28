@@ -1,0 +1,19 @@
+{
+  "id": "npu",
+  "title": "Copy and modify fragment-input.tsx for FO-08",
+  "description": "Copy fragment-input.tsx from FO-06 and modify for FO-08's hybrid fragment display.\n\nFile to create:\n- `app/fo-08/components/fragment-input.tsx`\n\nSource:\n- `app/fo-06/components/fragment-input.tsx`\n\nModifications per spec:\n1. Interface changes:\n   - Keep `initialFragments: string[]` (now expects 8 items)\n   - Keep `expandedFragments: string[]` (now expects 15 items)\n   - Add `reflectiveStatement?: string` prop\n\n2. State changes:\n   - REMOVE `showInspiration` state entirely\n   - Keep `showMoreInspiration` state, rename to `showMore`\n\n3. UI changes:\n   - REMOVE the 'Inspiration' link/button entirely\n   - Show `initialFragments` (8) immediately on render (always visible)\n   - Rename 'More Inspiration' button to 'More'\n   - Display reflectiveStatement above the question when provided\n   - Keep click-to-append behavior (removes '...', appends to textarea)\n\n⚠️ Do not close this tick until the verification passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "suz"
+  ],
+  "parent": "13n",
+  "acceptance_criteria": "test -f app/fo-08/components/fragment-input.tsx \u0026\u0026 ! grep -q 'showInspiration' app/fo-08/components/fragment-input.tsx \u0026\u0026 grep -q 'reflectiveStatement' app/fo-08/components/fragment-input.tsx \u0026\u0026 echo 'PASS' shows PASS",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:37:51.7651616Z",
+  "updated_at": "2026-01-28T06:56:42.820162Z",
+  "closed_at": "2026-01-28T06:56:42.820162Z",
+  "closed_reason": "Created fragment-input.tsx for FO-08 with hybrid fragment display - removed showInspiration state, fragments visible immediately, renamed showMoreInspiration to showMore, renamed button to More"
+}

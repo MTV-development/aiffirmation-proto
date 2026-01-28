@@ -1,25 +1,29 @@
 /**
- * E2E test for FO-06 Simplified Onboarding Flow using Playwright
+ * E2E test for FO-06 Onboarding Flow using Playwright
  *
- * This test verifies the FO-06 onboarding flow with key differences from FO-05:
+ * This test verifies the FO-06 onboarding flow:
  * 1. NO progress bar at any step
- * 2. Simplified flow start: name input directly (no welcome/familiarity/topic)
- * 3. Fixed opening question: "What's going on in your life right now that made you seek out affirmations?"
- * 4. No separate reflective statement - question only on each dynamic screen
- * 5. Same fragment interaction as FO-05
- * 6. Same post-investigation flow: ready screen, swipe, checkpoint, mockups, completion
+ * 2. Welcome screens (steps 0-2) before investigation
+ * 3. Familiarity selection (step 3)
+ * 4. Fixed opening question: "What's going on in your life right now that made you seek out affirmations?"
+ * 5. No separate reflective statement - question only on each dynamic screen
+ * 6. Same fragment interaction as FO-05
+ * 7. Same post-investigation flow: ready screen, swipe, checkpoint, mockups, completion
  *
  * Test flow:
  * 1. Navigate to /fo-06 (with auth bypass via cookie)
  * 2. Verify NO progress bar
- * 3. Enter name 'TestUser', click Continue
- * 4. Verify exact opening question text
- * 5. Click Inspiration, select fragment, click Next
- * 6. Loop through dynamic screens (verify no reflective statement)
- * 7. Click 'Create My Affirmations'
- * 8. Swipe affirmations (keep 5, skip 5)
- * 9. Navigate through mockups
- * 10. Verify completion screen
+ * 3. Click through welcome intro screen
+ * 4. Enter name 'TestUser', click Continue
+ * 5. Click through personalized welcome
+ * 6. Select familiarity level
+ * 7. Verify fixed opening question text
+ * 8. Click Inspiration, select fragment, click Next
+ * 9. Loop through dynamic screens (verify no reflective statement)
+ * 10. Click 'Create My Affirmations'
+ * 11. Swipe affirmations (keep 5, skip 5)
+ * 12. Navigate through mockups
+ * 13. Verify completion screen
  *
  * Run with: node --import tsx e2e/fo-06.test.ts
  *
@@ -445,43 +449,88 @@ async function runTest(): Promise<void> {
     }
     console.log('Verified: No progress bar present');
 
-    // FO-06 SPECIFIC: Verify page loads directly to name input (no welcome message)
-    console.log('\nVerifying simplified flow start (name input directly)...');
-
-    // Should NOT see the welcome message from FO-05
-    const hasWelcomeMessage = await page.locator('text=The way you speak to yourself').isVisible({ timeout: 2000 }).catch(() => false);
-    if (hasWelcomeMessage) {
-      await page.screenshot({ path: 'e2e/debug-fo06-welcome.png' });
-      throw new Error('Welcome message found but FO-06 should start directly with name input');
+    // Step 0: Welcome intro screen
+    console.log('\nStep 0: Welcome intro screen...');
+    const hasWelcomeIntro = await waitForText(page, 'The way you speak to yourself', 5000);
+    if (!hasWelcomeIntro) {
+      await page.screenshot({ path: 'e2e/debug-fo06-welcome-intro.png' });
+      throw new Error('Welcome intro screen did not appear');
     }
-    console.log('Verified: No welcome message');
+    console.log('Verified: Welcome intro screen visible');
 
-    // Should see name input prompt directly
-    const hasNamePrompt = await waitForTextContaining(page, 'your name', 5000);
+    // Click Continue on welcome intro
+    const clickedWelcomeIntro = await clickButton(page, 'Continue');
+    if (!clickedWelcomeIntro) {
+      await page.screenshot({ path: 'e2e/debug-fo06-welcome-intro-continue.png' });
+      throw new Error('Could not click Continue on welcome intro');
+    }
+    await sleep(300);
+
+    // Step 1: Name input screen
+    console.log('\nStep 1: Name input screen...');
+    const hasNamePrompt = await waitForTextContaining(page, 'call you', 5000);
     if (!hasNamePrompt) {
       await page.screenshot({ path: 'e2e/debug-fo06-name-prompt.png' });
-      throw new Error('Name input prompt did not appear - FO-06 should start with name input');
+      throw new Error('Name input screen did not appear');
     }
-    console.log('Verified: Name input screen shown directly');
 
-    // Verify NO progress bar again after page stabilizes
+    // Verify NO progress bar on name input
     const noProgressBarStep1 = await verifyNoProgressBar(page);
     if (!noProgressBarStep1) {
       throw new Error('Progress bar appeared on name input screen');
     }
 
-    // Enter name and click Continue
+    // Enter name
     console.log('\nEntering name...');
     const nameInput = page.locator('input[placeholder*="name"]');
     await nameInput.fill('TestUser');
     await sleep(300);
 
+    // Click Continue
     const clickedNameContinue = await clickButton(page, 'Continue');
     if (!clickedNameContinue) {
       await page.screenshot({ path: 'e2e/debug-fo06-name-continue.png' });
       throw new Error('Could not click Continue on name input');
     }
     console.log('Name entered and Continue clicked');
+    await sleep(300);
+
+    // Step 2: Personalized welcome screen
+    console.log('\nStep 2: Personalized welcome screen...');
+    const hasPersonalizedWelcome = await waitForTextContaining(page, 'Welcome, TestUser', 5000);
+    if (!hasPersonalizedWelcome) {
+      await page.screenshot({ path: 'e2e/debug-fo06-personalized-welcome.png' });
+      throw new Error('Personalized welcome screen did not appear');
+    }
+    console.log('Verified: Personalized welcome shows user name');
+
+    // Click Start
+    const clickedStart = await clickButton(page, 'Start');
+    if (!clickedStart) {
+      await page.screenshot({ path: 'e2e/debug-fo06-start.png' });
+      throw new Error('Could not click Start on personalized welcome');
+    }
+    await sleep(300);
+
+    // Step 3: Familiarity selection
+    console.log('\nStep 3: Familiarity selection...');
+    const hasFamiliarity = await waitForTextContaining(page, 'familiar are you with affirmations', 5000);
+    if (!hasFamiliarity) {
+      await page.screenshot({ path: 'e2e/debug-fo06-familiarity.png' });
+      throw new Error('Familiarity screen did not appear');
+    }
+    console.log('Verified: Familiarity screen visible');
+
+    // Select a familiarity level (click "New")
+    const clickedFamiliarity = await clickButton(page, 'New');
+    if (!clickedFamiliarity) {
+      await page.screenshot({ path: 'e2e/debug-fo06-familiarity-select.png' });
+      throw new Error('Could not click familiarity option');
+    }
+    console.log('Familiarity selected (New)');
+
+    // Wait for confetti animation and auto-advance
+    await sleep(2000);
 
     // FO-06 SPECIFIC: Verify the fixed opening question
     console.log('\nVerifying fixed opening question...');

@@ -1,0 +1,19 @@
+{
+  "id": "axx",
+  "title": "Run FO-08 E2E test and verify pass",
+  "description": "Run the FO-08 E2E test and ensure it passes.\n\nPrerequisites:\n- Dev server must be running (npm run dev)\n- KV store must be seeded (npm run db:seed)\n\nTest command:\nnode --import tsx e2e/fo-08.test.ts\n\nThe test must pass completely, verifying:\n- 8 fragments visible immediately\n- 'More' reveals 15 additional fragments\n- No progress bar\n- Heart animation between screens\n- Thumbs up/down rating\n- Full flow completion\n\nThis is an AUTOMATED test - run the command and verify it passes.\n\nDo not close this tick until the E2E test passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "vp3"
+  ],
+  "parent": "rvq",
+  "acceptance_criteria": "node --import tsx e2e/fo-08.test.ts completes with TEST PASSED",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-28T06:42:10.7355383Z",
+  "updated_at": "2026-01-28T07:41:00.1698054Z",
+  "closed_at": "2026-01-28T07:41:00.1698054Z",
+  "closed_reason": "E2E test passes after fixing familiarity step"
+}
