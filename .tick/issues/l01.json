@@ -1,0 +1,15 @@
+{
+  "id": "l01",
+  "title": "fo-07: Mastra Agents",
+  "description": "Create FO-07 Mastra agents for discovery, affirmation generation, and summary\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `src/mastra/agents/fo-04/agent.ts` - Reference for discovery agent pattern\n- `src/mastra/agents/fo-04/affirmation-agent.ts` - Reference for affirmation agent pattern\n- `src/mastra/agents/fo-04/index.ts` - Reference for exports pattern\n\n**Files to create:**\n- `src/mastra/agents/fo-07/agent.ts` - FO-07 discovery agent\n- `src/mastra/agents/fo-07/affirmation-agent.ts` - FO-07 affirmation agent (20 at once)\n- `src/mastra/agents/fo-07/summary-agent.ts` - FO-07 summary agent\n- `src/mastra/agents/fo-07/index.ts` - Exports",
+  "notes": "2026-01-27 12:12 - Key insight: FO-07 agents follow the same pattern as FO-06. Summary agent has both pre- and post-affirmation variants (fo07PreSummaryAgent, fo07PostSummaryAgent) plus legacy exports for backwards compatibility. Affirmation agent outputs 20 affirmations instead of 10 (as mentioned in epic context '20 at once').\n2026-01-27 12:13 - EPIC COMPLETE: Created all FO-07 Mastra agents. Key files: src/mastra/agents/fo-07/agent.ts, affirmation-agent.ts, summary-agent.ts, index.ts",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:48:08.5681156Z",
+  "updated_at": "2026-01-27T11:13:23.517152Z",
+  "closed_at": "2026-01-27T11:13:23.517152Z",
+  "closed_reason": "Created discovery, affirmation (20 at once), and summary agents following FO-04/FO-06 patterns"
+}

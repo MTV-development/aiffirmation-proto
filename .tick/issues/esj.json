@@ -1,0 +1,15 @@
+{
+  "id": "esj",
+  "title": "fo-07: Page Routes and Navigation",
+  "description": "Create FO-07 page routes, info page, and add to overview\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `app/fo-04/page.tsx` - Reference for main page\n- `app/fo-04/layout.tsx` - Reference for layout\n- `app/fo-04/info/page.tsx` - Reference for info page\n- `app/overview/page.tsx` - Add FO-07 entry\n\n**Files to create:**\n- `app/fo-07/page.tsx` - Main page\n- `app/fo-07/layout.tsx` - Layout\n- `app/fo-07/info/page.tsx` - Info page describing FO-07",
+  "notes": "2026-01-27 12:31 - FO-07 page routes follow the same pattern as FO-04: page.tsx imports FOExperience, layout.tsx wraps children with a client layout component, and the client layout uses navTree for submenu items.\n2026-01-27 12:34 - Key insight: FO-07 info page follows InfoPageWrapper component pattern from FO-04. Uses same section structure (InfoSummaryBox, Core Concept, How It Works, Key Differences table, Key Features, custom section, TechnicalDetails). All comparison table content and technical details documented as specified in task.\n2026-01-27 12:35 - FO-07 overview entry added. Used 'None (single review)' for Learning column since FO-07 has no feedback loop/iterative batches. Pattern follows FO-06 entry style.\n2026-01-27 12:36 - EPIC COMPLETE: Created page routes (page.tsx, layout.tsx), info page comparing FO-07 to FO-04, and added FO-07 to overview. Key files: app/fo-07/page.tsx, app/fo-07/info/page.tsx, app/overview/page.tsx",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:50:32.1044636Z",
+  "updated_at": "2026-01-27T11:36:26.6400477Z",
+  "closed_at": "2026-01-27T11:36:26.6400477Z",
+  "closed_reason": "All page routes and navigation complete: main page, info page, and overview entry"
+}

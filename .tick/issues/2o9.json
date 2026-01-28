@@ -1,0 +1,15 @@
+{
+  "id": "2o9",
+  "title": "fo-07: UI Components",
+  "description": "Create FO-07 UI components based on FO-04, with new Affirmation Review Screen\n\n## Context\n\n**Spec:** `docs/projects/2026-01-27-fo-07/2026-01-27-fo-07-spec.md`\n\n**Key files for this epic:**\n- `app/fo-04/components/` - Reference UI components\n- `app/fo-04/components/heart-animation.tsx` - Reuse this component\n- `app/fo-06/components/step-ready.tsx` - Reference for summary display\n\n**Files to create in `app/fo-07/components/`:**\n- `fo-experience.tsx` - Main state manager (modified from FO-04)\n- `step-welcome.tsx` - Welcome screens (copy from FO-04)\n- `step-topics.tsx` - Topic selection with updated copy\n- `step-dynamic.tsx` - Dynamic screens (copy from FO-04)\n- `dynamic-input.tsx` - Input component (copy from FO-04)\n- `heart-animation.tsx` - Copy from FO-04\n- `affirmation-review.tsx` - NEW: 20 cards with Like/Don't Like\n- `step-background.tsx` - Background selection (copy from FO-04)\n- `step-notifications.tsx` - Notifications (copy from FO-04)\n- `step-paywall.tsx` - Paywall (copy from FO-04)\n- `step-completion.tsx` - Completion (copy from FO-04)\n\n**Key changes from FO-04:**\n- No progress bar in fo-experience.tsx\n- New intro screen copy: H1 'Choose what fits you best right now', H2 'It doesn\\'t have to be perfect.'\n- Replace swipe-phase.tsx with affirmation-review.tsx\n- Heart animation after dynamic screens (not confetti)",
+  "notes": "2026-01-27 12:22 - AffirmationReview component created at app/fo-07/components/affirmation-review.tsx. Uses Lucide icons (ThumbsUp, ThumbsDown), framer-motion for animations, and follows FO-04/FO-06 styling patterns. Rating state is managed as an array matching affirmation indices.\n2026-01-27 12:23 - Base UI components copied from FO-04 to FO-07 with minimal changes. Only step-topics.tsx required copy updates (H1/H2 text). step-dynamic.tsx imports GatheringContext and DynamicScreenResponse types from ../actions - ensure these are exported from FO-07's actions.ts\n2026-01-27 12:27 - FO-07 FOExperience created at app/fo-07/components/fo-experience.tsx. Flow: Steps 0-2 welcome, Step 3 topics (passes currentStep=4 to StepTopics), Step 4 dynamic screens with heart transitions, Step 5 generation loading, Step 6 AffirmationReview, Steps 7-9 mockups, Step 10 completion. Total 11 steps (0-10). Uses generateAffirmations20 and generateReviewSummary from ../actions.\n2026-01-27 12:28 - EPIC COMPLETE: All UI components created. Key files: fo-experience.tsx (main state manager), affirmation-review.tsx (new 20-card review), plus 9 base components copied from FO-04.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-27T10:49:17.7789556Z",
+  "updated_at": "2026-01-27T11:28:30.3160344Z",
+  "closed_at": "2026-01-27T11:28:30.3160344Z",
+  "closed_reason": "All UI components implemented: FOExperience state manager, AffirmationReview, and 9 base components"
+}
