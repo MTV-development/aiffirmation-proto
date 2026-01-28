@@ -1,100 +1,66 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DynamicInput } from './dynamic-input';
-import {
-  generateDynamicScreen,
-  GatheringContext,
-  DynamicScreenResponse,
-} from '../actions';
+import { DynamicScreenResponse } from '../actions';
 
 interface StepDynamicProps {
-  gatheringContext: GatheringContext;
-  onAnswer: (question: string, answer: { text: string; selectedChips: string[] }) => void;
-  onReadyForAffirmations: () => void;
-  onError: (error: string) => void;
+  screenData: DynamicScreenResponse | null;
+  isLoading: boolean;
+  error: string | null;
+  screenNumber: number;
+  onAnswer: (question: string, answer: { text: string; selectedChips: string[] }, shouldProceedToAffirmations: boolean) => void;
+  onRetry: () => void;
 }
 
 /**
  * Dynamic detail-gathering step component for FO-07 onboarding.
  *
- * This component:
- * 1. Shows 'Thinking...' loading state while fetching next screen
- * 2. Calls generateDynamicScreen server action
- * 3. Renders DynamicInput with agent response
- * 4. Handles error state with retry button
- * 5. On continue: stores answer in exchanges, fetches next screen or transitions to affirmation phase
+ * This is a pure presentational component that:
+ * 1. Shows 'Thinking...' loading state when isLoading is true
+ * 2. Renders DynamicInput with screen data from parent
+ * 3. Handles error state with retry button
+ * 4. On continue: calls onAnswer with the user's input and whether to proceed to affirmations
  *
- * Screen count logic:
+ * Screen count logic (evaluated here, decision passed to parent):
  * - If screenNumber < 2: always show next screen
  * - If screenNumber >= 5: proceed to affirmations
  * - Otherwise: respect agent's readyForAffirmations
+ *
+ * Parent is responsible for:
+ * - Fetching screen data
+ * - Managing gatheringContext
+ * - Showing heart animation
+ * - Triggering affirmation generation
  */
 export function StepDynamic({
-  gatheringContext,
+  screenData,
+  isLoading,
+  error,
+  screenNumber,
   onAnswer,
-  onReadyForAffirmations,
-  onError,
+  onRetry,
 }: StepDynamicProps) {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [screenData, setScreenData] = useState<DynamicScreenResponse | null>(null);
   const [inputValue, setInputValue] = useState({ text: '', selectedChips: [] as string[] });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const fetchScreen = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await generateDynamicScreen(gatheringContext);
-
-      if (response.error) {
-        setError(response.error);
-        onError(response.error);
-      } else {
-        setScreenData(response);
-        // Reset input value for new screen
-        setInputValue({ text: '', selectedChips: [] });
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load screen';
-      setError(errorMessage);
-      onError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }, [gatheringContext, onError]);
-
-  // Fetch screen on mount and when context changes
-  useEffect(() => {
-    fetchScreen();
-  }, [fetchScreen]);
-
-  const handleContinue = async () => {
+  const handleContinue = () => {
     if (!screenData) return;
 
     setIsSubmitting(true);
 
-    // No confetti in FO-07 investigative loop - only heart animation (handled by parent)
-
-    // Store the question and answer together
-    onAnswer(screenData.question, inputValue);
-
     // Determine if we should proceed to affirmations based on screen count logic
-    const nextScreenNumber = gatheringContext.screenNumber + 1;
-
     // Screen count logic:
     // - If screenNumber < 2: always show next screen (we need minimum 2 screens)
     // - If screenNumber >= 5: proceed to affirmations regardless (max 5 screens)
     // - Otherwise: respect agent's readyForAffirmations decision
     let shouldProceedToAffirmations = false;
 
-    if (gatheringContext.screenNumber < 2) {
+    if (screenNumber < 2) {
       // Minimum 2 screens - continue to next screen
       shouldProceedToAffirmations = false;
-    } else if (gatheringContext.screenNumber >= 5) {
+    } else if (screenNumber >= 5) {
       // Maximum 5 screens - proceed to affirmations
       shouldProceedToAffirmations = true;
     } else {
@@ -102,24 +68,18 @@ export function StepDynamic({
       shouldProceedToAffirmations = screenData.readyForAffirmations;
     }
 
-    if (shouldProceedToAffirmations) {
-      onReadyForAffirmations();
-    }
-    // Note: If not proceeding to affirmations, the parent component will
-    // update gatheringContext with the new exchange and screenNumber,
-    // which will trigger a re-fetch via the useEffect dependency
+    // Pass question, answer, and decision to parent
+    onAnswer(screenData.question, inputValue, shouldProceedToAffirmations);
 
+    // Reset input for next screen
+    setInputValue({ text: '', selectedChips: [] });
     setIsSubmitting(false);
-  };
-
-  const handleRetry = () => {
-    fetchScreen();
   };
 
   return (
     <div className="max-w-md mx-auto p-8 text-center">
       <AnimatePresence mode="wait">
-        {loading ? (
+        {isLoading ? (
           <motion.div
             key="loading"
             initial={{ opacity: 0 }}
@@ -139,7 +99,7 @@ export function StepDynamic({
           >
             <p className="text-lg text-red-600 dark:text-red-400 mb-6">{error}</p>
             <button
-              onClick={handleRetry}
+              onClick={onRetry}
               className="px-8 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
             >
               Try again
@@ -147,7 +107,7 @@ export function StepDynamic({
           </motion.div>
         ) : screenData ? (
           <motion.div
-            key={`screen-${gatheringContext.screenNumber}`}
+            key={`screen-${screenNumber}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}

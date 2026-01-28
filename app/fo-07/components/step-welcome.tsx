@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 interface StepWelcomeProps {
   currentStep: number;
   name: string;
@@ -15,6 +17,21 @@ interface StepWelcomeProps {
  * Step 2 - Personalized welcome
  */
 export function StepWelcome({ currentStep, name, onNameChange, onContinue }: StepWelcomeProps) {
+  // Allow Enter key to continue on step 2
+  // Must be at top level before any returns (Rules of Hooks)
+  useEffect(() => {
+    if (currentStep !== 2) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        onContinue();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentStep, onContinue]);
+
   if (currentStep === 0) {
     return (
       <div className="max-w-md mx-auto p-8 text-center">
@@ -44,6 +61,11 @@ export function StepWelcome({ currentStep, name, onNameChange, onContinue }: Ste
           type="text"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && name.trim()) {
+              onContinue();
+            }
+          }}
           placeholder="Type your first name"
           className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 mb-6 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
         />

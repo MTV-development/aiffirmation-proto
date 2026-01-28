@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
-  generateAffirmations20,
+  generateAffirmations,
   generateReviewSummary,
+  generateDynamicScreen,
   GatheringContext,
+  DynamicScreenResponse,
 } from '../actions';
 import { StepWelcome } from './step-welcome';
 import { StepFamiliarity } from './step-familiarity';
@@ -55,8 +57,12 @@ export interface OnboardingState extends FO07OnboardingData {
   showHeartAnimation: boolean;
   heartAnimationMessage: string;
 
-  // Dynamic gathering screen state
+  // Dynamic gathering screen state (parent-controlled fetching)
   dynamicScreenNumber: number; // 1-indexed, tracks position in dynamic phase (1-5)
+  dynamicScreenData: DynamicScreenResponse | null;
+  isDynamicLoading: boolean;
+  dynamicError: string | null;
+  needsDynamicFetch: boolean; // Flag to trigger fetch
 
   // Affirmation generation state
   isGenerating: boolean;
@@ -87,6 +93,10 @@ const initialState: OnboardingState = {
   showHeartAnimation: false,
   heartAnimationMessage: '',
   dynamicScreenNumber: 1,
+  dynamicScreenData: null,
+  isDynamicLoading: false,
+  dynamicError: null,
+  needsDynamicFetch: false,
   isGenerating: false,
   generationError: null,
   allAffirmations: [],
@@ -140,6 +150,56 @@ export function FOExperience() {
     }));
   }, []);
 
+  // Fetch dynamic screen - called by useEffect when needsDynamicFetch is true
+  const fetchDynamicScreen = useCallback(async () => {
+    setState((prev) => ({
+      ...prev,
+      isDynamicLoading: true,
+      dynamicError: null,
+      needsDynamicFetch: false, // Clear the flag
+    }));
+
+    try {
+      const response = await generateDynamicScreen(state.gatheringContext);
+
+      if (response.error) {
+        setState((prev) => ({
+          ...prev,
+          isDynamicLoading: false,
+          dynamicError: response.error || 'Unknown error',
+        }));
+      } else {
+        setState((prev) => ({
+          ...prev,
+          isDynamicLoading: false,
+          dynamicScreenData: response,
+        }));
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load screen';
+      setState((prev) => ({
+        ...prev,
+        isDynamicLoading: false,
+        dynamicError: errorMessage,
+      }));
+    }
+  }, [state.gatheringContext]);
+
+  // Trigger fetch when needsDynamicFetch flag is set
+  useEffect(() => {
+    if (state.needsDynamicFetch && state.currentStep === 5 && !state.showHeartAnimation) {
+      fetchDynamicScreen();
+    }
+  }, [state.needsDynamicFetch, state.currentStep, state.showHeartAnimation, fetchDynamicScreen]);
+
+  // Retry fetching dynamic screen
+  const handleDynamicRetry = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      needsDynamicFetch: true,
+    }));
+  }, []);
+
   // Handle topic selection - initialize gathering context and go to dynamic screens
   const handleTopicsComplete = useCallback(() => {
     setState((prev) => ({
@@ -153,45 +213,54 @@ export function FOExperience() {
         screenNumber: 1,
       },
       dynamicScreenNumber: 1,
+      dynamicScreenData: null,
+      isDynamicLoading: false,
+      dynamicError: null,
+      needsDynamicFetch: true, // Trigger fetch for first dynamic screen
     }));
   }, []);
 
-  // Handle storing the question and answer from step-dynamic
-  const handleDynamicQuestionReceived = useCallback(
-    (question: string, answer: { text: string; selectedChips: string[] }) => {
-      setState((prev) => ({
-        ...prev,
-        gatheringContext: {
-          ...prev.gatheringContext,
-          exchanges: [
-            ...prev.gatheringContext.exchanges,
-            { question, answer },
-          ],
-          screenNumber: prev.dynamicScreenNumber + 1,
-        },
-        dynamicScreenNumber: prev.dynamicScreenNumber + 1,
-        // Show heart animation after each dynamic screen
-        showHeartAnimation: true,
-        heartAnimationMessage: `Thank you for sharing, ${prev.name}...`,
-      }));
+  // Handle answer from step-dynamic (includes decision on whether to proceed to affirmations)
+  const handleDynamicAnswer = useCallback(
+    (question: string, answer: { text: string; selectedChips: string[] }, shouldProceedToAffirmations: boolean) => {
+      if (shouldProceedToAffirmations) {
+        // Store the exchange and show "creating affirmations" heart animation
+        setState((prev) => ({
+          ...prev,
+          gatheringContext: {
+            ...prev.gatheringContext,
+            exchanges: [
+              ...prev.gatheringContext.exchanges,
+              { question, answer },
+            ],
+            screenNumber: prev.dynamicScreenNumber + 1,
+          },
+          dynamicScreenNumber: prev.dynamicScreenNumber + 1,
+          dynamicScreenData: null, // Clear screen data
+          showHeartAnimation: true,
+          heartAnimationMessage: `You have been doing great, ${prev.name}! We are creating your personalized affirmations.`,
+        }));
+      } else {
+        // Store the exchange and show "thank you" heart animation, then fetch next screen
+        setState((prev) => ({
+          ...prev,
+          gatheringContext: {
+            ...prev.gatheringContext,
+            exchanges: [
+              ...prev.gatheringContext.exchanges,
+              { question, answer },
+            ],
+            screenNumber: prev.dynamicScreenNumber + 1,
+          },
+          dynamicScreenNumber: prev.dynamicScreenNumber + 1,
+          dynamicScreenData: null, // Clear screen data for next fetch
+          showHeartAnimation: true,
+          heartAnimationMessage: `Thank you for sharing, ${prev.name}...`,
+        }));
+      }
     },
     []
   );
-
-  // Handle ready for affirmations - transition to generation phase
-  const handleReadyForAffirmations = useCallback(() => {
-    setState((prev) => ({
-      ...prev,
-      showHeartAnimation: true,
-      heartAnimationMessage: `You have been doing great, ${prev.name}! We are creating your personalized affirmations.`,
-    }));
-  }, []);
-
-  // Handle dynamic screen error
-  const handleDynamicError = useCallback((error: string) => {
-    console.error('[fo-07] Dynamic screen error:', error);
-    // Error is displayed by step-dynamic, no additional action needed
-  }, []);
 
   // Generate all 20 affirmations and review summary
   const generateAllAffirmations = useCallback(async () => {
@@ -208,7 +277,7 @@ export function FOExperience() {
 
     try {
       // Generate all 20 affirmations in one call
-      const result = await generateAffirmations20(state.gatheringContext);
+      const result = await generateAffirmations(state.gatheringContext);
 
       if (result.error) {
         updateState({
@@ -301,25 +370,29 @@ export function FOExperience() {
             <HeartAnimation
               message={state.heartAnimationMessage}
               onComplete={() => {
-                updateState({ showHeartAnimation: false });
                 // If the heart animation was for "ready for affirmations", generate them
                 if (state.heartAnimationMessage.includes('creating your personalized affirmations')) {
+                  updateState({ showHeartAnimation: false });
                   generateAllAffirmations();
+                } else {
+                  // Continue to next dynamic screen - trigger fetch
+                  updateState({
+                    showHeartAnimation: false,
+                    needsDynamicFetch: true,
+                  });
                 }
-                // Otherwise, just continue to next dynamic screen (state already updated)
               }}
             />
           );
         }
         return (
           <StepDynamic
-            gatheringContext={state.gatheringContext}
-            onAnswer={(question, answer) => {
-              // Store both the question and answer in the exchange
-              handleDynamicQuestionReceived(question, answer);
-            }}
-            onReadyForAffirmations={handleReadyForAffirmations}
-            onError={handleDynamicError}
+            screenData={state.dynamicScreenData}
+            isLoading={state.isDynamicLoading}
+            error={state.dynamicError}
+            screenNumber={state.dynamicScreenNumber}
+            onAnswer={handleDynamicAnswer}
+            onRetry={handleDynamicRetry}
           />
         );
 

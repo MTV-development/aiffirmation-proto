@@ -7,9 +7,9 @@
  * 3. Topic selection with new H1/H2 copy
  * 4. Chip-based input (like FO-04), not fragment-based
  * 5. Heart animation between dynamic screens (not confetti transition)
- * 6. Generates all 20 affirmations at once (not batches)
+ * 6. Generates 10 affirmations (same as FO-04)
  * 7. AffirmationReview component with thumbs up/down (not swipe gestures)
- * 8. Must rate ALL 20 cards before Continue button enables
+ * 8. Must rate ALL 10 cards before Continue button enables
  *
  * Test flow:
  * 1. Navigate to /fo-07 (with auth bypass via cookie)
@@ -19,9 +19,9 @@
  * 5. Verify personalized welcome
  * 6. Select topics on intro screen (verify new H1/H2 copy)
  * 7. Loop through dynamic screens (verify heart animation between screens)
- * 8. Wait for 20 affirmations to generate
+ * 8. Wait for 10 affirmations to generate
  * 9. Verify summary appears at top
- * 10. Rate all 20 cards (click thumbs up or down on each)
+ * 10. Rate all 10 cards (click thumbs up or down on each)
  * 11. Verify Continue button becomes enabled
  * 12. Click Continue
  * 13. Navigate through mockups (background, notifications, paywall)
@@ -39,7 +39,7 @@
 import { chromium, Browser, Page, BrowserContext } from 'playwright';
 
 const BASE_URL = process.env.TEST_URL || 'http://localhost:3000';
-const TIMEOUT = 120000; // 120s for AI generation (20 affirmations + summary)
+const TIMEOUT = 120000; // 120s for AI generation (10 affirmations + summary)
 
 async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -568,8 +568,8 @@ async function runTest(): Promise<void> {
 
     console.log(`\n--- Dynamic Screens Complete (${dynamicScreenCount} screens) ---`);
 
-    // Wait for affirmation generation (20 affirmations at once)
-    console.log('\nWaiting for AI generation of 20 affirmations (up to 120s)...');
+    // Wait for affirmation generation (10 affirmations)
+    console.log('\nWaiting for AI generation of 10 affirmations (up to 120s)...');
 
     try {
       await page.waitForFunction(
@@ -602,13 +602,13 @@ async function runTest(): Promise<void> {
       console.log('Warning: Summary section not found');
     }
 
-    // FO-07 SPECIFIC: Verify 20 affirmation cards
+    // FO-07 SPECIFIC: Verify 10 affirmation cards
     console.log('\nVerifying affirmation cards...');
     const { rated: initialRated, total } = await getRatedCount(page);
     console.log(`Found ${total} affirmations to rate (${initialRated} already rated)`);
 
-    if (total !== 20) {
-      console.log(`Warning: Expected 20 affirmations, found ${total}`);
+    if (total !== 10) {
+      console.log(`Warning: Expected 10 affirmations, found ${total}`);
     }
 
     // FO-07 SPECIFIC: Verify Continue button is disabled initially
@@ -620,7 +620,7 @@ async function runTest(): Promise<void> {
       console.log('Warning: Continue button was not disabled initially');
     }
 
-    // FO-07 SPECIFIC: Rate all 20 cards
+    // FO-07 SPECIFIC: Rate all 10 cards
     console.log('\nRating all affirmation cards...');
 
     // Rate cards - alternate between like and dislike
@@ -752,9 +752,9 @@ async function runTest(): Promise<void> {
     console.log('     - Chips added by clicking + prefixed suggestions');
     console.log('     - Show more expanded available chips');
     console.log('   - Heart animation observed between dynamic screens');
-    console.log('   - 20 affirmations generated at once');
+    console.log('   - 10 affirmations generated');
     console.log('   - Summary section "Your Journey" visible');
-    console.log(`   - All 20 cards rated (${likedCount} liked)`);
+    console.log(`   - All 10 cards rated (${likedCount} liked)`);
     console.log('   - Continue button was disabled until all rated');
     console.log('   - All mockup screens navigated correctly');
     console.log('   - Completion screen shows liked affirmations');

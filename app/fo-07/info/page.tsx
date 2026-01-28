@@ -4,14 +4,14 @@ export default function FO07InfoPage() {
   return (
     <InfoPageWrapper id="FO-07" name="Full Onboarding (Card Selection)" tagline="Rate affirmations with Like/Don't Like instead of swiping">
       <InfoSummaryBox>
-        A simplified affirmation selection flow where users review 20 AI-generated affirmations using
+        A simplified affirmation selection flow where users review 10 AI-generated affirmations using
         Like/Don&apos;t Like buttons instead of swipe gestures. The interface presents all cards at once
         for a more deliberate, thoughtful selection process.
         <BestFor>Best for users who prefer button-based interactions over swipe gestures.</BestFor>
       </InfoSummaryBox>
 
       {/* Based on FO-04 */}
-      <section className="mb-8 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+      <section className="mb-8 p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800 rounded-lg">
         <h3 className="text-lg font-semibold mb-2 text-amber-800 dark:text-amber-300">Based on FO-04</h3>
         <p className="text-amber-700 dark:text-amber-400">
           FO-07 is closely based on FO-04 in terms of prompts and mechanics. It shares the same:
@@ -28,13 +28,13 @@ export default function FO07InfoPage() {
       </section>
 
       {/* Core Concept */}
-      <section className="mb-8 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+      <section className="mb-8 p-4 bg-purple-50 dark:bg-purple-900/10 border border-purple-100 dark:border-purple-800 rounded-lg">
         <h3 className="text-lg font-semibold mb-2 text-purple-800 dark:text-purple-300">Core Concept</h3>
         <p className="text-purple-700 dark:text-purple-400 italic text-lg">&quot;Choose your affirmations deliberately, not reactively.&quot;</p>
         <p className="mt-2 text-purple-700 dark:text-purple-400">
           FO-07 replaces the swipe-based card selection with explicit Like/Don&apos;t Like buttons.
           This allows users to make more considered choices about which affirmations resonate with them,
-          reviewing all 20 cards in a single session with a pulsing heart transition effect.
+          reviewing all 10 cards in a single session with a pulsing heart transition effect.
         </p>
       </section>
 
@@ -46,7 +46,7 @@ export default function FO07InfoPage() {
           <li><strong>Familiarity</strong> - How familiar are you with affirmations? (same as FO-04)</li>
           <li><strong>Topics</strong> - Choose what fits you best right now</li>
           <li><strong>Dynamic Discovery</strong> - AI-generated questions with reflective chips</li>
-          <li><strong>Card Selection</strong> - Review 20 affirmations with Like/Don&apos;t Like buttons</li>
+          <li><strong>Card Selection</strong> - Review 10 affirmations with Like/Don&apos;t Like buttons</li>
           <li><strong>Background</strong> - Visual personalization (mockup)</li>
           <li><strong>Notifications</strong> - Reminder preferences (mockup)</li>
           <li><strong>Paywall</strong> - Premium offering (mockup)</li>
@@ -55,7 +55,7 @@ export default function FO07InfoPage() {
       </InfoSection>
 
       {/* Key Difference */}
-      <section className="mb-8 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+      <section className="mb-8 p-4 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 rounded-lg">
         <h3 className="text-lg font-semibold mb-2 text-emerald-800 dark:text-emerald-300">Key Differences from FO-04</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -75,7 +75,7 @@ export default function FO07InfoPage() {
               <tr>
                 <td className="py-1 pr-4">Batch size</td>
                 <td className="py-1 pr-4">10 at a time, 3 batches</td>
-                <td className="py-1">20 at once</td>
+                <td className="py-1">10 at once</td>
               </tr>
               <tr>
                 <td className="py-1 pr-4">Feedback loop</td>
@@ -100,7 +100,7 @@ export default function FO07InfoPage() {
       <InfoSection title="Key Features">
         <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
           <li><strong>Button-based selection</strong> - Like/Don&apos;t Like buttons replace swipe gestures</li>
-          <li><strong>20 cards at once</strong> - All affirmations presented in a single batch</li>
+          <li><strong>10 cards at once</strong> - All affirmations presented in a single batch</li>
           <li><strong>Pulsing heart transition</strong> - Visual feedback when liking an affirmation</li>
           <li><strong>No progress bar</strong> - Simpler UI without batch progress tracking</li>
           <li><strong>Single review pass</strong> - One opportunity to evaluate all affirmations</li>
@@ -109,7 +109,7 @@ export default function FO07InfoPage() {
       </InfoSection>
 
       {/* Selection Interface */}
-      <section className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+      <section className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-lg">
         <h3 className="text-lg font-semibold mb-2 text-blue-800 dark:text-blue-300">Card Selection Interface</h3>
         <div className="space-y-2 text-blue-700 dark:text-blue-400">
           <p><strong>Each affirmation card displays:</strong></p>
@@ -125,7 +125,7 @@ export default function FO07InfoPage() {
       <TechnicalDetails>
         <p>Agent ID: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">fo-07</code></p>
         <p>KV Namespace: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">versions.fo-07.*</code></p>
-        <p>Card batch: 20 affirmations (single batch)</p>
+        <p>Card batch: 10 affirmations (single batch)</p>
         <p>Selection method: Like/Don&apos;t Like buttons</p>
         <p>Model: openai/gpt-4o-mini</p>
       </TechnicalDetails>

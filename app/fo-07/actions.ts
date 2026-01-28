@@ -39,9 +39,9 @@ export interface DynamicScreenResponse {
 }
 
 /**
- * Result from generating all 20 affirmations at once.
+ * Result from generating affirmations.
  */
-export interface GenerateAffirmations20Result {
+export interface GenerateAffirmationsResult {
   affirmations: string[];
   error?: string;
 }
@@ -289,7 +289,7 @@ function parseAffirmationsResponse(text: string): string[] {
 
 /**
  * Build the user prompt for affirmation generation from GatheringContext.
- * FO-07 generates all 20 at once - no feedback loop.
+ * Uses same structure as FO-04 for consistency.
  */
 function buildAffirmationPrompt(context: GatheringContext): string {
   const lines: string[] = [];
@@ -328,20 +328,20 @@ function buildAffirmationPrompt(context: GatheringContext): string {
 
   lines.push('');
   lines.push(
-    'Generate 20 unique, personalized affirmations based on everything shared above. Return ONLY a JSON array of 20 strings.'
+    'Generate 10 unique, personalized affirmations based on everything shared above. Return ONLY a JSON array of 10 strings.'
   );
 
   return lines.join('\n');
 }
 
 /**
- * Server action to generate all 20 affirmations at once.
- * FO-07 does not use a feedback loop - generates all affirmations in a single call.
+ * Server action to generate 10 affirmations.
+ * Uses same prompt structure as FO-04 for consistency.
  */
-export async function generateAffirmations20(
+export async function generateAffirmations(
   context: GatheringContext,
   implementation: string = 'default'
-): Promise<GenerateAffirmations20Result> {
+): Promise<GenerateAffirmationsResult> {
   // Validate required inputs
   if (!context.name || context.name.trim().length === 0) {
     return { affirmations: [], error: 'Name is required' };

@@ -3903,19 +3903,18 @@ Remember: The onboarding itself should feel supportive and healing.`,
     },
   },
 
-  // FO-07 Affirmation Agent: Generates all 20 affirmations at once (no swipe feedback loop)
+  // FO-07 Affirmation Agent: Generates 10 affirmations (same prompts as FO-04)
   {
     key: 'versions.fo-07-affirmation._info.default',
     value: {
       name: 'Default',
-      text: `FO-07 Affirmation Agent: All-at-Once Affirmation Generation
+      text: `FO-07 Affirmation Agent: Conversation-Aware Affirmation Generation
 
-Generates 20 deeply personalized affirmations in a single call by reading and understanding
-the user's discovery conversation. Extracts emotional baseline, inner dialogue patterns,
-needs, believability threshold, and life context from natural exchanges.
+Generates 10 deeply personalized affirmations by reading and understanding the user's
+discovery conversation. Extracts emotional baseline, inner dialogue patterns, needs,
+believability threshold, and life context from natural exchanges.
 
-Key difference from FO-04: No iterative swipe feedback loop - all affirmations are generated
-upfront for the user to review and select their favorites.`,
+Uses the same prompts as FO-04 for consistency in affirmation quality and style.`,
       author: 'System',
       createdAt: '2026-01-27',
     },
@@ -4086,20 +4085,10 @@ Avoid:
 - Nothing can stop me. (overreach)
 - I am better than yesterday. (comparison)
 
-## Generating a Full Set of 20
-
-Since you're creating all affirmations at once (no feedback loop), ensure:
-- **Variety**: Mix structures, lengths, and openers
-- **Coverage**: Address multiple themes from the conversation
-- **Range**: Include some gentle/soft and some grounded/confident
-- **No duplicates**: Each affirmation should be distinct in meaning and phrasing
-
-Think of the 20 affirmations as a curated collection that offers the user choices. Some will resonate more than others, and that's expected.
-
 ## Output Format
 
-Return ONLY a JSON array of exactly 20 affirmation strings:
-["Affirmation 1", "Affirmation 2", ..., "Affirmation 20"]
+Return ONLY a JSON array of exactly 10 affirmation strings:
+["Affirmation 1", "Affirmation 2", ..., "Affirmation 10"]
 
 No explanations, no other text — just the JSON array.`,
     },
@@ -4107,7 +4096,7 @@ No explanations, no other text — just the JSON array.`,
   {
     key: 'versions.fo-07-affirmation.prompt.default',
     value: {
-      text: `Generate 20 personalized affirmations for {{ name }}.
+      text: `Generate 10 personalized affirmations for {{ name }}.
 
 ## Understanding {{ name }}
 
@@ -4144,19 +4133,13 @@ Take a moment to identify:
 
 ## Your Task
 
-Create 20 affirmations that feel like they emerged naturally from understanding this conversation — as if you truly know {{ name }}.
+Create 10 affirmations that feel like they emerged naturally from understanding this conversation — as if you truly know {{ name }}.
 
 Each affirmation should:
 - Connect to something they actually shared
 - Match their emotional temperature (not too upbeat if they're struggling)
 - Feel like something {{ name }} could genuinely say to themselves
-- Support what they lack and soothe what weighs on them
-
-Since this is a complete set (no feedback loop), ensure variety in:
-- Structure (I am, I + verb, My, growth-forms)
-- Length (short punchy ones AND slightly longer nuanced ones)
-- Intensity (some gentle, some grounded)
-- Theme coverage (touch on multiple topics from the conversation)`,
+- Support what they lack and soothe what weighs on them`,
     },
   },
 
