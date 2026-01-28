@@ -408,8 +408,28 @@ async function runTest(): Promise<void> {
     }
     await sleep(300);
 
-    // Step 3: Topic selection with new H1/H2 copy
-    console.log('\nStep 3: Topic selection (verifying new H1/H2 copy)...');
+    // Step 3: Familiarity selection
+    console.log('\nStep 3: Familiarity selection...');
+    const hasFamiliarity = await waitForTextContaining(page, 'familiar are you with affirmations', 5000);
+    if (!hasFamiliarity) {
+      await page.screenshot({ path: 'e2e/debug-fo07-familiarity.png' });
+      throw new Error('Familiarity screen did not appear');
+    }
+    console.log('Verified: Familiarity screen visible');
+
+    // Select a familiarity level (click "New")
+    const clickedFamiliarity = await clickButton(page, 'New');
+    if (!clickedFamiliarity) {
+      await page.screenshot({ path: 'e2e/debug-fo07-familiarity-select.png' });
+      throw new Error('Could not click familiarity option');
+    }
+    console.log('Familiarity selected (New)');
+
+    // Wait for confetti animation and auto-advance
+    await sleep(2000);
+
+    // Step 4: Topic selection with new H1/H2 copy
+    console.log('\nStep 4: Topic selection (verifying new H1/H2 copy)...');
 
     // FO-07 SPECIFIC: Verify new H1 copy
     const hasNewH1 = await waitForTextContaining(page, 'Choose what fits you best right now', 5000);

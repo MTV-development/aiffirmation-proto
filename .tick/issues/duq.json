@@ -2,7 +2,7 @@
   "id": "duq",
   "title": "Copy step-topics, heart-animation, and affirmation-review from FO-07",
   "description": "Copy FO-07 specific components to FO-08.\n\nFiles to create:\n- `app/fo-08/components/step-topics.tsx` (from FO-07)\n- `app/fo-08/components/heart-animation.tsx` (from FO-07)\n- `app/fo-08/components/affirmation-review.tsx` (from FO-07)\n\nSource files:\n- `app/fo-07/components/step-topics.tsx`\n- `app/fo-07/components/heart-animation.tsx`\n- `app/fo-07/components/affirmation-review.tsx`\n\nThese are copied without modification - FO-08 uses the same:\n- Topic selection with confetti\n- Heart animation between dynamic screens\n- Thumbs up/down affirmation review\n\n⚠️ Do not close this tick until the verification passes.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "test -f app/fo-08/components/step-topics.tsx \u0026\u0026 test -f app/fo-08/components/heart-animation.tsx \u0026\u0026 test -f app/fo-08/components/affirmation-review.tsx \u0026\u0026 echo 'PASS' shows PASS",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-28T06:38:11.7677095Z",
-  "updated_at": "2026-01-28T06:38:11.7677095Z"
+  "updated_at": "2026-01-28T06:57:13.1999923Z",
+  "closed_at": "2026-01-28T06:57:13.1999923Z",
+  "closed_reason": "Copied step-topics, heart-animation, and affirmation-review components from FO-07 to FO-08"
 }

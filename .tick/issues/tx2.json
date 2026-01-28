@@ -2,11 +2,14 @@
   "id": "tx2",
   "title": "fo-08: AI Agents and KV Store Setup",
   "description": "Create FO-08 AI agents and seed the KV store with prompts\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `src/mastra/agents/fo-07/` - Source for affirmation and summary agents\n- `src/mastra/agents/fo-06/agent.ts` - Reference for discovery agent structure\n- `src/db/seed.ts` - KV store seeding\n\n**Related docs:**\n- `docs/current/keyvaluestore-and-template-engine.md` - KV store patterns\n- `docs/current/mastra.md` - Agent configuration",
-  "status": "open",
+  "notes": "2026-01-28 07:53 - Key insight: FO-08 discovery agent uses same factory pattern as FO-07 (createFO08DiscoveryAgent function + DEFAULT_INSTRUCTIONS fallback). The hybrid fragment prompt is ~150 lines and includes: 5 Dimensions framework, hybrid fragment principle with comparison table, examples by dimension (8 per dimension), key rules, and output format with example JSON showing 8 initialFragments + 15 expandedFragments.\n2026-01-28 07:57 - Affirmation agent uses ID 'fo-08-affirmation' (not 'fo-08-affirmation-agent'). Summary agent follows same pre/post pattern as FO-07 with legacy exports for backwards compatibility.\n2026-01-28 08:04 - Key insight: FO-08 prompts differ from FO-07 in using selectedFragments instead of selectedChips in prompt templates, generating 20 affirmations instead of 10, and using pre-affirmation summary style (future tense) by default\n2026-01-28 08:06 - KV store seeded with FO-08 prompts\n2026-01-28 08:06 - EPIC COMPLETE: Created discovery agent with hybrid fragment prompt, copied affirmation/summary agents, added KV prompts, ran db:seed.",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-28T06:36:06.2981177Z",
-  "updated_at": "2026-01-28T06:36:06.2981177Z"
+  "updated_at": "2026-01-28T07:06:47.6138253Z",
+  "closed_at": "2026-01-28T07:06:47.6138253Z",
+  "closed_reason": "All 4 tasks completed: agents created, KV prompts seeded"
 }

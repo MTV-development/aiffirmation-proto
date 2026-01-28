@@ -2,7 +2,7 @@
   "id": "kif",
   "title": "Create FO-08 discovery agent with hybrid fragment prompt",
   "description": "Create the FO-08 discovery agent with the hybrid fragment generation prompt.\n\nFiles to create:\n- `src/mastra/agents/fo-08/index.ts`\n- `src/mastra/agents/fo-08/agent.ts`\n\nImplementation:\n1. Copy `src/mastra/agents/fo-07/agent.ts` as starting point\n2. Update agent ID to `fo-08-discovery-agent`\n3. Replace DEFAULT_INSTRUCTIONS with the full hybrid fragment prompt from spec (section: Generating Hybrid Fragments — Prompt Section)\n4. Include the 5 Dimensions framework from FO-07\n5. Update output format to expect 8 `initialFragments` + 15 `expandedFragments`\n6. Include `reflectiveStatement` in output format\n7. Create index.ts that exports the agent\n\nThe DEFAULT_INSTRUCTIONS must include:\n- The Hybrid Fragment Principle\n- What Makes a Good Hybrid Fragment (with examples)\n- Fragment Examples by Dimension (all 5 dimensions)\n- Key Rules\n- Output Format\n\nVerify by checking the file exists and exports correctly:\n```bash\ngrep -q 'fo-08-discovery' src/mastra/agents/fo-08/agent.ts \u0026\u0026 echo 'PASS'\n```\n\n⚠️ Do not close this tick until the verification passes.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -10,5 +10,7 @@
   "acceptance_criteria": "grep -q 'fo-08-discovery' src/mastra/agents/fo-08/agent.ts \u0026\u0026 grep -q 'initialFragments' src/mastra/agents/fo-08/agent.ts \u0026\u0026 echo 'PASS' shows PASS",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-28T06:36:56.1851166Z",
-  "updated_at": "2026-01-28T06:36:56.1851166Z"
+  "updated_at": "2026-01-28T06:53:44.9016714Z",
+  "closed_at": "2026-01-28T06:53:44.9016714Z",
+  "closed_reason": "Created FO-08 discovery agent with hybrid fragment prompt. Agent.ts includes full 5 Dimensions framework plus extensive hybrid fragment generation section with examples for all 5 dimensions. Output format expects 8 initialFragments + 15 expandedFragments + optional reflectiveStatement."
 }

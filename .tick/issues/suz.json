@@ -2,7 +2,7 @@
   "id": "suz",
   "title": "Create FO-08 app directory structure and copy base files",
   "description": "Create the FO-08 app directory and copy base files from FO-06.\n\nDirectories to create:\n- `app/fo-08/`\n- `app/fo-08/components/`\n- `app/fo-08/info/`\n\nFiles to copy from FO-06:\n- `app/fo-06/page.tsx` → `app/fo-08/page.tsx`\n- `app/fo-06/layout.tsx` → `app/fo-08/layout.tsx`\n- `app/fo-06/fo-06-layout-client.tsx` → `app/fo-08/fo-08-layout-client.tsx`\n\nUpdate the copied files:\n1. Change all `fo-06` references to `fo-08`\n2. Update component imports to use fo-08 paths\n3. Update layout client component name\n\n⚠️ Do not close this tick until the verification passes.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -10,5 +10,7 @@
   "acceptance_criteria": "test -d app/fo-08/components \u0026\u0026 test -f app/fo-08/page.tsx \u0026\u0026 grep -q 'fo-08' app/fo-08/layout.tsx \u0026\u0026 echo 'PASS' shows PASS",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-28T06:37:38.9545138Z",
-  "updated_at": "2026-01-28T06:37:38.9545138Z"
+  "updated_at": "2026-01-28T06:53:16.2339892Z",
+  "closed_at": "2026-01-28T06:53:16.2339892Z",
+  "closed_reason": "Created fo-08 directory structure with components/ and info/ subdirectories. Copied page.tsx, layout.tsx, and layout client from fo-06, updating all references from fo-06 to fo-08 including component names (Fo06LayoutClient -\u003e Fo08LayoutClient) and nav path (/fo-06 -\u003e /fo-08)"
 }

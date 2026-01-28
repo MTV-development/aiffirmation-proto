@@ -2,7 +2,7 @@
   "id": "oro",
   "title": "Add FO-08 prompts to KV store seed file",
   "description": "Add FO-08 agent prompts to the KV store seed file.\n\nFile to modify:\n- `src/db/seed.ts`\n\nImplementation:\n1. Add FO-08 discovery prompts (copy FO-07 structure, modify for hybrid fragments):\n   - `versions.fo-08-discovery._info.default`\n   - `versions.fo-08-discovery._model_name.default`\n   - `versions.fo-08-discovery._temperature.default`\n   - `versions.fo-08-discovery.system.default` (with full hybrid fragment prompt)\n   - `versions.fo-08-discovery.prompt.default`\n\n2. Add FO-08 affirmation prompts (copy from FO-07):\n   - `versions.fo-08-affirmation._info.default`\n   - `versions.fo-08-affirmation._model_name.default`\n   - `versions.fo-08-affirmation._temperature.default`\n   - `versions.fo-08-affirmation.system.default`\n   - `versions.fo-08-affirmation.prompt.default`\n\n3. Add FO-08 summary prompts (copy from FO-07):\n   - `versions.fo-08-summary._info.default`\n   - `versions.fo-08-summary._model_name.default`\n   - `versions.fo-08-summary._temperature.default`\n   - `versions.fo-08-summary.system.default`\n   - `versions.fo-08-summary.prompt.default`\n\n⚠️ Do not close this tick until the verification passes.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "grep -q 'fo-08-discovery' src/db/seed.ts \u0026\u0026 grep -q 'fo-08-affirmation' src/db/seed.ts \u0026\u0026 grep -q 'fo-08-summary' src/db/seed.ts \u0026\u0026 echo 'PASS' shows PASS",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-28T06:37:18.9062471Z",
-  "updated_at": "2026-01-28T06:37:18.9062471Z"
+  "updated_at": "2026-01-28T07:04:13.0298031Z",
+  "closed_at": "2026-01-28T07:04:13.0298031Z",
+  "closed_reason": "Added FO-08 discovery, affirmation, and summary agent prompts to KV store seed file with hybrid fragment support"
 }

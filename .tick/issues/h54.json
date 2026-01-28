@@ -2,11 +2,14 @@
   "id": "h54",
   "title": "fo-08: Registration and Info Page",
   "description": "Register FO-08 in navigation, overview, and create info page\n\n## Context\n\n**Spec:** `docs/projects/2026-01-28-fo-08/2026-01-28-fo-08-spec.md`\n\n**Key files for this epic:**\n- `nav.config.ts` - Left navigation menu\n- `app/overview/page.tsx` - Overview page\n- `app/fo-07/info/page.tsx` - Reference for info page structure\n\n**Related docs:**\n- Spec section: Registration",
-  "status": "open",
+  "notes": "2026-01-28 07:53 - Nav registration is straightforward - just follow the existing pattern in nav.config.ts with label, href, and children array\n2026-01-28 07:53 - Overview page registration follows consistent pattern: add entry to versions array (near line 163 after last FO entry), then add matching row to Quick Comparison table (near line 329). FO-07 row needed border-b class added when FO-08 row was inserted below it.\n2026-01-28 07:57 - Info page complete. Used FO-07 structure as reference. Key sections: summary box explaining hybrid fragments, Based on FO-06+FO-07 section, Core Concept with chip vs pure fragment vs hybrid comparison table, How It Works with 11-step flow, Key Differences table comparing all three versions, Fragment Examples section, Fragment Interaction explanation, and Technical Details with agent ID fo-08-discovery.\n2026-01-28 08:00 - EPIC COMPLETE: FO-08 registered in nav.config.ts, overview page, and info page created with hybrid fragment documentation.",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-01-28T06:36:31.9410455Z",
-  "updated_at": "2026-01-28T06:36:31.9410455Z"
+  "updated_at": "2026-01-28T07:00:08.169651Z",
+  "closed_at": "2026-01-28T07:00:08.169651Z",
+  "closed_reason": "All 3 tasks completed: nav registration, overview card, and info page"
 }
