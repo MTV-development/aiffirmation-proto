@@ -5116,43 +5116,49 @@ No explanations, no markdown — just the JSON object.`,
     },
   },
   {
-    key: 'versions.fo-09-discovery.prompt.default',
+    key: 'versions.fo-09-discovery.prompt_first_screen.default',
     value: {
-      text: `Generate the next discovery screen for {{ name }}.
+      text: `## User Context
+Name: {{ name }}
+Current screen number: 1
+{% if topics.size > 0 %}Selected topics: {{ topics | join: ", " }}{% endif %}
 
-## User Profile
-- **Name:** {{ name }}
-- **Experience with affirmations:** {{ familiarity }}{% if familiarity == 'new' %} (new to affirmations - keep questions simple and welcoming){% endif %}{% if familiarity == 'some' %} (has some experience - can go a bit deeper){% endif %}{% if familiarity == 'very' %} (experienced - can explore more nuanced topics){% endif %}
-- **Initial topic:** {{ initialTopic }}
-- **Selected topics:** {{ topics }}
+## First Screen
+This is the first screen. The question is already fixed and will be shown to the user:
+"What's been on your mind lately?"
 
-## Current Screen
-Screen {{ screenNumber }} of 2-5
+Generate COMPLETE SENTENCES (not fragments) as response options. These should be fully-formed "I" statements that users can identify with, describing common experiences{% if topics.size > 0 %} related to: {{ topics | join: ", " }}{% endif %}.
 
-{% if screenNumber == 1 %}
-## First Screen Instructions
-This is the FIRST screen. Generate COMPLETE SENTENCES (not fragments). These should be fully-formed "I" statements that describe common experiences related to the user's selected topics. Do NOT end sentences with "...".
-{% else %}
-## Subsequent Screen Instructions
-This is screen {{ screenNumber }}. Generate HYBRID FRAGMENTS that end with "..." to invite the user to complete the thought.
-{% endif %}
+Do NOT end sentences with "..." — these are complete thoughts.
 
-{% if exchanges.size > 0 %}
-## Conversation So Far
+Return ONLY valid JSON with:
+- question: copy the fixed question exactly
+- initialFragments: array of 8 complete sentences
+- expandedFragments: array of 15 more complete sentences
+- readyForAffirmations: false`,
+    },
+  },
+  {
+    key: 'versions.fo-09-discovery.prompt_dynamic.default',
+    value: {
+      text: `## User Context
+Name: {{ name }}
+Current screen number: {{ screen_number }}
+
+## Conversation History
 {% for exchange in exchanges %}
-**Question {{ forloop.index }}:** {{ exchange.question }}
-**Answer:** {% if exchange.answer.selectedFragments.size > 0 %}[{{ exchange.answer.selectedFragments | join: ", " }}]{% endif %}{% if exchange.answer.text != "" %}{% if exchange.answer.selectedFragments.size > 0 %} {% endif %}{{ exchange.answer.text }}{% endif %}
+### Screen {{ forloop.index }}
+Question: {{ exchange.question }}
+{% if exchange.answer_text %}Answer: {{ exchange.answer_text }}{% else %}Answer: (no response provided){% endif %}
 
 {% endfor %}
-{% endif %}
+Generate the next screen with HYBRID FRAGMENTS that end with "..." to suggest a direction while remaining incomplete. Base the fragments on what {{ name }} has shared so far.
 
-Based on what you know about {{ name }}, generate the next screen with:
-1. A warm, inviting question
-2. {% if screenNumber == 1 %}8 initial complete sentences (no "..."){% else %}8 initial hybrid fragments (end with "..."){% endif %}
-3. {% if screenNumber == 1 %}15 expanded complete sentences (no "..."){% else %}15 expanded hybrid fragments (end with "..."){% endif %}
-4. Whether you have enough context for affirmations (readyForAffirmations)
-
-{% if screenNumber == 1 %}Remember: Use complete sentences that users can identify with. No ellipsis — these are fully-formed thoughts.{% else %}Remember: Use hybrid fragments that suggest a direction while remaining incomplete. The onboarding itself should feel supportive and healing.{% endif %}`,
+Return ONLY valid JSON with:
+- question: a warm, inviting question exploring the next dimension
+- initialFragments: array of 8 hybrid fragments ending with "..."
+- expandedFragments: array of 15 hybrid fragments ending with "..."
+- readyForAffirmations: true if you have enough understanding across emotional state, inner dialogue, needs, and life context; false otherwise`,
     },
   },
 
@@ -5294,15 +5300,6 @@ No explanations, no other text — just the JSON array.`,
     value: {
       text: `Generate 5 personalized affirmations for {{ name }}.
 
-## Understanding {{ name }}
-
-**Experience with affirmations:** {{ familiarity }}
-{% if familiarity == 'new' %}→ New to affirmations: Keep language simple, accessible, and gently aspirational. Avoid complex structures.{% endif %}
-{% if familiarity == 'some' %}→ Some experience: Can use more varied structures and explore deeper themes.{% endif %}
-{% if familiarity == 'very' %}→ Very familiar: Can include nuanced, growth-oriented statements and sophisticated phrasing.{% endif %}
-
-**What brought them here:** {{ initialTopic }}
-
 ## The Discovery Conversation
 
 Read this conversation carefully. It reveals {{ name }}'s emotional state, inner dialogue, needs, and what they can realistically believe about themselves today.
@@ -5310,10 +5307,7 @@ Read this conversation carefully. It reveals {{ name }}'s emotional state, inner
 {% for exchange in exchanges %}
 ---
 **Question {{ forloop.index }}:** "{{ exchange.question }}"
-
-**{{ name }}'s response:**
-{% if exchange.answer.selectedFragments.size > 0 %}- Selected: {{ exchange.answer.selectedFragments | join: ", " }}{% endif %}
-{% if exchange.answer.text != "" %}- In their words: "{{ exchange.answer.text }}"{% endif %}
+**{{ name }}'s response:** {{ exchange.answer_text }}
 
 {% endfor %}
 ---
@@ -5335,22 +5329,15 @@ Each affirmation should:
 - Connect to something they actually shared
 - Match their emotional temperature (not too upbeat if they're struggling)
 - Feel like something {{ name }} could genuinely say to themselves
-- Support what they lack and soothe what weighs on them`,
+- Support what they lack and soothe what weighs on them
+
+Return ONLY a JSON array of exactly 5 affirmation strings.`,
     },
   },
   {
-    key: 'versions.fo-09-affirmation.prompt.with_feedback',
+    key: 'versions.fo-09-affirmation.prompt_with_feedback.default',
     value: {
       text: `Generate 5 NEW personalized affirmations for {{ name }}.
-
-## Understanding {{ name }}
-
-**Experience with affirmations:** {{ familiarity }}
-{% if familiarity == 'new' %}→ New to affirmations: Keep language simple, accessible, and gently aspirational. Avoid complex structures.{% endif %}
-{% if familiarity == 'some' %}→ Some experience: Can use more varied structures and explore deeper themes.{% endif %}
-{% if familiarity == 'very' %}→ Very familiar: Can include nuanced, growth-oriented statements and sophisticated phrasing.{% endif %}
-
-**What brought them here:** {{ initialTopic }}
 
 ## The Discovery Conversation
 
@@ -5359,10 +5346,7 @@ Read this conversation carefully. It reveals {{ name }}'s emotional state, inner
 {% for exchange in exchanges %}
 ---
 **Question {{ forloop.index }}:** "{{ exchange.question }}"
-
-**{{ name }}'s response:**
-{% if exchange.answer.selectedFragments.size > 0 %}- Selected: {{ exchange.answer.selectedFragments | join: ", " }}{% endif %}
-{% if exchange.answer.text != "" %}- In their words: "{{ exchange.answer.text }}"{% endif %}
+**{{ name }}'s response:** {{ exchange.answer_text }}
 
 {% endfor %}
 ---
@@ -5370,24 +5354,22 @@ Read this conversation carefully. It reveals {{ name }}'s emotional state, inner
 ## Feedback from Previous Batches
 
 ### Loved Affirmations (generate more like these):
-{% for affirmation in feedback.loved %}- "{{ affirmation }}"
+{% for aff in loved %}- "{{ aff }}"
 {% endfor %}
 
 ### Discarded Affirmations (avoid similar patterns):
-{% for affirmation in feedback.discarded %}- "{{ affirmation }}"
+{% for aff in discarded %}- "{{ aff }}"
 {% endfor %}
 
 ### All Previous Affirmations (do not repeat these or close variations):
-{% for affirmation in feedback.all_previous %}- "{{ affirmation }}"
+{% for aff in all_previous %}- "{{ aff }}"
 {% endfor %}
-
-Generate 5 NEW unique, personalized affirmations. Do NOT repeat or closely paraphrase any affirmation listed above.
 
 ## Before You Generate
 
 Take a moment to identify:
-1. **Emotional baseline**: How does {{ name }} feel right now? (Look for emotion words, energy levels)
-2. **Inner dialogue**: How do they talk to themselves? (Harsh? Gentle? Self-critical?)
+1. **Emotional baseline**: How does {{ name }} feel right now?
+2. **Inner dialogue**: How do they talk to themselves?
 3. **Core needs**: What do they want more of? What weighs on them?
 4. **Believability**: What can they realistically say to themselves today?
 5. **Themes**: What patterns repeat across their answers?
@@ -5395,16 +5377,15 @@ Take a moment to identify:
 
 ## Your Task
 
-Create 5 NEW affirmations that feel like they emerged naturally from understanding this conversation — as if you truly know {{ name }}.
+Create 5 NEW affirmations. Do NOT repeat or closely paraphrase any affirmation listed above.
 
 Each affirmation should:
 - Connect to something they actually shared
-- Match their emotional temperature (not too upbeat if they're struggling)
+- Match their emotional temperature
+- Learn from what they loved and discarded
 - Feel like something {{ name }} could genuinely say to themselves
-- Support what they lack and soothe what weighs on them
-- Align with patterns from loved affirmations
-- Avoid patterns from discarded affirmations
-- Be completely different from all previous affirmations`,
+
+Return ONLY a JSON array of exactly 5 affirmation strings.`,
     },
   },
 

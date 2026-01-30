@@ -384,73 +384,67 @@ function parseAffirmationsResponse(text: string): string[] {
 /**
  * Build the user prompt for affirmation generation from GatheringContext.
  * FO-09: generates 5 affirmations per batch with full feedback loop.
+ * Uses KV store templates (prompt.default or prompt_with_feedback.default).
  */
-function buildAffirmationPrompt(
+async function buildAffirmationPrompt(
   context: GatheringContext,
   approvedAffirmations: string[],
-  skippedAffirmations: string[]
-): string {
-  const lines: string[] = [];
+  skippedAffirmations: string[],
+  implementation: string
+): Promise<string> {
+  const hasFeedback = approvedAffirmations.length > 0 || skippedAffirmations.length > 0;
+  const key = hasFeedback ? 'prompt_with_feedback' : 'prompt';
 
-  // User profile section
-  lines.push('## User Profile');
-  lines.push(`Name: ${context.name}`);
-  lines.push('');
+  try {
+    const exchanges = context.exchanges.map((ex) => ({
+      question: ex.question,
+      answer_text: ex.answer.text || '(no response provided)',
+    }));
 
-  // Exchange history section
-  lines.push('## Conversation History');
-  lines.push('The following exchanges capture what the user shared during onboarding:');
-  lines.push('');
+    const variables: Record<string, unknown> = {
+      name: context.name,
+      exchanges,
+    };
 
-  for (let i = 0; i < context.exchanges.length; i++) {
-    const exchange = context.exchanges[i];
-    lines.push(`### Exchange ${i + 1}`);
-    lines.push(`Question asked: "${exchange.question}"`);
-
-    if (exchange.answer.text) {
-      lines.push(`Response: "${exchange.answer.text}"`);
-    } else {
-      lines.push('(No response provided)');
-    }
-    lines.push('');
-  }
-
-  // Feedback section (for iterative batches)
-  const allPreviousAffirmations = [...approvedAffirmations, ...skippedAffirmations];
-
-  if (allPreviousAffirmations.length > 0) {
-    lines.push('## Feedback from Previous Batches');
-    lines.push('');
-
-    if (approvedAffirmations.length > 0) {
-      lines.push('### Loved Affirmations (generate more like these):');
-      approvedAffirmations.forEach((aff, i) => {
-        lines.push(`${i + 1}. "${aff}"`);
-      });
-      lines.push('');
+    if (hasFeedback) {
+      variables.loved = approvedAffirmations;
+      variables.discarded = skippedAffirmations;
+      variables.all_previous = [...approvedAffirmations, ...skippedAffirmations];
     }
 
-    if (skippedAffirmations.length > 0) {
-      lines.push('### Discarded Affirmations (avoid similar patterns):');
-      skippedAffirmations.forEach((aff, i) => {
-        lines.push(`${i + 1}. "${aff}"`);
-      });
-      lines.push('');
-    }
-
-    lines.push('### All Previous Affirmations (do not repeat these):');
-    allPreviousAffirmations.forEach((aff, i) => {
-      lines.push(`${i + 1}. "${aff}"`);
+    const { output } = await renderTemplate({
+      key,
+      version: 'fo-09-affirmation',
+      implementation,
+      variables,
     });
+    return output;
+  } catch (error) {
+    // Fallback to hardcoded prompt if template not found
+    console.warn('[fo-09-affirmations] Template not found, using fallback:', error);
+    const lines: string[] = [];
+    lines.push(`Generate 5 personalized affirmations for ${context.name}.`);
     lines.push('');
+    lines.push('## Conversation History');
+    for (let i = 0; i < context.exchanges.length; i++) {
+      const exchange = context.exchanges[i];
+      lines.push(`Question: "${exchange.question}"`);
+      lines.push(`Response: "${exchange.answer.text || '(no response)'}"`);
+      lines.push('');
+    }
+    if (hasFeedback) {
+      lines.push('## Feedback');
+      if (approvedAffirmations.length > 0) {
+        lines.push('Loved: ' + approvedAffirmations.map((a) => `"${a}"`).join(', '));
+      }
+      if (skippedAffirmations.length > 0) {
+        lines.push('Discarded: ' + skippedAffirmations.map((a) => `"${a}"`).join(', '));
+      }
+      lines.push('');
+    }
+    lines.push('Return ONLY a JSON array of 5 affirmation strings.');
+    return lines.join('\n');
   }
-
-  lines.push('');
-  lines.push(
-    'Generate 5 unique, personalized affirmations based on everything shared above. Return ONLY a JSON array of 5 strings.'
-  );
-
-  return lines.join('\n');
 }
 
 /**
@@ -477,8 +471,8 @@ export async function generateAffirmationBatchFO09(
   }
 
   try {
-    // Build the user prompt from GatheringContext
-    const userPrompt = buildAffirmationPrompt(context, approvedAffirmations, skippedAffirmations);
+    // Build the user prompt from KV store template
+    const userPrompt = await buildAffirmationPrompt(context, approvedAffirmations, skippedAffirmations, implementation);
 
     // Use FO-09 affirmation agent
     const agent = await createFO09AffirmationAgent(implementation);
