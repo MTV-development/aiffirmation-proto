@@ -170,6 +170,16 @@ const versions: VersionCard[] = [
     outputType: 'Thumbs up/down',
     highlight: 'Best of FO-06 + FO-07',
   },
+  {
+    id: 'FO-09',
+    name: 'Sentences + Card Curation',
+    href: '/fo-09',
+    tagline: 'Lower friction discovery, focused curation',
+    description: 'Complete sentences on first discovery screen, hybrid fragments on subsequent screens. Card-based one-at-a-time affirmation review with unlimited generate more cycles.',
+    inputType: 'Sentences -> Fragments',
+    outputType: 'Card curation (Love it / Discard)',
+    highlight: 'Two-stage discovery + unlimited curation',
+  },
 ];
 
 export default function OverviewPage() {
@@ -343,12 +353,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-gray-500">None (single review)</td>
                   <td className="py-2">Deliberate selection</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-08</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-gray-500">None (single review)</td>
                   <td className="py-2">Hybrid fragment input</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-09</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (iterative)</td>
+                  <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
+                  <td className="py-2">Two-stage discovery + card curation</td>
                 </tr>
               </tbody>
             </table>
