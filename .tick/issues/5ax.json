@@ -1,0 +1,14 @@
+{
+  "id": "5ax",
+  "title": "Create FO-09 app directory, types.ts, and copy base step components",
+  "description": "Create the FO-09 app directory structure and copy base components from FO-08.\n\n1. Create directory: app/fo-09/components/\n2. Create app/fo-09/types.ts based on FO-08's types.ts with these changes:\n   - REMOVE reflectiveStatement from DynamicScreenResponse interface\n   - Keep GatheringContext, FirstScreenFragmentsResponse, FO09GenerateBatchOptions (rename from FO08)\n   - Add FO09GenerateBatchResult type\n   - Keep FIXED_OPENING_QUESTION constant\n\n3. Copy these step components AS-IS from app/fo-08/components/:\n   - step-welcome.tsx\n   - step-familiarity.tsx\n   - step-topics.tsx\n   - heart-animation.tsx\n   - step-background.tsx\n   - step-notifications.tsx\n   - step-paywall.tsx\n   - step-completion.tsx (will be modified later to show all accumulated affirmations)\n\nImportant: Update any imports that reference 'fo-08' to 'fo-09' in the copied files.\n\nFiles to create:\n- app/fo-09/types.ts\n- app/fo-09/components/step-welcome.tsx (copy)\n- app/fo-09/components/step-familiarity.tsx (copy)\n- app/fo-09/components/step-topics.tsx (copy)\n- app/fo-09/components/heart-animation.tsx (copy)\n- app/fo-09/components/step-background.tsx (copy)\n- app/fo-09/components/step-notifications.tsx (copy)\n- app/fo-09/components/step-paywall.tsx (copy)\n- app/fo-09/components/step-completion.tsx (copy)\n\n⚠️ Do not close until acceptance criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "9gv",
+  "acceptance_criteria": "All 9 files exist in app/fo-09/ and app/fo-09/components/ AND npm run build succeeds (may have unused import warnings which is OK)",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-30T13:04:51.4982525Z",
+  "updated_at": "2026-01-30T13:04:51.4982525Z"
+}

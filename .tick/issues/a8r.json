@@ -1,0 +1,17 @@
+{
+  "id": "a8r",
+  "title": "Run FO-09 E2E test and verify pass",
+  "description": "Run the FO-09 E2E test and verify it passes.\n\nPrerequisites (all should be done by blocker ticks):\n- KV store seeded with FO-09 prompts (db:seed completed)\n- All UI components built and wired up\n- Navigation and info page registered\n- E2E test file created\n\nSteps:\n1. Ensure dev server is running: npm run dev (start in background if needed)\n2. Run: node --import tsx e2e/fo-09.test.ts\n3. If test fails, debug and fix issues (may need to fix components or test)\n4. Re-run until test passes\n\nIMPORTANT: Use node --import tsx (NOT npx tsx) for proper output on Windows Git Bash.\n\nDo not close until acceptance criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "mr7"
+  ],
+  "parent": "mgk",
+  "acceptance_criteria": "node --import tsx e2e/fo-09.test.ts passes (all test sections complete without errors)",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-30T13:07:29.5135297Z",
+  "updated_at": "2026-01-30T13:07:29.5135297Z"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "12r",
+  "title": "fo-09: Main Flow with E2E Test",
+  "description": "Create fo-experience.tsx main flow controller, wire up page/layout, and create the E2E test file.\n\n## Context\n\n**Spec:** docs/projects/2026-01-30-fo-09/2026-01-30-fo-09-spec.md\n\n**Key files for this epic:**\n- app/fo-08/components/fo-experience.tsx - base flow controller to modify\n- app/fo-08/page.tsx - page to copy\n- app/fo-08/layout.tsx - layout to copy\n- app/fo-08/fo-08-layout-client.tsx - layout client to copy\n- e2e/fo-08.test.ts - E2E test to use as base\n\n**Related docs:**\n- docs/current/e2e-testing.md - E2E testing patterns and conventions",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-30T13:03:35.5256605Z",
+  "updated_at": "2026-01-30T13:03:35.5256605Z"
+}

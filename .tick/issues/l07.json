@@ -1,0 +1,14 @@
+{
+  "id": "l07",
+  "title": "Create FO-09 discovery agent with sentence and fragment prompts",
+  "description": "Create the FO-09 discovery agent at src/mastra/agents/fo-09/agent.ts.\n\nBase on FO-08's agent (src/mastra/agents/fo-08/agent.ts) with these changes:\n\n1. **Remove reflectiveStatement** from output format entirely\n2. **Add complete sentences mode for screen 1:** The agent prompt must include a section for generating COMPLETE SENTENCES (no '...') for the first screen. See spec section 'Discovery Agent Changes \u003e Screen 1: Complete Sentences Output'.\n3. **Keep hybrid fragments for screens 2+:** Same FO-08 hybrid fragment approach with '...'\n4. **Accept topics parameter:** The generateFirstScreenFragments prompt should reference the user's selected topics so sentences are relevant.\n5. **Same output field names:** Both modes use initialFragments/expandedFragments (not initialSentences).\n6. **5 Dimensions framework:** Keep FO-08's 5 Dimensions (Emotional Baseline, Inner Dialogue, Needs \u0026 Longings, Believability Threshold, Life Context).\n\nFiles to create:\n- src/mastra/agents/fo-09/agent.ts (main discovery agent)\n- src/mastra/agents/fo-09/index.ts (exports)\n\nReference:\n- src/mastra/agents/fo-08/agent.ts (base)\n- Spec: docs/projects/2026-01-30-fo-09/2026-01-30-fo-09-spec.md (sections: Discovery Agent Changes, Implementation Notes 9-10)\n\n⚠️ Do not close until acceptance criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "drh",
+  "acceptance_criteria": "File src/mastra/agents/fo-09/agent.ts exists AND contains 'Complete Sentences' or 'complete sentences' in the prompt AND does NOT contain 'reflectiveStatement' in the output format AND npm run build succeeds",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-30T13:04:05.4362856Z",
+  "updated_at": "2026-01-30T13:04:05.4362856Z"
+}

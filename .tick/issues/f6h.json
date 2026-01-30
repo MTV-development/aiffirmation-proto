@@ -1,0 +1,17 @@
+{
+  "id": "f6h",
+  "title": "Create fo-experience.tsx main flow controller with card review cycle",
+  "description": "Create app/fo-09/components/fo-experience.tsx - the main state machine for FO-09.\n\nBase on FO-08 fo-experience.tsx (app/fo-08/components/fo-experience.tsx, 614 lines) with these key changes:\n\n## State Machine Changes\n\nSteps 0-4: Same as FO-08 (Welcome, Name, Welcome2, Familiarity, Topics)\nStep 5: Dynamic discovery (2-5 screens, heart animation between) — SAME as FO-08 but:\n  - Screen 1: pass mode=\"sentences\" to FragmentInput + pass topics to generateFirstScreenFragments\n  - Screens 2+: pass mode=\"fragments\" to FragmentInput\n  - No reflectiveStatement prop passed to FragmentInput\nStep 6: Affirmation generation loading (generate 5, not 20)\nStep 7: Card review (AffirmationCardFlow component) — NEW\nStep 8: Summary (AffirmationSummary component) — NEW\n  - \"I am good with these\" -\u003e step 9\n  - \"I want to create more\" -\u003e back to step 6 (generate more with feedback)\nSteps 9-11: Post-review mockups (background, notifications, paywall)\nStep 12: Completion (shows ALL accumulated loved affirmations)\n\n## Key Differences from FO-08\n\n1. **Import AffirmationCardFlow and AffirmationSummary** instead of AffirmationReview\n2. **Remove summary agent call** (no generateSummary)\n3. **Generate 5 affirmations** in a single batch (not 2 batches of 10)\n4. **Track across cycles:** allLovedAffirmations: string[], allDiscardedAffirmations: string[], allGeneratedAffirmations: string[]\n5. **Feedback loop:** When generating more, pass all loved/discarded/all-generated to generateAffirmationBatchFO09\n6. **Card flow -\u003e Summary -\u003e (optional More) cycle:** The flow loops between steps 7-8 until user clicks \"I am good with these\"\n7. **FragmentInput mode prop:** Screen 1 uses mode=\"sentences\", screens 2+ use mode=\"fragments\"\n8. **Topics passed to screen 1:** Call generateFirstScreenFragments(name, topics) instead of generateFirstScreenFragments(name)\n9. **Loading for \"generate more\":** Spinner + \"Creating more affirmations...\" message\n\nFiles to create:\n- app/fo-09/components/fo-experience.tsx\n\nReference:\n- app/fo-08/components/fo-experience.tsx (base)\n- Spec: User Flow, Implementation Notes #7\n\nDo not close until acceptance criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "75n"
+  ],
+  "parent": "12r",
+  "acceptance_criteria": "File app/fo-09/components/fo-experience.tsx exists AND imports AffirmationCardFlow AND imports AffirmationSummary AND does NOT import AffirmationReview AND npm run build succeeds",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-01-30T13:06:14.5286752Z",
+  "updated_at": "2026-01-30T13:06:14.5286752Z"
+}
