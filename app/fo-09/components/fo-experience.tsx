@@ -6,6 +6,7 @@ import {
   generateDynamicScreen,
   generateAffirmationBatchFO09,
 } from '../actions';
+import { useImplementation } from '@/src/fo-09';
 import {
   type GatheringContext,
   type DynamicScreenResponse,
@@ -142,6 +143,7 @@ const initialState: OnboardingState = {
  */
 export function FOExperience() {
   const [state, setState] = useState<OnboardingState>(initialState);
+  const { implementation } = useImplementation();
 
   // Input state for dynamic screens
   const [dynamicInput, setDynamicInput] = useState({ text: '' });
@@ -169,7 +171,7 @@ export function FOExperience() {
     }));
 
     try {
-      const response = await generateFirstScreenFragments(state.name, state.topics);
+      const response = await generateFirstScreenFragments(state.name, state.topics, implementation);
 
       if (response.error) {
         setState((prev) => ({
@@ -192,7 +194,7 @@ export function FOExperience() {
         dynamicError: errorMessage,
       }));
     }
-  }, [state.name, state.topics]);
+  }, [state.name, state.topics, implementation]);
 
   // Fetch dynamic screen (for screens 2+)
   const fetchDynamicScreen = useCallback(async () => {
@@ -204,7 +206,7 @@ export function FOExperience() {
     }));
 
     try {
-      const response = await generateDynamicScreen(state.gatheringContext);
+      const response = await generateDynamicScreen(state.gatheringContext, implementation);
 
       if (response.error) {
         setState((prev) => ({
@@ -227,7 +229,7 @@ export function FOExperience() {
         dynamicError: errorMessage,
       }));
     }
-  }, [state.gatheringContext]);
+  }, [state.gatheringContext, implementation]);
 
   // Trigger fetch when needsDynamicFetch flag is set
   useEffect(() => {
@@ -352,6 +354,7 @@ export function FOExperience() {
         batchNumber: state.batchNumber,
         approvedAffirmations: state.allLovedAffirmations,
         skippedAffirmations: state.allDiscardedAffirmations,
+        implementation,
       });
 
       if (result.error) {
@@ -378,7 +381,7 @@ export function FOExperience() {
         generationError: errorMessage,
       });
     }
-  }, [state.name, state.gatheringContext, state.batchNumber, state.allLovedAffirmations, state.allDiscardedAffirmations, updateState]);
+  }, [state.name, state.gatheringContext, state.batchNumber, state.allLovedAffirmations, state.allDiscardedAffirmations, updateState, implementation]);
 
   // Handle card flow completion — merge loved/discarded into accumulated arrays
   const handleCardFlowComplete = useCallback(

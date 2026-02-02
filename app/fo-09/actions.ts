@@ -232,7 +232,7 @@ export async function generateFirstScreenFragments(
     const result = await agent.generate(userPrompt);
 
     console.log('[fo-09] Response length:', result.text.length);
-    console.log('[fo-09] Raw response:', result.text.substring(0, 500));
+    console.log('[fo-09] Full response:', result.text);
 
     // Parse JSON response
     const response = parseFirstScreenFragments(result.text);
@@ -305,7 +305,7 @@ export async function generateDynamicScreen(
     const result = await agent.generate(userPrompt);
 
     console.log('[fo-09] Response length:', result.text.length);
-    console.log('[fo-09] Raw response:', result.text.substring(0, 500));
+    console.log('[fo-09] Full response:', result.text);
 
     // Parse JSON response
     const response = parseDynamicScreenResponse(result.text);
@@ -492,6 +492,7 @@ export async function generateAffirmationBatchFO09(
     });
 
     console.log('[fo-09-affirmations] Response length:', result.text.length);
+    console.log('[fo-09-affirmations] Full response:', result.text);
 
     // Parse JSON array response
     const affirmations = parseAffirmationsResponse(result.text);
