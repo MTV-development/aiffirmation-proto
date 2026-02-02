@@ -578,7 +578,7 @@ Detection happens on the first screen based on which sentences the user selects.
   {
     key: 'versions.fo-09-discovery._model_name.two-lanes',
     value: {
-      text: 'openai/gpt-4o-mini',
+      text: 'openai/gpt-4o',
     },
   },
   {
@@ -944,11 +944,21 @@ Based on their responses, determine the lane and follow the appropriate path:
 
 **If SPECIFIC CHALLENGE LANE:** Focus on understanding the trigger and what would help. Use challenge-specific fragments ending with "...". Aim for 1-3 total exchanges. Be faster and more focused.
 
+## CRITICAL: Fragments Must Match the Question
+
+The fragments you generate MUST be natural completions or responses to your question. If your question asks about:
+- **Triggers/when it happens** → fragments about timing and triggers ("It usually starts when...", "I notice it hits me hardest...")
+- **What they feel** → fragments about feelings ("In that moment, I feel...", "My mind starts to...")
+- **What they wish/want** → fragments about desires ("I wish I could...", "What would help is...", "I want to be able to...")
+- **What they've tried** → fragments about attempts ("I've tried to...", "Sometimes I...")
+
+NEVER generate trigger-focused fragments for a desire-focused question, or vice versa. The fragments should feel like natural ways to complete/answer the question you're asking.
+
 Return ONLY valid JSON with:
 - detectedLane: "emotional" or "specific_challenge"
 - question: appropriate for the detected lane
-- initialFragments: 8 hybrid fragments ending with "..."
-- expandedFragments: 15 hybrid fragments ending with "..."
+- initialFragments: 8 hybrid fragments ending with "..." that DIRECTLY answer/complete the question
+- expandedFragments: 15 hybrid fragments ending with "..." that DIRECTLY answer/complete the question
 - readyForAffirmations: true if you have enough understanding for the detected lane; false otherwise`,
     },
   },
