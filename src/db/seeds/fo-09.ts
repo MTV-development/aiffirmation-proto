@@ -979,7 +979,7 @@ Adapts affirmation style based on whether user was in emotional or specific chal
   {
     key: 'versions.fo-09-affirmation._model_name.two-lanes',
     value: {
-      text: 'openai/gpt-4o-mini',
+      text: 'openai/gpt-4o',
     },
   },
   {
