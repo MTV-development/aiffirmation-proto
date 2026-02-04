@@ -208,14 +208,33 @@ export function FOExperience() {
     try {
       const response = await generateDynamicScreen(state.gatheringContext, implementation);
 
+      // Log the full response for debugging
+      console.log('[fo-09] Dynamic screen response:', JSON.stringify({
+        question: response.question,
+        initialFragmentsCount: response.initialFragments?.length ?? 'undefined',
+        expandedFragmentsCount: response.expandedFragments?.length ?? 'undefined',
+        readyForAffirmations: response.readyForAffirmations,
+        hasError: !!response.error,
+      }, null, 2));
+
       if (response.error) {
+        console.log('[fo-09] Response has error, showing error state');
         setState((prev) => ({
           ...prev,
           isDynamicLoading: false,
           dynamicError: response.error || 'Unknown error',
         }));
-      } else if (response.readyForAffirmations) {
-        // Agent says ready for affirmations - skip rendering this screen and generate affirmations
+      } else if (
+        response.readyForAffirmations ||
+        (response.initialFragments.length === 0 && response.expandedFragments.length === 0)
+      ) {
+        // Agent says ready for affirmations OR returned empty fragments
+        // Skip rendering this screen and generate affirmations
+        const reason = response.readyForAffirmations
+          ? 'readyForAffirmations=true'
+          : 'empty fragments (initialFragments and expandedFragments both empty)';
+        console.log(`[fo-09] Proceeding to affirmation generation. Reason: ${reason}`);
+        console.log('[fo-09] Question was:', response.question);
         setState((prev) => ({
           ...prev,
           isDynamicLoading: false,
@@ -224,6 +243,7 @@ export function FOExperience() {
           heartAnimationMessage: `You have been doing great, ${prev.name}! We are creating your personalized affirmations.`,
         }));
       } else {
+        console.log('[fo-09] Rendering dynamic screen with fragments');
         setState((prev) => ({
           ...prev,
           isDynamicLoading: false,
