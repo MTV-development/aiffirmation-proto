@@ -214,6 +214,15 @@ export function FOExperience() {
           isDynamicLoading: false,
           dynamicError: response.error || 'Unknown error',
         }));
+      } else if (response.readyForAffirmations) {
+        // Agent says ready for affirmations - skip rendering this screen and generate affirmations
+        setState((prev) => ({
+          ...prev,
+          isDynamicLoading: false,
+          dynamicScreenData: null,
+          showHeartAnimation: true,
+          heartAnimationMessage: `You have been doing great, ${prev.name}! We are creating your personalized affirmations.`,
+        }));
       } else {
         setState((prev) => ({
           ...prev,
