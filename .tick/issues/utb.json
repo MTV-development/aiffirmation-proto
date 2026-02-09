@@ -1,0 +1,12 @@
+{
+  "id": "utb",
+  "title": "fo-10: Agent and KV Store",
+  "description": "Create the chip generation agent and KV store seed entries for FO-10.\n\n## Spec\n`docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md`\n\n## Key Files\n- `src/mastra/agents/fo-10/chip-agent.ts` — simpler than FO-09 discovery agent, chip-only\n- `src/mastra/agents/fo-10/affirmation-agent.ts` — reuse or adapt FO-09's affirmation agent\n- `src/db/seeds/fo-10.ts` — KV store prompts for chip generation (step-specific templates)\n\n## Worker Notes\n- Workers have CLAUDE.md context and persistent memory\n- Check epic notes before starting (tk notes \u003cepic-id\u003e)\n- Leave notes for the next worker after completing your task",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:47:11.8788607Z",
+  "updated_at": "2026-02-09T08:47:11.8788607Z"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "nrk",
+  "title": "Create E2E test for FO-10 flow",
+  "description": "## Objective\n\nCreate comprehensive E2E test for FO-10 that verifies the fixed 4-question discovery flow, chip generation, affirmations, and complete user journey.\n\n## Spec Reference\n\n**Spec:** `docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md` — Section: \"Testing Strategy / E2E Testing\"\n\n## Scope\n\n**Files to create:**\n- `e2e/fo-10.test.ts` — E2E test\n\n**Key existing code:**\n- `e2e/fo-09.test.ts` — reference implementation and reusable helper functions\n- `docs/current/e2e-testing.md` — E2E testing setup guide\n\n## Implementation\n\n1. Copy FO-09's test structure and adapt for FO-10\n2. Test coverage (per spec):\n   - Welcome (steps 0-2), familiarity (step 3) — same as FO-09\n   - Step 4: predefined topic chips render and work\n   - Step 5: LLM fragments load (with \"...\"), 8 initial + \"show more\" for 15 expanded\n   - Step 6: LLM sentences load (no \"...\"), chip counts\n   - Step 7: LLM sentences for tone, chip counts\n   - Heart animations between each step (4 total)\n   - Steps 8-14: affirmation generation, card review, summary, post-review (same as FO-09)\n3. Run: `node --import tsx e2e/fo-10.test.ts`\n4. Prerequisites: dev server running, db:seed completed\n\n## Tests\n\nRun the E2E test itself:\n```bash\nnpm run dev \u0026\nsleep 15\nnode --import tsx e2e/fo-10.test.ts\n```\n\nTest should pass with all assertions.\n\nDo NOT close until acceptance criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "569"
+  ],
+  "parent": "kc2",
+  "acceptance_criteria": "node --import tsx e2e/fo-10.test.ts passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:49:41.1812373Z",
+  "updated_at": "2026-02-09T08:49:41.1812373Z"
+}

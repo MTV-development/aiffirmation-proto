@@ -1,0 +1,17 @@
+{
+  "id": "moh",
+  "title": "Create discovery step components for fixed question flow",
+  "description": "## Objective\n\nCreate the 4 discovery step components (steps 4-7) for FO-10's fixed question flow, adapting the FO-09 StepTopics pattern for step 4 and creating step-specific chip display components.\n\n## Spec Reference\n\n**Spec:** `docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md` — Section: \"Discovery Phase Detail (Steps 4-7)\"\n\n## Scope\n\n**Files to create:**\n- `app/fo-10/components/step-goal.tsx` — step 4 with predefined topic chips (reuse FO-09 StepTopics chip list)\n- `app/fo-10/components/step-why.tsx` — step 5 with LLM fragments (mode=\"fragments\")\n- `app/fo-10/components/step-situation.tsx` — step 6 with LLM sentences (mode=\"sentences\")\n- `app/fo-10/components/step-support.tsx` — step 7 with LLM sentences (mode=\"sentences\")\n\n**Key existing code:**\n- `app/fo-09/components/step-topics.tsx` — reference for predefined chip pattern\n- `app/fo-09/components/fragment-input.tsx` — supports both modes (reused, already copied)\n\n## Implementation\n\n1. Create step-goal.tsx: text input + predefined topic chips (same 36 chips as FO-09)\n2. Create step-why.tsx: text input + FragmentInput with mode=\"fragments\" (8 initial + 15 expanded)\n3. Create step-situation.tsx: text input + FragmentInput with mode=\"sentences\" (8 initial + 15 expanded)\n4. Create step-support.tsx: text input + FragmentInput with mode=\"sentences\" (8 initial + 15 expanded)\n5. Each component receives hardcoded question from FO10_QUESTIONS constant\n\n## Tests\n\n1. TypeScript compilation: `npx tsc --noEmit` passes\n2. Verify all 4 step components export correctly\n\nDo NOT close until acceptance criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "kyj"
+  ],
+  "parent": "pib",
+  "acceptance_criteria": "npx tsc --noEmit passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:48:28.8323528Z",
+  "updated_at": "2026-02-09T08:48:28.8323528Z"
+}

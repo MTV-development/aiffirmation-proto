@@ -1,0 +1,12 @@
+{
+  "id": "yth",
+  "title": "fo-10: Main Flow Integration",
+  "description": "Wire up the FO-10 main flow controller, server actions, and page routing.\n\n## Spec\n`docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md`\n\n## Key Files\n- `app/fo-10/components/fo-experience.tsx` — main flow controller with fixed 4-question sequence\n- `app/fo-10/actions.ts` — server actions for chip generation and affirmations\n- `app/fo-10/page.tsx`, `layout.tsx`, `fo-10-layout-client.tsx` — page routing\n\n## Worker Notes\n- Adapt FO-09's fo-experience.tsx state machine for fixed question flow\n- No dynamic screen generation needed — questions are hardcoded",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:48:39.8441654Z",
+  "updated_at": "2026-02-09T08:48:39.8441654Z"
+}
