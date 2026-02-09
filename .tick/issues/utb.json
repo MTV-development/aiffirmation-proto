@@ -2,11 +2,14 @@
   "id": "utb",
   "title": "fo-10: Agent and KV Store",
   "description": "Create the chip generation agent and KV store seed entries for FO-10.\n\n## Spec\n`docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md`\n\n## Key Files\n- `src/mastra/agents/fo-10/chip-agent.ts` — simpler than FO-09 discovery agent, chip-only\n- `src/mastra/agents/fo-10/affirmation-agent.ts` — reuse or adapt FO-09's affirmation agent\n- `src/db/seeds/fo-10.ts` — KV store prompts for chip generation (step-specific templates)\n\n## Worker Notes\n- Workers have CLAUDE.md context and persistent memory\n- Check epic notes before starting (tk notes \u003cepic-id\u003e)\n- Leave notes for the next worker after completing your task",
-  "status": "open",
+  "notes": "2026-02-09 10:05 - FO-10 chip agent uses gpt-4o (not gpt-4o-mini). Output format is {initialChips, expandedChips} not {initialFragments, expandedFragments} like FO-09. Step-specific behavior via 3 user prompt templates: prompt_step_5 (fragments with ...), prompt_step_6 (complete sentences about situations), prompt_step_7 (complete sentences about tone). Agent ID convention is 'fo-10-chip' not 'fo-10-discovery'.\n2026-02-09 10:08 - FO-10 affirmation agent created following same pattern as chip agent: new agent file with agentId 'fo-10-affirmation', gpt-4o model via KV seed, and exports in index.ts. Both agents now have matching KV seed structure (_info.default and _model_name.default entries).",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-09T08:47:11.8788607Z",
-  "updated_at": "2026-02-09T08:47:11.8788607Z"
+  "updated_at": "2026-02-09T09:09:16.9986051Z",
+  "closed_at": "2026-02-09T09:09:16.9986051Z",
+  "closed_reason": "All tasks completed: Created FO-10 chip agent (gpt-4o) with step-specific templates and affirmation agent with KV seed entries. Both agents export successfully and db:seed passes."
 }

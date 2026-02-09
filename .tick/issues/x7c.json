@@ -2,7 +2,7 @@
   "id": "x7c",
   "title": "Create chip generation agent with step-specific templates",
   "description": "## Objective\n\nBuild the FO-10 chip generation agent that produces contextual chips (fragments or sentences) for steps 5-7, with step-specific behavior controlled via KV store user prompt templates.\n\n## Spec Reference\n\n**Spec:** `docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md` — Section: \"Chip Generation Agent\"\n\n## Scope\n\n**Files to create:**\n- `src/mastra/agents/fo-10/chip-agent.ts` — agent definition (model: gpt-4o)\n- `src/mastra/agents/fo-10/index.ts` — exports\n- `src/db/seeds/fo-10.ts` — KV store entries with step-specific user prompt templates\n\n**Key existing code to understand:**\n- `src/mastra/agents/fo-09/agent.ts` — reference for agent structure (but much simpler for FO-10)\n- `src/db/seeds/fo-09.ts` — KV store pattern\n\n## Implementation\n\n1. Create chip agent with gpt-4o model (not gpt-4o-mini like FO-09)\n2. Agent output: `{ initialChips: string[], expandedChips: string[] }`\n3. Add KV seed entries with step-specific user prompt templates:\n   - Step 5: Generate 8+15 hybrid fragments (ending with \"...\") about why goal matters\n   - Step 6: Generate 8+15 complete sentences about situations\n   - Step 7: Generate 8+15 complete sentences about support tone\n4. System prompt: Focused on generating contextual chips (no questions, no readyForAffirmations)\n\n## Tests\n\nAfter implementation:\n1. Verify agent exports: `npx tsx -e \"import {fo10ChipAgent} from './src/mastra/agents/fo-10'; console.log(fo10ChipAgent.name);\"`\n2. Run seed script: `npm run db:seed` passes without errors\n3. Query KV store: verify fo-10 chip agent entries exist\n\nDo NOT close until acceptance criteria pass.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -10,5 +10,7 @@
   "acceptance_criteria": "npm run db:seed passes and agent exports successfully",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-09T08:47:31.3692741Z",
-  "updated_at": "2026-02-09T08:47:31.3692741Z"
+  "updated_at": "2026-02-09T09:05:28.718275Z",
+  "closed_at": "2026-02-09T09:05:28.718275Z",
+  "closed_reason": "Created FO-10 chip generation agent with gpt-4o model and step-specific KV templates. Agent exports: src/mastra/agents/fo-10/chip-agent.ts, index.ts. KV seeds: src/db/seeds/fo-10.ts with system prompt and 3 user prompt templates (steps 5-7). All acceptance criteria passed: agent exports successfully, npm run db:seed passes, KV entries verified."
 }

@@ -1,0 +1,18 @@
+
+> aiffirmation-proto@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by process 23140, using available port 3002 instead.
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+   ▲ Next.js 16.0.7 (Turbopack)
+   - Local:         http://localhost:3002
+   - Network:       http://100.107.176.109:3002
+   - Environments: .env.local
+
+ ✓ Starting...
+ ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn mo ○ Compiling /fo-10 ...
+ GET /fo-10 200 in 10.0s (compile: 9.7s, proxy.ts: 8ms, render: 258ms)
+ GET /password?redirectTo=%2Ffo-10%2Finfo 200 in 636ms (compile: 573ms, render: 64ms)
+ GET /password?redirectTo=%2Ffo-10%2Finfo 200 in 55ms (compile: 5ms, render: 50ms)
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[?25h

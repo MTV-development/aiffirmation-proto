@@ -2,7 +2,7 @@
   "id": "569",
   "title": "Create server actions and wire up page routing",
   "description": "## Objective\n\nCreate FO-10 server actions for chip generation and affirmations, and set up complete page routing infrastructure.\n\n## Spec Reference\n\n**Spec:** `docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md` — Section: \"Technical Architecture\"\n\n## Scope\n\n**Files to create:**\n- `app/fo-10/actions.ts` — server actions for chip generation (step 5-7) and affirmations\n- `app/fo-10/page.tsx` — main route\n- `app/fo-10/layout.tsx` — layout wrapper\n- `app/fo-10/fo-10-layout-client.tsx` — client-side layout\n- `src/fo-10.ts` (or similar) — implementation context provider if needed\n\n**Key existing code:**\n- `app/fo-09/actions.ts` — reference for server action pattern\n\n## Implementation\n\n1. Create actions.ts with:\n   - `generateChips(stepNumber, context)` → calls chip agent with step-specific template\n   - `generateAffirmationBatchFO10(context, lovedIds, discardedIds)` → calls affirmation agent\n2. Create page.tsx, layout.tsx, fo-10-layout-client.tsx (copy from FO-09 pattern)\n3. Wire up fo-experience.tsx in page.tsx\n4. Test that dev server starts without errors\n\n## Tests\n\n1. TypeScript compilation: `npx tsc --noEmit` passes\n2. Dev server starts: `npm run dev` runs without errors (Ctrl+C after verification)\n3. Navigate to http://localhost:3000/fo-10 loads without 500 errors\n\nDo NOT close until acceptance criteria pass.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   "acceptance_criteria": "npx tsc --noEmit passes and npm run dev starts successfully",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-09T08:49:08.3352844Z",
-  "updated_at": "2026-02-09T08:49:08.3352844Z"
+  "updated_at": "2026-02-09T09:28:17.9653911Z",
+  "closed_at": "2026-02-09T09:28:17.9653911Z",
+  "closed_reason": "Created FO-10 server actions and page routing infrastructure. actions.ts implements generateChips for steps 5-7 and generateAffirmationBatchFO10 for affirmations. Created page.tsx, layout.tsx, and fo-10-layout-client.tsx following FO-09 pattern. Wired up fo-experience.tsx to call server actions via fetchChips and generateAffirmations callbacks. TypeScript compilation passes and dev server starts successfully."
 }
