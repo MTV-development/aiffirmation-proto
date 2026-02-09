@@ -1,0 +1,15 @@
+{
+  "id": "yth",
+  "title": "fo-10: Main Flow Integration",
+  "description": "Wire up the FO-10 main flow controller, server actions, and page routing.\n\n## Spec\n`docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md`\n\n## Key Files\n- `app/fo-10/components/fo-experience.tsx` — main flow controller with fixed 4-question sequence\n- `app/fo-10/actions.ts` — server actions for chip generation and affirmations\n- `app/fo-10/page.tsx`, `layout.tsx`, `fo-10-layout-client.tsx` — page routing\n\n## Worker Notes\n- Adapt FO-09's fo-experience.tsx state machine for fixed question flow\n- No dynamic screen generation needed — questions are hardcoded",
+  "notes": "2026-02-09 10:20 - fo-experience.tsx: Key implementation notes: (1) discoveryStep (0-3) tracks position in FO10_QUESTIONS array, (2) discoveryInputs array stores 4 separate input states, (3) heart animations show between each discovery step using showHeartAnimation flag, (4) needsChipFetch flag triggers chip loading for steps 5-7, (5) chip generation and affirmation generation are stubbed (TODO: implement server actions), (6) FamiliarityLevel type was 'some' in FO-09 but 'somewhat' in FO-10 types - updated StepFamiliarity accordingly. Next worker: implement server actions for chip generation and affirmation generation.\n2026-02-09 10:28 - Server actions wired up in fo-experience.tsx. generateChips uses step number 5/6/7 directly. generateAffirmationBatchFO10 reuses FO-09 affirmation agent. Both actions parse JSON responses with fallback error handling. No implementation selector needed for FO-10 (single implementation only per spec).",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:48:39.8441654Z",
+  "updated_at": "2026-02-09T09:29:01.4458764Z",
+  "closed_at": "2026-02-09T09:29:01.4458764Z",
+  "closed_reason": "Main flow integration complete: fo-experience.tsx with fixed 4-question sequence, server actions for chip generation and affirmations, complete page routing (page.tsx, layout.tsx, fo-10-layout-client.tsx). TypeScript compiles and dev server starts successfully."
+}

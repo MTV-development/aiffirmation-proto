@@ -1,0 +1,19 @@
+{
+  "id": "tn8",
+  "title": "Configure affirmation agent for FO-10",
+  "description": "## Objective\n\nSet up the affirmation generation agent for FO-10, either by reusing FO-09's agent or creating a FO-10-specific variant with gpt-4o model.\n\n## Spec Reference\n\n**Spec:** `docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md` — Section: \"Affirmation Engine\" and \"Reuse from FO-09\"\n\n## Scope\n\n**Files to create/modify:**\n- `src/mastra/agents/fo-10/affirmation-agent.ts` (or reuse FO-09's via import)\n- `src/mastra/agents/fo-10/index.ts` — export affirmation agent\n- `src/db/seeds/fo-10.ts` — add affirmation agent KV entries if creating new agent\n\n**Key existing code:**\n- `src/mastra/agents/fo-09/affirmation-agent.ts` — reference implementation\n\n## Implementation\n\n1. Decide: reuse FO-09 affirmation agent or create FO-10 variant\n2. If reusing: export from fo-10/index.ts\n3. If creating new: use gpt-4o model, adapt FO-09's prompts, add KV entries\n4. Affirmation agent receives `exchanges` array with fixed questions and user answers\n\n## Tests\n\n1. Verify export: `npx tsx -e \"import {fo10AffirmationAgent} from './src/mastra/agents/fo-10'; console.log(fo10AffirmationAgent.name);\"`\n2. If new KV entries added: `npm run db:seed` passes\n\nDo NOT close until acceptance criteria pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "x7c"
+  ],
+  "parent": "utb",
+  "acceptance_criteria": "Affirmation agent exports successfully and db:seed passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:47:43.8109143Z",
+  "updated_at": "2026-02-09T09:08:40.5380662Z",
+  "closed_at": "2026-02-09T09:08:40.5380662Z",
+  "closed_reason": "Created FO-10 affirmation agent with gpt-4o model. Added affirmation-agent.ts file, updated index.ts to export it, and added KV seed entries (versions.fo-10-affirmation._info.default and versions.fo-10-affirmation._model_name.default). All acceptance criteria pass: agent exports successfully and db:seed completes without errors."
+}

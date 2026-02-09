@@ -1,0 +1,15 @@
+{
+  "id": "kc2",
+  "title": "fo-10: E2E Test and Registration",
+  "description": "Create E2E test for FO-10 flow and register in navigation system.\n\n## Spec\n`docs/projects/2026-02-09-fo-10/2026-02-09-fo-10-spec.md`\n\n## Key Files\n- `e2e/fo-10.test.ts` — E2E test verifying complete flow\n- `nav.config.ts` — register FO-10\n- `app/fo-10/info/page.tsx` — info page\n\n## Worker Notes\n- E2E test pattern follows FO-09's structure\n- No serialization needed (per e2e-config.md)",
+  "notes": "2026-02-09 10:34 - FO-10 info page successfully created following FO-09 info page pattern. Navigation registration complete with both Demo and Info routes. Overview page updated with version card and comparison table entry. All files compile successfully.\n2026-02-09 10:41 - E2E test created successfully. Key learnings: (1) Step 4 uses 'Continue' button while steps 5-7 use 'Next' button, (2) Heart animations take ~3s to complete between discovery steps, (3) Fragment mode (step 5) appends text with '...' removal, sentence mode (steps 6-7) replaces text, (4) Chip counts verified: 8 initial + 15 expanded for AI-generated steps, (5) Test structure follows FO-09 pattern with adjustments for fixed 4-question flow and predefined topic chips.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-09T08:49:20.566038Z",
+  "updated_at": "2026-02-09T09:42:13.8184153Z",
+  "closed_at": "2026-02-09T09:42:13.8184153Z",
+  "closed_reason": "E2E test and registration complete: Created comprehensive e2e/fo-10.test.ts verifying all 15 steps. Registered FO-10 in nav.config.ts, created info page, updated overview page. E2E test passes, navigation works, TypeScript compiles successfully."
+}
