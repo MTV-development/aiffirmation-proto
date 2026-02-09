@@ -1,9 +1,10 @@
 'use server';
 
 import { createFO10ChipAgent } from '@/src/mastra/agents/fo-10/chip-agent';
-import { createFO09AffirmationAgent } from '@/src/mastra/agents/fo-09/affirmation-agent';
+import { createFO10AffirmationAgent } from '@/src/mastra/agents/fo-10/affirmation-agent';
 import { renderTemplate } from '@/src/services';
 import {
+  FO10_QUESTIONS,
   type FO10OnboardingData,
   type FO10ChipResponse,
   type FO10GenerateBatchOptions,
@@ -89,16 +90,15 @@ async function buildChipPrompt(
   }
 
   try {
-    // Flatten exchanges for Liquid template
-    const exchanges = context.exchanges.map((ex) => ({
-      question: ex.question,
-      answer_text: ex.answer.text || '',
-    }));
+    // Format conversation history as natural Q&A strings
+    const conversationHistory = context.exchanges
+      .map((ex) => `Q: ${ex.question}\nA: ${ex.answer.text || '(no response provided)'}`)
+      .join('\n\n');
 
-    // Extract individual answers for template variables
-    const goal = context.exchanges[0]?.answer.text || '';
-    const why_it_matters = context.exchanges[1]?.answer.text || '';
-    const situation = context.exchanges[2]?.answer.text || '';
+    // Get the next question from FO10_QUESTIONS array
+    // Step 5 uses question index 1, step 6 uses index 2, step 7 uses index 3
+    const questionIndex = stepNumber - 4;
+    const nextQuestion = FO10_QUESTIONS[questionIndex] || '';
 
     const { output } = await renderTemplate({
       key,
@@ -107,10 +107,8 @@ async function buildChipPrompt(
       variables: {
         name: context.name,
         familiarity: context.familiarityLevel,
-        exchanges,
-        goal,
-        why_it_matters,
-        situation,
+        conversation_history: conversationHistory,
+        next_question: nextQuestion,
       },
     });
     return output;
@@ -122,13 +120,22 @@ async function buildChipPrompt(
     lines.push(`Name: ${context.name}`);
     lines.push(`Familiarity: ${context.familiarityLevel}`);
     lines.push('');
-    lines.push('## Conversation History');
+    lines.push('## Conversation So Far');
     for (let i = 0; i < context.exchanges.length; i++) {
       const exchange = context.exchanges[i];
-      lines.push(`Question: ${exchange.question}`);
-      lines.push(`Answer: ${exchange.answer.text || '(no response provided)'}`);
+      lines.push(`Q: ${exchange.question}`);
+      lines.push(`A: ${exchange.answer.text || '(no response provided)'}`);
       lines.push('');
     }
+
+    // Get next question from FO10_QUESTIONS array
+    const questionIndex = stepNumber - 4;
+    const nextQuestion = FO10_QUESTIONS[questionIndex] || '';
+
+    lines.push('## Next Question');
+    lines.push(nextQuestion);
+    lines.push('');
+    lines.push('## Your Task');
 
     // Step-specific instructions
     if (stepNumber === 5) {
@@ -139,6 +146,7 @@ async function buildChipPrompt(
       lines.push('Generate 8 initial and 15 expanded complete sentences about tone/style of support.');
     }
 
+    lines.push('');
     lines.push('Return ONLY valid JSON with: { initialChips: [...], expandedChips: [...] }');
     return lines.join('\n');
   }
@@ -300,7 +308,7 @@ async function buildAffirmationPrompt(
 
     const { output } = await renderTemplate({
       key,
-      version: 'fo-09-affirmation',
+      version: 'fo-10-affirmation',
       implementation: 'default',
       variables,
     });
@@ -334,8 +342,8 @@ async function buildAffirmationPrompt(
 }
 
 /**
- * Server action to generate a batch of 5 affirmations using the FO-09 affirmation agent.
- * FO-10 reuses the FO-09 affirmation agent since the data structure is identical.
+ * Server action to generate a batch of 5 affirmations using the FO-10 affirmation agent.
+ * FO-10 has its own affirmation agent with instructions copied from FO-09 (for now).
  */
 export async function generateAffirmationBatchFO10(
   options: FO10GenerateBatchOptions
@@ -360,8 +368,8 @@ export async function generateAffirmationBatchFO10(
     // Build the user prompt from KV store template
     const userPrompt = await buildAffirmationPrompt(context, approvedAffirmations, skippedAffirmations);
 
-    // Use FO-09 affirmation agent (reused for FO-10)
-    const agent = await createFO09AffirmationAgent('default');
+    // Use FO-10 affirmation agent
+    const agent = await createFO10AffirmationAgent('default');
 
     console.log('[fo-10-affirmations] Batch number:', batchNumber);
     console.log('[fo-10-affirmations] Exchanges count:', context.exchanges.length);
