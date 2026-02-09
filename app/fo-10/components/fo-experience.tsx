@@ -40,6 +40,7 @@ export interface OnboardingState extends FO10OnboardingData {
   // Heart animation transition state
   showHeartAnimation: boolean;
   heartAnimationMessage: string;
+  heartAnimationCompleted: boolean; // Tracks if heart animation finished while waiting for chips
 
   // Discovery step state
   discoveryStep: number; // 0-3 (maps to questions array index)
@@ -79,6 +80,7 @@ const initialState: OnboardingState = {
   exchanges: [],
   showHeartAnimation: false,
   heartAnimationMessage: '',
+  heartAnimationCompleted: false,
   discoveryStep: 0,
   discoveryInputs: [
     { text: '' },
@@ -179,13 +181,56 @@ export function FOExperience() {
       }));
     } else {
       // Steps 4-6 - show "thank you" heart animation
+      // AND start fetching chips for the NEXT step during the animation
+      const nextDiscoveryStep = currentDiscoveryStep + 1;
       setState((prev) => ({
         ...prev,
         showHeartAnimation: true,
         heartAnimationMessage: `Thank you for sharing, ${prev.name}...`,
+        needsChipFetch: true, // Start fetching chips during heart animation
+        isLoadingChips: true,
+        chipsError: null,
       }));
+
+      // Fetch chips immediately (during heart animation)
+      const nextStepNumber = 4 + nextDiscoveryStep; // 5, 6, or 7
+      const context: FO10OnboardingData = {
+        name: state.name,
+        familiarityLevel: state.familiarityLevel,
+        exchanges: [...state.exchanges, newExchange],
+      };
+
+      generateChips(nextStepNumber, context).then((result) => {
+        if (result.error) {
+          setState((prev) => ({
+            ...prev,
+            isLoadingChips: false,
+            needsChipFetch: false,
+            chipsError: result.error || 'Failed to load chips',
+          }));
+        } else {
+          setState((prev) => ({
+            ...prev,
+            isLoadingChips: false,
+            needsChipFetch: false,
+            chipsError: null,
+            [`step${nextStepNumber}Chips`]: {
+              initial: result.initialChips,
+              expanded: result.expandedChips,
+            },
+          }));
+        }
+      }).catch((error) => {
+        console.error('[fo-10] Error fetching chips:', error);
+        setState((prev) => ({
+          ...prev,
+          isLoadingChips: false,
+          needsChipFetch: false,
+          chipsError: 'An unexpected error occurred',
+        }));
+      });
     }
-  }, [state.discoveryStep, state.discoveryInputs, state.name]);
+  }, [state.discoveryStep, state.discoveryInputs, state.name, state.familiarityLevel, state.exchanges]);
 
   // Handle heart animation completion
   const handleHeartAnimationComplete = useCallback(() => {
@@ -196,80 +241,51 @@ export function FOExperience() {
       setState((prev) => ({
         ...prev,
         showHeartAnimation: false,
+        heartAnimationCompleted: false,
         currentStep: 8, // Move to generation loading
         needsGeneration: true,
       }));
     } else {
-      // Move to next discovery step
+      // Check if chips are still loading - if so, mark animation as completed and wait
+      if (state.isLoadingChips) {
+        // Chips still loading - keep showing heart animation until chips are ready
+        setState((prev) => ({
+          ...prev,
+          heartAnimationCompleted: true,
+        }));
+        return;
+      }
+
+      // Move to next discovery step (chips are ready)
       const nextDiscoveryStep = currentDiscoveryStep + 1;
       const nextStep = 4 + nextDiscoveryStep; // Steps 4,5,6,7
 
       setState((prev) => ({
         ...prev,
         showHeartAnimation: false,
+        heartAnimationCompleted: false,
         discoveryStep: nextDiscoveryStep,
         currentStep: nextStep,
-        needsChipFetch: nextDiscoveryStep > 0, // Steps 5-7 need chips
       }));
     }
-  }, [state.discoveryStep]);
+  }, [state.discoveryStep, state.isLoadingChips]);
 
-  // Fetch chips for steps 5-7
-  const fetchChips = useCallback(async () => {
-    const stepNumber = 4 + state.discoveryStep; // Convert to actual step number (5, 6, 7)
 
-    try {
-      const context: FO10OnboardingData = {
-        name: state.name,
-        familiarityLevel: state.familiarityLevel,
-        exchanges: state.exchanges,
-      };
-
-      const result = await generateChips(stepNumber, context);
-
-      if (result.error) {
-        setState((prev) => ({
-          ...prev,
-          isLoadingChips: false,
-          needsChipFetch: false,
-          chipsError: result.error || 'Failed to load chips',
-        }));
-        return;
-      }
-
-      setState((prev) => ({
-        ...prev,
-        isLoadingChips: false,
-        needsChipFetch: false,
-        chipsError: null,
-        [`step${stepNumber}Chips`]: {
-          initial: result.initialChips,
-          expanded: result.expandedChips,
-        },
-      }));
-    } catch (error) {
-      console.error('[fo-10] Error fetching chips:', error);
-      setState((prev) => ({
-        ...prev,
-        isLoadingChips: false,
-        needsChipFetch: false,
-        chipsError: 'An unexpected error occurred',
-      }));
-    }
-  }, [state.discoveryStep, state.name, state.familiarityLevel, state.exchanges]);
-
-  // Trigger chip fetch when needed
+  // Transition to next step when heart animation completed and chips are ready
   useEffect(() => {
-    if (state.needsChipFetch && !state.showHeartAnimation) {
+    if (state.heartAnimationCompleted && !state.isLoadingChips && !state.chipsError) {
+      const nextDiscoveryStep = state.discoveryStep + 1;
+      const nextStep = 4 + nextDiscoveryStep; // Steps 5,6,7
+
       setState((prev) => ({
         ...prev,
-        isLoadingChips: true,
-        chipsError: null,
-        needsChipFetch: false,
+        showHeartAnimation: false,
+        heartAnimationCompleted: false,
+        discoveryStep: nextDiscoveryStep,
+        currentStep: nextStep,
       }));
-      fetchChips();
     }
-  }, [state.needsChipFetch, state.showHeartAnimation, fetchChips]);
+  }, [state.heartAnimationCompleted, state.isLoadingChips, state.chipsError, state.discoveryStep]);
 
   // Generate affirmations
   const generateAffirmations = useCallback(async () => {
