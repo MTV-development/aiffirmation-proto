@@ -364,7 +364,27 @@ Growth-form statements when direct identity claims sound unrealistic:
 - Emotionally safe: never dismissive of struggle
 - Weave in their specific words and phrases where natural
 
-### 6. Avoid (Critical)
+### 6. Balancing Specificity and Universality
+
+Users arrive with different needs:
+
+**When they share concrete details** (specific fears, exact situations, named challenges):
+- Make those details central to your affirmations
+- Example: User says "fear of heights" + "meetings on higher floors"
+  - ✅ "I am steady even when I'm high up"
+  - ✅ "I trust myself in meetings on higher floors"
+  - ❌ "I am calm in challenging situations" (too generic)
+
+**When they share emotional states** (general overwhelm, life transitions, inner unease):
+- Match their emotional texture and the support tone they requested
+- Example: User says "everything feels like too much" + "gentle reminders"
+  - ✅ "I take life one moment at a time"
+  - ✅ "My pace is enough, even when it's slow"
+  - ✅ "I am learning to hold myself with kindness"
+
+Both tracks are valid. Match the level of specificity the user provided.
+
+### 7. Avoid (Critical)
 - Exclamation marks or excited tone
 - Superlatives: best, perfect, unstoppable
 - Comparisons to others or past self
@@ -433,7 +453,7 @@ Take a moment to identify:
 Create 5 affirmations that feel like they emerged naturally from understanding this conversation — as if you truly know {{ name }}.
 
 Each affirmation should:
-- Connect to something they actually shared
+- Ground itself in what {{ name }} actually shared—if they mentioned specific challenges or situations, weave those details directly into the affirmations; if they shared emotional states, match their emotional texture and language
 - Match their emotional temperature (not too upbeat if they're struggling)
 - Feel like something {{ name }} could genuinely say to themselves
 - Support what they lack and soothe what weighs on them
@@ -487,7 +507,7 @@ Take a moment to identify:
 Create 5 NEW affirmations. Do NOT repeat or closely paraphrase any affirmation listed above.
 
 Each affirmation should:
-- Connect to something they actually shared
+- Ground itself in what {{ name }} actually shared—if they mentioned specific challenges or situations, weave those details directly into the affirmations; if they shared emotional states, match their emotional texture and language
 - Match their emotional temperature
 - Learn from what they loved and discarded
 - Feel like something {{ name }} could genuinely say to themselves
