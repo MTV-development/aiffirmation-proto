@@ -1,0 +1,16 @@
+{
+  "id": "j13",
+  "title": "Create KV store seeds and register",
+  "description": "## Objective\n\nCreate the KV store seed data for both FO-11 agents (discovery + affirmation) and register them in the seed index.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md — Section: \"KV Store Keys\"\n\n## Scope\n\n**Files to create:**\n- src/db/seeds/fo-11.ts\n\n**Files to modify:**\n- src/db/seeds/index.ts — Add fo-11 import and spread\n\n## Implementation\n\n1. Create src/db/seeds/fo-11.ts with all seed entries. Reference src/db/seeds/fo-10.ts for the exact pattern.\n2. Discovery agent seeds (version namespace fo-11-discovery):\n   - _info.default, _model_name.default (gpt-4o), _temperature.default (0.8)\n   - system.default — System prompt with intent framework, question adaptation, skip logic, chip format rules\n   - prompt_step_5.default — Intent: understand life context. Chip format: fragments ending with \"...\". Skip rule: if goal answer already has rich context, set skip=true. Output format: JSON with skip, question, initialChips (8), expandedChips (15)\n   - prompt_step_6.default — Intent: learn preferred support tone. Chip format: single words only. Never skip. Output format: JSON with skip=false, question, initialChips (8), expandedChips (12)\n3. Affirmation agent seeds (version namespace fo-11-affirmation):\n   - _info.default, _model_name.default (gpt-4o), _temperature.default (0.9)\n   - system.default — Copy from fo-10-affirmation system prompt\n   - prompt.default — Initial generation prompt (same as fo-10 but without familiarity reference)\n   - prompt_with_feedback.default — With liked/discarded context\n4. Add import and spread to src/db/seeds/index.ts\n\n## Tests\n\n1. TypeCheck — seed file compiles\n2. SeedRun — npm run db:seed completes without errors\n\nRun: npx tsc --noEmit \u0026\u0026 npm run db:seed\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "ybk",
+  "acceptance_criteria": "npm run db:seed completes without errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:33:53.1101596Z",
+  "updated_at": "2026-02-11T14:02:54.7357841Z",
+  "closed_at": "2026-02-11T14:02:54.7357841Z",
+  "closed_reason": "Created src/db/seeds/fo-11.ts with 12 seed entries: 6 for discovery agent (info, model, temp, system, prompt_step_5, prompt_step_6) and 6 for affirmation agent (info, model, temp, system, prompt, prompt_with_feedback). Registered in src/db/seeds/index.ts. Both npx tsc --noEmit and npm run db:seed pass clean."
+}

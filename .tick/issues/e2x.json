@@ -1,0 +1,15 @@
+{
+  "id": "e2x",
+  "title": "FO-11: E2E Testing",
+  "description": "## Scope\n\nCreates comprehensive E2E tests for FO-11 covering both the skip and non-skip discovery flows, tone single-word chips, affirmation generation, card review, and the full end-to-end flow.\n\n## Spec Reference\n\n`docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md` — Section: \"Testing Strategy\"\n\n## Key Files\n\n- `e2e/fo-11.test.ts` — Full E2E test suite\n\n## Worker Instructions\n\n- Complete tasks in order\n- Read `docs/projects/2026-02-11-fo-11/implementation-notes.md` before starting\n- Append your learnings to `docs/projects/2026-02-11-fo-11/implementation-notes.md` when all tasks are done\n- Reference `docs/current/e2e-testing.md` and `docs/current/e2e/e2e-config.md` for test patterns\n- Use FO-10 E2E test as base pattern if it exists, otherwise FO-09\n- Check epic notes: `tk notes \u003cthis-epic-id\u003e`",
+  "notes": "2026-02-11 15:27 - EPIC COMPLETE: Created comprehensive E2E tests for FO-11 in e2e/fo-11.test.ts. Tests cover both non-skip (brief goal) and skip (rich goal) flows, validating LLM-generated questions, fragment chips, single-word tone chips, heart animations, card review, create-more second batch, and full completion. Both flows pass end-to-end. Test runs in ~3-4 minutes total (two full browser sessions). Key pattern: test uses shared helper functions extracted into named functions (runWelcomeSteps, runFamiliarityStep, etc.) making it easy to compose flow variations.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:32:30.044976Z",
+  "updated_at": "2026-02-11T14:28:12.5224221Z",
+  "closed_at": "2026-02-11T14:28:12.5224221Z",
+  "closed_reason": "E2E tests written and passing for both skip and non-skip flows"
+}

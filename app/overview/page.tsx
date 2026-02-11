@@ -190,6 +190,16 @@ const versions: VersionCard[] = [
     outputType: 'Card curation (Love it / Discard)',
     highlight: 'Hardcoded questions, AI chips',
   },
+  {
+    id: 'FO-11',
+    name: 'Guided Discovery Hybrid',
+    href: '/fo-11',
+    tagline: 'Structured intent, conversational delivery',
+    description: 'LLM adapts questions to prior answers and can skip redundant steps. Single-word tone chips. Best of FO-09 dynamics + FO-10 structure.',
+    inputType: 'Static chips → LLM fragments → LLM single-word chips',
+    outputType: 'Card curation (Love it / Discard)',
+    highlight: 'Adaptive questions with skip logic',
+  },
 ];
 
 export default function OverviewPage() {
@@ -377,12 +387,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
                   <td className="py-2">Two-stage discovery + card curation</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-10</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (iterative)</td>
                   <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
                   <td className="py-2">Fixed questions + dynamic chips</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-11</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (adaptive)</td>
+                  <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
+                  <td className="py-2">Adaptive questions + skip logic</td>
                 </tr>
               </tbody>
             </table>

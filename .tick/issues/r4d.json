@@ -1,0 +1,16 @@
+{
+  "id": "r4d",
+  "title": "Create server actions",
+  "description": "## Objective\n\nCreate the server actions for FO-11: generateDiscoveryStep() and generateAffirmationBatchFO11().\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md — Sections: \"Discovery Agent\", \"Data Flow\"\n\n## Scope\n\n**Files to create:**\n- app/fo-11/actions.ts\n\n## Implementation\n\n1. Create generateDiscoveryStep(stepNumber: 5|6, context: FO11OnboardingData): Promise\u003cFO11DiscoveryResponse\u003e\n   - Validates step number (only 5 or 6)\n   - Builds user prompt from KV store template (prompt_step_5 or prompt_step_6)\n   - Calls the discovery agent\n   - Parses JSON response with skip, question, initialChips, expandedChips\n   - For step 6: force skip=false even if agent returns true (safety guard)\n   - Include conversation_history formatting as Q/A pairs\n2. Create generateAffirmationBatchFO11(options: FO11GenerateBatchOptions): Promise\u003cFO11GenerateBatchResult\u003e\n   - Same pattern as FO-10's generateAffirmationBatchFO10\n   - Handles both 2-exchange and 3-exchange flows (variable length)\n   - Does NOT pass familiarityLevel to the prompt\n3. Include all parsing helpers: parseDiscoveryResponse(), parseAffirmationsResponse()\n4. Use 'use server' directive at top\n5. Reference app/fo-10/actions.ts for the exact pattern\n\n## Tests\n\n1. TypeCheck — actions file compiles\n\nRun: npx tsc --noEmit\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "ybk",
+  "acceptance_criteria": "npx tsc --noEmit passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:34:07.6472318Z",
+  "updated_at": "2026-02-11T14:04:23.6890432Z",
+  "closed_at": "2026-02-11T14:04:23.6890432Z",
+  "closed_reason": "Created app/fo-11/actions.ts with generateDiscoveryStep() (steps 5-6, skip logic, step 6 skip safety guard) and generateAffirmationBatchFO11() (variable-length exchanges, no familiarity). Includes parseDiscoveryResponse/parseAffirmationsResponse helpers, KV template rendering with fallbacks, and proper validation. npx tsc --noEmit passes clean."
+}

@@ -1,0 +1,19 @@
+{
+  "id": "9ea",
+  "title": "Copy base components and extend FragmentInput",
+  "description": "## Objective\n\nCopy all reusable components from FO-10 to FO-11 and extend FragmentInput with mode=\"words\" for single-word tone chips.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md — Sections: \"Reuse from FO-10\", \"FragmentInput Mode Extension\"\n\n## Scope\n\n**Files to create (copy from app/fo-10/components/):**\n- app/fo-11/components/step-welcome.tsx\n- app/fo-11/components/step-familiarity.tsx\n- app/fo-11/components/step-goal.tsx\n- app/fo-11/components/heart-animation.tsx\n- app/fo-11/components/affirmation-card-flow.tsx\n- app/fo-11/components/affirmation-card.tsx\n- app/fo-11/components/affirmation-summary.tsx\n- app/fo-11/components/step-background.tsx\n- app/fo-11/components/step-notifications.tsx\n- app/fo-11/components/step-paywall.tsx\n- app/fo-11/components/step-completion.tsx\n- app/fo-11/components/fragment-input.tsx (copy + extend)\n\n## Implementation\n\n1. Copy all listed components from app/fo-10/components/ to app/fo-11/components/\n2. In step-goal.tsx: update import from '../types' — the FO-11 types use FO11_GOAL_QUESTION instead of FO10_QUESTIONS[0]\n3. In step-familiarity.tsx: no functional changes needed (cosmetic only — familiarity value stays in UI state but wont be passed to agents)\n4. In fragment-input.tsx: Add mode=\"words\" support:\n   - Add \"words\" to the mode union type: mode?: 'sentences' | 'fragments' | 'words'\n   - When mode=\"words\": remove max-w-[200px] constraint, remove whitespace-normal text-left, add text-center\n   - When mode=\"words\": clicking a chip appends the word (same as sentence mode — no \"...\" removal)\n   - Keep all existing modes working identically\n5. Fix any FO-10-specific imports to reference FO-11 types\n\n## Tests\n\n1. TypeCheck — all copied components compile\n\nRun: npx tsc --noEmit\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "r4d"
+  ],
+  "parent": "69h",
+  "acceptance_criteria": "npx tsc --noEmit passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:34:23.6585567Z",
+  "updated_at": "2026-02-11T14:11:11.3085704Z",
+  "closed_at": "2026-02-11T14:11:11.3085704Z",
+  "closed_reason": "Copied 11 base components from FO-10 to FO-11, updated step-goal to use FO11_GOAL_QUESTION, extended FragmentInput with mode=words (removes max-w/whitespace constraints, adds text-center), added helperText prop. npx tsc --noEmit passes clean."
+}
