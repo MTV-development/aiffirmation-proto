@@ -76,3 +76,33 @@
 - State machine simplified vs FO-10: no discoveryStep index or discoveryInputs array, uses named fields
 - StepCompletion uses HTML entities (&#x1F49C; and &#x2726;) instead of literal emoji to avoid encoding issues
 - FO-11 total steps: 14 (0-13) vs FO-10's 15 (0-14)
+
+---
+
+### Epic: E2E Testing — e2x
+
+**Completed:** 2026-02-11
+
+**Files created:**
+- `e2e/fo-11.test.ts` — Comprehensive E2E test covering both skip and non-skip flows
+
+**Patterns established:**
+- Test uses shared helper functions (runWelcomeSteps, runFamiliarityStep, runGoalStep, etc.) extracted into named async functions, making it easy to compose flow variations
+- Two separate browser sessions: one for non-skip flow, one for skip flow (clean state each time)
+- Non-skip trigger: brief goal "Motivation" -> step 5 context appears with LLM question + fragment chips
+- Skip trigger: rich goal "I need motivation because I have a big exam..." -> step 5 skipped, tone step appears directly
+- countAllChipButtons() helper needed for single-word chips (existing countChips() requires text.length > 10 which misses short words)
+- "Create more" test in skip flow validates second batch generation with accumulated affirmations
+
+**Key verification points:**
+- LLM-generated questions verified by checking h2 text content is non-empty and > 10 chars (not checking exact text since it varies)
+- Fragment chips verified via countFragments() checking "..." endings
+- Single-word tone chips verified by splitting on whitespace and checking wordCount <= 2
+- Helper text "calm, motivational, gentle, clear..." confirms tone step (not context step)
+- Heart animations detected via SVG viewBox selector
+- Skip detection: after heart animation, helper text presence confirms we're on tone step not context step
+
+**Test execution:**
+- Run command: `node --import tsx e2e/fo-11.test.ts`
+- Total runtime: ~3-4 minutes (two full browser sessions with AI generation)
+- Both flows pass: non-skip (3 exchanges) and skip (2 exchanges) produce valid affirmations
