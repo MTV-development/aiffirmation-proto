@@ -1,0 +1,17 @@
+{
+  "id": "0c3",
+  "title": "Write and run FO-11 E2E tests",
+  "description": "## Objective\n\nCreate comprehensive E2E tests for FO-11 covering the non-skip flow, skip flow, tone single-word chips, affirmation generation, and card review.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md — Section: \"Testing Strategy\"\n**E2E setup:** docs/current/e2e-testing.md\n**E2E config:** docs/current/e2e/e2e-config.md\n\n## Scope\n\n**Files to create:**\n- e2e/fo-11.test.ts\n\n## Implementation\n\n1. Read docs/current/e2e-testing.md and docs/current/e2e/e2e-config.md for patterns and setup\n2. Reference the most recent E2E test (e2e/fo-10.test.ts or fo-09.test.ts) for helper functions and patterns\n3. Test the NON-SKIP flow (brief goal answer like \"Motivation\"):\n   - Welcome steps 0-2 (name input, navigation)\n   - Familiarity selection (step 3)\n   - Goal step 4: type brief answer, verify static chips visible\n   - Heart animation after step 4\n   - Context step 5: verify LLM question appears (NOT hardcoded), fragment chips with \"...\" endings\n   - Heart animation after step 5\n   - Tone step 6: verify LLM question appears, single-word chips (not sentences)\n   - Heart animation \"creating affirmations\"\n   - Affirmation generation completes\n   - Card review: Love/Discard 5 cards\n   - Summary screen with loved affirmations\n4. Test the SKIP flow (rich goal answer like \"I need motivation because I have a big exam tomorrow and I'm scared\"):\n   - Steps 0-4 same as above but with rich goal text\n   - After step 4 heart animation, step 5 should be SKIPPED\n   - Step 6 (tone) appears directly\n   - Rest of flow continues normally\n5. Test edge cases:\n   - Tone chips are single words (verify no multi-word chips)\n   - \"Create more\" generates another batch\n\n## Tests\n\nRun: node --import tsx e2e/fo-11.test.ts\n\nEnsure dev server is running first (npm run dev).\n\nDo NOT close until tests pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "f4c"
+  ],
+  "parent": "e2x",
+  "acceptance_criteria": "node --import tsx e2e/fo-11.test.ts passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:35:25.6347816Z",
+  "updated_at": "2026-02-11T13:35:31.3683067Z"
+}

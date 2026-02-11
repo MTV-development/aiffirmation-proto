@@ -1,0 +1,12 @@
+{
+  "id": "69h",
+  "title": "FO-11: UI (Components, State Machine, Pages)",
+  "description": "## Scope\n\nBuilds the complete FO-11 user interface: copies base components from FO-10, extends FragmentInput with mode=\"words\", creates new step-context and step-tone components, builds the main state machine with skip logic, and registers FO-11 in navigation and overview.\n\n## Spec Reference\n\n`docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md` — Sections: \"Flow\", \"Discovery Phase Detail\", \"Heart Animation Transitions\", \"Reuse from FO-10\", \"New/Modified Components\", \"FragmentInput Mode Extension\", \"Registration\"\n\n## Key Files\n\n- `app/fo-11/components/fo-experience.tsx` — Main state machine with 2-3 discovery steps + skip logic\n- `app/fo-11/components/step-context.tsx` — NEW: Step 5 with LLM question + fragments\n- `app/fo-11/components/step-tone.tsx` — NEW: Step 6 with LLM question + single-word chips\n- `app/fo-11/components/fragment-input.tsx` — Extended with mode=\"words\"\n- `app/fo-11/page.tsx`, `layout.tsx`, `fo-11-layout-client.tsx` — Page scaffolding\n- `app/fo-11/info/page.tsx` — Info page\n- `nav.config.ts` — Navigation registration\n- `app/overview/page.tsx` — Overview registration\n\n## Worker Instructions\n\n- Complete tasks in order (they build on each other)\n- Read `docs/projects/2026-02-11-fo-11/implementation-notes.md` before starting\n- Append your learnings to `docs/projects/2026-02-11-fo-11/implementation-notes.md` when all tasks are done\n- Use FO-10 components as the primary copy source (`app/fo-10/components/`)\n- The types and server actions from Epic A are already in place\n- Check epic notes: `tk notes \u003cthis-epic-id\u003e`",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:32:21.7457883Z",
+  "updated_at": "2026-02-11T13:32:21.7457883Z"
+}

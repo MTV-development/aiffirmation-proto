@@ -1,0 +1,12 @@
+{
+  "id": "ybk",
+  "title": "FO-11: Foundation (Types, Agents, Seeds, Actions)",
+  "description": "## Scope\n\nCreates the entire backend layer for FO-11: TypeScript types, discovery agent, affirmation agent, KV store seeds, server actions, and seed registration. After this epic, the discovery agent can generate adapted questions/chips/skip-signals, and the affirmation agent can generate affirmations from variable-length exchange arrays.\n\n## Spec Reference\n\n`docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md` — Sections: \"Technical Architecture\", \"Discovery Agent\", \"KV Store Keys\", \"Exchange Structure\"\n\n## Key Files\n\n- `app/fo-11/types.ts` — FO11DiscoveryResponse, FO11OnboardingData, step constants\n- `src/mastra/agents/fo-11/discovery-agent.ts` — New discovery agent (question + chips + skip)\n- `src/mastra/agents/fo-11/affirmation-agent.ts` — Based on FO-10 affirmation agent\n- `src/mastra/agents/fo-11/index.ts` — Agent exports\n- `src/db/seeds/fo-11.ts` — KV store seeds for both agents\n- `src/db/seeds/index.ts` — Register fo-11 seeds\n- `app/fo-11/actions.ts` — Server actions: generateDiscoveryStep(), generateAffirmationBatchFO11()\n\n## Worker Instructions\n\n- Complete tasks in order (they build on each other)\n- Read `docs/projects/2026-02-11-fo-11/implementation-notes.md` before starting\n- Append your learnings to `docs/projects/2026-02-11-fo-11/implementation-notes.md` when all tasks are done\n- Use FO-10 as the primary reference implementation (`app/fo-10/`, `src/mastra/agents/fo-10/`, `src/db/seeds/fo-10.ts`)\n- Check epic notes: `tk notes \u003cthis-epic-id\u003e`",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-11T13:32:09.2942851Z",
+  "updated_at": "2026-02-11T13:32:09.2942851Z"
+}
