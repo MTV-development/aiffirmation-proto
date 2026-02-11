@@ -2,7 +2,7 @@
   "id": "4pn",
   "title": "Create discovery and affirmation agents",
   "description": "## Objective\n\nCreate the FO-11 discovery agent (generates adapted questions + chips + skip signal) and affirmation agent (generates affirmations from variable-length exchanges).\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-11-fo-11/2026-02-11-fo-11-spec.md — Section: \"Discovery Agent\"\n\n## Scope\n\n**Files to create:**\n- src/mastra/agents/fo-11/discovery-agent.ts — New agent with DEFAULT_INSTRUCTIONS for intent-based discovery\n- src/mastra/agents/fo-11/affirmation-agent.ts — Based on fo-10 affirmation agent\n- src/mastra/agents/fo-11/index.ts — Re-exports\n\n## Implementation\n\n1. Copy src/mastra/agents/fo-10/affirmation-agent.ts to fo-11, rename IDs to fo-11-affirmation\n2. Create discovery-agent.ts with system prompt that understands step intents, can formulate questions, decide to skip step 5, and generate chips in the required format (fragments for step 5, single words for step 6)\n3. The discovery agent DEFAULT_INSTRUCTIONS should cover: understanding intents, adapting questions to reference previous answers, skip logic for step 5, chip format constraints per step\n4. Create index.ts that exports both agents\n5. Use the same getAgentModelName/getAgentSystemPrompt/getModel pattern as FO-10\n\nReference src/mastra/agents/fo-10/ for the agent pattern.\n\n## Tests\n\n1. TypeCheck — all agent files compile without errors\n\nRun: npx tsc --noEmit\n\nDo NOT close until tests pass.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -10,5 +10,7 @@
   "acceptance_criteria": "npx tsc --noEmit passes",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-11T13:33:37.9044227Z",
-  "updated_at": "2026-02-11T13:33:37.9044227Z"
+  "updated_at": "2026-02-11T14:00:51.0418149Z",
+  "closed_at": "2026-02-11T14:00:51.0418149Z",
+  "closed_reason": "Created discovery agent (src/mastra/agents/fo-11/discovery-agent.ts) with intent-based system prompt covering skip logic, question adaptation, and chip format constraints per step. Created affirmation agent (affirmation-agent.ts) based on FO-10 but without familiarity references and supporting variable-length exchanges. Created index.ts re-exporting both. npx tsc --noEmit passes clean."
 }
