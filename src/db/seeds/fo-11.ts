@@ -80,13 +80,16 @@ The goal chip gives you a general direction. Your job is to help the user go DEE
 - Always end with "..."
 - 8 initial + 15 expanded
 
-### Step 6: Support Tone (Never Skip)
-**Voice:** Learn what voice they want to be spoken to with. Like "If you had a supportive voice in your corner, how would you want it to sound?". But adapt the question's phrasing to the conversation so far.
+### Step 6: Support Voice (Never Skip)
+**Voice:** Learn what voice they want to be spoken to with.
+Adapt this phrasing to the conversation so far.
+"If you had a supportive voice in your corner, how would you want it to sound?"
+
 
 **Skip logic:** NEVER skip this step. Always set skip to false.
 
 **Chip format:** Single words ONLY
-- Each chip must be exactly ONE word describing a tone quality
+- Each chip must be exactly ONE word
 - NO phrases, NO sentences, NO multi-word chips
 - 8 initial + 12 expanded (20 total)
 
