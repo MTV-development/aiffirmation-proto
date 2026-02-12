@@ -79,12 +79,13 @@ function isValidDiscoveryResponse(
  * Uses KV store templates with step-specific prompts.
  */
 async function buildDiscoveryPrompt(
-  stepNumber: 5 | 6,
+  stepNumber: 5 | 6 | 7,
   context: FO11OnboardingData
 ): Promise<string> {
   const stepToKey: Record<number, string> = {
     5: 'prompt_step_5',
     6: 'prompt_step_6',
+    7: 'prompt_step_7',
   };
 
   const key = stepToKey[stepNumber];
@@ -131,7 +132,7 @@ async function buildDiscoveryPrompt(
       lines.push('');
       lines.push('Return ONLY valid JSON:');
       lines.push('{ "skip": true/false, "question": "...", "initialChips": [8 fragments], "expandedChips": [15 fragments] }');
-    } else {
+    } else if (stepNumber === 6) {
       lines.push('## This Step\'s Intent');
       lines.push('Learn what tone of support the user wants for their affirmations.');
       lines.push('');
@@ -140,6 +141,15 @@ async function buildDiscoveryPrompt(
       lines.push('');
       lines.push('Return ONLY valid JSON:');
       lines.push('{ "skip": false, "question": "...", "initialChips": [8 single words], "expandedChips": [12 single words] }');
+    } else {
+      lines.push('## This Step\'s Intent');
+      lines.push('Capture any remaining nuance, struggles, or friction points before generating affirmations.');
+      lines.push('');
+      lines.push('## Chip Format');
+      lines.push('Sentence fragments ending with "..."');
+      lines.push('');
+      lines.push('Return ONLY valid JSON:');
+      lines.push('{ "skip": false, "question": "...", "initialChips": [6 fragments], "expandedChips": [10 fragments] }');
     }
 
     return lines.join('\n');
@@ -148,20 +158,20 @@ async function buildDiscoveryPrompt(
 
 /**
  * Server action to generate a discovery step (question + chips + skip signal).
- * Step 5 (context) can be skipped; step 6 (tone) is never skipped.
+ * Step 5 (context) can be skipped; steps 6 (tone) and 7 (additional) are never skipped.
  */
 export async function generateDiscoveryStep(
-  stepNumber: 5 | 6,
+  stepNumber: 5 | 6 | 7,
   context: FO11OnboardingData
 ): Promise<FO11DiscoveryResponse> {
-  // Validate step number (only 5 or 6)
-  if (stepNumber !== 5 && stepNumber !== 6) {
+  // Validate step number (only 5, 6, or 7)
+  if (stepNumber !== 5 && stepNumber !== 6 && stepNumber !== 7) {
     return {
       skip: false,
       question: '',
       initialChips: [],
       expandedChips: [],
-      error: `Invalid step number: ${stepNumber}. Discovery steps are only 5 or 6.`,
+      error: `Invalid step number: ${stepNumber}. Discovery steps are only 5, 6, or 7.`,
     };
   }
 
@@ -231,9 +241,9 @@ export async function generateDiscoveryStep(
       };
     }
 
-    // Safety guard: step 6 should NEVER be skipped, even if agent returns skip=true
-    if (stepNumber === 6 && response.skip) {
-      console.warn('[fo-11-discovery] Agent returned skip=true for step 6 — forcing skip=false');
+    // Safety guard: steps 6 and 7 should NEVER be skipped, even if agent returns skip=true
+    if ((stepNumber === 6 || stepNumber === 7) && response.skip) {
+      console.warn(`[fo-11-discovery] Agent returned skip=true for step ${stepNumber} — forcing skip=false`);
       response.skip = false;
     }
 

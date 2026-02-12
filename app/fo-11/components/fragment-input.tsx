@@ -13,6 +13,7 @@ interface FragmentInputProps {
   isLoading?: boolean;
   mode?: 'sentences' | 'fragments' | 'words';
   helperText?: string;
+  optional?: boolean;
 }
 
 /**
@@ -41,6 +42,7 @@ export function FragmentInput({
   isLoading = false,
   mode = 'fragments',
   helperText,
+  optional = false,
 }: FragmentInputProps) {
   // State tracking
   const [showMore, setShowMore] = useState(false);
@@ -49,7 +51,7 @@ export function FragmentInput({
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Determine if Continue button should be enabled
-  const canContinue = hasUserTyped && value.text.trim().length > 0;
+  const canContinue = optional ? true : (hasUserTyped && value.text.trim().length > 0);
 
   // Get visible fragments based on state - initial fragments always visible
   const visibleFragments = showMore

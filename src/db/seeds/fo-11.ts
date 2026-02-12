@@ -10,9 +10,10 @@ export const fo11Seeds: SeedEntry[] = [
       name: 'Default',
       text: `FO-11 Discovery Agent: Intent-Based Guided Discovery
 
-Generates adapted questions, contextual chips, and skip signals for steps 5-6 of the discovery flow.
+Generates adapted questions, contextual chips, and skip signals for steps 5-7 of the discovery flow.
 - Step 5 (Context): Hybrid fragments ending with "..." — skippable if goal answer is rich
-- Step 6 (Tone): Single-word chips — never skipped`,
+- Step 6 (Tone): Single-word chips — never skipped
+- Step 7 (Additional Context): Sentence fragments ending with "..." — never skipped, optional input`,
       author: 'System',
       createdAt: '2026-02-11',
     },
@@ -80,7 +81,7 @@ The goal chip gives you a general direction. Your job is to help the user go DEE
 - 8 initial + 15 expanded
 
 ### Step 6: Support Tone (Never Skip)
-**Intent:** Learn what tone of support the user wants for their affirmations.
+**Voice:** Learn what voice they want to be spoken to with. Like "If you had a supportive voice in your corner, how would you want it to sound?". But adapt the question's phrasing to the conversation so far.
 
 **Skip logic:** NEVER skip this step. Always set skip to false.
 
@@ -88,6 +89,18 @@ The goal chip gives you a general direction. Your job is to help the user go DEE
 - Each chip must be exactly ONE word describing a tone quality
 - NO phrases, NO sentences, NO multi-word chips
 - 8 initial + 12 expanded (20 total)
+
+### Step 7: Additional Context (Never Skip, Optional Input)
+**Intent:** Final chance to capture any remaining nuance, struggles, friction points, or micro-triggers before generating affirmations.
+
+**Question style:** "Is there anything else you'd like to share about [their situation] before we create your affirmations?" — adapted to the conversation context, referencing specific details they shared rather than echoing the goal label.
+
+**Skip logic:** NEVER skip this step. Always set skip to false. (The user can choose to submit an empty response — that's handled by the UI, not by you.)
+
+**Chip format:** Sentence fragments ending with "..."
+- Each chip is an incomplete sentence starter about common struggles
+- Always end with "..."
+- 6 initial + 10 expanded (16 total)
 
 ## Output Format
 
@@ -205,6 +218,56 @@ Return ONLY valid JSON:
     },
   },
 
+  {
+    key: 'versions.fo-11-discovery.prompt_step_7.default',
+    value: {
+      text: `## User Context
+Name: {{ name }}
+
+## Conversation So Far
+
+{{ conversation_history }}
+
+## This Step's Intent
+
+Capture any remaining nuance, struggles, friction points, or micro-triggers from {{ name }} before generating affirmations. This is their final chance to share something that will make the affirmations feel deeply personal.
+
+## Skip Rule
+
+NEVER skip this step. Always set skip to false. (The user may choose to leave the input empty — that is handled by the UI, not by you.)
+
+## Chip Format
+
+Generate SENTENCE FRAGMENTS ending with "..."
+- Each chip is an incomplete sentence starter about common struggles or friction points related to their situation
+- Always end with "..."
+- Focus on patterns like: barriers, triggers, recurring feelings, timing, relationships to the challenge
+- Use natural, conversational language
+
+**Examples:**
+- "I often lack motivation when..."
+- "The hardest part for me is..."
+- "I especially struggle with..."
+- "What holds me back most is..."
+- "I tend to give up when..."
+- "I feel most overwhelmed by..."
+
+## Your Task
+
+1. Set skip to false (never skip this step)
+2. Formulate a question like "Is there anything else you'd like to share about [their specific situation] before we create your affirmations?" — reference the SPECIFIC details {{ name }} has shared (not the initial goal label). Make it feel like an invitation, not an interrogation.
+3. Generate sentence-fragment chips that explore common struggle patterns related to what {{ name }} has shared so far
+
+Return ONLY valid JSON:
+{
+  "skip": false,
+  "question": "Your adapted question inviting additional context",
+  "initialChips": [6 sentence fragments ending with "..."],
+  "expandedChips": [10 more sentence fragments ending with "..."]
+}`,
+    },
+  },
+
   // ============================================================
   // FO-11 Affirmation Agent
   // ============================================================
@@ -214,8 +277,8 @@ Return ONLY valid JSON:
       name: 'Default',
       text: `FO-11 Affirmation Generation Agent
 
-Creates deeply meaningful, psychologically effective affirmations based on the user's guided discovery conversation (steps 4-6).
-Handles both 2-exchange (goal + tone) and 3-exchange (goal + context + tone) flows.
+Creates deeply meaningful, psychologically effective affirmations based on the user's guided discovery conversation (steps 4-7).
+Handles variable exchange counts: 2-4 exchanges depending on skip/optional steps.
 Does not use familiarity level — conversation content drives everything.`,
       author: 'System',
       createdAt: '2026-02-11',
@@ -242,9 +305,13 @@ Does not use familiarity level — conversation content drives everything.`,
 
 You receive rich context from a personalized discovery conversation:
 - **Name**: The user's name - use it to personalize where natural
-- **Conversation History**: A series of exchanges (2 or 3) capturing their journey through goal, life context (optional), and preferred tone
+- **Conversation History**: A series of exchanges (2 to 4) capturing their journey through goal, life context (optional), preferred tone, and additional context (optional)
 
-The conversation may have 2 exchanges (goal + tone) or 3 exchanges (goal + context + tone). Both are valid — the user may have provided enough context in their goal answer that the context question was skipped.
+The conversation may have 2-4 exchanges:
+- 2 exchanges: goal + tone (context skipped, additional empty)
+- 3 exchanges: goal + context + tone OR goal + tone + additional
+- 4 exchanges: goal + context + tone + additional
+All are valid — the user may skip optional steps or provide empty input on the additional context step.
 
 ## Critical: Weighting User Responses vs. Question Text
 
@@ -258,7 +325,8 @@ The questions in the conversation were generated by the system. The user's RESPO
 - User's specific details (fears, situations, challenges, emotions) → PRIMARY driver of affirmation content
 - The initial goal label (first response) → general direction only, mentioned in ~1 of 5 affirmations at most
 - System-generated question text → ignore as a content signal (it may echo the goal label)
-- Tone preference (last response) → determines HOW affirmations feel, not WHAT they address
+- Tone preference (tone exchange) → determines HOW affirmations feel, not WHAT they address
+- Additional context (if present, typically the last exchange) → extra nuance about struggles and friction points
 
 ## The Goal
 
@@ -390,6 +458,14 @@ Read this conversation carefully. It reveals {{ name }}'s emotional state, inner
 {% endfor %}
 ---
 
+## Exchange Structure
+
+The conversation follows this structure (some steps may be absent):
+1. **Goal** (always present): General direction — often a single word/chip
+2. **Context** (optional): Life situation details — present if step 5 was not skipped
+3. **Tone**: Preferred support style — single words like "gentle", "bold", "warm"
+4. **Additional context** (optional): Extra struggles, friction points, or nuance — present if the user typed something
+
 ## Before You Generate
 
 Take a moment to identify:
@@ -398,7 +474,7 @@ Take a moment to identify:
 3. **Core needs**: What do they want more of? What weighs on them?
 4. **Believability**: What can they realistically say to themselves today?
 5. **Specific details**: What concrete situations, fears, or challenges did they mention? These are MORE important than the initial topic label.
-6. **Tone preference**: What style of support did they request? (last exchange)
+6. **Tone preference**: What style of support did they request? (look for the tone exchange — typically single words)
 
 ## Your Task
 
@@ -409,7 +485,7 @@ Each affirmation should:
 - Match their emotional temperature (not too upbeat if they're struggling)
 - Feel like something {{ name }} could genuinely say to themselves
 - Support what they lack and soothe what weighs on them
-- Match the tone/style they requested (last exchange)
+- Match the tone/style they requested in the tone exchange
 
 **Balance rule:** At most 1 of 5 affirmations should reference the initial goal label directly. The other 4 should address the specific details and emotions {{ name }} revealed in their responses.
 
@@ -449,6 +525,14 @@ Read this conversation carefully. It reveals {{ name }}'s emotional state, inner
 {% for aff in all_previous %}- "{{ aff }}"
 {% endfor %}
 
+## Exchange Structure
+
+The conversation follows this structure (some steps may be absent):
+1. **Goal** (always present): General direction — often a single word/chip
+2. **Context** (optional): Life situation details — present if step 5 was not skipped
+3. **Tone**: Preferred support style — single words like "gentle", "bold", "warm"
+4. **Additional context** (optional): Extra struggles, friction points, or nuance — present if the user typed something
+
 ## Before You Generate
 
 Take a moment to identify:
@@ -468,7 +552,7 @@ Each affirmation should:
 - Match their emotional temperature
 - Learn from what they loved and discarded
 - Feel like something {{ name }} could genuinely say to themselves
-- Match the tone/style they requested (last exchange)
+- Match the tone/style they requested in the tone exchange
 
 **Balance rule:** At most 1 of 5 affirmations should reference the initial goal label directly. The other 4 should address the specific details and emotions {{ name }} revealed in their responses.
 
