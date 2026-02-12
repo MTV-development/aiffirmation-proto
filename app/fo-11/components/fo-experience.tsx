@@ -8,6 +8,7 @@ import { StepFamiliarity } from './step-familiarity';
 import { StepGoal } from './step-goal';
 import { StepContext } from './step-context';
 import { StepTone } from './step-tone';
+import { StepAdditional } from './step-additional';
 import { HeartAnimation } from './heart-animation';
 import { AffirmationCardFlow } from './affirmation-card-flow';
 import { AffirmationSummary } from './affirmation-summary';
@@ -25,24 +26,26 @@ import { StepCompletion } from './step-completion';
  * - Step 4: Goal (predefined chips, same as FO-10)
  * - Step 5: Context (LLM question + fragments, OR silently skipped)
  * - Step 6: Tone (LLM question + single-word chips)
- * - Step 7: Affirmation generation (loading state, generate 5 per batch)
- * - Step 8: AffirmationCardFlow — card-by-card love/discard
- * - Step 9: AffirmationSummary — "I am good with these" or "I want to create more"
- * - Steps 10-12: Post-review mockups (background, notifications, paywall)
- * - Step 13: Completion screen (shows ALL accumulated loved affirmations)
+ * - Step 7: Additional context (optional — sentence fragment chips)
+ * - Step 8: Affirmation generation (loading state, generate 5 per batch)
+ * - Step 9: AffirmationCardFlow — card-by-card love/discard
+ * - Step 10: AffirmationSummary — "I am good with these" or "I want to create more"
+ * - Steps 11-13: Post-review mockups (background, notifications, paywall)
+ * - Step 14: Completion screen (shows ALL accumulated loved affirmations)
  */
 export interface OnboardingState extends FO11OnboardingData {
-  currentStep: number; // 0-13
+  currentStep: number; // 0-14
 
   // Heart animation transition state
   showHeartAnimation: boolean;
   heartAnimationMessage: string;
   heartAnimationCompleted: boolean;
 
-  // Discovery inputs (goal + context + tone)
+  // Discovery inputs (goal + context + tone + additional)
   goalInput: { text: string };
   contextInput: { text: string };
   toneInput: { text: string };
+  step7Input: { text: string };
 
   // Skip logic for step 5
   step5Skipped: boolean;
@@ -50,6 +53,7 @@ export interface OnboardingState extends FO11OnboardingData {
   // Discovery step data from LLM
   step5Data: { question: string; initialChips: string[]; expandedChips: string[] } | null;
   step6Data: { question: string; initialChips: string[]; expandedChips: string[] } | null;
+  step7Data: { question: string; initialChips: string[]; expandedChips: string[] } | null;
 
   // Loading state for discovery steps
   isLoadingDiscovery: boolean;
@@ -83,9 +87,11 @@ const initialState: OnboardingState = {
   goalInput: { text: '' },
   contextInput: { text: '' },
   toneInput: { text: '' },
+  step7Input: { text: '' },
   step5Skipped: false,
   step5Data: null,
   step6Data: null,
+  step7Data: null,
   isLoadingDiscovery: false,
   discoveryError: null,
   isGenerating: false,
@@ -125,7 +131,7 @@ export function FOExperience() {
   const nextStep = useCallback(() => {
     setState((prev) => ({
       ...prev,
-      currentStep: Math.min(prev.currentStep + 1, 13),
+      currentStep: Math.min(prev.currentStep + 1, 14),
     }));
   }, []);
 
@@ -295,6 +301,65 @@ export function FOExperience() {
 
     const newExchanges = [...state.exchanges, toneExchange];
 
+    // Show heart animation: "Thank you for sharing, [name]..."
+    setState((prev) => ({
+      ...prev,
+      exchanges: newExchanges,
+      showHeartAnimation: true,
+      heartAnimationMessage: `Thank you for sharing, ${prev.name}...`,
+      isLoadingDiscovery: true,
+      discoveryError: null,
+    }));
+
+    // Call discovery agent for step 7 during heart animation
+    const context: FO11OnboardingData = {
+      name: state.name,
+      familiarityLevel: state.familiarityLevel,
+      exchanges: newExchanges,
+    };
+
+    generateDiscoveryStep(7, context).then((result) => {
+      if (result.error) {
+        setState((prev) => ({
+          ...prev,
+          isLoadingDiscovery: false,
+          discoveryError: result.error || 'Failed to load additional context step',
+        }));
+        return;
+      }
+
+      setState((prev) => ({
+        ...prev,
+        isLoadingDiscovery: false,
+        step7Data: {
+          question: result.question,
+          initialChips: result.initialChips,
+          expandedChips: result.expandedChips,
+        },
+      }));
+    }).catch((error) => {
+      console.error('[fo-11] Error fetching step 7:', error);
+      setState((prev) => ({
+        ...prev,
+        isLoadingDiscovery: false,
+        discoveryError: 'An unexpected error occurred',
+      }));
+    });
+  }, [state.exchanges, state.step6Data, state.toneInput.text, state.name, state.familiarityLevel]);
+
+  // Handle additional context step (step 7) completion
+  const handleAdditionalContinue = useCallback(() => {
+    let newExchanges = [...state.exchanges];
+
+    // Only add exchange if user provided text
+    if (state.step7Input.text.trim().length > 0) {
+      const additionalExchange = {
+        question: state.step7Data?.question || '',
+        answer: { text: state.step7Input.text },
+      };
+      newExchanges = [...newExchanges, additionalExchange];
+    }
+
     // Show heart animation: "You have been doing great, [name]!"
     setState((prev) => ({
       ...prev,
@@ -302,7 +367,7 @@ export function FOExperience() {
       showHeartAnimation: true,
       heartAnimationMessage: `You have been doing great, ${prev.name}! We are creating your personalized affirmations.`,
     }));
-  }, [state.exchanges, state.step6Data, state.toneInput.text, state.name]);
+  }, [state.exchanges, state.step7Data, state.step7Input.text]);
 
   // Handle heart animation completion
   const handleHeartAnimationComplete = useCallback(() => {
@@ -353,12 +418,29 @@ export function FOExperience() {
         currentStep: 6,
       }));
     } else if (currentStep === 6) {
-      // After tone — go to generation
+      // After tone — check if step 7 data is ready
+      if (state.isLoadingDiscovery) {
+        setState((prev) => ({
+          ...prev,
+          heartAnimationCompleted: true,
+        }));
+        return;
+      }
+
+      // Go to step 7 (additional context)
       setState((prev) => ({
         ...prev,
         showHeartAnimation: false,
         heartAnimationCompleted: false,
         currentStep: 7,
+      }));
+    } else if (currentStep === 7) {
+      // After additional context — go to generation
+      setState((prev) => ({
+        ...prev,
+        showHeartAnimation: false,
+        heartAnimationCompleted: false,
+        currentStep: 8,
         needsGeneration: true,
       }));
     }
@@ -389,6 +471,13 @@ export function FOExperience() {
           showHeartAnimation: false,
           heartAnimationCompleted: false,
           currentStep: 6,
+        }));
+      } else if (state.currentStep === 6) {
+        setState((prev) => ({
+          ...prev,
+          showHeartAnimation: false,
+          heartAnimationCompleted: false,
+          currentStep: 7,
         }));
       }
     }
@@ -435,7 +524,7 @@ export function FOExperience() {
         isGenerating: false,
         currentBatchAffirmations: result.affirmations,
         allGeneratedAffirmations: [...prev.allGeneratedAffirmations, ...result.affirmations],
-        currentStep: 8, // Move to card review
+        currentStep: 9, // Move to card review
       }));
     } catch (error) {
       console.error('[fo-11] Error generating affirmations:', error);
@@ -461,7 +550,7 @@ export function FOExperience() {
         ...prev,
         allLovedAffirmations: [...prev.allLovedAffirmations, ...loved],
         allDiscardedAffirmations: [...prev.allDiscardedAffirmations, ...discarded],
-        currentStep: 9, // Move to summary
+        currentStep: 10, // Move to summary
       }));
     },
     []
@@ -469,7 +558,7 @@ export function FOExperience() {
 
   // Handle "I am good with these" from summary
   const handleSummaryDone = useCallback(() => {
-    updateState({ currentStep: 10 }); // Move to background selection
+    updateState({ currentStep: 11 }); // Move to background selection
   }, [updateState]);
 
   // Handle "I want to create more" from summary
@@ -477,7 +566,7 @@ export function FOExperience() {
     setState((prev) => ({
       ...prev,
       batchNumber: prev.batchNumber + 1,
-      currentStep: 7,
+      currentStep: 8,
       isGenerating: true,
       generationError: null,
       needsGeneration: true,
@@ -579,6 +668,29 @@ export function FOExperience() {
         );
 
       case 7:
+        // Additional context step (optional)
+        if (state.showHeartAnimation) {
+          return (
+            <HeartAnimation
+              message={state.heartAnimationMessage}
+              onComplete={handleHeartAnimationComplete}
+            />
+          );
+        }
+        return (
+          <StepAdditional
+            currentStep={7}
+            question={state.step7Data?.question || ''}
+            initialChips={state.step7Data?.initialChips || []}
+            expandedChips={state.step7Data?.expandedChips || []}
+            value={state.step7Input}
+            onChange={(value) => updateState({ step7Input: value })}
+            onContinue={handleAdditionalContinue}
+            isLoading={state.isLoadingDiscovery}
+          />
+        );
+
+      case 8:
         // Affirmation generation loading state
         if (state.isGenerating) {
           return (
@@ -618,7 +730,7 @@ export function FOExperience() {
           </div>
         );
 
-      case 8:
+      case 9:
         // Card-by-card review
         return (
           <AffirmationCardFlow
@@ -627,7 +739,7 @@ export function FOExperience() {
           />
         );
 
-      case 9:
+      case 10:
         // Summary screen
         return (
           <AffirmationSummary
@@ -637,16 +749,16 @@ export function FOExperience() {
           />
         );
 
-      case 10:
+      case 11:
         return <StepBackground onContinue={nextStep} />;
 
-      case 11:
+      case 12:
         return <StepNotifications onContinue={nextStep} />;
 
-      case 12:
+      case 13:
         return <StepPaywall onContinue={nextStep} />;
 
-      case 13:
+      case 14:
         return (
           <StepCompletion
             name={state.name}

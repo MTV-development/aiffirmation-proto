@@ -6,12 +6,14 @@
  * 1. Step 4: Fixed goal question with predefined topic chips (same as FO-10)
  * 2. Step 5 (Context): LLM-generated question + fragment chips ("..." endings) -- SKIPPABLE
  * 3. Step 6 (Tone): LLM-generated question + single-word chips (not sentences)
- * 4. Total steps: 14 (0-13) instead of FO-10's 15 (0-14)
- * 5. Variable-length exchanges: 2 (goal + tone) when skipped, 3 (goal + context + tone) when not
+ * 4. Step 7 (Additional Context): LLM-generated question + fragment chips -- OPTIONAL input
+ * 5. Total steps: 15 (0-14)
+ * 6. Variable-length exchanges: 2-4 depending on skip/optional steps
  *
  * This test covers two flows:
- * - NON-SKIP FLOW: Brief goal answer ("Motivation") triggers step 5 context question
- * - SKIP FLOW: Rich goal answer triggers step 5 skip, jumping directly to step 6 tone
+ * - NON-SKIP FLOW: Brief goal answer ("Motivation") triggers step 5 context question,
+ *   then step 7 with fragment input
+ * - SKIP FLOW: Rich goal answer triggers step 5 skip, step 7 appears but user skips with empty input
  *
  * Run with: node --import tsx e2e/fo-11.test.ts
  *
@@ -892,8 +894,75 @@ async function runNonSkipFlow(): Promise<void> {
     }
     console.log('Step 6 completed');
 
-    // Heart animation 3: Tone -> Generation
-    await runHeartAnimation(page, 'Heart animation 3 (Tone -> Generation)');
+    // Heart animation 3: Tone -> Additional Context
+    await runHeartAnimation(page, 'Heart animation 3 (Tone -> Additional Context)');
+
+    // ========================================
+    // Step 7: Additional Context (optional, with fragment chips)
+    // ========================================
+    console.log('\nStep 7: Additional Context (LLM Q + Fragment Chips)...');
+
+    // Wait for thinking to finish (LLM generating question + chips)
+    const thinkingFinished7 = await waitForThinkingToFinish(page, 60000);
+    if (!thinkingFinished7) {
+      console.log('   Warning: Thinking state did not finish or was not detected');
+    }
+    await sleep(1000);
+
+    // Verify LLM-generated question appeared
+    const step7QuestionH2 = page.locator('h2').first();
+    let step7Question = '';
+    try {
+      step7Question = (await step7QuestionH2.textContent({ timeout: 10000 })) || '';
+      console.log(`   LLM Question: "${step7Question}"`);
+    } catch {
+      await page.screenshot({ path: 'e2e/debug-fo11-step7-question.png' });
+      throw new Error('Step 7 question did not appear');
+    }
+
+    if (step7Question.length > 10) {
+      console.log('   Verified: LLM-generated additional context question appeared');
+    } else {
+      await page.screenshot({ path: 'e2e/debug-fo11-step7-no-question.png' });
+      throw new Error('Step 7 question is too short or empty');
+    }
+
+    // Verify fragment chips (should have "..." endings)
+    const step7Fragments = await countFragments(page);
+    console.log(`   Fragments (with "..."): ${step7Fragments}`);
+
+    if (step7Fragments >= 3) {
+      console.log('   Verified: Fragment chips with "..." endings present');
+    } else {
+      console.log(`   Note: Expected at least 3 fragments, got ${step7Fragments}`);
+    }
+
+    // Click a fragment chip to test interaction
+    console.log('   Clicking a fragment...');
+    const step7FragmentResult = await clickFragment(page, 0);
+    if (step7FragmentResult.clicked) {
+      console.log(`   Clicked: "${step7FragmentResult.text.substring(0, 50)}..."`);
+      if (step7FragmentResult.hadEllipsis) {
+        console.log('   Verified: Fragment had "..." ending');
+        await sleep(500);
+        const step7TextareaValue = await getTextareaValue(page);
+        const cleanedFragment7 = step7FragmentResult.text.replace(/\.{2,}$/, '').trim();
+        if (step7TextareaValue.includes(cleanedFragment7)) {
+          console.log('   Verified: Fragment text appended without "..."');
+        }
+      }
+    }
+
+    // Click Next (should work even with partial input since optional)
+    const clickedStep7 = await clickButton(page, 'Next');
+    if (!clickedStep7) {
+      await page.screenshot({ path: 'e2e/debug-fo11-step7-next.png' });
+      throw new Error('Could not click Next on step 7');
+    }
+    console.log('Step 7 completed (with input)');
+
+    // Heart animation 4: Additional Context -> Generation
+    await runHeartAnimation(page, 'Heart animation 4 (Additional Context -> Generation)');
 
     // Generation + Card review
     console.log('\n--- Affirmation Card Review ---');
@@ -1034,8 +1103,52 @@ async function runSkipFlow(): Promise<void> {
     }
     console.log('Step 6 completed');
 
-    // Heart animation: Tone -> Generation
-    await runHeartAnimation(page, 'Heart animation (Tone -> Generation)');
+    // Heart animation: Tone -> Additional Context
+    await runHeartAnimation(page, 'Heart animation (Tone -> Additional Context)');
+
+    // ========================================
+    // Step 7: Additional Context (optional — test skipping with empty input)
+    // ========================================
+    console.log('\nStep 7: Additional Context (testing optional skip)...');
+
+    const thinkingFinished7skip = await waitForThinkingToFinish(page, 60000);
+    if (!thinkingFinished7skip) {
+      console.log('   Warning: Thinking state did not finish or was not detected');
+    }
+    await sleep(1000);
+
+    // Verify question appeared
+    const step7SkipQuestionH2 = page.locator('h2').first();
+    let step7SkipQuestion = '';
+    try {
+      step7SkipQuestion = (await step7SkipQuestionH2.textContent({ timeout: 10000 })) || '';
+      console.log(`   LLM Question: "${step7SkipQuestion}"`);
+    } catch {
+      await page.screenshot({ path: 'e2e/debug-fo11-skip-step7-question.png' });
+      throw new Error('Step 7 question did not appear in skip flow');
+    }
+
+    if (step7SkipQuestion.length > 10) {
+      console.log('   Verified: Step 7 question appeared');
+    }
+
+    // Do NOT type anything — test that Next works with empty input (optional step)
+    const nextButton7 = page.locator('[data-testid="next-button"]');
+    const canContinue7 = await nextButton7.getAttribute('data-can-continue');
+    console.log(`   Next button can-continue: ${canContinue7}`);
+    if (canContinue7 === 'true') {
+      console.log('   Verified: Next button enabled with empty input (optional step)');
+    }
+
+    const clickedStep7Skip = await clickButton(page, 'Next');
+    if (!clickedStep7Skip) {
+      await page.screenshot({ path: 'e2e/debug-fo11-skip-step7-next.png' });
+      throw new Error('Could not click Next on step 7 (skip flow)');
+    }
+    console.log('Step 7 skipped (empty input)');
+
+    // Heart animation: Additional Context -> Generation
+    await runHeartAnimation(page, 'Heart animation (Additional Context -> Generation)');
 
     // Generation + Card review
     console.log('\n--- Affirmation Card Review ---');
@@ -1140,12 +1253,14 @@ async function runTest(): Promise<void> {
     console.log('   - Step 4 (Goal): Brief answer "Motivation"');
     console.log('   - Step 5 (Context): LLM question + fragment chips with "..."');
     console.log('   - Step 6 (Tone): LLM question + single-word chips');
+    console.log('   - Step 7 (Additional Context): LLM question + fragment chips (with input)');
     console.log('   - Heart animations between discovery steps');
     console.log('   - 5 affirmations generated, card review, summary');
     console.log('   - Post-review mockups + completion');
     console.log('   Flow 2 (Skip):');
     console.log('   - Rich goal triggers step 5 skip');
     console.log('   - Step 6 (Tone) appears directly after heart animation');
+    console.log('   - Step 7 (Additional Context): Appears but user skips with empty input');
     console.log('   - Affirmation generation works with 2-exchange flow');
     console.log('   - "Create more" generates second batch');
     console.log('   - Accumulated affirmations shown on completion');

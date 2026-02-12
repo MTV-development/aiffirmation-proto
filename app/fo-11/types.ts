@@ -8,7 +8,7 @@
 
 /**
  * The fixed goal question for step 4.
- * Steps 5-6 have LLM-generated questions (no hardcoded array).
+ * Steps 5-7 have LLM-generated questions (no hardcoded array).
  * Includes [name] placeholder for personalization.
  */
 export const FO11_GOAL_QUESTION =
@@ -30,8 +30,9 @@ export interface FO11DiscoveryResponse {
 /**
  * Onboarding data accumulated during FO-11 flow.
  * The exchanges array has variable length:
- * - 2 exchanges when step 5 is skipped (goal + tone)
- * - 3 exchanges when step 5 is not skipped (goal + context + tone)
+ * - 2 exchanges: goal + tone (step 5 skipped, step 7 empty)
+ * - 3 exchanges: goal + context + tone OR goal + tone + additional
+ * - 4 exchanges: goal + context + tone + additional
  *
  * familiarityLevel is kept for UI purposes but is NOT passed to agents.
  */
