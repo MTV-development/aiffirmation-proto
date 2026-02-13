@@ -1,5 +1,5 @@
 import { Agent } from '@mastra/core/agent';
-import { getAgentModelName, getAgentSystemPrompt, getModel } from '@/src/services';
+import { getKVText, getModel } from '@/src/services';
 
 const DEFAULT_INSTRUCTIONS = `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your unique strength is understanding users through their conversational journey - extracting emotional nuance, inner dialogue patterns, and personal context from natural exchanges.
 
@@ -127,8 +127,8 @@ export const fo11AffirmationAgent = new Agent({
 });
 
 export async function createFO11AffirmationAgent(implementation: string = 'default'): Promise<Agent> {
-  const systemPrompt = await getAgentSystemPrompt('fo-11-affirmation', implementation);
-  const modelName = await getAgentModelName('fo-11-affirmation', implementation);
+  const systemPrompt = await getKVText(`versions.fo-11.system_affirmation.${implementation}`);
+  const modelName = await getKVText(`versions.fo-11._model_name_affirmation.${implementation}`);
 
   return new Agent({
     id: `fo-11-affirmation-${implementation}`,

@@ -53,6 +53,7 @@ export interface FO11GenerateBatchOptions {
   batchNumber: number;
   approvedAffirmations: string[];
   skippedAffirmations: string[];
+  implementation?: string;
 }
 
 /**

@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { FO11_GOAL_QUESTION, type FO11OnboardingData } from '../types';
 import { generateDiscoveryStep, generateAffirmationBatchFO11 } from '../actions';
+import { useImplementation } from '@/src/fo-11';
 import { StepWelcome } from './step-welcome';
 import { StepFamiliarity } from './step-familiarity';
 import { StepGoal } from './step-goal';
@@ -120,6 +121,7 @@ const initialState: OnboardingState = {
  * - No persistence - state resets on refresh
  */
 export function FOExperience() {
+  const { implementation } = useImplementation();
   const [state, setState] = useState<OnboardingState>(initialState);
 
   // Update specific state fields
@@ -170,7 +172,7 @@ export function FOExperience() {
       exchanges: newExchanges,
     };
 
-    generateDiscoveryStep(5, context).then((result) => {
+    generateDiscoveryStep(5, context, implementation).then((result) => {
       if (result.error) {
         setState((prev) => ({
           ...prev,
@@ -187,7 +189,7 @@ export function FOExperience() {
           step5Skipped: true,
         }));
 
-        generateDiscoveryStep(6, context).then((step6Result) => {
+        generateDiscoveryStep(6, context, implementation).then((step6Result) => {
           if (step6Result.error) {
             setState((prev) => ({
               ...prev,
@@ -235,7 +237,7 @@ export function FOExperience() {
         discoveryError: 'An unexpected error occurred',
       }));
     });
-  }, [state.name, state.goalInput.text, state.familiarityLevel]);
+  }, [state.name, state.goalInput.text, state.familiarityLevel, implementation]);
 
   // Handle context step (step 5) completion
   const handleContextContinue = useCallback(() => {
@@ -263,7 +265,7 @@ export function FOExperience() {
       exchanges: newExchanges,
     };
 
-    generateDiscoveryStep(6, context).then((result) => {
+    generateDiscoveryStep(6, context, implementation).then((result) => {
       if (result.error) {
         setState((prev) => ({
           ...prev,
@@ -290,7 +292,7 @@ export function FOExperience() {
         discoveryError: 'An unexpected error occurred',
       }));
     });
-  }, [state.exchanges, state.step5Data, state.contextInput.text, state.name, state.familiarityLevel]);
+  }, [state.exchanges, state.step5Data, state.contextInput.text, state.name, state.familiarityLevel, implementation]);
 
   // Handle tone step (step 6) completion
   const handleToneContinue = useCallback(() => {
@@ -318,7 +320,7 @@ export function FOExperience() {
       exchanges: newExchanges,
     };
 
-    generateDiscoveryStep(7, context).then((result) => {
+    generateDiscoveryStep(7, context, implementation).then((result) => {
       if (result.error) {
         setState((prev) => ({
           ...prev,
@@ -345,7 +347,7 @@ export function FOExperience() {
         discoveryError: 'An unexpected error occurred',
       }));
     });
-  }, [state.exchanges, state.step6Data, state.toneInput.text, state.name, state.familiarityLevel]);
+  }, [state.exchanges, state.step6Data, state.toneInput.text, state.name, state.familiarityLevel, implementation]);
 
   // Handle additional context step (step 7) completion
   const handleAdditionalContinue = useCallback(() => {
@@ -508,6 +510,7 @@ export function FOExperience() {
         batchNumber: state.batchNumber,
         approvedAffirmations: state.allLovedAffirmations,
         skippedAffirmations: state.allDiscardedAffirmations,
+        implementation,
       });
 
       if (result.error) {
@@ -534,7 +537,7 @@ export function FOExperience() {
         generationError: 'An unexpected error occurred',
       }));
     }
-  }, [state.name, state.familiarityLevel, state.exchanges, state.batchNumber, state.allLovedAffirmations, state.allDiscardedAffirmations, updateState]);
+  }, [state.name, state.familiarityLevel, state.exchanges, state.batchNumber, state.allLovedAffirmations, state.allDiscardedAffirmations, updateState, implementation]);
 
   // Trigger generation when needsGeneration flag is set
   useEffect(() => {

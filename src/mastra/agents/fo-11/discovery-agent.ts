@@ -86,8 +86,8 @@ export const fo11DiscoveryAgent = new Agent({
 });
 
 export async function createFO11DiscoveryAgent(implementation: string = 'default'): Promise<Agent> {
-  const systemPrompt = await getAgentSystemPrompt('fo-11-discovery', implementation);
-  const modelName = await getAgentModelName('fo-11-discovery', implementation);
+  const systemPrompt = await getAgentSystemPrompt('fo-11', implementation);
+  const modelName = await getAgentModelName('fo-11', implementation);
 
   return new Agent({
     id: `fo-11-discovery-${implementation}`,

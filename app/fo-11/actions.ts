@@ -80,7 +80,8 @@ function isValidDiscoveryResponse(
  */
 async function buildDiscoveryPrompt(
   stepNumber: 5 | 6 | 7,
-  context: FO11OnboardingData
+  context: FO11OnboardingData,
+  implementation: string = 'default'
 ): Promise<string> {
   const stepToKey: Record<number, string> = {
     5: 'prompt_step_5',
@@ -98,8 +99,8 @@ async function buildDiscoveryPrompt(
 
     const { output } = await renderTemplate({
       key,
-      version: 'fo-11-discovery',
-      implementation: 'default',
+      version: 'fo-11',
+      implementation,
       variables: {
         name: context.name,
         conversation_history: conversationHistory,
@@ -162,7 +163,8 @@ async function buildDiscoveryPrompt(
  */
 export async function generateDiscoveryStep(
   stepNumber: 5 | 6 | 7,
-  context: FO11OnboardingData
+  context: FO11OnboardingData,
+  implementation: string = 'default'
 ): Promise<FO11DiscoveryResponse> {
   // Validate step number (only 5, 6, or 7)
   if (stepNumber !== 5 && stepNumber !== 6 && stepNumber !== 7) {
@@ -211,10 +213,10 @@ export async function generateDiscoveryStep(
 
   try {
     // Build the user prompt from KV store template
-    const userPrompt = await buildDiscoveryPrompt(stepNumber, context);
+    const userPrompt = await buildDiscoveryPrompt(stepNumber, context, implementation);
 
     // Create discovery agent
-    const agent = await createFO11DiscoveryAgent();
+    const agent = await createFO11DiscoveryAgent(implementation);
 
     console.log('[fo-11-discovery] Step number:', stepNumber);
     console.log('[fo-11-discovery] Name:', context.name);
@@ -322,10 +324,11 @@ function parseAffirmationsResponse(text: string): string[] {
 async function buildAffirmationPrompt(
   context: FO11OnboardingData,
   approvedAffirmations: string[],
-  skippedAffirmations: string[]
+  skippedAffirmations: string[],
+  implementation: string = 'default'
 ): Promise<string> {
   const hasFeedback = approvedAffirmations.length > 0 || skippedAffirmations.length > 0;
-  const key = hasFeedback ? 'prompt_with_feedback' : 'prompt';
+  const key = hasFeedback ? 'prompt_affirmation_with_feedback' : 'prompt_affirmation';
 
   try {
     const exchanges = context.exchanges.map((ex) => ({
@@ -346,8 +349,8 @@ async function buildAffirmationPrompt(
 
     const { output } = await renderTemplate({
       key,
-      version: 'fo-11-affirmation',
-      implementation: 'default',
+      version: 'fo-11',
+      implementation,
       variables,
     });
     return output;
@@ -391,6 +394,7 @@ export async function generateAffirmationBatchFO11(
     batchNumber,
     approvedAffirmations,
     skippedAffirmations,
+    implementation = 'default',
   } = options;
 
   // Validate required inputs
@@ -404,10 +408,10 @@ export async function generateAffirmationBatchFO11(
 
   try {
     // Build the user prompt from KV store template
-    const userPrompt = await buildAffirmationPrompt(context, approvedAffirmations, skippedAffirmations);
+    const userPrompt = await buildAffirmationPrompt(context, approvedAffirmations, skippedAffirmations, implementation);
 
     // Use FO-11 affirmation agent
-    const agent = await createFO11AffirmationAgent('default');
+    const agent = await createFO11AffirmationAgent(implementation);
 
     console.log('[fo-11-affirmations] Batch number:', batchNumber);
     console.log('[fo-11-affirmations] Exchanges count:', context.exchanges.length);

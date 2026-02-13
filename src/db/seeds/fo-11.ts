@@ -2,36 +2,42 @@ import type { SeedEntry } from './types';
 
 export const fo11Seeds: SeedEntry[] = [
   // ============================================================
-  // FO-11 Discovery Agent
+  // FO-11 Shared Info
   // ============================================================
   {
-    key: 'versions.fo-11-discovery._info.default',
+    key: 'versions.fo-11._info.default',
     value: {
       name: 'Default',
-      text: `FO-11 Discovery Agent: Intent-Based Guided Discovery
+      text: `FO-11: Intent-Based Guided Discovery + Affirmation Generation
 
-Generates adapted questions, contextual chips, and skip signals for steps 5-7 of the discovery flow.
+Discovery: Generates adapted questions, contextual chips, and skip signals for steps 5-7.
 - Step 5 (Context): Hybrid fragments ending with "..." — skippable if goal answer is rich
 - Step 6 (Tone): Single-word chips — never skipped
-- Step 7 (Additional Context): Sentence fragments ending with "..." — never skipped, optional input`,
+- Step 7 (Additional Context): Sentence fragments ending with "..." — never skipped, optional input
+
+Affirmation: Creates deeply meaningful, psychologically effective affirmations based on the user's guided discovery conversation (steps 4-7). Handles variable exchange counts: 2-4 exchanges depending on skip/optional steps.`,
       author: 'System',
       createdAt: '2026-02-11',
     },
   },
+
+  // ============================================================
+  // FO-11 Discovery Agent
+  // ============================================================
   {
-    key: 'versions.fo-11-discovery._model_name.default',
+    key: 'versions.fo-11._model_name.default',
     value: {
       text: 'openai/gpt-4o',
     },
   },
   {
-    key: 'versions.fo-11-discovery._temperature.default',
+    key: 'versions.fo-11._temperature.default',
     value: {
       text: '0.8',
     },
   },
   {
-    key: 'versions.fo-11-discovery.system.default',
+    key: 'versions.fo-11.system.default',
     value: {
       text: `You are a guided discovery agent for a personalized affirmation app. Your role is to formulate adapted questions and generate contextual response chips for each discovery step, based on the user's previous answers.
 
@@ -128,7 +134,7 @@ No explanations, no markdown code blocks — just the JSON object.`,
     },
   },
   {
-    key: 'versions.fo-11-discovery.prompt_step_5.default',
+    key: 'versions.fo-11.prompt_step_5.default',
     value: {
       text: `## User Context
 Name: {{ name }}
@@ -179,7 +185,7 @@ Return ONLY valid JSON:
     },
   },
   {
-    key: 'versions.fo-11-discovery.prompt_step_6.default',
+    key: 'versions.fo-11.prompt_step_6.default',
     value: {
       text: `## User Context
 Name: {{ name }}
@@ -222,7 +228,7 @@ Return ONLY valid JSON:
   },
 
   {
-    key: 'versions.fo-11-discovery.prompt_step_7.default',
+    key: 'versions.fo-11.prompt_step_7.default',
     value: {
       text: `## User Context
 Name: {{ name }}
@@ -275,32 +281,19 @@ Return ONLY valid JSON:
   // FO-11 Affirmation Agent
   // ============================================================
   {
-    key: 'versions.fo-11-affirmation._info.default',
-    value: {
-      name: 'Default',
-      text: `FO-11 Affirmation Generation Agent
-
-Creates deeply meaningful, psychologically effective affirmations based on the user's guided discovery conversation (steps 4-7).
-Handles variable exchange counts: 2-4 exchanges depending on skip/optional steps.
-Does not use familiarity level — conversation content drives everything.`,
-      author: 'System',
-      createdAt: '2026-02-11',
-    },
-  },
-  {
-    key: 'versions.fo-11-affirmation._model_name.default',
+    key: 'versions.fo-11._model_name_affirmation.default',
     value: {
       text: 'openai/gpt-4o',
     },
   },
   {
-    key: 'versions.fo-11-affirmation._temperature.default',
+    key: 'versions.fo-11._temperature_affirmation.default',
     value: {
       text: '0.9',
     },
   },
   {
-    key: 'versions.fo-11-affirmation.system.default',
+    key: 'versions.fo-11.system_affirmation.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your unique strength is understanding users through their conversational journey - extracting emotional nuance, inner dialogue patterns, and personal context from natural exchanges.
 
@@ -443,7 +436,7 @@ No explanations, no other text — just the JSON array.`,
     },
   },
   {
-    key: 'versions.fo-11-affirmation.prompt.default',
+    key: 'versions.fo-11.prompt_affirmation.default',
     value: {
       text: `Generate 5 personalized affirmations for {{ name }}.
 
@@ -496,7 +489,7 @@ Return ONLY a JSON array of exactly 5 affirmation strings.`,
     },
   },
   {
-    key: 'versions.fo-11-affirmation.prompt_with_feedback.default',
+    key: 'versions.fo-11.prompt_affirmation_with_feedback.default',
     value: {
       text: `Generate 5 NEW personalized affirmations for {{ name }}.
 

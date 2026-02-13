@@ -167,7 +167,7 @@ export default function FO11InfoPage() {
       <TechnicalDetails>
         <p>Discovery Agent: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">fo-11-discovery</code></p>
         <p>Affirmation Agent: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">fo-11-affirmation</code></p>
-        <p>KV Namespace: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">versions.fo-11-discovery.* / versions.fo-11-affirmation.*</code></p>
+        <p>KV Namespace: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">versions.fo-11.*</code></p>
         <p>Affirmation count: 5 per batch (unlimited batches)</p>
         <p>Discovery: 2-3 adaptive steps (steps 4-6, step 5 skippable)</p>
         <p>Question sequence: Goal (static) → Context (LLM, skippable) → Tone (LLM)</p>
