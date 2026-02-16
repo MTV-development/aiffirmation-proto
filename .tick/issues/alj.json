@@ -1,0 +1,15 @@
+{
+  "id": "alj",
+  "title": "FO-12: E2E Testing",
+  "description": "## Scope\n\nWrite and run E2E tests for the FO-12 flow using Playwright.\n\n## Spec Reference\n\n`docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md` — Section: \"Testing Strategy\"\n\n## Key Files\n\n- `e2e/fo-12.test.ts` — E2E test file\n\n## Worker Instructions\n\n- Read `docs/projects/2026-02-16-fo-12/implementation-notes.md` before starting\n- Read `docs/current/e2e/tick-quick-reference.md` for E2E patterns\n- Read `docs/current/e2e/e2e-config.md` for project E2E config\n- Reference `e2e/fo-01.test.ts` or other existing E2E tests for patterns\n- Run: `node --import tsx e2e/fo-12.test.ts`\n- Append your learnings to `docs/projects/2026-02-16-fo-12/implementation-notes.md` when done",
+  "notes": "2026-02-16 14:55 - EPIC COMPLETE: FO-12 E2E test written and passing. Key file: e2e/fo-12.test.ts. Test runs in ~3-4 minutes covering all 16 steps. Important pattern: card flow transitions need waitForNextCard helper (600ms settle + text change detection) due to AnimatePresence spring animations. Phase 3 continuous review uses dynamic card detection with emergency batch generation handling.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:15:56.3737425Z",
+  "updated_at": "2026-02-16T13:56:10.5498342Z",
+  "closed_at": "2026-02-16T13:56:10.5498342Z",
+  "closed_reason": "E2E test passes: full 16-step flow verified including 30-affirmation selection"
+}

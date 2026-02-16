@@ -1,0 +1,16 @@
+{
+  "id": "ecn",
+  "title": "Create FO-12 types, constants, and implementation provider",
+  "description": "## Objective\n\nCreate the FO-12 type definitions, constants, and implementation provider module.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Sections: \"Technical Architecture\", \"Exchange Structure\", \"File Structure\"\n\n## Scope\n\n**Files to create:**\n- app/fo-12/types.ts — Based on FO-11 types, add TARGET_LOVED=30, PHASE1_SIZE=10, PHASE2_SIZE=10 constants\n- src/fo-12/index.ts — Re-exports ImplementationProvider, useImplementation, ImplementationSelector\n- src/fo-12/implementation-context.tsx — Based on FO-11, queries 'fo-12' namespace instead of 'fo-11'\n- src/fo-12/implementation-selector.tsx — Identical to FO-11\n\n## Implementation\n\n1. Copy app/fo-11/types.ts to app/fo-12/types.ts, rename all FO11 prefixes to FO12\n2. Add constants: TARGET_LOVED = 30, PHASE1_SIZE = 10, PHASE2_SIZE = 10\n3. Keep FO12_GOAL_QUESTION (same question text as FO-11)\n4. Copy src/fo-11/ to src/fo-12/, change:\n   - implementation-context.tsx: change getImplementations('fo-11') to getImplementations('fo-12')\n   - All import paths: fo-11 to fo-12\n\n## Tests\n\nVerify: npx tsc --noEmit passes (type check)\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "o8m",
+  "acceptance_criteria": "npx tsc --noEmit passes with no FO-12 errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:16:39.6559224Z",
+  "updated_at": "2026-02-16T13:27:56.4772128Z",
+  "closed_at": "2026-02-16T13:27:56.4772128Z",
+  "closed_reason": "Created FO-12 types, constants, and implementation provider. Files: app/fo-12/types.ts (TARGET_LOVED=30, PHASE1_SIZE=10, PHASE2_SIZE=10, FO12 types), src/fo-12/index.ts, src/fo-12/implementation-context.tsx (queries fo-12 namespace), src/fo-12/implementation-selector.tsx. npx tsc --noEmit passes with no FO-12 errors."
+}

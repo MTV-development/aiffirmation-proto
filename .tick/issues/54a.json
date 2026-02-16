@@ -1,0 +1,16 @@
+{
+  "id": "54a",
+  "title": "Create FO-12 server actions",
+  "description": "## Objective\n\nCreate the server actions file for FO-12: discovery step generation (steps 4-5 only) and affirmation batch generation (batch size 10, dynamic phase 3 sizing).\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Sections: \"Generation Timing\", \"Data Flow\", \"Affirmation Feedback Context\"\n\n## Scope\n\n**Files to create:**\n- app/fo-12/actions.ts — Server actions for FO-12\n\n## Implementation\n\n1. Copy app/fo-11/actions.ts to app/fo-12/actions.ts\n2. Change all imports: fo-11 agents to fo-12 agents, FO11 types to FO12 types\n3. Discovery step changes:\n   - Change step type from 5|6|7 to 4|5 (only 2 discovery steps)\n   - Update stepToKey mapping: {4: 'prompt_step_4', 5: 'prompt_step_5'}\n   - Change version from 'fo-11' to 'fo-12' in renderTemplate calls\n   - Remove step 7 handling and validation\n   - Safety guard: only step 5 (tone) should never be skipped; step 4 (context) can be skipped\n4. Affirmation batch changes:\n   - Change version from 'fo-11' to 'fo-12' in renderTemplate calls\n   - Default batch size is 10 (reflected in prompts, not hardcoded in action code)\n   - Add a batchSize option to FO12GenerateBatchOptions for phase 3 dynamic sizing\n   - The action itself stays similar — batch size is controlled by the prompts, but the action should pass batchSize info if available\n5. Rename all function names: FO11 to FO12\n6. Update all console.log tags: [fo-11-*] to [fo-12-*]\n\n## Tests\n\nVerify: npx tsc --noEmit passes\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "o8m",
+  "acceptance_criteria": "npx tsc --noEmit passes with no FO-12 action errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:17:50.6580107Z",
+  "updated_at": "2026-02-16T13:33:49.9563369Z",
+  "closed_at": "2026-02-16T13:33:49.9563369Z",
+  "closed_reason": "Created FO-12 server actions. File: app/fo-12/actions.ts. Key changes from FO-11: discovery steps 4|5 (not 5|6|7), stepToKey maps to prompt_step_4/5, version fo-12, safety guard only on step 5 (tone), batchSize parameter in FO12GenerateBatchOptions for phase 3 dynamic sizing, batch_size variable passed to prompt_affirmation_with_feedback template. npx tsc --noEmit passes with no errors."
+}

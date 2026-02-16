@@ -200,6 +200,16 @@ const versions: VersionCard[] = [
     outputType: 'Card curation (Love it / Discard)',
     highlight: 'Adaptive questions with skip logic',
   },
+  {
+    id: 'FO-12',
+    name: 'Structured 30-Affirmation Journey',
+    href: '/fo-12',
+    tagline: 'Guided selection with emotional check-ins',
+    description: 'Users select exactly 30 affirmations across three phases (10+10+remaining) with check-in screens between phases that validate effort and reinforce personalization. Same hybrid discovery as FO-11.',
+    inputType: 'Static chips → LLM fragments → LLM single-word chips',
+    outputType: 'Card curation (Love it / Discard) across 3 phases',
+    highlight: '30-affirmation structured journey with check-ins',
+  },
 ];
 
 export default function OverviewPage() {
@@ -394,12 +404,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
                   <td className="py-2">Fixed questions + dynamic chips</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-11</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (adaptive)</td>
                   <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
                   <td className="py-2">Adaptive questions + skip logic</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-12</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (adaptive)</td>
+                  <td className="py-2 pr-4 text-emerald-400">3-phase structured</td>
+                  <td className="py-2">30-affirmation journey with check-ins</td>
                 </tr>
               </tbody>
             </table>

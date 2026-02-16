@@ -1,0 +1,16 @@
+{
+  "id": "alv",
+  "title": "Create FO-12 KV store seeds and register",
+  "description": "## Objective\n\nCreate KV store seed data for FO-12 based on the Trinev2 reference prompts, adapted for FO-12's changes.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Section: \"KV Store Keys\"\n**Trinev2 Reference:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-trinev2-reference.md\n\n## Scope\n\n**Files to create:**\n- src/db/seeds/fo-12.ts — All KV seed entries for FO-12\n\n**Files to modify:**\n- src/db/seeds/index.ts — Add fo12Seeds import and spread into allSeeds\n\n## Implementation\n\n1. Create src/db/seeds/fo-12.ts following the exact pattern from fo-11.ts\n2. Use Trinev2 prompts from the reference file as the basis for all prompt content\n3. Key adaptations from Trinev2 to FO-12:\n   - Step numbering: Trinev2's prompt_step_5 becomes FO-12's prompt_step_4, prompt_step_6 becomes prompt_step_5\n   - Remove all references to step 7 (Additional Context) — FO-12 has no step 7\n   - Batch size: Change all references from \"5 affirmations\" to \"10 affirmations\" in affirmation prompts\n   - Exchange count: Change \"2-4 exchanges\" to \"2-3 exchanges\" in system prompts\n   - Namespace: All keys use versions.fo-12.* prefix\n4. KV keys to create (all with .default suffix):\n   - versions.fo-12._info.default\n   - versions.fo-12._model_name.default (gpt-4o)\n   - versions.fo-12._temperature.default (0.8)\n   - versions.fo-12.system.default (discovery system prompt)\n   - versions.fo-12.prompt_step_4.default (context — from Trinev2 step_5)\n   - versions.fo-12.prompt_step_5.default (tone — from Trinev2 step_6)\n   - versions.fo-12._model_name_affirmation.default (gpt-4o)\n   - versions.fo-12._temperature_affirmation.default (0.9)\n   - versions.fo-12.system_affirmation.default (affirmation system — from Trinev2)\n   - versions.fo-12.prompt_affirmation.default (from Trinev2, adapted: 10 affirmations)\n   - versions.fo-12.prompt_affirmation_with_feedback.default (from Trinev2, adapted: 10 affirmations)\n5. Modify src/db/seeds/index.ts: add import { fo12Seeds } from './fo-12' and spread into allSeeds array\n\n## Tests\n\n1. TypeCheck — npx tsc --noEmit passes\n2. Seed runs — npm run db:seed completes without errors\n\nRun: npm run db:seed\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "o8m",
+  "acceptance_criteria": "npm run db:seed completes without errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:17:33.9273061Z",
+  "updated_at": "2026-02-16T13:32:14.1596309Z",
+  "closed_at": "2026-02-16T13:32:14.1596309Z",
+  "closed_reason": "Created FO-12 KV store seeds based on Trinev2 reference. Files: src/db/seeds/fo-12.ts (11 keys: _info, _model_name, _temperature, system, prompt_step_4, prompt_step_5, _model_name_affirmation, _temperature_affirmation, system_affirmation, prompt_affirmation, prompt_affirmation_with_feedback), src/db/seeds/index.ts (registered fo12Seeds). Key adaptations: step 5/6 -\u003e 4/5, no step 7, batch size 5-\u003e10, exchange count 2-4-\u003e2-3, prompt_affirmation_with_feedback uses batch_size variable for dynamic phase 3 sizing. npm run db:seed completed without errors."
+}

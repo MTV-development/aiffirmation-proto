@@ -1,0 +1,15 @@
+{
+  "id": "o3x",
+  "title": "FO-12: Integration (State Machine, Pages, Registration)",
+  "description": "## Scope\n\nDelivers the state machine (fo-experience.tsx), all page scaffolding (page.tsx, layout.tsx, layout client, info page), and registration (nav.config.ts, overview page). This is the wiring layer that connects foundation code (types, actions, agents) with UI components.\n\n## Spec Reference\n\n`docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md` — Sections: \"State Machine\", \"Generation Timing\", \"Data Flow\", \"Registration\", \"File Structure\"\n\n## Key Files\n\n- `app/fo-12/components/fo-experience.tsx` — Main state machine (3-phase selection flow, check-in screens, dynamic generation, global counter)\n- `app/fo-12/page.tsx` — Main page\n- `app/fo-12/layout.tsx` — Layout wrapper\n- `app/fo-12/fo-12-layout-client.tsx` — Client layout with implementation provider\n- `app/fo-12/info/page.tsx` — Info page using InfoPageWrapper\n- `nav.config.ts` — Add FO-12 nav entry (MODIFY existing file)\n- `app/overview/page.tsx` — Add FO-12 version card (MODIFY existing file)\n\n## Worker Instructions\n\n- Complete tasks in order (they build on each other)\n- Read `docs/projects/2026-02-16-fo-12/implementation-notes.md` before starting\n- Append your learnings to `docs/projects/2026-02-16-fo-12/implementation-notes.md` when all tasks are done\n- The state machine is the most complex part: 16 steps (0-15), 3-phase affirmation selection, check-ins, dynamic generation, pool exhaustion handling\n- Reference FO-11's fo-experience.tsx heavily but restructure for the new flow\n- Generation timing: batch 1 during heart animation (before Start screen), batch 2 after check-in 1, batch 3 after check-in 2, emergency batch in phase 3",
+  "notes": "2026-02-16 14:42 - EPIC COMPLETE: Integration layer for FO-12 delivered. fo-experience.tsx state machine (16 steps, 3-phase selection, check-ins, pool management), all page scaffolding (page, layout, layout-client, info), and registration (nav.config.ts, overview). Both tasks pass acceptance: tsc --noEmit clean, npm run build succeeds with /fo-12 and /fo-12/info routes. Key pattern: first batch generated during tone heart animation (not at a separate loading step like FO-11). Phase 3 uses pool with emergency batch generation.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:15:46.8954184Z",
+  "updated_at": "2026-02-16T13:43:18.6146857Z",
+  "closed_at": "2026-02-16T13:43:18.6146857Z",
+  "closed_reason": "All 2 tasks completed: state machine + pages/registration, npm run build passes"
+}
