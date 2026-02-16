@@ -1,0 +1,19 @@
+{
+  "id": "gq1",
+  "title": "Write and run FO-12 E2E tests",
+  "description": "## Objective\n\nWrite E2E tests for the complete FO-12 flow using Playwright.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Section: \"Testing Strategy\"\n**E2E Reference:** docs/current/e2e/tick-quick-reference.md, docs/current/e2e/e2e-config.md\n\n## Scope\n\n**Files to create:**\n- e2e/fo-12.test.ts — E2E test file\n\n## Implementation\n\n1. Read existing E2E tests (e.g., e2e/fo-01.test.ts) for patterns\n2. Read docs/current/e2e/tick-quick-reference.md for E2E patterns\n3. Create e2e/fo-12.test.ts covering:\n   - Welcome screen (step 0): correct text, continue button\n   - Name input (step 1): enter name, continue\n   - Familiarity (step 2): new option labels visible, select one\n   - Goal (step 3): chip selection, continue\n   - Heart animation transition\n   - Context/Tone steps (step 4-5): LLM-generated content loads, chip selection\n   - Start screen (step 6): motivational text, \"Let's Begin\" button\n   - Phase 1 (step 7): 10 affirmation cards, Love/Discard actions, global counter visible\n   - Check-in 1 (step 8): correct copy, \"Continue\" button\n   - Phase 2 (step 9): 10 more cards, counter continues\n   - Check-in 2 (step 10): correct copy, \"Continue\" button\n   - Phase 3 (step 11): continuous cards, counter reaches 30\n   - Post-review (steps 12-14): background, notifications, paywall screens\n   - Completion (step 15): 30 affirmations displayed\n\n4. Key test scenarios:\n   - Happy path: love most affirmations, reach 30 in phase 3\n   - Verify global counter increments correctly across phases\n\n## Tests\n\nRun: node --import tsx e2e/fo-12.test.ts\n\nDo NOT close until E2E tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "5jd"
+  ],
+  "parent": "alj",
+  "acceptance_criteria": "node --import tsx e2e/fo-12.test.ts passes",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:19:44.2244535Z",
+  "updated_at": "2026-02-16T13:54:51.3978478Z",
+  "closed_at": "2026-02-16T13:54:51.3978478Z",
+  "closed_reason": "Created e2e/fo-12.test.ts covering the complete 16-step FO-12 flow. Test covers: welcome (step 0-1), familiarity (step 2), goal (step 3), context (step 4), tone (step 5), start screen (step 6), phase 1 card review (step 7, 10 cards), check-in 1 (step 8), phase 2 card review (step 9, 10 cards), check-in 2 (step 10), phase 3 continuous review (step 11, until 30 loved), post-review mockups (steps 12-14), completion (step 15, all 30 affirmations displayed). Global counter verified across all phases. Test passes with exit code 0."
+}

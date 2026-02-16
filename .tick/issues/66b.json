@@ -1,0 +1,16 @@
+{
+  "id": "66b",
+  "title": "Create modified components (welcome, familiarity, completion)",
+  "description": "## Objective\n\nCreate step-welcome, step-familiarity, and step-completion components with FO-12 text and behavior changes.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Sections: \"Discovery Phase (Steps 0-5)\", \"Changes from FO-11\", \"Completion (Step 15)\"\n\n## Scope\n\n**Files to create:**\n- app/fo-12/components/step-welcome.tsx — 2 sub-steps only (welcome + name, NO personalized welcome)\n- app/fo-12/components/step-familiarity.tsx — New question text and option labels\n- app/fo-12/components/step-completion.tsx — Shows all 30 loved affirmations\n\n## Implementation\n\n1. **step-welcome.tsx:** Copy from FO-11, then:\n   - Remove sub-step 2 (personalized welcome with name)\n   - Only 2 sub-steps: step 0 (welcome) and step 1 (name)\n   - Step 0 text: \"Welcome! Let's get to know you so we can create your personal affirmations.\"\n   - Step 1 text: \"What's your name?\"\n   - Adjust currentStep logic for 2 sub-steps instead of 3\n\n2. **step-familiarity.tsx:** Copy from FO-11, then:\n   - Question: \"Have you used affirmations before?\"\n   - Options: \"I'm new to affirmations\" / \"I've tried a few\" / \"I use them regularly\"\n   - Values stay: 'new' / 'somewhat' / 'very'\n\n3. **step-completion.tsx:** Copy from FO-11, then:\n   - Adjust messaging to reflect \"your 30 affirmations\" or similar (the component just displays a list, so minimal changes needed)\n\n## Tests\n\nVerify: All 3 files created with correct content.\n\nDo NOT close until all files are created.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "vmp",
+  "acceptance_criteria": "All 3 modified component files exist in app/fo-12/components/",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:18:20.4564459Z",
+  "updated_at": "2026-02-16T13:32:34.3324967Z",
+  "closed_at": "2026-02-16T13:32:34.3324967Z",
+  "closed_reason": "Created 3 modified components: step-welcome (2 sub-steps, new copy, no personalized welcome), step-familiarity (new question text and option labels, step guard at step 2), step-completion (adjusted headline for 30 affirmations, removed summary prop). All pass TypeScript compilation."
+}

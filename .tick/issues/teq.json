@@ -1,0 +1,16 @@
+{
+  "id": "teq",
+  "title": "Copy base components from FO-11",
+  "description": "## Objective\n\nCopy 9 base components from FO-11 to FO-12 with minimal import path adjustments. These components are functionally identical to FO-11.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Section: \"Reuse from FO-11\"\n\n## Scope\n\n**Files to create (copy from app/fo-11/components/):**\n1. app/fo-12/components/fragment-input.tsx — Unchanged\n2. app/fo-12/components/heart-animation.tsx — Unchanged\n3. app/fo-12/components/affirmation-card.tsx — Unchanged (individual card)\n4. app/fo-12/components/step-background.tsx — Unchanged\n5. app/fo-12/components/step-notifications.tsx — Unchanged\n6. app/fo-12/components/step-paywall.tsx — Unchanged\n7. app/fo-12/components/step-goal.tsx — Unchanged\n8. app/fo-12/components/step-context.tsx — Unchanged\n9. app/fo-12/components/step-tone.tsx — Unchanged\n\n## Implementation\n\n1. Create the directory app/fo-12/components/\n2. Copy each file from app/fo-11/components/ to app/fo-12/components/\n3. In each file, update any import paths that reference fo-11 to reference fo-12\n4. Keep all component names, props, and behavior identical\n\n## Tests\n\nVerify: npx tsc --noEmit passes (may have import errors until types.ts exists, which is OK — this epic runs in parallel with foundation epic)\n\nDo NOT close until all 9 files are created.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "vmp",
+  "acceptance_criteria": "All 9 base component files exist in app/fo-12/components/",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:18:05.8861608Z",
+  "updated_at": "2026-02-16T13:31:14.630707Z",
+  "closed_at": "2026-02-16T13:31:14.630707Z",
+  "closed_reason": "Copied 9 base components from FO-11 to FO-12: fragment-input, heart-animation, affirmation-card, step-background, step-notifications, step-paywall, step-goal, step-context, step-tone. Updated step number guards (goal=3, context=4, tone=5) for FO-12 flow. Inlined GOAL_QUESTION constant in step-goal to avoid types.ts import. All files pass TypeScript compilation with no errors."
+}

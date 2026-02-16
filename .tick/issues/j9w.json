@@ -1,0 +1,16 @@
+{
+  "id": "j9w",
+  "title": "Create new components (start, checkin, card-flow)",
+  "description": "## Objective\n\nCreate the three new/heavily-modified components for FO-12: the Start motivational screen, the parameterized Check-in screen, and the phase-aware Affirmation Card Flow.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Sections: \"Start Screen (Step 6)\", \"Check-in 1 (Step 8)\", \"Check-in 2 (Step 10)\", \"Selection Phase 1-3\"\n\n## Scope\n\n**Files to create:**\n- app/fo-12/components/step-start.tsx — NEW: motivational screen before first affirmations\n- app/fo-12/components/step-checkin.tsx — NEW: parameterized for check-in 1 and 2\n- app/fo-12/components/affirmation-card-flow.tsx — HEAVILY MODIFIED from FO-11\n\n## Implementation\n\n1. **step-start.tsx:** New static component\n   - Props: onContinue callback, name (string)\n   - Headline: \"Based on what you've shared, 10 affirmations are ready for you.\"\n   - Subheading: \"Choose the ones that feel right for you — the ones you can actually say to yourself.\"\n   - Body: \"Your feedback helps us refine your next set. Now, let's create affirmations that truly support you.\"\n   - Button: \"Let's Begin\"\n   - Tone: calm, affirming, personal\n\n2. **step-checkin.tsx:** Parameterized check-in component\n   - Props: phase (1 | 2), onContinue callback, isLoading boolean\n   - Phase 1 content: see spec \"Check-in 1\" section\n   - Phase 2 content: see spec \"Check-in 2\" section\n   - Button: \"Continue\"\n   - When isLoading is true, show loading/thinking screen instead of button\n   - Tone: calm, affirming, supportive (not overly enthusiastic)\n\n3. **affirmation-card-flow.tsx:** Major changes from FO-11\n   - Props: affirmations (string[]), onComplete callback, totalLovedSoFar (number), target (number, default 30), onRequestMore callback (optional, for phase 3 pool exhaustion)\n   - Replace local \"{N}/{total}\" counter with global \"{totalLovedSoFar + lovedInThisBatch} of {target} selected\" counter\n   - The progress bar should reflect global progress (totalLovedSoFar / target)\n   - In phase 3 continuous mode: if we run out of cards before reaching target and onRequestMore is provided, call onRequestMore instead of onComplete\n   - Keep the existing AffirmationCard component and AnimatePresence pattern\n\n## Tests\n\nVerify: All 3 files created with correct content.\n\nDo NOT close until all files are created.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "vmp",
+  "acceptance_criteria": "All 3 new component files exist in app/fo-12/components/",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:18:40.2367373Z",
+  "updated_at": "2026-02-16T13:34:26.3629169Z",
+  "closed_at": "2026-02-16T13:34:26.3629169Z",
+  "closed_reason": "Created 3 new components: step-start (static motivational screen with calm/affirming copy, 'Let\\'s Begin' button), step-checkin (parameterized for phase 1 and 2 with distinct content, loading/thinking state), affirmation-card-flow (global 'X of 30 selected' counter, progress bar reflecting totalLovedSoFar/target, onRequestMore for phase 3 pool exhaustion). All 15 FO-12 components now exist and pass TypeScript compilation."
+}

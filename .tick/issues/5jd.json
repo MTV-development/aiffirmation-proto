@@ -1,0 +1,19 @@
+{
+  "id": "5jd",
+  "title": "Page scaffolding, info page, and registration",
+  "description": "## Objective\n\nCreate all page files, layout, and register FO-12 in navigation and overview.\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Sections: \"Registration\", \"File Structure\"\n\n## Scope\n\n**Files to create:**\n- app/fo-12/page.tsx — Renders FOExperience component (same pattern as FO-11)\n- app/fo-12/layout.tsx — Wraps with Fo12LayoutClient (same pattern as FO-11)\n- app/fo-12/fo-12-layout-client.tsx — ImplementationProvider + TopSubmenu (based on FO-11)\n- app/fo-12/info/page.tsx — Info page using InfoPageWrapper component\n\n**Files to modify:**\n- nav.config.ts — Add FO-12 nav entry after FO-11\n- app/overview/page.tsx — Add FO-12 version card\n\n## Implementation\n\n1. **page.tsx:** Copy from FO-11, change import to fo-12 FOExperience\n2. **layout.tsx:** Copy from FO-11, change import to fo-12 layout client\n3. **fo-12-layout-client.tsx:** Copy from FO-11, change:\n   - Import from '@/src/fo-12' instead of '@/src/fo-11'\n   - Find navTree item for '/fo-12' instead of '/fo-11'\n4. **info/page.tsx:** Create using InfoPageWrapper. Content per spec:\n   - id: \"FO-12\", name: \"Structured 30-Affirmation Journey\"\n   - tagline: \"Guided selection with emotional check-ins\"\n   - Describe the 3-phase selection flow, check-in screens, 30-target, based-on-FO-11\n5. **nav.config.ts:** Add entry after FO-11:\n   { label: \"FO-12\", href: \"/fo-12\", children: [{ label: \"Demo\", href: \"/fo-12\" }, { label: \"Info\", href: \"/fo-12/info\" }] }\n6. **overview/page.tsx:** Add FO-12 version card per spec Registration section\n\n## Tests\n\n1. Build passes — npm run build\n2. Navigate to /fo-12 loads the page (manual check or E2E)\n\nRun: npm run build\n\nDo NOT close until build passes.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "ays"
+  ],
+  "parent": "o3x",
+  "acceptance_criteria": "npm run build passes successfully",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:19:24.8849957Z",
+  "updated_at": "2026-02-16T13:42:16.1208523Z",
+  "closed_at": "2026-02-16T13:42:16.1208523Z",
+  "closed_reason": "Created all page scaffolding and registration for FO-12. Files created: page.tsx, layout.tsx, fo-12-layout-client.tsx, info/page.tsx. Modified: nav.config.ts (added FO-12 nav entry after FO-11), overview/page.tsx (added FO-12 version card and comparison table row). npm run build passes successfully with /fo-12 and /fo-12/info routes."
+}

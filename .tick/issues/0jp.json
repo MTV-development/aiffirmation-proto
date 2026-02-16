@@ -1,0 +1,16 @@
+{
+  "id": "0jp",
+  "title": "Create FO-12 discovery and affirmation agents",
+  "description": "## Objective\n\nCreate the Mastra agent definitions for FO-12: discovery agent (steps 4-5) and affirmation agent (batch size 10).\n\n## Spec Reference\n\n**Spec:** docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md — Sections: \"Discovery Agent\", \"Affirmation Agent\"\n\n## Scope\n\n**Files to create:**\n- src/mastra/agents/fo-12/index.ts — Re-exports both agents and factory functions\n- src/mastra/agents/fo-12/discovery-agent.ts — Based on FO-11, uses 'fo-12' namespace\n- src/mastra/agents/fo-12/affirmation-agent.ts — Based on FO-11, DEFAULT_INSTRUCTIONS updated: batch size 10 instead of 5\n\n## Implementation\n\n1. Copy src/mastra/agents/fo-11/ to src/mastra/agents/fo-12/\n2. In index.ts: rename all FO11 to FO12\n3. In discovery-agent.ts:\n   - Rename agent id to 'fo-12-discovery'\n   - Change KV lookups from 'fo-11' to 'fo-12'\n   - No step 7 — only handles steps 4 and 5\n4. In affirmation-agent.ts:\n   - Rename agent id to 'fo-12-affirmation'\n   - Change KV lookups from 'fo-11' to 'fo-12'\n   - Update DEFAULT_INSTRUCTIONS: change \"exactly 5 affirmation strings\" to \"exactly 10 affirmation strings\"\n\n## Tests\n\nVerify: npx tsc --noEmit passes\n\nDo NOT close until tests pass.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "o8m",
+  "acceptance_criteria": "npx tsc --noEmit passes with no FO-12 agent errors",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:17:13.5786678Z",
+  "updated_at": "2026-02-16T13:29:44.4846237Z",
+  "closed_at": "2026-02-16T13:29:44.4846237Z",
+  "closed_reason": "Created FO-12 discovery and affirmation agents. Files: src/mastra/agents/fo-12/index.ts, discovery-agent.ts (fo-12-discovery, steps 4-5 only, no step 7), affirmation-agent.ts (fo-12-affirmation, batch size 10 in DEFAULT_INSTRUCTIONS). npx tsc --noEmit passes with no FO-12 errors."
+}

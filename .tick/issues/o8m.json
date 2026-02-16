@@ -1,0 +1,15 @@
+{
+  "id": "o8m",
+  "title": "FO-12: Foundation (Types, Agents, Seeds, Actions)",
+  "description": "## Scope\n\nDelivers all backend/data-layer code for FO-12: types, constants, implementation provider module, Mastra agents (discovery + affirmation), KV store seeds (based on Trinev2 reference), and server actions.\n\n## Spec Reference\n\n`docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-spec.md` — Sections: \"Technical Architecture\", \"KV Store Keys\", \"File Structure\"\n\n## Key Files\n\n- `app/fo-12/types.ts` — FO12 types and constants (TARGET_LOVED=30, PHASE sizes)\n- `src/fo-12/` — Implementation provider module (context, selector, index)\n- `src/mastra/agents/fo-12/` — Discovery and affirmation agents\n- `src/db/seeds/fo-12.ts` — KV store seeds based on Trinev2 reference\n- `src/db/seeds/index.ts` — Register fo-12 seeds (existing file, modify)\n- `app/fo-12/actions.ts` — Server actions for discovery steps 4-5 and affirmation batches\n\n## Worker Instructions\n\n- Complete tasks in order (they build on each other)\n- Read `docs/projects/2026-02-16-fo-12/implementation-notes.md` before starting\n- Read `docs/projects/2026-02-16-fo-12/2026-02-16-fo-12-trinev2-reference.md` for prompt content\n- Append your learnings to `docs/projects/2026-02-16-fo-12/implementation-notes.md` when all tasks are done\n- FO-12 uses a SINGLE `fo-12` namespace (same pattern as FO-11's `fo-11` namespace)\n- Discovery steps are numbered 4 (context) and 5 (tone) — not FO-11's 5, 6, 7\n- Affirmation batch size is 10 (not FO-11's 5), with dynamic sizing for phase 3",
+  "notes": "2026-02-16 14:35 - EPIC COMPLETE: All 4 tasks done. Types (TARGET_LOVED=30, PHASE1/2_SIZE=10), agents (discovery steps 4-5, affirmation batch 10), seeds (11 keys from Trinev2, batch_size variable in feedback prompt), actions (generateDiscoveryStep 4|5, generateAffirmationBatchFO12 with batchSize param). All pass tsc --noEmit and db:seed. Key pattern: prompt_affirmation_with_feedback uses {{ batch_size }} for dynamic phase 3 sizing.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-16T13:15:21.653287Z",
+  "updated_at": "2026-02-16T13:35:55.1105526Z",
+  "closed_at": "2026-02-16T13:35:55.1105526Z",
+  "closed_reason": "All 4 tasks completed: types, agents, seeds, actions"
+}
