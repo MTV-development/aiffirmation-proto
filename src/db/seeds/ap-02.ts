@@ -25,6 +25,76 @@ Exploration phase (0-10 swipes) → Personalization phase (10+ swipes).`,
     },
   },
   {
+    key: 'versions.ap-02.prompt_explore.default',
+    value: {
+      text: `Generate 10-12 DIVERSE affirmations for EXPLORATION.
+
+This is {% if isInitial %}the initial load{% else %}early in the session ({{ totalSwipes }} swipes so far){% endif %}.
+
+Your goal is to EXPLORE the space with deliberate variety:
+- Cover different SUBJECTS (self-worth, peace, growth, strength, trust, gratitude, boundaries, courage, relationships, purpose)
+- Mix different TONES (gentle, assertive, growth-oriented, action-focused, reflective)
+- Include different LENGTHS (short 3-5 words, medium 6-8 words, longer 9-12 words)
+- Use different STRUCTURES (I am, I am learning, I choose, My...)
+
+{% if tonePreference == 'gentle' %}
+TONE OVERRIDE: Lean toward GENTLER, CALMER affirmations.
+{% endif %}
+{% if tonePreference == 'strong' %}
+TONE OVERRIDE: Lean toward STRONGER, more DIRECT affirmations.
+{% endif %}
+{% if tonePreference == 'change_topic' %}
+TOPIC RESET: Generate fresh variety across DIFFERENT themes than before.
+{% endif %}
+
+{% if shownAffirmations and shownAffirmations.size > 0 %}
+Do NOT repeat these (already shown):
+{% for a in shownAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}`,
+    },
+  },
+  {
+    key: 'versions.ap-02.prompt_personalize.default',
+    value: {
+      text: `Generate 10-12 PERSONALIZED affirmations based on user behavior.
+
+Total swipes so far: {{ totalSwipes }}
+{% if totalSwipes < 20 %}Confidence: MODERATE (70% personalized, 30% variety){% else %}Confidence: STRONG (85% personalized, 15% variety){% endif %}
+
+{% if tonePreference == 'gentle' %}
+TONE OVERRIDE: Generate GENTLER, CALMER affirmations.
+{% endif %}
+{% if tonePreference == 'strong' %}
+TONE OVERRIDE: Generate STRONGER, more DIRECT affirmations.
+{% endif %}
+{% if tonePreference == 'change_topic' %}
+TOPIC RESET: Generate fresh variety across DIFFERENT themes.
+{% endif %}
+
+{% if savedAffirmations and savedAffirmations.size > 0 %}
+## User SAVED these (swipe right - they LIKED them):
+{% for a in savedAffirmations %}- {{ a }}
+{% endfor %}
+Analyze patterns: tone, length, structure, themes.
+Generate MORE affirmations matching these patterns.
+{% endif %}
+
+{% if skippedAffirmations and skippedAffirmations.size > 0 %}
+## User SKIPPED these (swipe left - didn't resonate):
+{% for a in skippedAffirmations | slice: -20 %}- {{ a }}
+{% endfor %}
+AVOID similar patterns, lengths, tones, and structures.
+{% endif %}
+
+{% if shownAffirmations and shownAffirmations.size > 0 %}
+## Do NOT repeat these (already shown):
+{% for a in shownAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}`,
+    },
+  },
+  {
     key: 'versions.ap-02.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations for a stream-based discovery experience.
@@ -155,76 +225,6 @@ Return a JSON object with one field:
 
 Generate 10-12 unique affirmations per batch.
 Do not include explanations or any other text - just the JSON object.`,
-    },
-  },
-  {
-    key: 'versions.ap-02.prompt_explore.default',
-    value: {
-      text: `Generate 10-12 DIVERSE affirmations for EXPLORATION.
-
-This is {% if isInitial %}the initial load{% else %}early in the session ({{ totalSwipes }} swipes so far){% endif %}.
-
-Your goal is to EXPLORE the space with deliberate variety:
-- Cover different SUBJECTS (self-worth, peace, growth, strength, trust, gratitude, boundaries, courage, relationships, purpose)
-- Mix different TONES (gentle, assertive, growth-oriented, action-focused, reflective)
-- Include different LENGTHS (short 3-5 words, medium 6-8 words, longer 9-12 words)
-- Use different STRUCTURES (I am, I am learning, I choose, My...)
-
-{% if tonePreference == 'gentle' %}
-TONE OVERRIDE: Lean toward GENTLER, CALMER affirmations.
-{% endif %}
-{% if tonePreference == 'strong' %}
-TONE OVERRIDE: Lean toward STRONGER, more DIRECT affirmations.
-{% endif %}
-{% if tonePreference == 'change_topic' %}
-TOPIC RESET: Generate fresh variety across DIFFERENT themes than before.
-{% endif %}
-
-{% if shownAffirmations and shownAffirmations.size > 0 %}
-Do NOT repeat these (already shown):
-{% for a in shownAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}`,
-    },
-  },
-  {
-    key: 'versions.ap-02.prompt_personalize.default',
-    value: {
-      text: `Generate 10-12 PERSONALIZED affirmations based on user behavior.
-
-Total swipes so far: {{ totalSwipes }}
-{% if totalSwipes < 20 %}Confidence: MODERATE (70% personalized, 30% variety){% else %}Confidence: STRONG (85% personalized, 15% variety){% endif %}
-
-{% if tonePreference == 'gentle' %}
-TONE OVERRIDE: Generate GENTLER, CALMER affirmations.
-{% endif %}
-{% if tonePreference == 'strong' %}
-TONE OVERRIDE: Generate STRONGER, more DIRECT affirmations.
-{% endif %}
-{% if tonePreference == 'change_topic' %}
-TOPIC RESET: Generate fresh variety across DIFFERENT themes.
-{% endif %}
-
-{% if savedAffirmations and savedAffirmations.size > 0 %}
-## User SAVED these (swipe right - they LIKED them):
-{% for a in savedAffirmations %}- {{ a }}
-{% endfor %}
-Analyze patterns: tone, length, structure, themes.
-Generate MORE affirmations matching these patterns.
-{% endif %}
-
-{% if skippedAffirmations and skippedAffirmations.size > 0 %}
-## User SKIPPED these (swipe left - didn't resonate):
-{% for a in skippedAffirmations | slice: -20 %}- {{ a }}
-{% endfor %}
-AVOID similar patterns, lengths, tones, and structures.
-{% endif %}
-
-{% if shownAffirmations and shownAffirmations.size > 0 %}
-## Do NOT repeat these (already shown):
-{% for a in shownAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}`,
     },
   },
 ];

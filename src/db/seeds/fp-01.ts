@@ -24,6 +24,27 @@ Takes user through discovery (focus, challenges, tone) and generates batches of 
     },
   },
   {
+    key: 'versions.fp-01.prompt.default',
+    value: {
+      text: `Please generate 8 personalized affirmations for me.
+
+## My Preferences
+- **Focus Area**: {{ focus }}
+- **Challenges I Face**: {% if challenges and challenges != "" %}{{ challenges }}{% else %}general life challenges{% endif %}
+- **Tone I Prefer**: {{ tone }}
+{% if feedback %}
+## Additional Context
+{{ feedback }}
+{% endif %}
+{% if previousAffirmations and previousAffirmations.size > 0 %}
+## Already Seen (Do Not Repeat)
+I have already seen these affirmations. Please generate COMPLETELY DIFFERENT ones:
+{% for affirmation in previousAffirmations %}- {{ affirmation }}
+{% endfor %}
+{% endif %}`,
+    },
+  },
+  {
     key: 'versions.fp-01.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your affirmations are crafted with care and intention.
@@ -145,27 +166,6 @@ Return exactly 8 affirmations as a JSON array of strings:
 ["Affirmation 1", "Affirmation 2", ...]
 
 Do not include numbering, explanations, or any other text - just the JSON array.`,
-    },
-  },
-  {
-    key: 'versions.fp-01.prompt.default',
-    value: {
-      text: `Please generate 8 personalized affirmations for me.
-
-## My Preferences
-- **Focus Area**: {{ focus }}
-- **Challenges I Face**: {% if challenges and challenges != "" %}{{ challenges }}{% else %}general life challenges{% endif %}
-- **Tone I Prefer**: {{ tone }}
-{% if feedback %}
-## Additional Context
-{{ feedback }}
-{% endif %}
-{% if previousAffirmations and previousAffirmations.size > 0 %}
-## Already Seen (Do Not Repeat)
-I have already seen these affirmations. Please generate COMPLETELY DIFFERENT ones:
-{% for affirmation in previousAffirmations %}- {{ affirmation }}
-{% endfor %}
-{% endif %}`,
     },
   },
 ];

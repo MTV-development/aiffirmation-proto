@@ -32,7 +32,7 @@ The user has provided this additional context about their situation: {{ addition
     },
   },
   {
-    key: 'versions.gt-01.system.default', 
+    key: 'versions.gt-01.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations for a specific user and usage. Your affirmations are crafted with care and intention.
 

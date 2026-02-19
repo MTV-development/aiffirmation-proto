@@ -24,6 +24,17 @@ Generates 100 personalized affirmations based on user intention using AP-01 qual
     },
   },
   {
+    key: 'versions.fo-01.prompt.default',
+    value: {
+      text: `Generate 100 personalized affirmations for {{ name }}.
+
+## User's Intention
+{{ intention }}
+
+Remember to create exactly 100 unique, high-quality affirmations that directly address this intention. Return only the JSON array.`,
+    },
+  },
+  {
     key: 'versions.fo-01.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your task is to generate 100 personalized affirmations based on the user's intention.
@@ -144,17 +155,6 @@ Return a JSON array containing exactly 100 affirmation strings. Do not include e
 
 Example format:
 ["I am enough.", "I trust my journey.", "My heart knows peace.", ...]`,
-    },
-  },
-  {
-    key: 'versions.fo-01.prompt.default',
-    value: {
-      text: `Generate 100 personalized affirmations for {{ name }}.
-
-## User's Intention
-{{ intention }}
-
-Remember to create exactly 100 unique, high-quality affirmations that directly address this intention. Return only the JSON array.`,
     },
   },
 ];

@@ -5,7 +5,7 @@ export const fp02Seeds: SeedEntry[] = [
     key: 'versions.fp-02._info.default',
     value: {
       name: 'Default',
-      text: `Full Process 2 - Feedback-aware affirmation generator that learns from skipped affirmations to avoid unwanted patterns in subsequent batches.`,
+      text: 'Full Process 2 - Feedback-aware affirmation generator that learns from skipped affirmations to avoid unwanted patterns in subsequent batches.',
       author: 'System',
       createdAt: '2025-12-12',
     },
@@ -20,6 +20,36 @@ export const fp02Seeds: SeedEntry[] = [
     key: 'versions.fp-02._temperature.default',
     value: {
       text: '0.95',
+    },
+  },
+  {
+    key: 'versions.fp-02.prompt.default',
+    value: {
+      text: `Please generate 8 personalized affirmations for me.
+
+## My Preferences
+- **Focus Area**: {{ focus }}
+- **Challenges I Face**: {% if challenges and challenges != "" %}{{ challenges }}{% else %}general life challenges{% endif %}
+- **Tone I Prefer**: {{ tone }}
+{% if feedback %}
+
+## Additional Context
+{{ feedback }}
+{% endif %}
+{% if skippedAffirmations and skippedAffirmations.size > 0 %}
+
+## Affirmations I Skipped
+These didn't resonate - avoid similar style or content:
+{% for affirmation in skippedAffirmations %}- {{ affirmation }}
+{% endfor %}
+{% endif %}
+{% if previousAffirmations and previousAffirmations.size > 0 %}
+
+## Already Seen (Do Not Repeat)
+I have already seen these affirmations. Please generate COMPLETELY DIFFERENT ones:
+{% for affirmation in previousAffirmations %}- {{ affirmation }}
+{% endfor %}
+{% endif %}`,
     },
   },
   {
@@ -170,36 +200,6 @@ Return exactly 8 affirmations as a JSON array of strings:
 ["Affirmation 1", "Affirmation 2", ...]
 
 Do not include numbering, explanations, or any other text - just the JSON array.`,
-    },
-  },
-  {
-    key: 'versions.fp-02.prompt.default',
-    value: {
-      text: `Please generate 8 personalized affirmations for me.
-
-## My Preferences
-- **Focus Area**: {{ focus }}
-- **Challenges I Face**: {% if challenges and challenges != "" %}{{ challenges }}{% else %}general life challenges{% endif %}
-- **Tone I Prefer**: {{ tone }}
-{% if feedback %}
-
-## Additional Context
-{{ feedback }}
-{% endif %}
-{% if skippedAffirmations and skippedAffirmations.size > 0 %}
-
-## Affirmations I Skipped
-These didn't resonate - avoid similar style or content:
-{% for affirmation in skippedAffirmations %}- {{ affirmation }}
-{% endfor %}
-{% endif %}
-{% if previousAffirmations and previousAffirmations.size > 0 %}
-
-## Already Seen (Do Not Repeat)
-I have already seen these affirmations. Please generate COMPLETELY DIFFERENT ones:
-{% for affirmation in previousAffirmations %}- {{ affirmation }}
-{% endfor %}
-{% endif %}`,
     },
   },
 ];

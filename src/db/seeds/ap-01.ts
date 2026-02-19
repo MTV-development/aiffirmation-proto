@@ -25,6 +25,41 @@ User vents freely, AI extracts tags and generates personalized affirmations.`,
     },
   },
   {
+    key: 'versions.ap-01.prompt_shuffle.default',
+    value: {
+      text: `The user shared the following thoughts:
+
+"{{ userInput }}"
+
+Generate 6-8 NEW personalized affirmations based on this context.
+Keep the same tags you identified before.
+
+IMPORTANT - Do NOT repeat these (already shown):
+{% for a in previousAffirmations %}- {{ a }}
+{% endfor %}
+{% if savedAffirmations and savedAffirmations.size > 0 %}
+User approved these (generate MORE with similar style/tone):
+{% for a in savedAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}
+{% if skippedAffirmations and skippedAffirmations.size > 0 %}
+User skipped these (AVOID similar phrasing/structure):
+{% for a in skippedAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}`,
+    },
+  },
+  {
+    key: 'versions.ap-01.prompt.default',
+    value: {
+      text: `The user shared the following thoughts:
+
+"{{ userInput }}"
+
+Based on this, extract 3-6 emotional/contextual tags and generate 6-8 personalized affirmations.`,
+    },
+  },
+  {
     key: 'versions.ap-01.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. You have two capabilities:
@@ -137,41 +172,6 @@ Return a JSON object with two fields:
 }
 
 Do not include explanations or any other text - just the JSON object.`,
-    },
-  },
-  {
-    key: 'versions.ap-01.prompt.default',
-    value: {
-      text: `The user shared the following thoughts:
-
-"{{ userInput }}"
-
-Based on this, extract 3-6 emotional/contextual tags and generate 6-8 personalized affirmations.`,
-    },
-  },
-  {
-    key: 'versions.ap-01.prompt_shuffle.default',
-    value: {
-      text: `The user shared the following thoughts:
-
-"{{ userInput }}"
-
-Generate 6-8 NEW personalized affirmations based on this context.
-Keep the same tags you identified before.
-
-IMPORTANT - Do NOT repeat these (already shown):
-{% for a in previousAffirmations %}- {{ a }}
-{% endfor %}
-{% if savedAffirmations and savedAffirmations.size > 0 %}
-User approved these (generate MORE with similar style/tone):
-{% for a in savedAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}
-{% if skippedAffirmations and skippedAffirmations.size > 0 %}
-User skipped these (AVOID similar phrasing/structure):
-{% for a in skippedAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}`,
     },
   },
 ];

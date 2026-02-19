@@ -27,6 +27,64 @@ Key difference from FO-01: Instead of generating 100 affirmations upfront, FO-02
     },
   },
   {
+    key: 'versions.fo-02.prompt_initial.default',
+    value: {
+      text: `{{ name }} shared the following about what they hope affirmations can help with:
+
+"{{ intention }}"
+
+Generate exactly 10 personalized affirmations that speak directly to their situation.`,
+    },
+  },
+  {
+    key: 'versions.fo-02.prompt_with_feedback.default',
+    value: {
+      text: `{{ name }} shared the following about what they hope affirmations can help with:
+
+"{{ intention }}"
+
+{% if approvedAffirmations.size > 0 %}
+## Style to Match (user approved these - match the style but NOT the content)
+
+The user liked these affirmations. Analyze their characteristics:
+- Length (short vs. detailed)
+- Tone (gentle vs. assertive)
+- Structure (simple "I am" vs. growth-oriented "I am learning")
+- Themes that resonate
+
+Generate MORE affirmations with similar characteristics.
+
+{% for aff in approvedAffirmations %}
+- {{ aff }}
+{% endfor %}
+{% endif %}
+
+{% if skippedAffirmations.size > 0 %}
+## Patterns to Avoid (user skipped these)
+
+The user passed on these affirmations. Identify patterns to avoid:
+- Similar phrasing, length, or tone
+- Themes that didn't resonate
+
+{% for aff in skippedAffirmations %}
+- {{ aff }}
+{% endfor %}
+{% endif %}
+
+{% if allPreviousAffirmations.size > 0 %}
+## Do Not Repeat
+
+CRITICAL: Do not generate any of these existing affirmations or close variations:
+
+{% for aff in allPreviousAffirmations %}
+- {{ aff }}
+{% endfor %}
+{% endif %}
+
+Generate exactly 10 NEW personalized affirmations that speak directly to their situation.`,
+    },
+  },
+  {
     key: 'versions.fo-02.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations.
@@ -111,64 +169,6 @@ Return ONLY a JSON array of exactly 10 affirmation strings:
 ["Affirmation 1", "Affirmation 2", ..., "Affirmation 10"]
 
 No explanations, no other text — just the JSON array.`,
-    },
-  },
-  {
-    key: 'versions.fo-02.prompt_initial.default',
-    value: {
-      text: `{{ name }} shared the following about what they hope affirmations can help with:
-
-"{{ intention }}"
-
-Generate exactly 10 personalized affirmations that speak directly to their situation.`,
-    },
-  },
-  {
-    key: 'versions.fo-02.prompt_with_feedback.default',
-    value: {
-      text: `{{ name }} shared the following about what they hope affirmations can help with:
-
-"{{ intention }}"
-
-{% if approvedAffirmations.size > 0 %}
-## Style to Match (user approved these - match the style but NOT the content)
-
-The user liked these affirmations. Analyze their characteristics:
-- Length (short vs. detailed)
-- Tone (gentle vs. assertive)
-- Structure (simple "I am" vs. growth-oriented "I am learning")
-- Themes that resonate
-
-Generate MORE affirmations with similar characteristics.
-
-{% for aff in approvedAffirmations %}
-- {{ aff }}
-{% endfor %}
-{% endif %}
-
-{% if skippedAffirmations.size > 0 %}
-## Patterns to Avoid (user skipped these)
-
-The user passed on these affirmations. Identify patterns to avoid:
-- Similar phrasing, length, or tone
-- Themes that didn't resonate
-
-{% for aff in skippedAffirmations %}
-- {{ aff }}
-{% endfor %}
-{% endif %}
-
-{% if allPreviousAffirmations.size > 0 %}
-## Do Not Repeat
-
-CRITICAL: Do not generate any of these existing affirmations or close variations:
-
-{% for aff in allPreviousAffirmations %}
-- {{ aff }}
-{% endfor %}
-{% endif %}
-
-Generate exactly 10 NEW personalized affirmations that speak directly to their situation.`,
     },
   },
 ];

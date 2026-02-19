@@ -24,6 +24,52 @@ Generates affirmations in batches, then check-ins for adjustments before continu
     },
   },
   {
+    key: 'versions.fp-03.prompt.default',
+    value: {
+      text: `Create 8 affirmations for me.
+
+## Context
+- Focus: {{ focus }}
+- Friction (what gets in the way): {% if challenges and challenges != "" %}{{ challenges }}{% else %}(none){% endif %}
+- Tone: {{ tone }}
+
+{% if likedExamples and likedExamples.size > 0 %}
+## Style inspiration (match the vibe, don't copy)
+{% for line in likedExamples %}- {{ line }}
+{% endfor %}
+{% endif %}
+
+{% if notes and notes != "" %}
+## Notes
+{{ notes }}
+{% endif %}
+
+{% if avoid and avoid.size > 0 %}
+## Avoid
+{% for item in avoid %}- {{ item }}
+{% endfor %}
+{% endif %}
+
+{% if approvedAffirmations and approvedAffirmations.size > 0 %}
+## I approved these (lean toward this style)
+{% for a in approvedAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}
+
+{% if skippedAffirmations and skippedAffirmations.size > 0 %}
+## I skipped these (avoid similar style)
+{% for a in skippedAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}
+
+{% if previousAffirmations and previousAffirmations.size > 0 %}
+## Already shown (do not repeat)
+{% for a in previousAffirmations %}- {{ a }}
+{% endfor %}
+{% endif %}`,
+    },
+  },
+  {
     key: 'versions.fp-03.system.default',
     value: {
       text: `You are an expert affirmation coach who creates deeply meaningful, psychologically effective affirmations. Your affirmations are crafted with care and intention.
@@ -171,52 +217,6 @@ Return exactly 8 affirmations as a JSON array of strings:
 ["Affirmation 1", "Affirmation 2", ...]
 
 Do not include numbering, explanations, or any other text - just the JSON array.`,
-    },
-  },
-  {
-    key: 'versions.fp-03.prompt.default',
-    value: {
-      text: `Create 8 affirmations for me.
-
-## Context
-- Focus: {{ focus }}
-- Friction (what gets in the way): {% if challenges and challenges != "" %}{{ challenges }}{% else %}(none){% endif %}
-- Tone: {{ tone }}
-
-{% if likedExamples and likedExamples.size > 0 %}
-## Style inspiration (match the vibe, don't copy)
-{% for line in likedExamples %}- {{ line }}
-{% endfor %}
-{% endif %}
-
-{% if notes and notes != "" %}
-## Notes
-{{ notes }}
-{% endif %}
-
-{% if avoid and avoid.size > 0 %}
-## Avoid
-{% for item in avoid %}- {{ item }}
-{% endfor %}
-{% endif %}
-
-{% if approvedAffirmations and approvedAffirmations.size > 0 %}
-## I approved these (lean toward this style)
-{% for a in approvedAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}
-
-{% if skippedAffirmations and skippedAffirmations.size > 0 %}
-## I skipped these (avoid similar style)
-{% for a in skippedAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}
-
-{% if previousAffirmations and previousAffirmations.size > 0 %}
-## Already shown (do not repeat)
-{% for a in previousAffirmations %}- {{ a }}
-{% endfor %}
-{% endif %}`,
     },
   },
 ];
