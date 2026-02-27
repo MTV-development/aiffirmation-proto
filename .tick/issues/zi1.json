@@ -2,7 +2,7 @@
   "id": "zi1",
   "title": "Iteration 02.1R: Reflect on Iteration 02.1",
   "description": "Reflection iteration for 02.1. Code review, docs audit, plan reassessment.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
@@ -11,5 +11,7 @@
   ],
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-27T11:01:32.5723524Z",
-  "updated_at": "2026-02-27T11:01:32.5723524Z"
+  "updated_at": "2026-02-27T11:41:44.034723Z",
+  "closed_at": "2026-02-27T11:41:44.034723Z",
+  "closed_reason": "Reflection complete. Planning for 02.2 done."
 }

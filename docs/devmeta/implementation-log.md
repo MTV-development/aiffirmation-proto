@@ -129,3 +129,21 @@ Chronological record of what was built in each version.
 - `app/fo-13/info/page.tsx` — Info page with FO-12→FO-13 comparison table
 - `nav.config.ts` — Added FO-13 entry with Demo and Info children
 - `app/overview/page.tsx` — Added FO-13 card and comparison table row
+
+### FO-13 Card Components — 2026-02-27 (Iteration 02.2, Epic A)
+**Card review components and cleanup**
+- `app/fo-13/components/affirmation-card.tsx` — Copy of FO-12 single card (Love it / Discard buttons with spring animation)
+- `app/fo-13/components/affirmation-card-flow.tsx` — Adapted from FO-12: removed `onRequestMore` (not needed for fixed 4×5 batches), default target changed to PHASE1_TARGET (20)
+- `app/fo-13/components/step-ready.tsx` — NEW Screen 7: transition screen before card review. Shows personalized headline with user's name and explanation of what comes next
+- Deleted `app/fo-13/components/heart-animation.tsx` — dead code carried over from FO-12 (ThinkingScreen replaces it in FO-13)
+
+### FO-13 State Machine Extension — 2026-02-27 (Iteration 02.2, Epic B)
+**Phase 1 card review flow (steps 7-12)**
+- Extended `app/fo-13/components/fo-experience.tsx` from steps 0-6 to steps 0-12:
+  - Step 7: StepReady — transition screen with personalized headline
+  - Steps 8-11: AffirmationCardFlow × 4 batches of 5 with thinking screens D-G between
+  - Step 12: Placeholder for Phase 2 (iteration 02.3)
+- Feedback-driven regeneration: each batch completion passes accumulated loved/discarded to next batch generation
+- Thinking screen messages: D (resonance), E (refining), F (polishing), G (saving/creating feed, 3 messages)
+- Same transition coordination pattern: `.then()` callbacks check `thinkingCompleted` in functional state updaters
+- `BATCH_THINKING_MESSAGES` extracted as module-level constant to satisfy exhaustive-deps
