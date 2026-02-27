@@ -1,0 +1,14 @@
+{
+  "id": "io0",
+  "title": "Create FO-13 types and constants",
+  "description": "Create app/fo-13/types.ts with PHASE1_TARGET=20, PHASE2_TARGET=40, PHASE1_BATCH_SIZE=5, PHASE2_BATCH_SIZE=20, FO13_GOAL_QUESTION, and all interfaces (FO13DiscoveryResponse, FO13OnboardingData, FO13GenerateBatchOptions, FO13GenerateBatchResult). Copy FO-12 types, adapt constants.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "iax",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:04:15.6598814Z",
+  "updated_at": "2026-02-27T11:08:19.7845492Z",
+  "closed_at": "2026-02-27T11:08:19.7845492Z"
+}

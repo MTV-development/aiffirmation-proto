@@ -1,0 +1,14 @@
+{
+  "id": "iax",
+  "title": "Epic A: FO-13 Foundation (Types, Agents, Seeds, Actions)",
+  "description": "Create all backend infrastructure: types.ts, discovery agent, affirmation agent, seed file, server actions. All under fo-13 namespace.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "kt9",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:01:46.8544922Z",
+  "updated_at": "2026-02-27T11:15:24.3337614Z",
+  "closed_at": "2026-02-27T11:15:24.3337614Z"
+}
