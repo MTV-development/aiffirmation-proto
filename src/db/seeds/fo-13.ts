@@ -65,17 +65,7 @@ Read this conversation carefully. It reveals {{ name }}'s emotional state, inner
 
 ## Feedback from Previous Batches
 
-### Loved Affirmations (generate more like these):
-{% for aff in loved %}- "{{ aff }}"
-{% endfor %}
-
-### Discarded Affirmations (avoid similar patterns):
-{% for aff in discarded %}- "{{ aff }}"
-{% endfor %}
-
-### All Previous Affirmations (do not repeat these or close variations):
-{% for aff in all_previous %}- "{{ aff }}"
-{% endfor %}
+{{ feedback_section }}
 
 ## Exchange Structure
 

@@ -322,9 +322,35 @@ async function buildAffirmationPrompt(
     };
 
     if (hasFeedback) {
-      variables.loved = approvedAffirmations;
-      variables.discarded = skippedAffirmations;
-      variables.all_previous = [...approvedAffirmations, ...skippedAffirmations];
+      // Pre-format feedback section in JavaScript to avoid Liquid array rendering issues
+      const feedbackLines: string[] = [];
+
+      if (approvedAffirmations.length > 0) {
+        feedbackLines.push('### Loved Affirmations (generate more like these):');
+        for (const aff of approvedAffirmations) {
+          feedbackLines.push(`- "${aff}"`);
+        }
+        feedbackLines.push('');
+      }
+
+      if (skippedAffirmations.length > 0) {
+        feedbackLines.push('### Discarded Affirmations (avoid similar patterns):');
+        for (const aff of skippedAffirmations) {
+          feedbackLines.push(`- "${aff}"`);
+        }
+        feedbackLines.push('');
+      }
+
+      const allPrevious = [...approvedAffirmations, ...skippedAffirmations];
+      if (allPrevious.length > 0) {
+        feedbackLines.push('### All Previous Affirmations (do not repeat these or close variations):');
+        for (const aff of allPrevious) {
+          feedbackLines.push(`- "${aff}"`);
+        }
+        feedbackLines.push('');
+      }
+
+      variables.feedback_section = feedbackLines.join('\n');
       variables.batch_size = batchSize || 10;
     }
 
