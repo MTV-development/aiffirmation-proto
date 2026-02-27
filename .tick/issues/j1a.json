@@ -1,0 +1,13 @@
+{
+  "id": "j1a",
+  "title": "Write FO-13 E2E test suite",
+  "description": "Create e2e/fo-13.test.ts with 3 test paths: (1) Happy path — full 40 cards (discovery → Phase 1 4×5 → Create-List Continue → Phase 2 20 → Theme → Notifications → Premium → Feed), (2) Skip-context variant — rich goal answer triggers skip of Screen 5, (3) Add more later variant — Create-List 'Add more later' → jumps to Theme. Use FO-12 E2E as reference for Playwright patterns. Use waitForNextCard helper for card transitions.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "k4n",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:46.5959819Z",
+  "updated_at": "2026-02-27T13:57:46.5959819Z"
+}

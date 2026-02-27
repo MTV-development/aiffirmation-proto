@@ -1,0 +1,15 @@
+{
+  "id": "vat",
+  "title": "Iteration 02.3R: Reflect on Iteration 02.3",
+  "description": "Reflection iteration for 02.3. Runs on master after merge.",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "wi2"
+  ],
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:59.5658553Z",
+  "updated_at": "2026-02-27T13:58:22.0208871Z"
+}

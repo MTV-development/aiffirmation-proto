@@ -2,7 +2,7 @@
   "id": "mky",
   "title": "Iteration 02.2R: Reflect on Iteration 02.2",
   "description": "Reflection iteration for 02.2. Code review, docs audit, plan reassessment.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
@@ -11,5 +11,7 @@
   ],
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-27T11:41:26.5753884Z",
-  "updated_at": "2026-02-27T11:41:33.6666706Z"
+  "updated_at": "2026-02-27T13:58:29.3349358Z",
+  "closed_at": "2026-02-27T13:58:29.3349358Z",
+  "closed_reason": "Reflection 02.2R complete, iteration 02.3 planned"
 }

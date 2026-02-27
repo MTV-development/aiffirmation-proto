@@ -2,7 +2,7 @@
   "id": "8sq",
   "title": "Merge PR and return to main",
   "description": "Merge PR, pull to local master.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -12,5 +12,7 @@
   "parent": "r8q",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-27T11:40:48.7618778Z",
-  "updated_at": "2026-02-27T11:41:18.9408833Z"
+  "updated_at": "2026-02-27T13:53:05.1657862Z",
+  "closed_at": "2026-02-27T13:53:05.1657862Z",
+  "closed_reason": "PR #23 merged, on master"
 }

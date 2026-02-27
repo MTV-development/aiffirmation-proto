@@ -1,0 +1,13 @@
+{
+  "id": "vy8",
+  "title": "Re-ground after Epic C",
+  "description": "Update implementation-log.md, iteration status, and lessons-learned.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "k4n",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:46.8423199Z",
+  "updated_at": "2026-02-27T13:57:46.8423199Z"
+}

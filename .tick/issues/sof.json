@@ -1,0 +1,13 @@
+{
+  "id": "sof",
+  "title": "Epoch 02 exit criteria verification",
+  "description": "Verify all epoch-02 exit criteria from _overview.md are met. This is the epoch completion gate. Update epoch status to COMPLETE if all criteria pass.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "vat",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:58:05.903738Z",
+  "updated_at": "2026-02-27T13:58:05.903738Z"
+}

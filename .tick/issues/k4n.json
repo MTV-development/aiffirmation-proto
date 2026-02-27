@@ -1,0 +1,16 @@
+{
+  "id": "k4n",
+  "title": "Epic C: Full E2E Test Suite (HARD GATE)",
+  "description": "Write and execute e2e/fo-13.test.ts covering: (1) Happy path — all 40 cards reviewed, (2) Skip-context variant — rich goal skips Screen 5, (3) Add more later variant — skip phase 2. Also run FO-12 regression: node --import tsx e2e/fo-12.test.ts. ALL tests must pass in real Chromium browser.",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "20z"
+  ],
+  "parent": "wi2",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:10.594363Z",
+  "updated_at": "2026-02-27T13:58:21.5874145Z"
+}

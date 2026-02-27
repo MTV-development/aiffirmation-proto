@@ -1,0 +1,13 @@
+{
+  "id": "q0m",
+  "title": "Complete state machine wiring (steps 12-20+)",
+  "description": "Extend fo-experience.tsx to wire all remaining steps: Step 12 = Create-List (with Add more later skip to Theme), Step 13 = Thinking H (generate Phase 2 batch of 20), Step 14 = Phase 2 card review (20 cards, X of 40), Step 15 = brief thinking, Step 16 = Theme, Step 17 = Notifications, Step 18 = Premium, Step 19 = Feed. 'Add more later' from step 12 jumps directly to step 16 (Theme). No confetti anywhere.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "20z",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:36.5274979Z",
+  "updated_at": "2026-02-27T13:57:36.5274979Z"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "3pk",
+  "title": "Re-ground after Epic A",
+  "description": "Update implementation-log.md, iteration status, and lessons-learned if applicable.",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "emj",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:24.5886219Z",
+  "updated_at": "2026-02-27T13:57:24.5886219Z"
+}

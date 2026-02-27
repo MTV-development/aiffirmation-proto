@@ -2,11 +2,13 @@
   "id": "r8q",
   "title": "Iteration 02.2: Phase 1 Affirmation Review",
   "description": "Phase 1 card review with feedback-driven regeneration. Screen 7 (ready), AffirmationCardFlow for 4×5 batches, thinking screens D-G, X of 20 counter.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-27T11:40:36.8980872Z",
-  "updated_at": "2026-02-27T11:40:36.8980872Z"
+  "updated_at": "2026-02-27T13:53:15.9402685Z",
+  "closed_at": "2026-02-27T13:53:15.9402685Z",
+  "closed_reason": "Iteration 02.2 complete — PR #23 merged"
 }

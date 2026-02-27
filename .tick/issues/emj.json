@@ -1,0 +1,13 @@
+{
+  "id": "emj",
+  "title": "Epic A: Phase 2 Components",
+  "description": "Create-List screen (Screen 9) with Continue and 'Add more later' link. Phase 2 AffirmationCardFlow (Screen 10) with 20 cards and X of 40 counter. Thinking H post-phase-2 transition screen.",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "wi2",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T13:57:10.3246937Z",
+  "updated_at": "2026-02-27T13:57:10.3246937Z"
+}

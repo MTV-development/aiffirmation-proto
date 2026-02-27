@@ -2,7 +2,7 @@
   "id": "v3u",
   "title": "Kick off Reflection 02.2R",
   "description": "Transition to reflection iteration.",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
@@ -12,5 +12,7 @@
   "parent": "r8q",
   "created_by": "morten@elk.dk",
   "created_at": "2026-02-27T11:40:48.9195531Z",
-  "updated_at": "2026-02-27T11:41:19.0432269Z"
+  "updated_at": "2026-02-27T13:53:05.2716297Z",
+  "closed_at": "2026-02-27T13:53:05.2716297Z",
+  "closed_reason": "Kicking off reflection 02.2R"
 }
