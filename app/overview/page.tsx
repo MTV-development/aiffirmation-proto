@@ -210,6 +210,16 @@ const versions: VersionCard[] = [
     outputType: 'Card curation (Love it / Discard) across 3 phases',
     highlight: '30-affirmation structured journey with check-ins',
   },
+  {
+    id: 'FO-13',
+    name: 'Production Onboarding',
+    href: '/fo-13',
+    tagline: 'Feedback-driven batches with thinking transitions',
+    description: 'Phase 1 delivers 4 batches of 5 affirmations with feedback-driven regeneration between each. Phase 2 delivers 20 in one batch. Thinking screens with sequential personalized messages create polished transitions.',
+    inputType: 'Static chips → LLM fragments → LLM single-word chips',
+    outputType: 'Card curation with per-batch feedback loop',
+    highlight: 'Feedback-driven iterative batches',
+  },
 ];
 
 export default function OverviewPage() {
@@ -411,12 +421,19 @@ export default function OverviewPage() {
                   <td className="py-2 pr-4 text-emerald-400">Unlimited cycles</td>
                   <td className="py-2">Adaptive questions + skip logic</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-800/50">
                   <td className="py-2 pr-4 font-mono text-purple-400">FO-12</td>
                   <td className="py-2 pr-4">Medium</td>
                   <td className="py-2 pr-4">High (adaptive)</td>
                   <td className="py-2 pr-4 text-emerald-400">3-phase structured</td>
                   <td className="py-2">30-affirmation journey with check-ins</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-mono text-purple-400">FO-13</td>
+                  <td className="py-2 pr-4">Medium</td>
+                  <td className="py-2 pr-4">High (adaptive)</td>
+                  <td className="py-2 pr-4 text-emerald-400">Per-batch feedback</td>
+                  <td className="py-2">Production onboarding with iterative feedback</td>
                 </tr>
               </tbody>
             </table>

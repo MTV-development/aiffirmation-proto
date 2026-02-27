@@ -1,0 +1,12 @@
+{
+  "id": "kt9",
+  "title": "Iteration 02.1: Foundation + Discovery",
+  "description": "Types, agents, seeds, actions, discovery UI (Screens 1-6), thinking screens A-C, skip logic, page scaffolding, nav registration",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:01:18.1429493Z",
+  "updated_at": "2026-02-27T11:01:18.1429493Z"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "g3q",
+  "title": "Plan Iteration 02.2: read scope, create epic tick structure, begin first task",
+  "description": "Read iteration 02.2 scope from _overview.md, create epic tick structure with tasks, then begin executing first task",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "zi1",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:01:40.6654992Z",
+  "updated_at": "2026-02-27T11:01:40.6654992Z"
+}

@@ -28,6 +28,25 @@ This folder contains the current technical documentation for the Aiffirmation pr
 |----------|-------------|
 | [e2e-testing.md](e2e-testing.md) | E2E testing setup with Playwright |
 
+### Architecture Decisions
+| Document | Description |
+|----------|-------------|
+| [principles-and-choices.md](principles-and-choices.md) | Architectural patterns and design decisions |
+
+### Project Management
+| Document | Description |
+|----------|-------------|
+| [Epoch Tracker](../epochs/current.md) | Active epoch pointer and history |
+| [Lessons Learned](../devmeta/lessons-learned.md) | Reusable gotchas and patterns |
+| [Implementation Log](../devmeta/implementation-log.md) | What was built chronologically |
+| [Project Diary](../devmeta/diary.md) | Narrative project history |
+
+### Troubleshooting
+| Document | Description |
+|----------|-------------|
+| [troubleshooting.md](troubleshooting.md) | General troubleshooting guide |
+| [e2e/troubleshooting.md](e2e/troubleshooting.md) | E2E-specific troubleshooting |
+
 ## Quick Start
 
 1. **Setup**: See [devmethods.md](devmethods.md) for running the dev server

@@ -1,0 +1,14 @@
+{
+  "id": "tds",
+  "title": "Create FO-13 discovery and affirmation agents",
+  "description": "Create src/mastra/agents/fo-13/discovery-agent.ts (copy FO-12, namespace fo-13), affirmation-agent.ts (copy FO-12, adapt output format for variable batch sizes - change hardcoded 10 to flexible count), index.ts. Both agents read from fo-13 KV namespace.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "iax",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:04:17.1364414Z",
+  "updated_at": "2026-02-27T11:08:59.4609461Z",
+  "closed_at": "2026-02-27T11:08:59.4609461Z"
+}

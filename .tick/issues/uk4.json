@@ -1,0 +1,14 @@
+{
+  "id": "uk4",
+  "title": "Create FO-13 KV seeds and register",
+  "description": "Create src/db/seeds/fo-13.ts: copy all fo-12 seeds to fo-13 namespace. Adapt: prompt_affirmation changes 10-\u003e5, system_affirmation makes output count flexible, _info updated for FO-13 structure. Register in src/db/seeds/index.ts. Run npm run db:seed.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "iax",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:04:18.5889616Z",
+  "updated_at": "2026-02-27T11:11:25.9558954Z",
+  "closed_at": "2026-02-27T11:11:25.9558954Z"
+}

@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Local Development Guide
 
-## Getting Started
+## Prerequisites
 
-First, run the development server:
+- Node.js 20+
+- npm
+- Git
+
+## Environment Setup
+
+Create `.env.local` in the project root:
+
+```
+OPENAI_API_KEY=sk-...
+DATABASE_URL=postgresql://...
+NEXT_PUBLIC_SUPABASE_URL=https://...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
+
+## Dev Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Opens at [http://localhost:3000](http://localhost:3000). Hot reloads on file changes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+First-time setup (in order):
 
-## Learn More
+```bash
+npm run db:generate    # Generate migrations from schema
+npm run db:migrate     # Apply migrations to database
+npm run db:seed        # Populate KV store with prompts
+```
 
-To learn more about Next.js, take a look at the following resources:
+After schema changes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:generate    # Regenerate migrations
+npm run db:migrate     # Apply new migrations
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+After adding new seed files:
 
-## Deploy on Vercel
+```bash
+npm run db:seed        # Re-populate KV store (upserts)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Inspect database:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run db:studio      # Open Drizzle Studio GUI
+```
+
+## Common Tasks
+
+### Run E2E tests
+
+```bash
+node --import tsx e2e/fo-12.test.ts
+```
+
+Use `node --import tsx` (not `npx tsx`) for Windows Git Bash compatibility.
+
+### Run linter
+
+```bash
+npm run lint
+```
+
+### Production build
+
+```bash
+npm run build
+```
+
+### Mastra Studio
+
+```bash
+npx mastra dev
+```
+
+Opens at [http://localhost:4111](http://localhost:4111) for agent testing and observability.
+
+### Create a new FO version
+
+1. Copy the latest version directory: `app/fo-XX/` → `app/fo-YY/`
+2. Update step number guards in all components
+3. Create seed file in `src/db/seeds/fo-YY.ts`
+4. Register seeds in `src/db/seeds/index.ts`
+5. Add navigation entry in `nav.config.ts`
+6. Add overview card in `app/overview/page.tsx`
+7. Run `npm run db:seed` to populate prompts
+8. Create E2E test in `e2e/fo-YY.test.ts`

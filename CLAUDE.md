@@ -99,3 +99,27 @@ See `docs/current/e2e/ui-epic-structure.md` for complete guidance.
 | [epic-writing-guide.md](docs/current/e2e/epic-writing-guide.md) | Guide for writing E2E epics |
 | [cookbook-template.md](docs/current/e2e/cookbook-template.md) | Template for E2E test cookbooks |
 | [project-e2e-directory.md](docs/current/e2e/project-e2e-directory.md) | Project-level E2E directory conventions |
+
+## DevMeta Workflow
+
+Project is managed via the devmeta lifecycle. Config: [`devmeta.md`](devmeta.md).
+
+| Command | Purpose |
+|---------|---------|
+| `/devmeta:go` | Autonomous project driver — starts or continues to completion |
+| `/devmeta:status` | Check project and iteration progress, suggest next action |
+| `/devmeta:plan-iteration` | Plan an iteration — refine scope into epic specs |
+| `/devmeta:run` | Execute epics — one subagent per epic, parallel across independent epics |
+| `/devmeta:reflect` | Review iteration learnings, update permanent docs |
+| `/devmeta:start-epoch-spec` | Start a new epoch — create directory, overview, interactive scope |
+
+### DevMeta Documentation
+
+| Topic | Document |
+|-------|----------|
+| Epochs | `docs/epochs/current.md` (active epoch pointer) |
+| Lessons Learned | `docs/devmeta/lessons-learned.md` |
+| Implementation Log | `docs/devmeta/implementation-log.md` |
+| Project Diary | `docs/devmeta/diary.md` |
+| Principles | `docs/current/principles-and-choices.md` |
+| Troubleshooting | `docs/current/troubleshooting.md` |

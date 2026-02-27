@@ -1,0 +1,15 @@
+{
+  "id": "wdv",
+  "title": "Page scaffolding, info page, and navigation registration",
+  "description": "Create: app/fo-13/page.tsx, app/fo-13/layout.tsx, app/fo-13/fo-13-layout-client.tsx, app/fo-13/info/page.tsx. Add FO-13 to nav.config.ts and app/overview/page.tsx. Follow FO-12 patterns.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "rv9",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:04:42.4389261Z",
+  "updated_at": "2026-02-27T11:25:21.5178883Z",
+  "closed_at": "2026-02-27T11:25:21.5178883Z",
+  "closed_reason": "Created page.tsx, layout.tsx, fo-13-layout-client.tsx, info/page.tsx. Added FO-13 to nav.config.ts and overview page."
+}

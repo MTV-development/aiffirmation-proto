@@ -1,0 +1,14 @@
+{
+  "id": "3eg",
+  "title": "Create ThinkingScreen component",
+  "description": "Create app/fo-13/components/thinking-screen.tsx: reusable component that shows pulsing heart visual with sequential messages. Props: messages: string[], onComplete: () =\u003e void. Messages pulse in sequence (sentence 1 appears, replaced by sentence 2, etc.). Uses heart-animation as base visual. Each message displays for ~2-3 seconds before transitioning to next.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "ztk",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:04:31.1536122Z",
+  "updated_at": "2026-02-27T11:16:46.7291097Z",
+  "closed_at": "2026-02-27T11:16:46.7291097Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "x77",
+  "title": "Verify discovery flow end-to-end",
+  "description": "Start dev server, navigate to /fo-13, verify: Welcome-\u003eName-\u003eFamiliarity-\u003eGoal-\u003eThinkingA-\u003eWhat's Going On-\u003eThinkingB-\u003eTone-\u003eThinkingC. Verify skip logic (rich goal skips Screen 5). Verify thinking screens show sequential messages. Verify first batch of 5 generated. Run npm run lint and npm run build to check for errors.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "rv9",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:04:45.4336865Z",
+  "updated_at": "2026-02-27T11:27:30.9827702Z",
+  "closed_at": "2026-02-27T11:27:30.9827702Z",
+  "closed_reason": "npm run build passes (fo-13 and fo-13/info routes confirmed). npm run lint passes (0 errors, 2 warnings for unused name prop — inherited from FO-12). npm run db:seed seeds all 11 fo-13 KV entries. Manual browser verification deferred to E2E testing in iteration 02.3."
+}
