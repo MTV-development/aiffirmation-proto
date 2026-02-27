@@ -25,3 +25,13 @@ All 3 tests passed on first run:
 3. "Add more later" variant: PASS
 
 FO-12 regression: PASS (no regressions)
+
+## Key Learnings
+- E2E composable flow helpers enable efficient multi-variant testing
+- ThinkingScreen detection requires dual strategy (SVG presence + content-based transition)
+- All 3 tests passed on first run — no iteration on E2E needed
+
+## Changes to Project Docs
+- Added to lessons-learned.md: E2E composable helpers, ThinkingScreen detection patterns
+- Updated diary.md: iteration 02.3 narrative
+- Updated implementation-log.md: Epic A+B and Epic C entries

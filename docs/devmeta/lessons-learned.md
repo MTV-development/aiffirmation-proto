@@ -55,3 +55,11 @@ When phase 3 pool exhaustion occurs before reaching the target, generate an emer
 
 ### Batch size as template variable
 Use `{{ batch_size }}` in KV templates for dynamic batch sizing (phase 3), while initial prompts can hardcode the count.
+
+## E2E Testing
+
+### Composable flow helpers enable test variant reuse
+When testing flows with multiple variants (skip/no-skip, full/partial), extract reusable composable helpers (`runDiscoveryFlow`, `runPhase1CardReview`, `runPostReviewSteps`). Each test case then composes these helpers with different parameters. FO-13 has 3 tests sharing ~80% of their flow logic through composables.
+
+### ThinkingScreen detection: SVG selector + content-based transition
+For thinking screens with pulsing SVG animations, detect the SVG appearing (`svg[viewBox="0 0 24 24"]`), then either wait for next content text (when predictable) or wait for SVG to disappear (when next step has LLM-generated content). Two helpers: `waitForThinkingScreenToComplete(page, nextText)` and `waitForThinkingScreenToDisappear(page)`.
