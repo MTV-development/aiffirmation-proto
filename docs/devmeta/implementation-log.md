@@ -162,3 +162,13 @@ Chronological record of what was built in each version.
   - Step 15: Thinking H ("Beautiful, {name}." → "Bringing your personal set together…")
   - Steps 16-19: Theme → Notifications → Premium → Feed
 - State additions: `phase2Affirmations`, `phase1LovedCount` for Phase 2 counter baseline
+
+### FO-13 E2E Test Suite — 2026-02-27 (Iteration 02.3, Epic C)
+**Comprehensive Playwright E2E covering all flow variants**
+- `e2e/fo-13.test.ts` — 3 test cases, 1367 lines:
+  1. Happy path: all 40 cards reviewed (Phase 1 + Phase 2), context NOT skipped
+  2. Skip-context variant: rich goal triggers context skip, "Add more later" skips Phase 2
+  3. "Add more later" variant: brief goal, Phase 1 only, Phase 2 skipped
+- ThinkingScreen detection: heart SVG (`viewBox="0 0 24 24"`) presence/absence
+- Reusable composable helpers: `runDiscoveryFlow`, `runPhase1CardReview`, `runPhase2CardReview`, `runPostReviewSteps`
+- All 3 tests pass on first run (274s total)
