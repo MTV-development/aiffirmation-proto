@@ -147,3 +147,28 @@ Chronological record of what was built in each version.
 - Thinking screen messages: D (resonance), E (refining), F (polishing), G (saving/creating feed, 3 messages)
 - Same transition coordination pattern: `.then()` callbacks check `thinkingCompleted` in functional state updaters
 - `BATCH_THINKING_MESSAGES` extracted as module-level constant to satisfy exhaustive-deps
+
+### FO-13 Phase 2, Post-Review, Complete State Machine — 2026-02-27 (Iteration 02.3, Epics A+B)
+**All remaining screens and complete state machine wiring**
+- `app/fo-13/components/step-create-list.tsx` — Screen 9: Continue to Phase 2 or "Add more later" skip
+- `app/fo-13/components/step-theme.tsx` — Screen 11: gradient picker (copy of FO-12's StepBackground)
+- `app/fo-13/components/step-notifications.tsx` — Screen 12: notification frequency (copy of FO-12)
+- `app/fo-13/components/step-premium.tsx` — Screen 13: premium/paywall mockup (copy of FO-12)
+- `app/fo-13/components/step-feed.tsx` — Screen 14: "Welcome to your personal affirmation feed" (adapted from FO-12's StepCompletion, no confetti)
+- Extended `app/fo-13/components/fo-experience.tsx` to steps 0-19:
+  - Step 12: Create-List with "Add more later" → step 16 (Theme)
+  - Step 13: Generation thinking (Phase 2 batch of 20 with feedback)
+  - Step 14: Phase 2 card review (20 cards, X of 40 counter)
+  - Step 15: Thinking H ("Beautiful, {name}." → "Bringing your personal set together…")
+  - Steps 16-19: Theme → Notifications → Premium → Feed
+- State additions: `phase2Affirmations`, `phase1LovedCount` for Phase 2 counter baseline
+
+### FO-13 E2E Test Suite — 2026-02-27 (Iteration 02.3, Epic C)
+**Comprehensive Playwright E2E covering all flow variants**
+- `e2e/fo-13.test.ts` — 3 test cases, 1367 lines:
+  1. Happy path: all 40 cards reviewed (Phase 1 + Phase 2), context NOT skipped
+  2. Skip-context variant: rich goal triggers context skip, "Add more later" skips Phase 2
+  3. "Add more later" variant: brief goal, Phase 1 only, Phase 2 skipped
+- ThinkingScreen detection: heart SVG (`viewBox="0 0 24 24"`) presence/absence
+- Reusable composable helpers: `runDiscoveryFlow`, `runPhase1CardReview`, `runPhase2CardReview`, `runPostReviewSteps`
+- All 3 tests pass on first run (274s total)
