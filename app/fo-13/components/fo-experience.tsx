@@ -6,6 +6,8 @@ import {
   type FO13OnboardingData,
   PHASE1_BATCH_SIZE,
   PHASE1_TARGET,
+  PHASE2_BATCH_SIZE,
+  PHASE2_TARGET,
 } from '../types';
 import { generateDiscoveryStep, generateAffirmationBatchFO13 } from '../actions';
 import { useImplementation } from '@/src/fo-13';
@@ -17,27 +19,38 @@ import { StepTone } from './step-tone';
 import { ThinkingScreen } from './thinking-screen';
 import { StepReady } from './step-ready';
 import { AffirmationCardFlow } from './affirmation-card-flow';
+import { StepCreateList } from './step-create-list';
+import { StepTheme } from './step-theme';
+import { StepNotifications } from './step-notifications';
+import { StepPremium } from './step-premium';
+import { StepFeed } from './step-feed';
 
 /**
- * FO-13 Onboarding state machine — discovery + Phase 1 card review
+ * FO-13 Onboarding state machine — complete flow
  *
- * Flow:
+ * Discovery (steps 0-5):
  * - Steps 0-1: Welcome screens (name entry)
  * - Step 2: Familiarity selection (cosmetic only)
- * - Step 3: Goal (predefined chips) → Thinking A → discovery step 4
- * - Step 4: Context (LLM question + fragments, OR silently skipped) → Thinking B → discovery step 5
- * - Step 5: Tone (LLM question + single-word chips) → Thinking C (generates batch 1 of 5)
- * - Step 7: StepReady — transition screen before card review
- * - Step 8: AffirmationCardFlow batch 1 → Thinking D (generates batch 2 with feedback)
- * - Step 9: AffirmationCardFlow batch 2 → Thinking E (generates batch 3 with feedback)
- * - Step 10: AffirmationCardFlow batch 3 → Thinking F (generates batch 4 with feedback)
- * - Step 11: AffirmationCardFlow batch 4 → Thinking G → step 12 (placeholder for Phase 2)
+ * - Step 3: Goal → Thinking A → discovery step 4
+ * - Step 4: Context (or skipped) → Thinking B → discovery step 5
+ * - Step 5: Tone → Thinking C (generates batch 1 of 5)
  *
- * Thinking screens use ThinkingScreen (sequential messages with pulsing heart).
- * Each batch completion feeds loved/discarded affirmations into the next batch generation.
+ * Phase 1 review (steps 7-11):
+ * - Step 7: StepReady
+ * - Steps 8-11: 4 × AffirmationCardFlow (5 cards each) with Thinking D-G between
+ *
+ * Phase 2 + Post-review (steps 12-19):
+ * - Step 12: Create-List (Continue → 13, "Add more later" → 16)
+ * - Step 13: Thinking (generates Phase 2 batch of 20) → step 14
+ * - Step 14: AffirmationCardFlow Phase 2 (20 cards, X of 40) → step 15
+ * - Step 15: Thinking H ("Beautiful, {name}…") → step 16
+ * - Step 16: Theme → step 17
+ * - Step 17: Notifications → step 18
+ * - Step 18: Premium → step 19
+ * - Step 19: Feed (final screen)
  */
 export interface OnboardingState extends FO13OnboardingData {
-  currentStep: number; // 0-12 (discovery 0-5, phase 1 review 7-11, phase 2+ TBD)
+  currentStep: number; // 0-19 (discovery 0-5, phase 1 7-11, phase 2 12-15, post-review 16-19)
 
   // Thinking screen transition state
   showThinkingScreen: boolean;
@@ -66,10 +79,14 @@ export interface OnboardingState extends FO13OnboardingData {
   batchNumber: number;
   currentBatchAffirmations: string[];
 
-  // Accumulated across all batches in Phase 1 (4 batches of 5)
+  // Accumulated across all batches (Phase 1: 4×5, Phase 2: 1×20)
   allLovedAffirmations: string[];
   allDiscardedAffirmations: string[];
   allGeneratedAffirmations: string[];
+
+  // Phase 2 card review state
+  phase2Affirmations: string[];
+  phase1LovedCount: number; // Snapshot at end of Phase 1 for Phase 2 counter
 }
 
 /** Thinking screen messages shown after each batch completion (steps 8-11) */
@@ -103,13 +120,15 @@ const initialState: OnboardingState = {
   allLovedAffirmations: [],
   allDiscardedAffirmations: [],
   allGeneratedAffirmations: [],
+  phase2Affirmations: [],
+  phase1LovedCount: 0,
 };
 
 /**
  * Main state manager component for FO-13 onboarding experience.
  *
- * Covers discovery flow (steps 0-5) and Phase 1 card review (steps 7-11).
- * Phase 2 and post-review screens will be added in iteration 02.3.
+ * Complete flow: discovery (0-5), Phase 1 review (7-11),
+ * Phase 2 + post-review (12-19).
  */
 export function FOExperience() {
   const { implementation } = useImplementation();
@@ -458,12 +477,33 @@ export function FOExperience() {
         currentStep: prev.currentStep + 1,
       }));
     } else if (currentStep === 11) {
-      // After last batch thinking G — no generation needed, advance to step 12
+      // After last batch thinking G — no generation needed, advance to step 12 (Create-List)
       setState((prev) => ({
         ...prev,
         showThinkingScreen: false,
         thinkingCompleted: false,
         currentStep: 12,
+        phase1LovedCount: prev.allLovedAffirmations.length,
+      }));
+    } else if (currentStep === 13) {
+      // After Phase 2 generation thinking — check if batch is ready
+      if (state.isGenerating) {
+        setState((prev) => ({ ...prev, thinkingCompleted: true }));
+        return;
+      }
+      setState((prev) => ({
+        ...prev,
+        showThinkingScreen: false,
+        thinkingCompleted: false,
+        currentStep: 14,
+      }));
+    } else if (currentStep === 15) {
+      // After Thinking H — advance to Theme (step 16)
+      setState((prev) => ({
+        ...prev,
+        showThinkingScreen: false,
+        thinkingCompleted: false,
+        currentStep: 16,
       }));
     }
   }, [state.currentStep, state.isLoadingDiscovery, state.step4Skipped, state.isGenerating]);
@@ -545,6 +585,88 @@ export function FOExperience() {
       }));
     }
   }, [state.currentStep, state.allLovedAffirmations, state.allDiscardedAffirmations, state.batchNumber, state.name, state.familiarityLevel, state.exchanges, implementation]);
+
+  // Handle Create-List Continue — generates Phase 2 batch of 20 during thinking screen
+  const handleCreateListContinue = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      currentStep: 13,
+      showThinkingScreen: true,
+      thinkingMessages: [
+        'Creating your next set of affirmations\u2026',
+        'Almost ready\u2026',
+      ],
+      isGenerating: true,
+      generationError: null,
+    }));
+
+    const context: FO13OnboardingData = {
+      name: state.name,
+      familiarityLevel: state.familiarityLevel,
+      exchanges: state.exchanges,
+    };
+
+    generateAffirmationBatchFO13({
+      context,
+      batchNumber: state.batchNumber + 1,
+      approvedAffirmations: state.allLovedAffirmations,
+      skippedAffirmations: state.allDiscardedAffirmations,
+      implementation,
+      batchSize: PHASE2_BATCH_SIZE,
+    }).then((result) => {
+      if (result.error) {
+        setState((prev) => ({
+          ...prev,
+          isGenerating: false,
+          generationError: result.error || 'Failed to generate affirmations',
+        }));
+        return;
+      }
+
+      setState((prev) => ({
+        ...prev,
+        isGenerating: false,
+        phase2Affirmations: result.affirmations,
+        allGeneratedAffirmations: [...prev.allGeneratedAffirmations, ...result.affirmations],
+        batchNumber: prev.batchNumber + 1,
+        ...(prev.thinkingCompleted ? {
+          showThinkingScreen: false,
+          thinkingCompleted: false,
+          currentStep: 14,
+        } : {}),
+      }));
+    }).catch((error) => {
+      console.error('[fo-13] Error generating Phase 2 batch:', error);
+      setState((prev) => ({
+        ...prev,
+        isGenerating: false,
+        generationError: 'An unexpected error occurred',
+      }));
+    });
+  }, [state.name, state.familiarityLevel, state.exchanges, state.batchNumber, state.allLovedAffirmations, state.allDiscardedAffirmations, implementation]);
+
+  // Handle "Add more later" — skip Phase 2, go directly to Theme
+  const handleCreateListSkip = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      currentStep: 16,
+    }));
+  }, []);
+
+  // Handle Phase 2 card review completion — show Thinking H then advance to Theme
+  const handlePhase2Complete = useCallback((loved: string[], discarded: string[]) => {
+    setState((prev) => ({
+      ...prev,
+      allLovedAffirmations: [...prev.allLovedAffirmations, ...loved],
+      allDiscardedAffirmations: [...prev.allDiscardedAffirmations, ...discarded],
+      currentStep: 15,
+      showThinkingScreen: true,
+      thinkingMessages: [
+        `Beautiful, ${prev.name}.`,
+        'Bringing your personal set together\u2026',
+      ],
+    }));
+  }, []);
 
   // Render step content based on current step
   const renderStep = () => {
@@ -673,19 +795,61 @@ export function FOExperience() {
       }
 
       case 12:
-        // Placeholder: Phase 2 will be wired in iteration 02.3
+        // Create-List: Continue to Phase 2 or "Add more later" to skip
         return (
-          <div className="max-w-md mx-auto p-8 text-center">
-            <h2 className="text-2xl font-medium mb-4 text-gray-800 dark:text-gray-200">
-              Phase 1 Complete!
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              You&apos;ve selected {state.allLovedAffirmations.length} affirmations.
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-500">
-              Phase 2 and post-review screens will be connected in iteration 02.3.
-            </p>
-          </div>
+          <StepCreateList
+            name={state.name}
+            lovedCount={state.allLovedAffirmations.length}
+            onContinue={handleCreateListContinue}
+            onSkip={handleCreateListSkip}
+          />
+        );
+
+      case 13:
+        // Phase 2 generation thinking screen
+        return (
+          <ThinkingScreen
+            messages={state.thinkingMessages}
+            onComplete={handleThinkingComplete}
+          />
+        );
+
+      case 14:
+        // Phase 2 card review: 20 cards, X of 40 counter
+        return (
+          <AffirmationCardFlow
+            key="phase2"
+            affirmations={state.phase2Affirmations}
+            onComplete={handlePhase2Complete}
+            totalLovedSoFar={state.phase1LovedCount}
+            target={PHASE2_TARGET}
+          />
+        );
+
+      case 15:
+        // Thinking H: post-Phase-2 transition
+        return (
+          <ThinkingScreen
+            messages={state.thinkingMessages}
+            onComplete={handleThinkingComplete}
+          />
+        );
+
+      case 16:
+        return <StepTheme onContinue={() => updateState({ currentStep: 17 })} />;
+
+      case 17:
+        return <StepNotifications onContinue={() => updateState({ currentStep: 18 })} />;
+
+      case 18:
+        return <StepPremium onContinue={() => updateState({ currentStep: 19 })} />;
+
+      case 19:
+        return (
+          <StepFeed
+            name={state.name}
+            lovedCount={state.allLovedAffirmations.length}
+          />
         );
 
       default:
