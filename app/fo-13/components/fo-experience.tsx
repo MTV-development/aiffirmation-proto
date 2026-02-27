@@ -5,6 +5,7 @@ import {
   FO13_GOAL_QUESTION,
   type FO13OnboardingData,
   PHASE1_BATCH_SIZE,
+  PHASE1_TARGET,
 } from '../types';
 import { generateDiscoveryStep, generateAffirmationBatchFO13 } from '../actions';
 import { useImplementation } from '@/src/fo-13';
@@ -14,27 +15,29 @@ import { StepGoal } from './step-goal';
 import { StepContext } from './step-context';
 import { StepTone } from './step-tone';
 import { ThinkingScreen } from './thinking-screen';
+import { StepReady } from './step-ready';
+import { AffirmationCardFlow } from './affirmation-card-flow';
 
 /**
- * FO-13 Onboarding state machine — partial (discovery + first batch)
+ * FO-13 Onboarding state machine — discovery + Phase 1 card review
  *
  * Flow:
  * - Steps 0-1: Welcome screens (name entry)
  * - Step 2: Familiarity selection (cosmetic only)
- * - Step 3: Goal (predefined chips)
- * - Thinking A: "Thank you for sharing, {name}..." → "Shaping affirmations to align with you..."
- * - Step 4: Context (LLM question + fragments, OR silently skipped)
- * - Thinking B: "Learning..." → "Your affirmations are taking shape..."
- * - Step 5: Tone (LLM question + single-word chips)
- * - Thinking C: "Thank you for sharing, {name}..." → "Creating affirmations that feel true..."
- *   (first batch of 5 generated during Thinking C)
- * - Step 6: Placeholder for phase 1 (wired in iteration 02.2)
+ * - Step 3: Goal (predefined chips) → Thinking A → discovery step 4
+ * - Step 4: Context (LLM question + fragments, OR silently skipped) → Thinking B → discovery step 5
+ * - Step 5: Tone (LLM question + single-word chips) → Thinking C (generates batch 1 of 5)
+ * - Step 7: StepReady — transition screen before card review
+ * - Step 8: AffirmationCardFlow batch 1 → Thinking D (generates batch 2 with feedback)
+ * - Step 9: AffirmationCardFlow batch 2 → Thinking E (generates batch 3 with feedback)
+ * - Step 10: AffirmationCardFlow batch 3 → Thinking F (generates batch 4 with feedback)
+ * - Step 11: AffirmationCardFlow batch 4 → Thinking G → step 12 (placeholder for Phase 2)
  *
- * Thinking screens use ThinkingScreen (sequential messages with pulsing heart),
- * replacing FO-12's simple HeartAnimation for these transitions.
+ * Thinking screens use ThinkingScreen (sequential messages with pulsing heart).
+ * Each batch completion feeds loved/discarded affirmations into the next batch generation.
  */
 export interface OnboardingState extends FO13OnboardingData {
-  currentStep: number; // 0-6 (partial, will expand to full flow)
+  currentStep: number; // 0-12 (discovery 0-5, phase 1 review 7-11, phase 2+ TBD)
 
   // Thinking screen transition state
   showThinkingScreen: boolean;
@@ -63,11 +66,19 @@ export interface OnboardingState extends FO13OnboardingData {
   batchNumber: number;
   currentBatchAffirmations: string[];
 
-  // Accumulated across all phases (partial — only first batch in this iteration)
+  // Accumulated across all batches in Phase 1 (4 batches of 5)
   allLovedAffirmations: string[];
   allDiscardedAffirmations: string[];
   allGeneratedAffirmations: string[];
 }
+
+/** Thinking screen messages shown after each batch completion (steps 8-11) */
+const BATCH_THINKING_MESSAGES: Record<number, string[]> = {
+  8: ['Noticing what resonates\u2026', 'Your next affirmations are taking shape\u2026'],
+  9: ['Refining your affirmations further\u2026'],
+  10: ['Polishing the final details\u2026'],
+  11: ['Saving your preferences\u2026', 'Saving the affirmations you love\u2026', 'Creating your personal feed\u2026'],
+};
 
 const initialState: OnboardingState = {
   currentStep: 0,
@@ -97,8 +108,8 @@ const initialState: OnboardingState = {
 /**
  * Main state manager component for FO-13 onboarding experience.
  *
- * Partial implementation covering discovery flow + first batch generation.
- * Phase 1 card review, phase 2, and post-review screens will be added in iteration 02.2/02.3.
+ * Covers discovery flow (steps 0-5) and Phase 1 card review (steps 7-11).
+ * Phase 2 and post-review screens will be added in iteration 02.3.
  */
 export function FOExperience() {
   const { implementation } = useImplementation();
@@ -352,11 +363,11 @@ export function FOExperience() {
         isGenerating: false,
         currentBatchAffirmations: result.affirmations,
         allGeneratedAffirmations: [...prev.allGeneratedAffirmations, ...result.affirmations],
-        // If thinking already finished, advance to step 6 (phase 1 placeholder)
+        // If thinking already finished, advance to step 7 (StepReady)
         ...(prev.thinkingCompleted ? {
           showThinkingScreen: false,
           thinkingCompleted: false,
-          currentStep: 6,
+          currentStep: 7,
         } : {}),
       }));
     }).catch((error) => {
@@ -427,15 +438,113 @@ export function FOExperience() {
         return;
       }
 
-      // First batch ready — go to step 6 (placeholder for phase 1)
+      // First batch ready — go to step 7 (StepReady)
       setState((prev) => ({
         ...prev,
         showThinkingScreen: false,
         thinkingCompleted: false,
-        currentStep: 6,
+        currentStep: 7,
+      }));
+    } else if (currentStep >= 8 && currentStep <= 10) {
+      // After batch N thinking (D/E/F) — check if next batch is ready
+      if (state.isGenerating) {
+        setState((prev) => ({ ...prev, thinkingCompleted: true }));
+        return;
+      }
+      setState((prev) => ({
+        ...prev,
+        showThinkingScreen: false,
+        thinkingCompleted: false,
+        currentStep: prev.currentStep + 1,
+      }));
+    } else if (currentStep === 11) {
+      // After last batch thinking G — no generation needed, advance to step 12
+      setState((prev) => ({
+        ...prev,
+        showThinkingScreen: false,
+        thinkingCompleted: false,
+        currentStep: 12,
       }));
     }
   }, [state.currentStep, state.isLoadingDiscovery, state.step4Skipped, state.isGenerating]);
+
+  // Handle batch completion from AffirmationCardFlow
+  // Accumulates loved/discarded, shows thinking screen, generates next batch (if not last)
+  const handleBatchComplete = useCallback((loved: string[], discarded: string[]) => {
+    const step = state.currentStep;
+    const newAllLoved = [...state.allLovedAffirmations, ...loved];
+    const newAllDiscarded = [...state.allDiscardedAffirmations, ...discarded];
+    const messages = BATCH_THINKING_MESSAGES[step] || [];
+
+    if (step >= 8 && step <= 10) {
+      // Batches 1-3: generate next batch during thinking screen
+      const nextBatchNumber = state.batchNumber + 1;
+
+      setState((prev) => ({
+        ...prev,
+        allLovedAffirmations: newAllLoved,
+        allDiscardedAffirmations: newAllDiscarded,
+        showThinkingScreen: true,
+        thinkingMessages: messages,
+        isGenerating: true,
+        generationError: null,
+        batchNumber: nextBatchNumber,
+      }));
+
+      const context: FO13OnboardingData = {
+        name: state.name,
+        familiarityLevel: state.familiarityLevel,
+        exchanges: state.exchanges,
+      };
+
+      generateAffirmationBatchFO13({
+        context,
+        batchNumber: nextBatchNumber,
+        approvedAffirmations: newAllLoved,
+        skippedAffirmations: newAllDiscarded,
+        implementation,
+        batchSize: PHASE1_BATCH_SIZE,
+      }).then((result) => {
+        if (result.error) {
+          setState((prev) => ({
+            ...prev,
+            isGenerating: false,
+            generationError: result.error || 'Failed to generate affirmations',
+          }));
+          return;
+        }
+
+        setState((prev) => ({
+          ...prev,
+          isGenerating: false,
+          currentBatchAffirmations: result.affirmations,
+          allGeneratedAffirmations: [...prev.allGeneratedAffirmations, ...result.affirmations],
+          // If thinking already finished, advance to next batch step
+          ...(prev.thinkingCompleted ? {
+            showThinkingScreen: false,
+            thinkingCompleted: false,
+            currentStep: prev.currentStep + 1,
+          } : {}),
+        }));
+      }).catch((error) => {
+        console.error('[fo-13] Error generating batch:', error);
+        setState((prev) => ({
+          ...prev,
+          isGenerating: false,
+          generationError: 'An unexpected error occurred',
+        }));
+      });
+    } else if (step === 11) {
+      // Last batch: show Thinking G, no generation needed
+      setState((prev) => ({
+        ...prev,
+        allLovedAffirmations: newAllLoved,
+        allDiscardedAffirmations: newAllDiscarded,
+        showThinkingScreen: true,
+        thinkingMessages: messages,
+      }));
+    }
+  }, [state.currentStep, state.allLovedAffirmations, state.allDiscardedAffirmations, state.batchNumber, state.name, state.familiarityLevel, state.exchanges, implementation]);
 
   // Render step content based on current step
   const renderStep = () => {
@@ -530,18 +639,51 @@ export function FOExperience() {
           />
         );
 
-      case 6:
-        // Placeholder: Phase 1 card review will be wired in iteration 02.2
+      case 7:
+        // StepReady: transition screen before card review
+        return (
+          <StepReady
+            name={state.name}
+            onContinue={() => updateState({ currentStep: 8 })}
+          />
+        );
+
+      case 8:
+      case 9:
+      case 10:
+      case 11: {
+        // Phase 1 card review: 4 batches of 5
+        if (state.showThinkingScreen) {
+          return (
+            <ThinkingScreen
+              messages={state.thinkingMessages}
+              onComplete={handleThinkingComplete}
+            />
+          );
+        }
+        return (
+          <AffirmationCardFlow
+            key={state.batchNumber}
+            affirmations={state.currentBatchAffirmations}
+            onComplete={handleBatchComplete}
+            totalLovedSoFar={state.allLovedAffirmations.length}
+            target={PHASE1_TARGET}
+          />
+        );
+      }
+
+      case 12:
+        // Placeholder: Phase 2 will be wired in iteration 02.3
         return (
           <div className="max-w-md mx-auto p-8 text-center">
             <h2 className="text-2xl font-medium mb-4 text-gray-800 dark:text-gray-200">
-              Discovery Complete
+              Phase 1 Complete!
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {state.currentBatchAffirmations.length} affirmations generated for your first batch.
+              You&apos;ve selected {state.allLovedAffirmations.length} affirmations.
             </p>
             <p className="text-sm text-gray-500 dark:text-gray-500">
-              Phase 1 card review will be connected in iteration 02.2.
+              Phase 2 and post-review screens will be connected in iteration 02.3.
             </p>
           </div>
         );

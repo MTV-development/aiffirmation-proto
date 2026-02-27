@@ -1,0 +1,18 @@
+{
+  "id": "rd9",
+  "title": "Epic B: State Machine Extension",
+  "description": "Extend fo-experience.tsx: add steps 7-11 covering Screen 7 (ready) → 4 rounds of 5 cards with thinking screens D-G between each → Thinking G transition. Wire feedback-driven regeneration loop: pass loved/discarded to generateAffirmationBatchFO13 between batches.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "blocked_by": [
+    "xsj"
+  ],
+  "parent": "r8q",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:40:48.4754842Z",
+  "updated_at": "2026-02-27T13:52:01.5737507Z",
+  "closed_at": "2026-02-27T13:52:01.5737507Z",
+  "closed_reason": "State machine extended with Phase 1 flow, build and lint pass"
+}

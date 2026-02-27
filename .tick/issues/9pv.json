@@ -1,0 +1,15 @@
+{
+  "id": "9pv",
+  "title": "Extend state machine for Phase 1 flow",
+  "description": "Extend fo-experience.tsx with steps 7-11:\n- Step 7: Screen 7 (step-ready) — shows ready message, Continue advances to step 8\n- Step 8: AffirmationCardFlow batch 1 (5 cards, X of 20 counter, totalLovedSoFar=0)\n  On complete → Thinking D → generate batch 2 with feedback\n- Step 9: AffirmationCardFlow batch 2 (5 cards, totalLovedSoFar=batch1loved)\n  On complete → Thinking E → generate batch 3 with feedback\n- Step 10: AffirmationCardFlow batch 3 (5 cards, totalLovedSoFar=batch1+2loved)\n  On complete → Thinking F → generate batch 4 with feedback\n- Step 11: AffirmationCardFlow batch 4 (5 cards, totalLovedSoFar=batch1+2+3loved)\n  On complete → Thinking G (3 messages) → placeholder step 12\n\nThinking screen messages:\nD: ['Noticing what resonates…', 'Your next affirmations are taking shape…']\nE: ['Refining your affirmations further…']\nF: ['Polishing the final details…']\nG: ['Saving your preferences…', 'Saving the affirmations you love…', 'Creating your personal feed…']\n\nEach thinking screen triggers generateAffirmationBatchFO13 with batchSize=5, passing accumulated loved/discarded.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "rd9",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:41:13.2698267Z",
+  "updated_at": "2026-02-27T13:50:56.8640384Z",
+  "closed_at": "2026-02-27T13:50:56.8640384Z",
+  "closed_reason": "Extended state machine to steps 7-12 with 4x5 card review flow, thinking screens D-G, and feedback-driven regeneration"
+}

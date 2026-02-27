@@ -1,0 +1,15 @@
+{
+  "id": "0jo",
+  "title": "Re-ground after Epic A",
+  "description": "Update implementation-log, diary, lessons-learned. Check iteration status.",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "xsj",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:41:00.8214319Z",
+  "updated_at": "2026-02-27T11:45:40.9964293Z",
+  "closed_at": "2026-02-27T11:45:40.9964293Z",
+  "closed_reason": "Updated implementation-log.md and created iteration-02.2-status.md"
+}

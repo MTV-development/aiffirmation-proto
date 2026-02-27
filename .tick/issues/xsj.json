@@ -1,0 +1,15 @@
+{
+  "id": "xsj",
+  "title": "Epic A: Card Components",
+  "description": "Copy AffirmationCardFlow and AffirmationCard from FO-12, adapt for FO-13: batches of 5, X of 20 counter, love/discard. Create Screen 7 (0-20-aff-ready) component.",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "parent": "r8q",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-02-27T11:40:48.3249938Z",
+  "updated_at": "2026-02-27T11:45:41.140089Z",
+  "closed_at": "2026-02-27T11:45:41.140089Z",
+  "closed_reason": "All 4 tasks complete: card components copied, step-ready created, heart-animation deleted"
+}
