@@ -10,6 +10,9 @@ Reusable gotchas and patterns discovered during development.
 ### Transition coordination without useEffect setState
 When a transition screen (thinking/heart) plays during async data loading, avoid `setState` in `useEffect` (causes lint errors and cascading renders). Instead, have the data-loading `.then()` callbacks use functional state updaters to check `prev.thinkingCompleted` — if true, advance the step in the same setState call. This handles both cases (data finishes first, or transition finishes first) without a coordination useEffect. FO-13 uses this pattern; FO-12 has the older useEffect pattern with a lint error.
 
+### Static lookup tables must be module-level constants
+Objects defined inside a component (e.g., `const thinkingMessages = { 8: [...] }`) will trigger `react-hooks/exhaustive-deps` warnings when used in `useCallback`. Move them to module-level `const` (e.g., `const BATCH_THINKING_MESSAGES = { ... }`) since they don't depend on state.
+
 ## Copy-Modify-Iterate Pattern
 
 ### Step number guards must be updated when renumbering
