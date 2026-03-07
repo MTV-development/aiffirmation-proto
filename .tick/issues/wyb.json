@@ -1,0 +1,14 @@
+{
+  "id": "wyb",
+  "title": "Study existing fo-13 E2E test and write fo-14 E2E test with coverage for both FO-14 changes",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "crg",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:18:58.8668438Z",
+  "updated_at": "2026-03-07T06:35:11.2711026Z",
+  "closed_at": "2026-03-07T06:35:11.2711026Z",
+  "closed_reason": "FO-14 E2E test written: 2 test cases, 1347 lines"
+}

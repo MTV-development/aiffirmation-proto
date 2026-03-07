@@ -1,0 +1,17 @@
+{
+  "id": "h8p",
+  "title": "Iteration 03.4: Playwright E2E",
+  "status": "open",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "labels": [
+    "iteration"
+  ],
+  "blocked_by": [
+    "o4e"
+  ],
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:42:32.7372732Z",
+  "updated_at": "2026-03-07T05:43:50.0056877Z"
+}

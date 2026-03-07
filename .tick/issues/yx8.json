@@ -1,0 +1,14 @@
+{
+  "id": "yx8",
+  "title": "Run E2E test against dev server and verify all tests pass",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "crg",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:18:58.9694734Z",
+  "updated_at": "2026-03-07T06:35:11.3619813Z",
+  "closed_at": "2026-03-07T06:35:11.3619813Z",
+  "closed_reason": "Both FO-14 E2E tests pass (212.7s total)"
+}

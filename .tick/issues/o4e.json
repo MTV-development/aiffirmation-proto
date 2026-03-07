@@ -1,0 +1,18 @@
+{
+  "id": "o4e",
+  "title": "Iteration 03.3: Counter \u0026 Headline",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "labels": [
+    "iteration"
+  ],
+  "blocked_by": [
+    "wqw"
+  ],
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:42:32.5851874Z",
+  "updated_at": "2026-03-07T06:18:31.1036133Z",
+  "closed_at": "2026-03-07T06:18:31.1036133Z"
+}

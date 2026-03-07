@@ -1,0 +1,15 @@
+{
+  "id": "fhm",
+  "title": "Iteration 03.1: Copy \u0026 Foundation",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "labels": [
+    "iteration"
+  ],
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:42:32.2736457Z",
+  "updated_at": "2026-03-07T06:04:39.1209525Z",
+  "closed_at": "2026-03-07T06:04:39.1209525Z"
+}

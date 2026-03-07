@@ -1,0 +1,18 @@
+{
+  "id": "s73",
+  "title": "Iteration 03.1R: Reflect on Iteration 03.1",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "labels": [
+    "reflection"
+  ],
+  "blocked_by": [
+    "fhm"
+  ],
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:43:22.7712058Z",
+  "updated_at": "2026-03-07T06:07:30.6379457Z",
+  "closed_at": "2026-03-07T06:07:30.6379457Z"
+}

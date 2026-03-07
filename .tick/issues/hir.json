@@ -1,0 +1,13 @@
+{
+  "id": "hir",
+  "title": "Create PR for iteration 03.3",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "o4e",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:14:49.7102859Z",
+  "updated_at": "2026-03-07T06:18:04.2902743Z",
+  "closed_at": "2026-03-07T06:18:04.2902743Z"
+}
