@@ -186,3 +186,14 @@ Chronological record of what was built in each version.
 - Layout file renamed: `fo-13-layout-client.tsx` → `fo-14-layout-client.tsx`
 - Added FO-14 to `nav.config.ts`
 - Build passes cleanly, `/fo-14` route present
+
+### FO-14 Phase 2 Sub-batches — 2026-03-07 (Iteration 03.2)
+**Split Phase 2 into 3 sub-batch card review screens with thinking transitions**
+- `app/fo-14/types.ts` — Added `PHASE2_SUB_BATCH_SIZES=[8,8,4]` and `PHASE2_SUB_BATCH_COUNT=3`
+- `app/fo-14/components/fo-experience.tsx` — Major state machine refactor:
+  - Steps 14/16/18: Phase 2 sub-batch card reviews (8+8+4 cards), sliced from single 20-affirmation array
+  - Steps 15/17/19: Thinking H/I/J with spec-matching messages
+  - Steps 20-23: Theme → Notifications → Premium → Feed (shifted from 16-19)
+  - "Add more later" skip updated to go to step 20
+  - Added `phase2SubBatchIndex` to state, `PHASE2_THINKING_MESSAGES` constant
+  - No prompt changes — all 20 affirmations still generated in one batch, sliced at render time
