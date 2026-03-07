@@ -818,3 +818,6 @@
 {"ts":"2026-03-07T06:35:11.3632916Z","tick":"yx8","action":"close","actor":"morten@elk.dk","epic":"crg","data":{"reason":"Both FO-14 E2E tests pass (212.7s total)","title":"Run E2E test against dev server and verify all tests pass"}}
 {"ts":"2026-03-07T06:36:00.9990305Z","tick":"nkb","action":"close","actor":"morten@elk.dk","epic":"crg","data":{"reason":"Implementation log and diary updated with 03.3 and 03.4 entries","title":"Re-ground after Epic A"}}
 {"ts":"2026-03-07T06:36:01.0915106Z","tick":"crg","action":"close","actor":"morten@elk.dk","epic":"h8p","data":{"reason":"Epic complete: E2E test written and both tests pass","title":"Epic A: Write Playwright E2E test for FO-14"}}
+{"ts":"2026-03-07T06:37:22.1571773Z","tick":"fxt","action":"close","actor":"morten@elk.dk","epic":"h8p","data":{"reason":"PR #28 created","title":"Create PR for iteration 03.4"}}
+{"ts":"2026-03-07T06:38:27.0921755Z","tick":"1jz","action":"close","actor":"morten@elk.dk","epic":"h8p","data":{"reason":"PR #28 merged, back on master","title":"Merge PR and return to main"}}
+{"ts":"2026-03-07T06:38:27.1929788Z","tick":"h8p","action":"close","actor":"morten@elk.dk","data":{"reason":"Iteration 03.4 complete: E2E tests written and passing","title":"Iteration 03.4: Playwright E2E"}}

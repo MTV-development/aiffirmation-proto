@@ -1,6 +1,6 @@
 # Epoch 03 — FO-14 (Delta from FO-13)
 
-**Status:** NOT STARTED
+**Status:** COMPLETE
 **Depends on:** Epoch 02 (Production Onboarding — FO-13)
 **Goal:** Create FO-14 as an independent copy of FO-13 with two targeted changes: split Phase 2 into 3 sub-batches with thinking screens, and update the Phase 1 card counter to show "X of 20" (affirmations shown, not selected) with a new headline.
 
@@ -137,14 +137,14 @@ The `fo-14` KV seed should copy all prompt content verbatim from `fo-13.ts`. Onl
 
 ## Exit Criteria
 
-- [ ] `/fo-14` loads and completes full onboarding flow
-- [ ] Phase 2 has 3 sub-screens with thinking transitions (H, I, J)
-- [ ] Phase 1 counter shows "X of 20" (affirmations shown, not selected)
-- [ ] Headline "Does this affirmation resonate with you?" on all card screens
-- [ ] FO-13 (`/fo-13`) remains unchanged and functional
-- [ ] E2E tests pass for FO-14
-- [ ] All tests pass (`npm run build`, `npm run lint`)
-- [ ] Living docs updated
+- [x] `/fo-14` loads and completes full onboarding flow
+- [x] Phase 2 has 3 sub-screens with thinking transitions (H, I, J)
+- [x] Phase 1 counter shows "X of 20" (affirmations shown, not selected)
+- [x] Headline "Does this affirmation resonate with you?" on all card screens
+- [x] FO-13 (`/fo-13`) remains unchanged and functional
+- [x] E2E tests pass for FO-14
+- [x] All tests pass (`npm run build`, `npm run lint`)
+- [x] Living docs updated
 
 ---
 

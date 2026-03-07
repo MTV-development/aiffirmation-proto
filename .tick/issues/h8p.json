@@ -1,7 +1,7 @@
 {
   "id": "h8p",
   "title": "Iteration 03.4: Playwright E2E",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
@@ -13,5 +13,7 @@
   ],
   "created_by": "morten@elk.dk",
   "created_at": "2026-03-07T05:42:32.7372732Z",
-  "updated_at": "2026-03-07T05:43:50.0056877Z"
+  "updated_at": "2026-03-07T06:38:27.1924615Z",
+  "closed_at": "2026-03-07T06:38:27.1924615Z",
+  "closed_reason": "Iteration 03.4 complete: E2E tests written and passing"
 }
