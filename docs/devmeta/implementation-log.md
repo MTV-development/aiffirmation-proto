@@ -172,3 +172,17 @@ Chronological record of what was built in each version.
 - ThinkingScreen detection: heart SVG (`viewBox="0 0 24 24"`) presence/absence
 - Reusable composable helpers: `runDiscoveryFlow`, `runPhase1CardReview`, `runPhase2CardReview`, `runPostReviewSteps`
 - All 3 tests pass on first run (274s total)
+
+## Epoch 03 — FO-14 (Delta from FO-13)
+
+### FO-14 Copy & Foundation — 2026-03-07 (Iteration 03.1, Epic A)
+**Full copy of FO-13 to FO-14 with namespace rename**
+- Copied `app/fo-13/` → `app/fo-14/` (22 files)
+- Copied `src/fo-13/` → `src/fo-14/` (3 files)
+- Copied `src/mastra/agents/fo-13/` → `src/mastra/agents/fo-14/` (3 files)
+- All internal references renamed: fo-13→fo-14, FO13→FO14, Fo13→Fo14
+- Agent IDs: `fo-14-discovery`, `fo-14-affirmation`
+- KV namespace: `versions.fo-14.*`
+- Layout file renamed: `fo-13-layout-client.tsx` → `fo-14-layout-client.tsx`
+- Added FO-14 to `nav.config.ts`
+- Build passes cleanly, `/fo-14` route present
