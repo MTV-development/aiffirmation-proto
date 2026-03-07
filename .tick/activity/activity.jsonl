@@ -821,3 +821,22 @@
 {"ts":"2026-03-07T06:37:22.1571773Z","tick":"fxt","action":"close","actor":"morten@elk.dk","epic":"h8p","data":{"reason":"PR #28 created","title":"Create PR for iteration 03.4"}}
 {"ts":"2026-03-07T06:38:27.0921755Z","tick":"1jz","action":"close","actor":"morten@elk.dk","epic":"h8p","data":{"reason":"PR #28 merged, back on master","title":"Merge PR and return to main"}}
 {"ts":"2026-03-07T06:38:27.1929788Z","tick":"h8p","action":"close","actor":"morten@elk.dk","data":{"reason":"Iteration 03.4 complete: E2E tests written and passing","title":"Iteration 03.4: Playwright E2E"}}
+{"ts":"2026-03-07T08:26:28.6516361Z","tick":"i8a","action":"create","actor":"morten@elk.dk","data":{"priority":2,"title":"Iteration 04.1: Fix All FO-14 Gaps","type":"epic"}}
+{"ts":"2026-03-07T08:26:47.3856769Z","tick":"13y","action":"create","actor":"morten@elk.dk","epic":"i8a","data":{"priority":2,"title":"Epic A: Fix FO-14 spec gaps","type":"epic"}}
+{"ts":"2026-03-07T08:26:47.5341342Z","tick":"djd","action":"create","actor":"morten@elk.dk","data":{"priority":2,"title":"Iteration 04.1R: Reflect on Iteration 04.1","type":"epic"}}
+{"ts":"2026-03-07T08:27:07.3632366Z","tick":"mdg","action":"create","actor":"morten@elk.dk","epic":"13y","data":{"priority":2,"title":"Remove confetti from step-familiarity.tsx","type":"task"}}
+{"ts":"2026-03-07T08:27:07.5472674Z","tick":"0i9","action":"create","actor":"morten@elk.dk","epic":"13y","data":{"priority":2,"title":"Fix Thinking E/F messages to match spec exactly","type":"task"}}
+{"ts":"2026-03-07T08:27:07.7325097Z","tick":"svk","action":"create","actor":"morten@elk.dk","epic":"13y","data":{"priority":2,"title":"Commit info page fix (already in working tree)","type":"task"}}
+{"ts":"2026-03-07T08:27:07.9064983Z","tick":"ftk","action":"create","actor":"morten@elk.dk","epic":"13y","data":{"priority":2,"title":"Build and run E2E to verify all fixes","type":"task"}}
+{"ts":"2026-03-07T08:27:08.0898379Z","tick":"kwg","action":"create","actor":"morten@elk.dk","epic":"13y","data":{"priority":2,"title":"Re-ground after Epic A","type":"task"}}
+{"ts":"2026-03-07T08:27:27.3587367Z","tick":"s03","action":"create","actor":"morten@elk.dk","epic":"i8a","data":{"priority":2,"title":"Create PR for iteration 04.1","type":"task"}}
+{"ts":"2026-03-07T08:27:27.4914542Z","tick":"mhv","action":"create","actor":"morten@elk.dk","epic":"i8a","data":{"priority":2,"title":"Merge PR and return to main","type":"task"}}
+{"ts":"2026-03-07T08:27:27.6231728Z","tick":"5gl","action":"create","actor":"morten@elk.dk","epic":"i8a","data":{"priority":2,"title":"Kick off Reflection 04.1R","type":"task"}}
+{"ts":"2026-03-07T08:27:27.7748014Z","tick":"rrs","action":"create","actor":"morten@elk.dk","epic":"djd","data":{"priority":2,"title":"Run /devmeta:reflect 04.1","type":"task"}}
+{"ts":"2026-03-07T08:27:27.9368789Z","tick":"i3f","action":"create","actor":"morten@elk.dk","epic":"djd","data":{"priority":2,"title":"Verify epoch-04 exit criteria and close epoch","type":"task"}}
+{"ts":"2026-03-07T08:29:20.2978915Z","tick":"mdg","action":"close","actor":"morten@elk.dk","epic":"13y","data":{"reason":"Removed canvas-confetti import and confetti() call from step-familiarity.tsx","title":"Remove confetti from step-familiarity.tsx"}}
+{"ts":"2026-03-07T08:29:43.9059281Z","tick":"0i9","action":"close","actor":"morten@elk.dk","epic":"13y","data":{"reason":"Thinking E: removed 'further', Thinking F: removed 'final' — now matches spec exactly","title":"Fix Thinking E/F messages to match spec exactly"}}
+{"ts":"2026-03-07T08:30:18.8688298Z","tick":"svk","action":"close","actor":"morten@elk.dk","epic":"13y","data":{"reason":"Info page already rewritten to describe FO-14 as based on FO-13 with correct delta comparison","title":"Commit info page fix (already in working tree)"}}
+{"ts":"2026-03-07T08:36:52.6996684Z","tick":"ftk","action":"close","actor":"morten@elk.dk","epic":"13y","data":{"reason":"Build passes, both E2E tests pass (214.1s)","title":"Build and run E2E to verify all fixes"}}
+{"ts":"2026-03-07T08:37:24.5462162Z","tick":"kwg","action":"close","actor":"morten@elk.dk","epic":"13y","data":{"reason":"Implementation log updated with epoch-04 entry","title":"Re-ground after Epic A"}}
+{"ts":"2026-03-07T08:37:24.659436Z","tick":"13y","action":"close","actor":"morten@elk.dk","epic":"i8a","data":{"reason":"All 4 gaps fixed, build passes, E2E passes","title":"Epic A: Fix FO-14 spec gaps"}}
