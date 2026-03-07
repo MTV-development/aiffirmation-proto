@@ -1,0 +1,13 @@
+{
+  "id": "n6t",
+  "title": "Re-ground after Epic B",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "cvy",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:43:08.7020005Z",
+  "updated_at": "2026-03-07T05:58:57.2955553Z",
+  "closed_at": "2026-03-07T05:58:57.2955553Z"
+}

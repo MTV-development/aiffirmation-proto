@@ -1,0 +1,13 @@
+{
+  "id": "ofe",
+  "title": "Copy app/fo-13/ to app/fo-14/ and update all internal references (imports, types, namespace fo-13→fo-14)",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "6bd",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:43:07.6296377Z",
+  "updated_at": "2026-03-07T05:53:13.5584201Z",
+  "closed_at": "2026-03-07T05:53:13.5584201Z"
+}

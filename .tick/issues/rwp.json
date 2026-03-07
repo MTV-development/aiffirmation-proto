@@ -1,0 +1,13 @@
+{
+  "id": "rwp",
+  "title": "Run npm run db:seed and verify fo-14 namespace populated in Supabase KV",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "cvy",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:43:08.5712183Z",
+  "updated_at": "2026-03-07T05:58:40.3905618Z",
+  "closed_at": "2026-03-07T05:58:40.3905618Z"
+}

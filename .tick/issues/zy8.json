@@ -1,0 +1,14 @@
+{
+  "id": "zy8",
+  "title": "Run /devmeta:reflect 03.2",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "sa8",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:07:17.3426806Z",
+  "updated_at": "2026-03-07T06:14:19.3463701Z",
+  "closed_at": "2026-03-07T06:14:19.3463701Z",
+  "closed_reason": "closed with parent epic (--force)"
+}

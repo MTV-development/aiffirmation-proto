@@ -1,0 +1,13 @@
+{
+  "id": "ups",
+  "title": "Refactor fo-experience.tsx Phase 2: replace single step 14 (20 cards) with steps 14.1/14.2/14.3 (8+8+4 cards) and Thinking H/I/J between them",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "2m2",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:06:52.2159131Z",
+  "updated_at": "2026-03-07T06:12:17.7872745Z",
+  "closed_at": "2026-03-07T06:12:17.7872745Z"
+}

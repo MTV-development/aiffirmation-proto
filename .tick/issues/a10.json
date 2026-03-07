@@ -1,0 +1,13 @@
+{
+  "id": "a10",
+  "title": "Change counter from 'X of 20 selected' to 'X of 20' counting shown affirmations, add headline 'Does this affirmation resonate with you?'",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "08u",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:14:49.3704709Z",
+  "updated_at": "2026-03-07T06:17:15.812624Z",
+  "closed_at": "2026-03-07T06:17:15.812624Z"
+}

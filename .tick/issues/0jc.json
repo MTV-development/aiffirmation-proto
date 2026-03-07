@@ -1,0 +1,13 @@
+{
+  "id": "0jc",
+  "title": "Re-ground after Epic A",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "08u",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:14:49.5988861Z",
+  "updated_at": "2026-03-07T06:17:15.9804671Z",
+  "closed_at": "2026-03-07T06:17:15.9804671Z"
+}

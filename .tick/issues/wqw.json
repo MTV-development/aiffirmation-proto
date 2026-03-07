@@ -1,0 +1,18 @@
+{
+  "id": "wqw",
+  "title": "Iteration 03.2: Phase 2 Sub-batches",
+  "status": "closed",
+  "priority": 2,
+  "type": "epic",
+  "owner": "morten@elk.dk",
+  "labels": [
+    "iteration"
+  ],
+  "blocked_by": [
+    "fhm"
+  ],
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:42:32.4208935Z",
+  "updated_at": "2026-03-07T06:13:53.89839Z",
+  "closed_at": "2026-03-07T06:13:53.89839Z"
+}

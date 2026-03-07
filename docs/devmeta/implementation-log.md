@@ -197,3 +197,24 @@ Chronological record of what was built in each version.
   - "Add more later" skip updated to go to step 20
   - Added `phase2SubBatchIndex` to state, `PHASE2_THINKING_MESSAGES` constant
   - No prompt changes — all 20 affirmations still generated in one batch, sliced at render time
+
+### FO-14 Counter & Headline — 2026-03-07 (Iteration 03.3)
+**Updated card counter from loved-count to shown-count, added headline**
+- `app/fo-14/components/affirmation-card-flow.tsx` — Rewritten:
+  - Counter: `{globalShownOffset + currentIndex + 1} of {shownTarget}` (shown count, not loved count)
+  - Headline: "Does this affirmation resonate with you?" above every card
+  - New props: `globalShownOffset`, `shownTarget` (replaced `totalLovedSoFar`, `target`)
+  - Removed progress bar
+- `app/fo-14/components/fo-experience.tsx` — Updated all AffirmationCardFlow call sites to pass new props
+
+### FO-14 Playwright E2E — 2026-03-07 (Iteration 03.4)
+**Comprehensive E2E test covering all FO-14 changes**
+- `e2e/fo-14.test.ts` — 1347 lines, 2 test cases:
+  1. Happy path: all 40 cards (Phase 1 × 4 batches + Phase 2 × 3 sub-batches 8+8+4)
+  2. "Add more later": Phase 1 complete, Phase 2 skipped via "Add more later" link
+- Verifies both FO-14 changes:
+  - Counter shows "X of 20" (shown count) not "X of 20 selected" (loved count)
+  - Headline "Does this affirmation resonate with you?" present on all card screens
+  - Phase 2 sub-batches: 3 separate card review screens with thinking transitions
+- Auth bypass via `e2e_test_mode` cookie (middleware bypass)
+- Both tests pass against production server (`next start`) in 212.7s

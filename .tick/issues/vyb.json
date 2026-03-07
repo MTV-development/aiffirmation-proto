@@ -1,0 +1,13 @@
+{
+  "id": "vyb",
+  "title": "Re-ground after Epic B",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "2m2",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:06:52.6124957Z",
+  "updated_at": "2026-03-07T06:12:41.6957053Z",
+  "closed_at": "2026-03-07T06:12:41.6957053Z"
+}

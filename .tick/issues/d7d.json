@@ -1,0 +1,13 @@
+{
+  "id": "d7d",
+  "title": "Run npm run build to verify fo-14 compiles",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "2m2",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T06:06:52.5095744Z",
+  "updated_at": "2026-03-07T06:12:18.0412678Z",
+  "closed_at": "2026-03-07T06:12:18.0412678Z"
+}

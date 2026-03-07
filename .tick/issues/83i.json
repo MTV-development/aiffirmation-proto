@@ -1,0 +1,13 @@
+{
+  "id": "83i",
+  "title": "Plan Iteration 03.2: read scope, create epic tick structure, begin first task",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "s73",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:43:35.7820993Z",
+  "updated_at": "2026-03-07T06:07:30.5537637Z",
+  "closed_at": "2026-03-07T06:07:30.5537637Z"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "dm4",
+  "title": "Re-ground after Epic A",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "6bd",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T05:43:08.0649608Z",
+  "updated_at": "2026-03-07T05:54:53.8811915Z",
+  "closed_at": "2026-03-07T05:54:53.8811915Z"
+}
