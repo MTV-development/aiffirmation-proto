@@ -824,8 +824,8 @@ export function FOExperience() {
             key={state.batchNumber}
             affirmations={state.currentBatchAffirmations}
             onComplete={handleBatchComplete}
-            totalLovedSoFar={state.allLovedAffirmations.length}
-            target={PHASE1_TARGET}
+            globalShownOffset={(state.batchNumber - 1) * PHASE1_BATCH_SIZE}
+            shownTarget={PHASE1_TARGET}
           />
         );
       }
@@ -864,8 +864,8 @@ export function FOExperience() {
             key={`phase2-sub${subIdx}`}
             affirmations={subBatch}
             onComplete={handlePhase2SubBatchComplete}
-            totalLovedSoFar={state.phase1LovedCount}
-            target={PHASE2_TARGET}
+            globalShownOffset={offset}
+            shownTarget={PHASE2_BATCH_SIZE}
           />
         );
       }

@@ -3,44 +3,42 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AffirmationCard } from './affirmation-card';
-import { PHASE1_TARGET } from '../types';
 
 interface AffirmationCardFlowProps {
   affirmations: string[];
   onComplete: (loved: string[], discarded: string[]) => void;
-  totalLovedSoFar: number;
-  target?: number;
+  globalShownOffset: number;
+  shownTarget: number;
 }
 
 /**
  * Card-by-card review flow for FO-14.
  *
  * Shows affirmations one at a time with Love it / Discard actions.
- * Uses a global progress counter ("X of {target} selected") that reflects
- * totalLovedSoFar plus any loved in the current batch.
+ * Counter displays "X of {shownTarget}" where X counts affirmations shown
+ * (globalShownOffset + currentIndex + 1), not affirmations loved.
  *
- * Default target is PHASE1_TARGET (20). For phase 2, pass target=40.
+ * Headline "Does this affirmation resonate with you?" shown above each card.
  *
  * Calls onComplete when all cards in the batch are reviewed.
  */
 export function AffirmationCardFlow({
   affirmations,
   onComplete,
-  totalLovedSoFar,
-  target = PHASE1_TARGET,
+  globalShownOffset,
+  shownTarget,
 }: AffirmationCardFlowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loved, setLoved] = useState<string[]>([]);
   const [discarded, setDiscarded] = useState<string[]>([]);
 
   const total = affirmations.length;
-  const globalLoved = totalLovedSoFar + loved.length;
+  const globalShown = globalShownOffset + currentIndex + 1;
 
   const advance = useCallback(
     (lovedList: string[], discardedList: string[]) => {
       const nextIndex = currentIndex + 1;
       if (nextIndex >= total) {
-        // Batch complete
         onComplete(lovedList, discardedList);
       } else {
         setCurrentIndex(nextIndex);
@@ -61,9 +59,6 @@ export function AffirmationCardFlow({
     advance(loved, updated);
   }, [loved, discarded, affirmations, currentIndex, advance]);
 
-  // Global progress for the bar
-  const progressPercent = Math.min((globalLoved / target) * 100, 100);
-
   return (
     <motion.div
       className="max-w-md mx-auto p-6"
@@ -72,22 +67,17 @@ export function AffirmationCardFlow({
       exit={{ opacity: 0 }}
       data-testid="affirmation-card-flow"
     >
-      {/* Progress bar with global counter */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            {globalLoved} of {target} selected
-          </span>
-        </div>
-        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-purple-600 rounded-full"
-            initial={{ width: `${(totalLovedSoFar / target) * 100}%` }}
-            animate={{ width: `${progressPercent}%` }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
+      {/* Counter: X of 20 */}
+      <div className="mb-4">
+        <span className="text-sm text-gray-500 dark:text-gray-400" data-testid="card-counter">
+          {globalShown} of {shownTarget}
+        </span>
       </div>
+
+      {/* Headline */}
+      <h2 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4" data-testid="card-headline">
+        Does this affirmation resonate with you?
+      </h2>
 
       {/* Card display */}
       <AnimatePresence mode="wait">
