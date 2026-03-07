@@ -27,6 +27,7 @@ import { fo10Seeds } from './fo-10';
 import { fo11Seeds } from './fo-11';
 import { fo12Seeds } from './fo-12';
 import { fo13Seeds } from './fo-13';
+import { fo14Seeds } from './fo-14';
 
 export const allSeeds: SeedEntry[] = [
   ...af01Seeds,
@@ -50,6 +51,7 @@ export const allSeeds: SeedEntry[] = [
   ...fo11Seeds,
   ...fo12Seeds,
   ...fo13Seeds,
+  ...fo14Seeds,
 ];
 
 export type { SeedEntry };
