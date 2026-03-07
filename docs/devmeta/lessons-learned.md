@@ -24,6 +24,14 @@ The copy-modify-iterate pattern requires verifying three things in every copied 
 2. Counter formats (e.g., "X of Y") match the new UI
 3. Prop interfaces are compatible with the new state machine
 
+### Post-copy audit against the spec catches inherited content
+When copying a version, the namespace rename catches code references but NOT user-facing content. Three things were missed in FO-13→FO-14:
+1. **Info page**: Still described FO-12 as the base (should be FO-13 with actual delta comparison)
+2. **Confetti**: `canvas-confetti` was carried over from FO-13 but the spec said to remove it
+3. **Thinking screen messages**: Inherited "further" and "final" additions not in the FO-14 spec
+
+Always do a final audit of all user-facing text against the spec after the copy-modify cycle completes.
+
 ## KV Store
 
 ### Namespace isolation prevents cross-version contamination

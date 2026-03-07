@@ -1,12 +1,14 @@
 {
   "id": "mhv",
   "title": "Merge PR and return to main",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "task",
   "owner": "morten@elk.dk",
   "parent": "i8a",
   "created_by": "morten@elk.dk",
   "created_at": "2026-03-07T08:27:27.4901642Z",
-  "updated_at": "2026-03-07T08:27:27.4901642Z"
+  "updated_at": "2026-03-07T08:39:33.6123737Z",
+  "closed_at": "2026-03-07T08:39:33.6123737Z",
+  "closed_reason": "PR #29 merged, back on master"
 }

@@ -1,7 +1,7 @@
 {
   "id": "djd",
   "title": "Iteration 04.1R: Reflect on Iteration 04.1",
-  "status": "open",
+  "status": "closed",
   "priority": 2,
   "type": "epic",
   "owner": "morten@elk.dk",
@@ -10,5 +10,7 @@
   ],
   "created_by": "morten@elk.dk",
   "created_at": "2026-03-07T08:26:47.5325726Z",
-  "updated_at": "2026-03-07T08:26:47.5325726Z"
+  "updated_at": "2026-03-07T08:41:43.8218936Z",
+  "closed_at": "2026-03-07T08:41:43.8218936Z",
+  "closed_reason": "Reflection complete"
 }

@@ -1,6 +1,6 @@
 # Epoch 04 — Fix FO-14
 
-**Status:** NOT STARTED
+**Status:** COMPLETE
 **Depends on:** Epoch 03 (FO-14 Delta from FO-13)
 **Goal:** Make FO-14 exactly match the spec in `docs/epochs/epoch-03/onboaridng flow-FO13_TOFO14.md`. Fix all inconsistencies identified in the post-epoch-03 audit.
 
@@ -95,13 +95,13 @@
 
 ## Exit Criteria
 
-- [ ] No confetti in FO-14 familiarity screen
-- [ ] Thinking E message: "Refining your affirmations…" (no "further")
-- [ ] Thinking F message: "Polishing the details…" (no "final")
-- [ ] FO-14 info page describes relationship to FO-13 (not FO-12)
-- [ ] FO-14 E2E tests pass
-- [ ] Build passes
-- [ ] Living docs updated
+- [x] No confetti in FO-14 familiarity screen
+- [x] Thinking E message: "Refining your affirmations…" (no "further")
+- [x] Thinking F message: "Polishing the details…" (no "final")
+- [x] FO-14 info page describes relationship to FO-13 (not FO-12)
+- [x] FO-14 E2E tests pass
+- [x] Build passes
+- [x] Living docs updated
 
 ---
 
