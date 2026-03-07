@@ -1,0 +1,14 @@
+{
+  "id": "mdg",
+  "title": "Remove confetti from step-familiarity.tsx",
+  "status": "closed",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "13y",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T08:27:07.3598973Z",
+  "updated_at": "2026-03-07T08:29:20.295889Z",
+  "closed_at": "2026-03-07T08:29:20.295889Z",
+  "closed_reason": "Removed canvas-confetti import and confetti() call from step-familiarity.tsx"
+}

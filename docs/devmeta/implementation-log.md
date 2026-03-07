@@ -218,3 +218,11 @@ Chronological record of what was built in each version.
   - Phase 2 sub-batches: 3 separate card review screens with thinking transitions
 - Auth bypass via `e2e_test_mode` cookie (middleware bypass)
 - Both tests pass against production server (`next start`) in 212.7s
+
+## Epoch 04 — Fix FO-14
+
+### FO-14 Spec Compliance Fixes — 2026-03-07 (Iteration 04.1)
+**Fixed all gaps from post-epoch-03 audit against the FO-14 spec**
+- `app/fo-14/components/step-familiarity.tsx` — Removed `canvas-confetti` import and confetti trigger (spec: "Confetti should be removed")
+- `app/fo-14/components/fo-experience.tsx` — Fixed Thinking E message from "Refining your affirmations further…" to "Refining your affirmations…"; fixed Thinking F from "Polishing the final details…" to "Polishing the details…"
+- `app/fo-14/info/page.tsx` — Rewrote info page: now describes FO-14 as based on FO-13 (not FO-12) with correct delta comparison table

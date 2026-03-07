@@ -1,0 +1,12 @@
+{
+  "id": "i3f",
+  "title": "Verify epoch-04 exit criteria and close epoch",
+  "status": "open",
+  "priority": 2,
+  "type": "task",
+  "owner": "morten@elk.dk",
+  "parent": "djd",
+  "created_by": "morten@elk.dk",
+  "created_at": "2026-03-07T08:27:27.9350318Z",
+  "updated_at": "2026-03-07T08:27:27.9350318Z"
+}

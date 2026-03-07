@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type FamiliarityLevel = 'new' | 'somewhat' | 'very';
@@ -27,7 +26,7 @@ const FAMILIARITY_OPTIONS: { value: FamiliarityLevel; label: string }[] = [
  * Question: "Have you used affirmations before?"
  * Options: "I'm new to affirmations" / "I've tried a few" / "I use them regularly"
  *
- * On selection: triggers confetti, shows success message, auto-advances after delay.
+ * On selection: shows success message, auto-advances after delay.
  * Note: Familiarity is cosmetic only — value is not passed to agents.
  */
 export function StepFamiliarity({
@@ -43,13 +42,6 @@ export function StepFamiliarity({
   const handleSelection = (level: FamiliarityLevel) => {
     onFamiliarityChange(level);
     setShowSuccess(true);
-
-    // Trigger confetti
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
 
     // Auto-advance after showing success message
     setTimeout(() => {

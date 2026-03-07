@@ -98,8 +98,8 @@ export interface OnboardingState extends FO14OnboardingData {
 /** Thinking screen messages shown after each Phase 1 batch completion (steps 8-11) */
 const BATCH_THINKING_MESSAGES: Record<number, string[]> = {
   8: ['Noticing what resonates\u2026', 'Your next affirmations are taking shape\u2026'],
-  9: ['Refining your affirmations further\u2026'],
-  10: ['Polishing the final details\u2026'],
+  9: ['Refining your affirmations\u2026'],
+  10: ['Polishing the details\u2026'],
   11: ['Saving your preferences\u2026', 'Saving the affirmations you love\u2026', 'Creating your personal feed\u2026'],
 };
 
