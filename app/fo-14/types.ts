@@ -5,13 +5,11 @@
  * FO-14 uses the same hybrid discovery approach as FO-12: step 3 has a fixed question,
  * while steps 4-5 have LLM-adapted questions with skip logic.
  *
- * Key differences from FO-12:
- * - Phase 1: 4 batches of 5 (not 1 batch of 10) with feedback-driven regeneration between each
- * - Phase 2: 1 batch of 20 (not 10+continuous), optional via "Add more later" skip
- * - Total target: 20 (phase 1) + 20 (phase 2) = 40 affirmations reviewed
- * - 8 thinking screens with sequential personalized messages
- * - No check-in screens (replaced by thinking transitions)
- * - No confetti
+ * Key differences from FO-13:
+ * - Phase 2: 3 sub-batches (8+8+4) instead of 1 batch of 20, with Thinking H/I/J between them
+ * - Card counter shows "X of 20" (affirmations shown, not selected)
+ * - Headline "Does this affirmation resonate with you?" on all card screens
+ * - 10 thinking screens (A-J) with sequential personalized messages
  */
 
 /**
@@ -39,6 +37,17 @@ export const PHASE2_BATCH_SIZE = 20;
  * Number of batches in phase 1.
  */
 export const PHASE1_BATCH_COUNT = 4;
+
+/**
+ * Phase 2 sub-batch sizes: 8 + 8 + 4 = 20 total.
+ * Each sub-batch is shown as a separate card review screen with thinking transitions between.
+ */
+export const PHASE2_SUB_BATCH_SIZES = [8, 8, 4] as const;
+
+/**
+ * Number of sub-batches in phase 2.
+ */
+export const PHASE2_SUB_BATCH_COUNT = 3;
 
 /**
  * The fixed goal question for step 3.

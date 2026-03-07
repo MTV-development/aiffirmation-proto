@@ -8,6 +8,7 @@ import {
   PHASE1_TARGET,
   PHASE2_BATCH_SIZE,
   PHASE2_TARGET,
+  PHASE2_SUB_BATCH_SIZES,
 } from '../types';
 import { generateDiscoveryStep, generateAffirmationBatchFO14 } from '../actions';
 import { useImplementation } from '@/src/fo-14';
@@ -39,18 +40,22 @@ import { StepFeed } from './step-feed';
  * - Step 7: StepReady
  * - Steps 8-11: 4 × AffirmationCardFlow (5 cards each) with Thinking D-G between
  *
- * Phase 2 + Post-review (steps 12-19):
- * - Step 12: Create-List (Continue → 13, "Add more later" → 16)
+ * Phase 2 + Post-review (steps 12-23):
+ * - Step 12: Create-List (Continue → 13, "Add more later" → 20)
  * - Step 13: Thinking (generates Phase 2 batch of 20) → step 14
- * - Step 14: AffirmationCardFlow Phase 2 (20 cards, X of 40) → step 15
- * - Step 15: Thinking H ("Beautiful, {name}…") → step 16
- * - Step 16: Theme → step 17
- * - Step 17: Notifications → step 18
- * - Step 18: Premium → step 19
- * - Step 19: Feed (final screen)
+ * - Step 14: AffirmationCardFlow sub-batch 1 (8 cards) → step 15
+ * - Step 15: Thinking H → step 16
+ * - Step 16: AffirmationCardFlow sub-batch 2 (8 cards) → step 17
+ * - Step 17: Thinking I → step 18
+ * - Step 18: AffirmationCardFlow sub-batch 3 (4 cards) → step 19
+ * - Step 19: Thinking J → step 20
+ * - Step 20: Theme → step 21
+ * - Step 21: Notifications → step 22
+ * - Step 22: Premium → step 23
+ * - Step 23: Feed (final screen)
  */
 export interface OnboardingState extends FO14OnboardingData {
-  currentStep: number; // 0-19 (discovery 0-5, phase 1 7-11, phase 2 12-15, post-review 16-19)
+  currentStep: number; // 0-23 (discovery 0-5, phase 1 7-11, phase 2 12-19, post-review 20-23)
 
   // Thinking screen transition state
   showThinkingScreen: boolean;
@@ -79,22 +84,30 @@ export interface OnboardingState extends FO14OnboardingData {
   batchNumber: number;
   currentBatchAffirmations: string[];
 
-  // Accumulated across all batches (Phase 1: 4×5, Phase 2: 1×20)
+  // Accumulated across all batches (Phase 1: 4×5, Phase 2: 3 sub-batches of 8+8+4)
   allLovedAffirmations: string[];
   allDiscardedAffirmations: string[];
   allGeneratedAffirmations: string[];
 
   // Phase 2 card review state
-  phase2Affirmations: string[];
+  phase2Affirmations: string[]; // All 20 generated at once, sliced into sub-batches at render
+  phase2SubBatchIndex: number; // 0, 1, 2 — which sub-batch is currently shown
   phase1LovedCount: number; // Snapshot at end of Phase 1 for Phase 2 counter
 }
 
-/** Thinking screen messages shown after each batch completion (steps 8-11) */
+/** Thinking screen messages shown after each Phase 1 batch completion (steps 8-11) */
 const BATCH_THINKING_MESSAGES: Record<number, string[]> = {
   8: ['Noticing what resonates\u2026', 'Your next affirmations are taking shape\u2026'],
   9: ['Refining your affirmations further\u2026'],
   10: ['Polishing the final details\u2026'],
   11: ['Saving your preferences\u2026', 'Saving the affirmations you love\u2026', 'Creating your personal feed\u2026'],
+};
+
+/** Thinking screen messages for Phase 2 sub-batch transitions (H, I, J) */
+const PHASE2_THINKING_MESSAGES: Record<number, string[]> = {
+  15: ['Saving your choices\u2026', 'Bringing your next affirmations together\u2026'],
+  17: ['Saving what felt right', 'Gently shaping last 4 affirmation for now\u2026'],
+  19: ['Bringing your personal set together\u2026', 'Updating your personal feed\u2026', 'Getting your personalized experience ready for you\u2026'],
 };
 
 const initialState: OnboardingState = {
@@ -121,6 +134,7 @@ const initialState: OnboardingState = {
   allDiscardedAffirmations: [],
   allGeneratedAffirmations: [],
   phase2Affirmations: [],
+  phase2SubBatchIndex: 0,
   phase1LovedCount: 0,
 };
 
@@ -128,7 +142,7 @@ const initialState: OnboardingState = {
  * Main state manager component for FO-14 onboarding experience.
  *
  * Complete flow: discovery (0-5), Phase 1 review (7-11),
- * Phase 2 + post-review (12-19).
+ * Phase 2 sub-batches (12-19), post-review (20-23).
  */
 export function FOExperience() {
   const { implementation } = useImplementation();
@@ -491,19 +505,39 @@ export function FOExperience() {
         setState((prev) => ({ ...prev, thinkingCompleted: true }));
         return;
       }
+      // Advance to Phase 2 sub-batch 1 (step 14)
       setState((prev) => ({
         ...prev,
         showThinkingScreen: false,
         thinkingCompleted: false,
         currentStep: 14,
+        phase2SubBatchIndex: 0,
       }));
     } else if (currentStep === 15) {
-      // After Thinking H — advance to Theme (step 16)
+      // After Thinking H — advance to Phase 2 sub-batch 2 (step 16)
       setState((prev) => ({
         ...prev,
         showThinkingScreen: false,
         thinkingCompleted: false,
         currentStep: 16,
+        phase2SubBatchIndex: 1,
+      }));
+    } else if (currentStep === 17) {
+      // After Thinking I — advance to Phase 2 sub-batch 3 (step 18)
+      setState((prev) => ({
+        ...prev,
+        showThinkingScreen: false,
+        thinkingCompleted: false,
+        currentStep: 18,
+        phase2SubBatchIndex: 2,
+      }));
+    } else if (currentStep === 19) {
+      // After Thinking J — advance to Theme (step 20)
+      setState((prev) => ({
+        ...prev,
+        showThinkingScreen: false,
+        thinkingCompleted: false,
+        currentStep: 20,
       }));
     }
   }, [state.currentStep, state.isLoadingDiscovery, state.step4Skipped, state.isGenerating]);
@@ -645,28 +679,30 @@ export function FOExperience() {
     });
   }, [state.name, state.familiarityLevel, state.exchanges, state.batchNumber, state.allLovedAffirmations, state.allDiscardedAffirmations, implementation]);
 
-  // Handle "Add more later" — skip Phase 2, go directly to Theme
+  // Handle "Add more later" — skip Phase 2, go directly to Theme (step 20)
   const handleCreateListSkip = useCallback(() => {
     setState((prev) => ({
       ...prev,
-      currentStep: 16,
+      currentStep: 20,
     }));
   }, []);
 
-  // Handle Phase 2 card review completion — show Thinking H then advance to Theme
-  const handlePhase2Complete = useCallback((loved: string[], discarded: string[]) => {
+  // Handle Phase 2 sub-batch completion — show Thinking H/I/J then advance to next sub-batch or Theme
+  const handlePhase2SubBatchComplete = useCallback((loved: string[], discarded: string[]) => {
+    const step = state.currentStep;
+    // After sub-batch on step 14/16/18, show thinking on step 15/17/19
+    const thinkingStep = step + 1;
+    const messages = PHASE2_THINKING_MESSAGES[thinkingStep] || [];
+
     setState((prev) => ({
       ...prev,
       allLovedAffirmations: [...prev.allLovedAffirmations, ...loved],
       allDiscardedAffirmations: [...prev.allDiscardedAffirmations, ...discarded],
-      currentStep: 15,
+      currentStep: thinkingStep,
       showThinkingScreen: true,
-      thinkingMessages: [
-        `Beautiful, ${prev.name}.`,
-        'Bringing your personal set together\u2026',
-      ],
+      thinkingMessages: messages,
     }));
-  }, []);
+  }, [state.currentStep]);
 
   // Render step content based on current step
   const renderStep = () => {
@@ -815,19 +851,29 @@ export function FOExperience() {
         );
 
       case 14:
-        // Phase 2 card review: 20 cards, X of 40 counter
+      case 16:
+      case 18: {
+        // Phase 2 sub-batch card review (8 + 8 + 4)
+        const subIdx = state.phase2SubBatchIndex;
+        const offset = PHASE2_SUB_BATCH_SIZES.slice(0, subIdx).reduce((a, b) => a + b, 0);
+        const size = PHASE2_SUB_BATCH_SIZES[subIdx];
+        const subBatch = state.phase2Affirmations.slice(offset, offset + size);
+
         return (
           <AffirmationCardFlow
-            key="phase2"
-            affirmations={state.phase2Affirmations}
-            onComplete={handlePhase2Complete}
+            key={`phase2-sub${subIdx}`}
+            affirmations={subBatch}
+            onComplete={handlePhase2SubBatchComplete}
             totalLovedSoFar={state.phase1LovedCount}
             target={PHASE2_TARGET}
           />
         );
+      }
 
       case 15:
-        // Thinking H: post-Phase-2 transition
+      case 17:
+      case 19:
+        // Thinking H/I/J: Phase 2 sub-batch transitions
         return (
           <ThinkingScreen
             messages={state.thinkingMessages}
@@ -835,16 +881,16 @@ export function FOExperience() {
           />
         );
 
-      case 16:
-        return <StepTheme onContinue={() => updateState({ currentStep: 17 })} />;
+      case 20:
+        return <StepTheme onContinue={() => updateState({ currentStep: 21 })} />;
 
-      case 17:
-        return <StepNotifications onContinue={() => updateState({ currentStep: 18 })} />;
+      case 21:
+        return <StepNotifications onContinue={() => updateState({ currentStep: 22 })} />;
 
-      case 18:
-        return <StepPremium onContinue={() => updateState({ currentStep: 19 })} />;
+      case 22:
+        return <StepPremium onContinue={() => updateState({ currentStep: 23 })} />;
 
-      case 19:
+      case 23:
         return (
           <StepFeed
             name={state.name}
